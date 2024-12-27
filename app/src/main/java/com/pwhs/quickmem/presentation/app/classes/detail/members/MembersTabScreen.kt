@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,7 +34,7 @@ fun MembersTabScreen(
     members: List<ClassMemberModel> = emptyList(),
     onMembersItemClicked: (ClassMemberModel) -> Unit = {},
     onAddMembersClicked: () -> Unit = {},
-    onDeletedClicked: (String) -> Unit = {}
+    onDeletedClicked: (String) -> Unit = {},
 ) {
     var searchQuery by remember { mutableStateOf("") }
 
@@ -99,11 +100,17 @@ fun MembersTabScreen(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun MembersTabScreenPreview() {
     QuickMemTheme {
-        MembersTabScreen(isOwner = false)
+        Scaffold { innerPadding ->
+            MembersTabScreen(
+                isOwner = false,
+                modifier = Modifier.padding(innerPadding)
+            )
+
+        }
     }
 
 }

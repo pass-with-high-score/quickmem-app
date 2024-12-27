@@ -36,7 +36,7 @@ class SettingsViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val searchQueryRepository: SearchQueryRepository,
     private val scheduler: AndroidAlarmScheduler,
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(SettingUiState())
@@ -56,7 +56,7 @@ class SettingsViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         password = event.password,
-                        errorMessage = ""
+                        errorMessage = null
                     )
                 }
             }
@@ -192,7 +192,7 @@ class SettingsViewModel @Inject constructor(
                             it.copy(
                                 canChangeInfo = false,
                                 isLoading = false,
-                                errorMessage = "Password is incorrect"
+                                errorMessage = R.string.txt_password_is_incorrect
                             )
                         }
                     }
@@ -210,7 +210,7 @@ class SettingsViewModel @Inject constructor(
                                 canChangeInfo = resource.data?.success == true,
                                 isLoading = false,
                                 password = "",
-                                errorMessage = ""
+                                errorMessage = null
                             )
                         }
                         if (resource.data?.success == true) {

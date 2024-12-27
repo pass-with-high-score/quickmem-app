@@ -40,8 +40,8 @@ class CreateFlashCardViewModel @Inject constructor(
     private var job: Job? = null
 
     init {
-        val studySetId: String = savedStateHandle["studySetId"] ?: ""
-        val studySetColorId: Int = savedStateHandle["studySetColorId"] ?: 1
+        val studySetId: String = savedStateHandle.get<String>("studySetId") ?: ""
+        val studySetColorId: Int = savedStateHandle.get<Int>("studySetColorId") ?: 1
         _uiState.update {
             it.copy(
                 studySetId = studySetId,

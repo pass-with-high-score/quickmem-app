@@ -15,17 +15,19 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.pwhs.quickmem.R
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingTopAppBar(
     modifier: Modifier = Modifier,
-    title: String,
-    onNavigateBack: () -> Unit,
-    onSaved: () -> Unit,
-    enabled: Boolean
+    title: String = "",
+    onNavigateBack: () -> Unit = { },
+    onSaved: () -> Unit = { },
+    enabled: Boolean = true,
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -41,7 +43,7 @@ fun SettingTopAppBar(
             ) {
                 Icon(
                     imageVector = AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Done"
+                    contentDescription = stringResource(R.string.txt_back)
                 )
             }
         },
@@ -52,7 +54,7 @@ fun SettingTopAppBar(
             ) {
                 Icon(
                     imageVector = Default.Done,
-                    contentDescription = "Done"
+                    contentDescription = stringResource(R.string.txt_save)
                 )
             }
         }
@@ -67,15 +69,12 @@ private fun SettingTopAppBarPreview() {
             topBar = {
                 SettingTopAppBar(
                     title = "Title",
-                    onNavigateBack = { },
-                    onSaved = { },
-                    enabled = true
                 )
             }
         ) {
             Column(
                 modifier = Modifier.padding(it)
-            ) {  }
+            ) { }
         }
     }
 }

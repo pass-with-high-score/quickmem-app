@@ -14,35 +14,35 @@ import kotlinx.coroutines.flow.Flow
 interface FolderRepository {
     suspend fun createFolder(
         token: String,
-        createFolderRequestModel: CreateFolderRequestModel
+        createFolderRequestModel: CreateFolderRequestModel,
     ): Flow<Resources<CreateFolderResponseModel>>
 
     suspend fun getFolderById(
         token: String,
-        folderId: String
+        folderId: String,
     ): Flow<Resources<GetFolderResponseModel>>
 
     suspend fun updateFolder(
         token: String,
         folderId: String,
-        updateFolderRequestModel: UpdateFolderRequestModel
+        updateFolderRequestModel: UpdateFolderRequestModel,
     ): Flow<Resources<UpdateFolderResponseModel>>
 
     suspend fun getFoldersByUserId(
         token: String,
         userId: String,
         classId: String?,
-        studySetId: String?
+        studySetId: String?,
     ): Flow<Resources<List<GetFolderResponseModel>>>
 
     suspend fun deleteFolder(
         token: String,
-        folderId: String
+        folderId: String,
     ): Flow<Resources<Unit>>
 
     suspend fun addFolderToClass(
         token: String,
-        addFolderToClassRequestModel: AddFolderToClassRequestModel
+        addFolderToClassRequestModel: AddFolderToClassRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun getSearchResultFolders(
@@ -53,22 +53,22 @@ interface FolderRepository {
 
     suspend fun getFolderByLinkCode(
         token: String,
-        code: String
+        code: String,
     ): Flow<Resources<GetFolderResponseModel>>
 
     suspend fun saveRecentAccessFolder(
         token: String,
-        saveRecentAccessFolderRequestModel: SaveRecentAccessFolderRequestModel
+        saveRecentAccessFolderRequestModel: SaveRecentAccessFolderRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun getRecentAccessFolders(
         token: String,
-        userId: String
+        userId: String,
     ): Flow<Resources<List<GetFolderResponseModel>>>
 
     suspend fun resetProgress(
         token: String,
         folderId: String,
-        resetType: String
+        resetType: String,
     ): Flow<Resources<Unit>>
 }

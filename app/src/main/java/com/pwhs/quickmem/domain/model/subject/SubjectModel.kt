@@ -13,7 +13,7 @@ data class SubjectModel(
     val color: Color? = null,
     @StringRes val subjectDescription: Int? = null,
     val createdAt: String? = null,
-    val updatedAt: String? = null
+    val updatedAt: String? = null,
 ) {
     companion object {
         val defaultSubjects: List<SubjectModel>

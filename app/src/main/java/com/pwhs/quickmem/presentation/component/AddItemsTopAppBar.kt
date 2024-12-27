@@ -27,7 +27,7 @@ fun AddItemsTopAppBar(
     modifier: Modifier = Modifier,
     title: String,
     onNavigateCancel: () -> Unit,
-    onDoneClick: () -> Unit
+    onDoneClick: () -> Unit,
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -82,8 +82,7 @@ fun AddItemsTopAppBar(
 }
 
 
-
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun AddStudySetToClassesTopAppBarPreview() {
     QuickMemTheme {
@@ -96,9 +95,9 @@ fun AddStudySetToClassesTopAppBarPreview() {
                 )
             }
         ) {
-            Column (
+            Column(
                 modifier = Modifier.padding(it)
-            ){  }
+            ) { }
         }
     }
 }

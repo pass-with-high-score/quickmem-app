@@ -21,5 +21,5 @@ data class ExploreUiState(
     val questionType: QuestionType = QuestionType.MULTIPLE_CHOICE,
     val title: String = "",
     @StringRes val errorMessage: Int? = null,
-    val coins: Int = 0
+    val coins: Int = 0,
 )

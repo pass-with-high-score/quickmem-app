@@ -33,8 +33,8 @@ class UpdateUsernameSettingViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val userId = savedStateHandle.get<String>("userId") ?: ""
-        val username = savedStateHandle.get<String>("username") ?: ""
+        val userId: String = savedStateHandle.get<String>("userId") ?: ""
+        val username: String = savedStateHandle.get<String>("username") ?: ""
         _uiState.update {
             it.copy(
                 id = userId,

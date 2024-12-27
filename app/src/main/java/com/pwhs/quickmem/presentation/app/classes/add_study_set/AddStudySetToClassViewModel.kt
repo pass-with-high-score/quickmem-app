@@ -25,7 +25,7 @@ class AddStudySetToClassViewModel @Inject constructor(
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
     private val studySetRepository: StudySetRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(AddStudySetToClassUiState())
     val uiState = _uiState.asStateFlow()
@@ -34,7 +34,7 @@ class AddStudySetToClassViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val classId: String = savedStateHandle["classId"] ?: ""
+        val classId: String = savedStateHandle.get<String>("classId") ?: ""
         _uiState.update { it.copy(classId = classId) }
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: return@launch

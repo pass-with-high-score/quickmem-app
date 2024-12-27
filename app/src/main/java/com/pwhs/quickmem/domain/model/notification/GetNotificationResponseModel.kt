@@ -11,5 +11,5 @@ data class GetNotificationResponseModel(
     val data: NotificationDataModel? = null,
     val isRead: Boolean,
     val createdAt: String,
-    val updatedAt: String
+    val updatedAt: String,
 )

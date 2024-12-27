@@ -39,6 +39,7 @@ import com.pwhs.quickmem.presentation.auth.component.AuthTextField
 import com.pwhs.quickmem.presentation.auth.component.AuthTopAppBar
 import com.pwhs.quickmem.presentation.auth.signup.email.component.DatePickerModalInput
 import com.pwhs.quickmem.presentation.auth.signup.email.component.RadioGroup
+import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.util.gradientBackground
 import com.pwhs.quickmem.util.isDateSmallerThan
 import com.pwhs.quickmem.util.toFormattedString
@@ -67,7 +68,7 @@ fun AuthSocialScreen(
     fullName: String = "",
     provider: String = "",
     picture: String = "",
-    isSignUp: Boolean = false
+    isSignUp: Boolean = false,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -129,7 +130,7 @@ fun AuthSocial(
     onNavigationIconClick: () -> Unit = {},
     onRegisterClick: () -> Unit = {},
     birthday: String = "",
-   @StringRes birthdayError: Int? = null,
+    @StringRes birthdayError: Int? = null,
     onBirthdayChanged: (String) -> Unit = {},
     onRoleChanged: (UserRole) -> Unit = {},
 ) {
@@ -248,8 +249,10 @@ fun AuthSocial(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun PreviewSignupWithGoogleScreen() {
-    AuthSocial()
+    QuickMemTheme {
+        AuthSocial()
+    }
 }

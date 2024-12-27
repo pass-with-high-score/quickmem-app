@@ -44,7 +44,6 @@ import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -69,7 +68,7 @@ import kotlinx.coroutines.launch
 @Destination<RootGraph>
 fun WelcomeScreen(
     modifier: Modifier = Modifier,
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
 ) {
     val context = LocalContext.current
     val languageCode = context.getLanguageCode()
@@ -92,10 +91,10 @@ fun WelcomeScreen(
 @Composable
 private fun WelCome(
     modifier: Modifier = Modifier,
-    language: String,
-    onLanguageChange: (String) -> Unit,
-    onNavigateToLogin: () -> Unit,
-    onNavigateToSignup: () -> Unit
+    language: String = LanguageCode.EN.code,
+    onLanguageChange: (String) -> Unit = {},
+    onNavigateToLogin: () -> Unit = {},
+    onNavigateToSignup: () -> Unit = {},
 ) {
     val sheetLanguageState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
@@ -275,7 +274,7 @@ private fun WelCome(
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_vn_flag),
-                            contentDescription = "VN Flag",
+                            contentDescription = stringResource(R.string.txt_vietnamese),
                             modifier = Modifier
                                 .size(24.dp)
                         )
@@ -294,7 +293,7 @@ private fun WelCome(
                     if (language == LanguageCode.VI.code) {
                         Icon(
                             imageVector = Icons.Default.Check,
-                            contentDescription = "Check",
+                            contentDescription = stringResource(R.string.txt_check),
                             tint = colorScheme.primary
                         )
                     }
@@ -315,7 +314,7 @@ private fun WelCome(
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_us_flag),
-                            contentDescription = "US Flag",
+                            contentDescription = stringResource(R.string.txt_english_us),
                             modifier = Modifier
                                 .size(24.dp)
                         )
@@ -335,7 +334,7 @@ private fun WelCome(
                     if (language == LanguageCode.EN.code) {
                         Icon(
                             imageVector = Icons.Default.Check,
-                            contentDescription = "Check",
+                            contentDescription = stringResource(R.string.txt_check),
                             tint = colorScheme.primary
                         )
                     }
@@ -345,15 +344,10 @@ private fun WelCome(
     }
 }
 
-@Preview(device = Devices.PIXEL_4_XL)
+@Preview(showSystemUi = true)
 @Composable
 private fun WelcomeScreenPreview() {
     QuickMemTheme {
-        WelCome(
-            language = LanguageCode.EN.code,
-            onLanguageChange = {},
-            onNavigateToLogin = {},
-            onNavigateToSignup = {}
-        )
+        WelCome()
     }
 }

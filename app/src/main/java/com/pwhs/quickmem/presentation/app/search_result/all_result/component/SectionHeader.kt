@@ -18,7 +18,7 @@ import com.pwhs.quickmem.R
 @Composable
 fun SectionHeader(
     title: String,
-    onSeeAllClick: () -> Unit
+    onSeeAllClick: () -> Unit,
 ) {
     Row(
         modifier = Modifier

@@ -198,7 +198,7 @@ fun ChangeAvatar(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ChangeAvatarScreenPreview() {
     QuickMemTheme {

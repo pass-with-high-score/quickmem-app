@@ -35,16 +35,17 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
+import java.io.IOException
 import javax.inject.Inject
 
 class StudySetRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val studySetRemoteDataSource: StudySetRemoteDataSource,
-    private val searchStudySetBySubjectRemoteDataSource: SearchStudySetBySubjectRemoteDataSource
+    private val searchStudySetBySubjectRemoteDataSource: SearchStudySetBySubjectRemoteDataSource,
 ) : StudySetRepository {
     override suspend fun createStudySet(
         token: String,
-        createStudySetRequestModel: CreateStudySetRequestModel
+        createStudySetRequestModel: CreateStudySetRequestModel,
     ): Flow<Resources<CreateStudySetResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -65,7 +66,7 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun getStudySetById(
         token: String,
-        studySetId: String
+        studySetId: String,
     ): Flow<Resources<GetStudySetResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -87,7 +88,7 @@ class StudySetRepositoryImpl @Inject constructor(
         token: String,
         ownerId: String,
         classId: String?,
-        folderId: String?
+        folderId: String?,
     ): Flow<Resources<List<GetStudySetResponseModel>>> {
         return flow {
             if (token.isEmpty()) {
@@ -112,7 +113,7 @@ class StudySetRepositoryImpl @Inject constructor(
     override suspend fun updateStudySet(
         token: String,
         studySetId: String,
-        updateStudySetRequestModel: UpdateStudySetRequestModel
+        updateStudySetRequestModel: UpdateStudySetRequestModel,
     ): Flow<Resources<UpdateStudySetResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -136,7 +137,7 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun deleteStudySet(
         token: String,
-        studySetId: String
+        studySetId: String,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -156,7 +157,7 @@ class StudySetRepositoryImpl @Inject constructor(
     override suspend fun resetProgress(
         token: String,
         studySetId: String,
-        resetType: String
+        resetType: String,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -179,7 +180,7 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun addStudySetToFolder(
         token: String,
-        addStudySetToFolderRequestModel: AddStudySetToFolderRequestModel
+        addStudySetToFolderRequestModel: AddStudySetToFolderRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -201,7 +202,7 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun addStudySetToClass(
         token: String,
-        addStudySetToClassRequestModel: AddStudySetToClassRequestModel
+        addStudySetToClassRequestModel: AddStudySetToClassRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -223,7 +224,7 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun addStudySetToFolders(
         token: String,
-        addStudySetToFoldersRequestModel: AddStudySetToFoldersRequestModel
+        addStudySetToFoldersRequestModel: AddStudySetToFoldersRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -245,7 +246,7 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun addStudySetToClasses(
         token: String,
-        addStudySetToClassesRequestModel: AddStudySetToClassesRequestModel
+        addStudySetToClassesRequestModel: AddStudySetToClassesRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -273,7 +274,7 @@ class StudySetRepositoryImpl @Inject constructor(
         page: Int,
         colorId: Int?,
         subjectId: Int?,
-        isAIGenerated: Boolean?
+        isAIGenerated: Boolean?,
     ): Flow<PagingData<GetStudySetResponseModel>> {
         if (token.isEmpty()) {
             return emptyFlow()
@@ -301,7 +302,7 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun getStudySetByCode(
         token: String,
-        code: String
+        code: String,
     ): Flow<Resources<GetStudySetResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -321,7 +322,7 @@ class StudySetRepositoryImpl @Inject constructor(
     override suspend fun makeCopyStudySet(
         token: String,
         studySetId: String,
-        newOwnerId: String
+        newOwnerId: String,
     ): Flow<Resources<CreateStudySetResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -341,7 +342,7 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTop5Subject(
-        token: String
+        token: String,
     ): Flow<Resources<List<GetTop5SubjectResponseModel>>> {
         return flow {
             if (token.isEmpty()) {
@@ -361,7 +362,7 @@ class StudySetRepositoryImpl @Inject constructor(
     override suspend fun getStudySetBySubjectId(
         token: String,
         subjectId: Int,
-        page: Int
+        page: Int,
     ): Flow<PagingData<GetStudySetResponseModel>> {
         if (token.isEmpty()) {
             return emptyFlow()
@@ -384,7 +385,7 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun saveRecentAccessStudySet(
         token: String,
-        saveRecentAccessStudySetRequestModel: SaveRecentAccessStudySetRequestModel
+        saveRecentAccessStudySetRequestModel: SaveRecentAccessStudySetRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -406,7 +407,7 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun getRecentAccessStudySet(
         token: String,
-        userId: String
+        userId: String,
     ): Flow<Resources<List<GetStudySetResponseModel>>> {
         return flow {
             if (token.isEmpty()) {
@@ -425,7 +426,7 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun createStudySetByAI(
         token: String,
-        createStudySetByAIRequestModel: CreateStudySetByAIRequestModel
+        createStudySetByAIRequestModel: CreateStudySetByAIRequestModel,
     ): Flow<Resources<CreateStudySetResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -433,12 +434,14 @@ class StudySetRepositoryImpl @Inject constructor(
             }
             emit(Resources.Loading())
             try {
-                val response =
-                    apiService.createStudySetByAI(
-                        token = token,
-                        createStudySetRequestDto = createStudySetByAIRequestModel.toDto()
-                    )
+                val response = apiService.createStudySetByAI(
+                    token = token,
+                    createStudySetRequestDto = createStudySetByAIRequestModel.toDto()
+                )
                 emit(Resources.Success(response.toModel()))
+            } catch (e: IOException) {
+                Timber.e("Error: ${e.message}")
+                emit(Resources.Error(e.message ?: "Unknown error"))
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -448,7 +451,7 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun createWriteHintAI(
         token: String,
-        createWriteHintAIRequestModel: CreateWriteHintAIRequestModel
+        createWriteHintAIRequestModel: CreateWriteHintAIRequestModel,
     ): Flow<Resources<CreateWriteHintAIResponseModel>> {
         return flow {
             if (token.isEmpty()) {

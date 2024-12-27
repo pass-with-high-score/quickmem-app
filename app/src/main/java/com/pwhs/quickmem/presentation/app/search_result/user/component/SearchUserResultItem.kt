@@ -35,7 +35,7 @@ import com.pwhs.quickmem.ui.theme.QuickMemTheme
 fun SearchUserResultItem(
     modifier: Modifier = Modifier,
     onClicked: (SearchUserResponseModel?) -> Unit = {},
-    searchMemberModel: SearchUserResponseModel?
+    searchMemberModel: SearchUserResponseModel?,
 ) {
     Card(
         modifier = modifier
@@ -86,7 +86,7 @@ fun SearchUserResultItem(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ClassMemberItemPreview() {
     QuickMemTheme {

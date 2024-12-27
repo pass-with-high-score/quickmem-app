@@ -5,5 +5,5 @@ data class CreateStudyTimeModel(
     val learnMode: String,
     val studySetId: String,
     val timeSpent: Int,
-    val userId: String
+    val userId: String,
 )

@@ -19,9 +19,9 @@ import com.pwhs.quickmem.R
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerModalInput(
-    onDateSelected: (Long?) -> Unit,
-    onDismiss: () -> Unit,
-    initialDate: Long? = null
+    onDateSelected: (Long?) -> Unit = {},
+    onDismiss: () -> Unit = {},
+    initialDate: Long? = null,
 ) {
     val datePickerState = rememberDatePickerState(
         initialDisplayMode = DisplayMode.Input,

@@ -29,7 +29,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pwhs.quickmem.R
@@ -82,7 +82,7 @@ fun SearchStudySetBySubjectTopAppBar(
                     )
                 }
                 Text(
-                    text = "$studySetCount sets",
+                    text = stringResource(R.string.txt_sets, studySetCount),
                     style = typography.bodyMedium.copy(
                         color = colorScheme.secondary
                     ),
@@ -127,7 +127,7 @@ fun SearchStudySetBySubjectTopAppBar(
     )
 }
 
-@PreviewLightDark
+@Preview(showSystemUi = true)
 @Composable
 fun TopBarSearchPreview() {
     QuickMemTheme {

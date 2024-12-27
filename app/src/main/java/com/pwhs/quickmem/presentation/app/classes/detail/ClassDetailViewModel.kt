@@ -33,7 +33,7 @@ class ClassDetailViewModel @Inject constructor(
     private val classRepository: ClassRepository,
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ClassDetailUiState())
     val uiState = _uiState.asStateFlow()
@@ -42,9 +42,9 @@ class ClassDetailViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val id: String = savedStateHandle["id"] ?: ""
-        val title: String = savedStateHandle["title"] ?: ""
-        val description: String = savedStateHandle["description"] ?: ""
+        val id: String = savedStateHandle.get<String>("id") ?: ""
+        val title: String = savedStateHandle.get<String>("title") ?: ""
+        val description: String = savedStateHandle.get<String>("description") ?: ""
         viewModelScope.launch {
             appManager.isLoggedIn.collect { isLoggedIn ->
                 if (isLoggedIn) {
@@ -466,7 +466,7 @@ class ClassDetailViewModel @Inject constructor(
                             it.copy(
                                 isLoading = false,
                                 isInvited = resource.data?.status == true,
-                                errorMessage = when(resource.data?.inviteStatus) {
+                                errorMessage = when (resource.data?.inviteStatus) {
                                     "ALREADY_MEMBER" -> R.string.txt_this_user_is_already_a_member
                                     "IS_OWNER" -> R.string.txt_this_user_is_owner
                                     "ALREADY_INVITED" -> R.string.txt_this_user_is_already_invited

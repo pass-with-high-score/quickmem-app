@@ -43,7 +43,7 @@ fun AddStudySetToFolderScreen(
     navigator: DestinationsNavigator,
     viewModel: AddStudySetToFolderViewModel = hiltViewModel(),
     resultNavigator: ResultBackNavigator<Boolean>,
-    resultAddStudySetToFolder: ResultRecipient<StudySetDetailScreenDestination, Boolean>
+    resultAddStudySetToFolder: ResultRecipient<StudySetDetailScreenDestination, Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -138,7 +138,7 @@ fun AddStudySetToFolder(
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Create Study Set"
+                    contentDescription = stringResource(R.string.txt_create_study_set)
                 )
             }
         }
@@ -163,10 +163,7 @@ fun AddStudySetToFolder(
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
+@Preview(showSystemUi = true)
 @Composable
 private fun AddStudySetToFolderPreview() {
     AddStudySetToFolder()

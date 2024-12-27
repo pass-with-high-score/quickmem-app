@@ -44,7 +44,7 @@ fun AddFolderToClassScreen(
     navigator: DestinationsNavigator,
     viewModel: AddFolderToClassViewModel = hiltViewModel(),
     resultNavigator: ResultBackNavigator<Boolean>,
-    resultAddFolderToClass: ResultRecipient<FolderDetailScreenDestination, Boolean>
+    resultAddFolderToClass: ResultRecipient<FolderDetailScreenDestination, Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current

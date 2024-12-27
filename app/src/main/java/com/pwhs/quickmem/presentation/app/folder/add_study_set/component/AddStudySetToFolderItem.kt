@@ -115,12 +115,15 @@ fun AddStudySetToFolderItem(
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Text(
-                        text =  stringResource(studySet.subject?.subjectName ?: SubjectModel.defaultSubjects[0].subjectName),
+                        text = stringResource(
+                            studySet.subject?.subjectName
+                                ?: SubjectModel.defaultSubjects[0].subjectName
+                        ),
                         style = typography.bodySmall.copy(
                             color = colorScheme.onSurface.copy(alpha = 0.6f)
                         )
                     )
-                    if(studySet.isAIGenerated == true) {
+                    if (studySet.isAIGenerated == true) {
                         VerticalDivider(
                             modifier = Modifier.height(12.dp)
                         )
@@ -179,7 +182,7 @@ fun AddStudySetToFolderItem(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun AddStudySetToFolderItemPreview() {
     QuickMemTheme {

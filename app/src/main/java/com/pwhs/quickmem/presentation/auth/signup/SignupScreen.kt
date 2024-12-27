@@ -270,7 +270,7 @@ fun Signup(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun SignupScreenPreview() {
     QuickMemTheme {

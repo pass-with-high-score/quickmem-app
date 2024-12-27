@@ -11,5 +11,5 @@ data class UpdateFolderResponseModel(
     val linkShareCode: String? = null,
     val studySets: List<GetStudySetResponseModel>,
     val updatedAt: String,
-    val createdAt: String
+    val createdAt: String,
 )

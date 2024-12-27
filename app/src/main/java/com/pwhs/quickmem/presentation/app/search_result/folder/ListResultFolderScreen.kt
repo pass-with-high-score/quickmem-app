@@ -135,7 +135,7 @@ fun ListResultFolderScreen(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ListResultFolderScreenPreview() {
     QuickMemTheme {

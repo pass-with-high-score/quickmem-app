@@ -11,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class OnboardingViewModel @Inject constructor(
     private val appManager: AppManager,
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application) {
     fun saveIsFirstRun(isFirstRun: Boolean) {
         viewModelScope.launch {

@@ -11,11 +11,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class PixaBayRepositoryImpl @Inject constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
 ) : PixaBayRepository {
     override suspend fun searchImages(
         token: String,
-        query: String
+        query: String,
     ): Flow<Resources<SearchImageResponseModel>> {
         return flow {
             emit(Resources.Loading())

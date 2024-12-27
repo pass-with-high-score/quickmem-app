@@ -5,5 +5,5 @@ import com.pwhs.quickmem.presentation.app.settings.about.open_source_licenses.da
 data class OpenSourceUiState(
     val isLoading: Boolean = false,
     val licenses: List<LicensesModel> = emptyList(),
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
 )

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import androidx.annotation.RequiresApi
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -42,7 +43,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -93,7 +94,7 @@ fun SettingsScreen(
     resultChangePassword: ResultRecipient<ChangePasswordSettingScreenDestination, Boolean>,
     resultChangeLanguage: ResultRecipient<ChangeLanguageScreenDestination, Boolean>,
     resultUpdateUsername: ResultRecipient<UpdateUsernameSettingScreenDestination, Boolean>,
-    resultChangeRole: ResultRecipient<ChangeRoleScreenDestination, Boolean>
+    resultChangeRole: ResultRecipient<ChangeRoleScreenDestination, Boolean>,
 ) {
     val context = LocalContext.current
 
@@ -308,7 +309,6 @@ fun SettingsScreen(
     )
 }
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalPermissionsApi::class)
 @Composable
 fun Setting(
@@ -318,7 +318,7 @@ fun Setting(
     email: String = "",
     role: String = "",
     password: String = "",
-    errorMessage: String = "",
+    @StringRes errorMessage: Int? = null,
     isLoading: Boolean = false,
     isPushNotificationsEnabled: Boolean = false,
     isAppPushNotificationsEnabled: Boolean = false,
@@ -343,7 +343,7 @@ fun Setting(
     onChangeStudyAlarm: (Boolean) -> Unit = {},
     onChangeTimeStudyAlarm: (String) -> Unit = {},
     isPlaySound: Boolean = false,
-    onChangeIsPlaySound: (Boolean) -> Unit = {}
+    onChangeIsPlaySound: (Boolean) -> Unit = {},
 ) {
 
     val bottomSheetState = rememberModalBottomSheetState()
@@ -715,7 +715,7 @@ fun Setting(
                     onSubmitClick()
                 },
                 onChangePassword = onChangePassword,
-                errorMessage = errorMessage
+                errorMessage = errorMessage?.let { stringResource(it) }
             )
             LoadingOverlay(
                 isLoading = isLoading
@@ -784,8 +784,7 @@ fun Setting(
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
-@PreviewLightDark
+@Preview(showSystemUi = true)
 @Composable
 fun SettingScreenPreview(modifier: Modifier = Modifier) {
     QuickMemTheme {

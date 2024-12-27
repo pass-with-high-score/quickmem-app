@@ -18,7 +18,7 @@ import com.pwhs.quickmem.util.upperCaseFirstLetter
 fun RoleItem(
     role: UserRole,
     isSelected: Boolean = false,
-    onRoleChanged: (UserRole) -> Unit
+    onRoleChanged: (UserRole) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,

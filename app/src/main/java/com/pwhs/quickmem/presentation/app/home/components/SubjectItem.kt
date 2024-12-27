@@ -87,7 +87,7 @@ fun SubjectItem(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun SubjectItemPreview() {
     SubjectItem(

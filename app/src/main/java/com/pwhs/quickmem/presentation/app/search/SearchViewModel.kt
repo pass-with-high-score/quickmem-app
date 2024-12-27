@@ -2,6 +2,7 @@ package com.pwhs.quickmem.presentation.app.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.repository.SearchQueryRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -32,7 +33,7 @@ class SearchViewModel @Inject constructor(
         when (event) {
             is SearchUiAction.Search -> search()
             is SearchUiAction.OnQueryChanged -> {
-                _uiState.update { it.copy(query = event.query, error = "") }
+                _uiState.update { it.copy(query = event.query, error = null) }
             }
 
             is SearchUiAction.DeleteAllSearch -> {
@@ -64,7 +65,7 @@ class SearchViewModel @Inject constructor(
     private fun search() {
         viewModelScope.launch {
             if (uiState.value.query.isBlank()) {
-                _uiState.update { it.copy(error = "Please enter a search query") }
+                _uiState.update { it.copy(error = R.string.txt_please_enter_a_search_query) }
                 return@launch
             }
             val query = uiState.value.query
@@ -92,7 +93,7 @@ class SearchViewModel @Inject constructor(
             if (searchQueryModel != null) {
                 searchQueryRepository.deleteSearchQuery(searchQueryModel)
             } else {
-                _uiEvent.send(SearchUiEvent.ShowError("Search query not found."))
+                _uiEvent.send(SearchUiEvent.ShowError(R.string.txt_search_recent_query_not_found))
             }
         }
     }
@@ -104,7 +105,8 @@ class SearchViewModel @Inject constructor(
                 loadSearchHistory()
                 _uiEvent.trySend(SearchUiEvent.ClearAllSearchRecent)
             } catch (e: Exception) {
-                _uiEvent.send(SearchUiEvent.ShowError("Failed to clear search history"))
+                Timber.e(e)
+                _uiEvent.send(SearchUiEvent.ShowError(R.string.txt_failed_to_clear_search_history))
             }
         }
     }

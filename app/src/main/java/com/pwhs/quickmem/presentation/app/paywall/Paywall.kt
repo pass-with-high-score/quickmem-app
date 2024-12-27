@@ -17,7 +17,7 @@ fun Paywall(
     isPaywallVisible: Boolean,
     onCustomerInfoChanged: (CustomerInfo) -> Unit,
     onPaywallDismissed: () -> Unit,
-    userId: String = ""
+    userId: String = "",
 ) {
     if (isPaywallVisible) {
         PaywallDialog(
@@ -45,7 +45,7 @@ fun Paywall(
 
                         override fun onPurchaseCompleted(
                             customerInfo: CustomerInfo,
-                            storeTransaction: StoreTransaction
+                            storeTransaction: StoreTransaction,
                         ) {
                             super.onPurchaseCompleted(customerInfo, storeTransaction)
                             Timber.tag("PaywallListener")

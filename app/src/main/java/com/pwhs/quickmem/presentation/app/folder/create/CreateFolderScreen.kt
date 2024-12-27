@@ -1,6 +1,7 @@
 package com.pwhs.quickmem.presentation.app.folder.create
 
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -41,7 +42,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun CreateFolderScreen(
     modifier: Modifier = Modifier,
     viewModel: CreateFolderViewModel = hiltViewModel(),
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -49,11 +50,16 @@ fun CreateFolderScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is CreateFolderUiEvent.ShowError -> {
-                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(event.message), Toast.LENGTH_SHORT)
+                        .show()
                 }
 
                 is CreateFolderUiEvent.FolderCreated -> {
-                    Toast.makeText(context, "Folder Created", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_create_folder),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     navigator.navigateUp()
                     navigator.navigate(
                         FolderDetailScreenDestination(
@@ -86,7 +92,7 @@ fun CreateFolder(
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
     title: String = "",
-    titleError: String = "",
+    @StringRes titleError: Int? = null,
     onTitleChange: (String) -> Unit = {},
     description: String = "",
     descriptionError: String = "",
@@ -94,7 +100,7 @@ fun CreateFolder(
     isPublic: Boolean = false,
     onIsPublicChange: (Boolean) -> Unit = {},
     onDoneClick: () -> Unit = {},
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
 ) {
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
@@ -114,9 +120,9 @@ fun CreateFolder(
             )
         }
     ) { innerPadding ->
-        Box (
+        Box(
             modifier = Modifier.padding(innerPadding)
-        ){
+        ) {
             Column(
                 modifier = Modifier
                     .padding(horizontal = 16.dp)
@@ -127,7 +133,7 @@ fun CreateFolder(
                 CreateTextField(
                     value = title,
                     title = stringResource(id = R.string.txt_folder_title),
-                    valueError = titleError,
+                    valueError = titleError?.let { stringResource(id = it) },
                     onValueChange = onTitleChange,
                     placeholder = stringResource(id = R.string.txt_enter_folder_title)
                 )
@@ -157,10 +163,7 @@ fun CreateFolder(
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
+@Preview(showSystemUi = true)
 @Composable
 fun CreateFolderScreenPreview() {
     QuickMemTheme {

@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AddFolderToClassArgs(
-    val classId: String
+    val classId: String,
 )

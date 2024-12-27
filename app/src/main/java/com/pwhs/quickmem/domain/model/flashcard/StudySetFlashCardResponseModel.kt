@@ -21,5 +21,5 @@ data class StudySetFlashCardResponseModel(
     val writeStatus: String = WriteStatus.NONE.status,
     val isStarred: Boolean = false,
     val createdAt: String = "",
-    val updatedAt: String = ""
+    val updatedAt: String = "",
 )

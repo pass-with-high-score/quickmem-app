@@ -80,7 +80,7 @@ fun FolderMenuBottomSheet(
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun FolderMenuBottomSheetPreview() {
     QuickMemTheme {

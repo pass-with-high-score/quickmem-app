@@ -113,7 +113,7 @@ fun LearnModeCard(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun LearnModeCardPreview() {
     QuickMemTheme {

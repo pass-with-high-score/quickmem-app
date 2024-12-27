@@ -111,7 +111,7 @@ fun UpdateUsernameSetting(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun UpdateUserNameSettingScreenPreview() {
     QuickMemTheme {

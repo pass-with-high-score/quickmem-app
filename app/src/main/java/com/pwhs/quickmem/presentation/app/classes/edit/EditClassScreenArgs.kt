@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class EditClassScreenArgs(
     val classId: String,
-    val classTitle:String,
-    val classDescription:String,
-    val isSetAllowed:Boolean,
-    val isMemberAllowed:Boolean
+    val classTitle: String,
+    val classDescription: String,
+    val isSetAllowed: Boolean,
+    val isMemberAllowed: Boolean,
 )

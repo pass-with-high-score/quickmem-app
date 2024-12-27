@@ -32,7 +32,7 @@ class FolderDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
-    private val folderRepository: FolderRepository
+    private val folderRepository: FolderRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FolderDetailUiState())
     val uiState = _uiState.asStateFlow()
@@ -43,8 +43,8 @@ class FolderDetailViewModel @Inject constructor(
     var job: Job? = null
 
     init {
-        val id: String = savedStateHandle["id"] ?: ""
-        val code: String = savedStateHandle["code"] ?: ""
+        val id: String = savedStateHandle.get<String>("id") ?: ""
+        val code: String = savedStateHandle.get<String>("code") ?: ""
         _uiState.update {
             it.copy(
                 id = id,

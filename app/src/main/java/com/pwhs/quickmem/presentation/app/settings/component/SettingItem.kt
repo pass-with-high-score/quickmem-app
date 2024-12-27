@@ -27,7 +27,7 @@ fun SettingItem(
     subtitle: String? = null,
     leadingText: String? = null,
     onClick: () -> Unit = {},
-    showArrow: Boolean = true
+    showArrow: Boolean = true,
 ) {
     Row(
         modifier = modifier
@@ -71,7 +71,7 @@ fun SettingItem(
                 }
                 Icon(
                     imageVector = AutoMirrored.Filled.KeyboardArrowRight,
-                    contentDescription = "Navigate to $title",
+                    contentDescription = null,
                     modifier = Modifier.size(30.dp),
                     tint = colorScheme.onSurfaceVariant
                 )

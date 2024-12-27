@@ -11,54 +11,54 @@ import kotlinx.coroutines.flow.Flow
 interface FlashCardRepository {
     suspend fun createFlashCard(
         token: String,
-        createFlashCardModel: CreateFlashCardModel
+        createFlashCardModel: CreateFlashCardModel,
     ): Flow<Resources<FlashCardResponseModel>>
 
     suspend fun deleteFlashCard(
         token: String,
-        id: String
+        id: String,
     ): Flow<Resources<Unit>>
 
     suspend fun toggleStarredFlashCard(
         token: String,
         id: String,
-        isStarred: Boolean
+        isStarred: Boolean,
     ): Flow<Resources<UpdateFlashCardResponseModel>>
 
     suspend fun updateFlashCard(
         token: String,
         id: String,
-        editFlashCardModel: EditFlashCardModel
+        editFlashCardModel: EditFlashCardModel,
     ): Flow<Resources<FlashCardResponseModel>>
 
     suspend fun updateFlipFlashCard(
         token: String,
         id: String,
-        flipStatus: String
+        flipStatus: String,
     ): Flow<Resources<UpdateFlashCardResponseModel>>
 
     suspend fun updateFlashCardRating(
         token: String,
         id: String,
-        rating: String
+        rating: String,
     ): Flow<Resources<UpdateFlashCardResponseModel>>
 
     suspend fun updateQuizStatus(
         token: String,
         id: String,
-        quizStatus: String
+        quizStatus: String,
     ): Flow<Resources<UpdateFlashCardResponseModel>>
 
     suspend fun updateTrueFalseStatus(
         token: String,
         id: String,
-        trueFalseStatus: String
+        trueFalseStatus: String,
     ): Flow<Resources<UpdateFlashCardResponseModel>>
 
     suspend fun updateWriteStatus(
         token: String,
         id: String,
-        writeStatus: String
+        writeStatus: String,
     ): Flow<Resources<UpdateFlashCardResponseModel>>
 
     suspend fun getFlashCardsByStudySetId(
@@ -67,7 +67,7 @@ interface FlashCardRepository {
         learnMode: LearnMode,
         isGetAll: Boolean,
         isSwapped: Boolean,
-        isRandom: Boolean
+        isRandom: Boolean,
     ): Flow<Resources<List<FlashCardResponseModel>>>
 
     suspend fun getFlashCardsByFolderId(
@@ -76,6 +76,6 @@ interface FlashCardRepository {
         learnMode: LearnMode,
         isGetAll: Boolean,
         isSwapped: Boolean,
-        isRandom: Boolean
+        isRandom: Boolean,
     ): Flow<Resources<List<FlashCardResponseModel>>>
 }

@@ -45,7 +45,7 @@ fun TopStreakScreen(
     streakOwner: GetTopStreakResponseModel? = null,
     topStreaks: List<GetTopStreakResponseModel> = emptyList(),
     onClickToUserDetail: (GetTopStreakResponseModel) -> Unit = {},
-    onTopStreakRefresh: () -> Unit = {}
+    onTopStreakRefresh: () -> Unit = {},
 ) {
     val refreshState = rememberPullToRefreshState()
     val silverSize = remember { Animatable(128f) }
@@ -145,7 +145,7 @@ fun TopStreakScreen(
 }
 
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun TopStreakScreenPreview() {
     MaterialTheme {

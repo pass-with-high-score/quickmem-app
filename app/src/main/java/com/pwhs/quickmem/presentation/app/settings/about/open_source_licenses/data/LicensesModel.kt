@@ -3,7 +3,7 @@ package com.pwhs.quickmem.presentation.app.settings.about.open_source_licenses.d
 data class LicensesModel(
     val id: String = "",
     val title: String = "",
-    val linkSource: String = ""
+    val linkSource: String = "",
 )
 
 val sourceLicensesList = listOf(

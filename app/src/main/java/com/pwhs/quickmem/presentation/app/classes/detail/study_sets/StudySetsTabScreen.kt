@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,7 +34,7 @@ fun StudySetsTabScreen(
     studySets: List<GetStudySetResponseModel> = emptyList(),
     onAddStudySetClicked: () -> Unit = {},
     onStudySetItemClicked: (GetStudySetResponseModel) -> Unit = {},
-    onDeleteStudySetClicked: (String) -> Unit = {}
+    onDeleteStudySetClicked: (String) -> Unit = {},
 ) {
     var searchQuery by remember { mutableStateOf("") }
 
@@ -102,10 +103,15 @@ fun StudySetsTabScreen(
 }
 
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun StudySetsTabPreview() {
     QuickMemTheme {
-        StudySetsTabScreen(isOwner = true)
+        Scaffold { innerPadding ->
+            StudySetsTabScreen(
+                isOwner = true,
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
     }
 }

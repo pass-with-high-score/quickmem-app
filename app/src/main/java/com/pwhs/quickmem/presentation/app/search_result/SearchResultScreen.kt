@@ -70,7 +70,7 @@ fun SearchResultScreen(
     modifier: Modifier = Modifier,
     viewModel: SearchResultViewModel = hiltViewModel(),
     navigator: DestinationsNavigator,
-    resultBackNavigator: ResultBackNavigator<Boolean>
+    resultBackNavigator: ResultBackNavigator<Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -215,7 +215,7 @@ fun SearchResult(
     onSeeAllClickStudySet: () -> Unit = {},
     onSeeAllClickFolder: () -> Unit = {},
     onSeeAllClickClass: () -> Unit = {},
-    onSeeAllClickUsers: () -> Unit = {}
+    onSeeAllClickUsers: () -> Unit = {},
 ) {
     var showFilterBottomSheet by remember { mutableStateOf(false) }
     val tabTitles = listOf(
@@ -353,7 +353,7 @@ fun SearchResult(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun SearchResultScreen() {
     QuickMemTheme {

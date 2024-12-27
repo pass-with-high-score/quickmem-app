@@ -498,7 +498,7 @@ fun FolderDetail(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 private fun FolderDetailPreview() {
     QuickMemTheme {

@@ -6,5 +6,5 @@ data class GetStudyTimeByStudySetResponseModel(
     val studySetId: String,
     val total: Int,
     val trueFalse: Int,
-    val write: Int
+    val write: Int,
 )

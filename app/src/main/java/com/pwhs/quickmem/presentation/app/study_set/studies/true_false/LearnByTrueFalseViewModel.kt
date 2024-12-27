@@ -51,7 +51,7 @@ class LearnByTrueFalseViewModel @Inject constructor(
 
     init {
         val studySetId = savedStateHandle.get<String>("studySetId") ?: ""
-        val isGetAll = savedStateHandle.get<Boolean>("isGetAll") ?: false
+        val isGetAll = savedStateHandle.get<Boolean>("isGetAll") == true
         val studySetTitle = savedStateHandle.get<String>("studySetTitle") ?: ""
         val studySetDescription = savedStateHandle.get<String>("studySetDescription") ?: ""
         val studySetColorId = savedStateHandle.get<Int>("studySetColorId") ?: 1
@@ -72,7 +72,7 @@ class LearnByTrueFalseViewModel @Inject constructor(
             )
         }
         viewModelScope.launch {
-            val isPlaySound = appManager.isPlaySound.firstOrNull() ?: false
+            val isPlaySound = appManager.isPlaySound.firstOrNull() == true
             _uiState.update { it.copy(isPlaySound = isPlaySound) }
         }
 

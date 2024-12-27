@@ -5,5 +5,5 @@ data class CreateClassRequestModel(
     val title: String,
     val description: String,
     val allowMemberManagement: Boolean,
-    val allowSetManagement: Boolean
+    val allowSetManagement: Boolean,
 )

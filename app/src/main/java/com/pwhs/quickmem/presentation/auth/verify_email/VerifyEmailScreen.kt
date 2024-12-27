@@ -357,7 +357,7 @@ private fun VerifyEmail(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun VerifyEmailScreenPreview() {
     QuickMemTheme {

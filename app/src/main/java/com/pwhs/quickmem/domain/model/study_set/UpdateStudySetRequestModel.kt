@@ -6,5 +6,5 @@ data class UpdateStudySetRequestModel(
     val isPublic: Boolean,
     val ownerId: String,
     val subjectId: Int,
-    val title: String
+    val title: String,
 )

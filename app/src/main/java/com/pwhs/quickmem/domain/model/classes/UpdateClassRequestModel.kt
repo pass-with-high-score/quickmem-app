@@ -5,5 +5,5 @@ data class UpdateClassRequestModel(
     val description: String,
     val ownerId: String,
     val allowMemberManagement: Boolean,
-    val allowSetManagement: Boolean
+    val allowSetManagement: Boolean,
 )

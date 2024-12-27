@@ -6,5 +6,5 @@ data class GetStudyTimeByUserResponseModel(
     val userId: String,
     val total: Int,
     val trueFalse: Int,
-    val write: Int
+    val write: Int,
 )

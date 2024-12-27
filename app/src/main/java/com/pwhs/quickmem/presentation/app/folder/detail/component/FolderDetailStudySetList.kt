@@ -176,7 +176,7 @@ private fun ListStudySetInnerFolderPreview() {
 }
 
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ListStudySetInnerFolderPreviewEmpty() {
     QuickMemTheme {

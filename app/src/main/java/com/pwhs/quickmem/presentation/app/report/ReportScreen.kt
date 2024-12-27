@@ -109,7 +109,7 @@ fun Report(
                     IconButton(onClick = { onBackClick() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(R.string.txt_back)
                         )
                     }
                 },
@@ -191,7 +191,7 @@ fun Report(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun ReportScreenPreview() {
     QuickMemTheme {

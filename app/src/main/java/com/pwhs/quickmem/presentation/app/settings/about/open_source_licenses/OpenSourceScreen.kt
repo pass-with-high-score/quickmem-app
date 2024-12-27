@@ -49,7 +49,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun OpenSourceScreen(
     modifier: Modifier = Modifier,
     navigator: DestinationsNavigator,
-    viewModel: OpenSourceViewModel = hiltViewModel()
+    viewModel: OpenSourceViewModel = hiltViewModel(),
 ) {
     val state by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -88,7 +88,7 @@ fun OpenSourceLicenses(
     modifier: Modifier = Modifier,
     licenses: List<LicensesModel> = emptyList(),
     onClickSource: (String) -> Unit = {},
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {
@@ -112,7 +112,7 @@ fun OpenSourceLicenses(
                     ) {
                         Icon(
                             imageVector = AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back",
+                            contentDescription = stringResource(R.string.txt_back),
                         )
                     }
                 },
@@ -157,7 +157,7 @@ fun OpenSourceLicenses(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun OpensourceScreenPreview() {
     QuickMemTheme {

@@ -1,5 +1,6 @@
 package com.pwhs.quickmem.presentation.app.settings
 
+import androidx.annotation.StringRes
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.alarm.StudyAlarm
 import com.revenuecat.purchases.CustomerInfo
@@ -9,7 +10,7 @@ data class SettingUiState(
     val canChangeInfo: Boolean = false,
     val isPlaySound: Boolean = false,
     val password: String = "",
-    val errorMessage: String = "",
+    @StringRes val errorMessage: Int? = null,
     val isLoading: Boolean = false,
     val showBottomSheet: Boolean = false,
     val userId: String = "",
@@ -26,5 +27,5 @@ data class SettingUiState(
         message = R.string.txt_it_s_time_to_study
     ),
     val isStudyAlarmEnabled: Boolean = false,
-    val timeStudyAlarm: String = ""
+    val timeStudyAlarm: String = "",
 )

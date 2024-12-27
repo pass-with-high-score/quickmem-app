@@ -32,11 +32,11 @@ import javax.inject.Inject
 
 class ClassRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val classRemoteDataSource: ClassRemoteDataSource
+    private val classRemoteDataSource: ClassRemoteDataSource,
 ) : ClassRepository {
     override suspend fun createClass(
         token: String,
-        createClassRequestModel: CreateClassRequestModel
+        createClassRequestModel: CreateClassRequestModel,
     ): Flow<Resources<CreateClassResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -58,7 +58,7 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun getClassById(
         token: String,
-        classId: String
+        classId: String,
     ): Flow<Resources<GetClassDetailResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -84,7 +84,7 @@ class ClassRepositoryImpl @Inject constructor(
         token: String,
         userId: String,
         folderId: String?,
-        studySetId: String?
+        studySetId: String?,
     ): Flow<Resources<List<GetClassByOwnerResponseModel>>> {
         return flow {
             if (token.isEmpty()) {
@@ -105,7 +105,7 @@ class ClassRepositoryImpl @Inject constructor(
     override suspend fun updateClass(
         token: String,
         classId: String,
-        updateClassRequestModel: UpdateClassRequestModel
+        updateClassRequestModel: UpdateClassRequestModel,
     ): Flow<Resources<UpdateClassResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -146,7 +146,7 @@ class ClassRepositoryImpl @Inject constructor(
     override suspend fun getSearchResultClasses(
         token: String,
         title: String,
-        page: Int?
+        page: Int?,
     ): Flow<PagingData<GetClassByOwnerResponseModel>> {
         if (token.isEmpty()) {
             return emptyFlow()
@@ -169,7 +169,7 @@ class ClassRepositoryImpl @Inject constructor(
     override suspend fun getClassByCode(
         token: String,
         userId: String,
-        classCode: String
+        classCode: String,
     ): Flow<Resources<GetClassDetailResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -192,7 +192,7 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun joinClass(
         token: String,
-        joinClassRequestModel: JoinClassRequestModel
+        joinClassRequestModel: JoinClassRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -211,7 +211,7 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun exitClass(
         token: String,
-        exitClassRequestModel: ExitClassRequestModel
+        exitClassRequestModel: ExitClassRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -230,7 +230,7 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun removeMembers(
         token: String,
-        removeMembersRequestModel: RemoveMembersRequestModel
+        removeMembersRequestModel: RemoveMembersRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -249,7 +249,7 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun deleteStudySetInClass(
         token: String,
-        deleteStudySetsRequestModel: DeleteStudySetsRequestModel
+        deleteStudySetsRequestModel: DeleteStudySetsRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -268,7 +268,7 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun deleteFolderInClass(
         token: String,
-        deleteFolderRequestModel: DeleteFolderRequestModel
+        deleteFolderRequestModel: DeleteFolderRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -287,7 +287,7 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun saveRecentAccessClass(
         token: String,
-        saveRecentAccessClassRequestModel: SaveRecentAccessClassRequestModel
+        saveRecentAccessClassRequestModel: SaveRecentAccessClassRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -306,7 +306,7 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun getRecentAccessClass(
         token: String,
-        userId: String
+        userId: String,
     ): Flow<Resources<List<GetClassByOwnerResponseModel>>> {
         return flow {
             if (token.isEmpty()) {
@@ -325,7 +325,7 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun inviteToClass(
         token: String,
-        inviteToClassRequestModel: InviteToClassRequestModel
+        inviteToClassRequestModel: InviteToClassRequestModel,
     ): Flow<Resources<InviteToClassResponseModel>> {
         return flow {
             if (token.isEmpty()) {

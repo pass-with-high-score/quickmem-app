@@ -4,7 +4,7 @@ import androidx.annotation.DrawableRes
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.subject.SubjectModel
 
-data class SearchStudySetBySubjectUiState (
+data class SearchStudySetBySubjectUiState(
     val id: Int = 0,
     val subject: SubjectModel? = null,
     val studySetCount: Int = 0,

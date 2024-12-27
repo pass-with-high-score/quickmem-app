@@ -36,7 +36,7 @@ fun OnboardingButton(
     backgroundColor: Color = colorScheme.primary,
     buttonShape: CornerBasedShape = shapes.large,
     borderColor: Color = Color.White,
-    textColor: Color = Color.White
+    textColor: Color = Color.White,
 ) {
     Button(
         onClick = onClick,
@@ -79,7 +79,7 @@ fun OnboardingButton(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun OnboardingButtonPreview() {
     QuickMemTheme {

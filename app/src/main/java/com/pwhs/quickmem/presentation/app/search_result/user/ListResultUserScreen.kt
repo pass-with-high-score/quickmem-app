@@ -30,13 +30,12 @@ import com.pwhs.quickmem.domain.model.users.SearchUserResponseModel
 import com.pwhs.quickmem.presentation.app.search_result.user.component.SearchUserResultItem
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 
-
 @Composable
 fun ListResultUserScreen(
     modifier: Modifier = Modifier,
     users: LazyPagingItems<SearchUserResponseModel>? = null,
     onUserItemClicked: (SearchUserResponseModel?) -> Unit = {},
-    onUserRefresh: () -> Unit = {}
+    onUserRefresh: () -> Unit = {},
 ) {
     LazyColumn(
         modifier = modifier
@@ -134,7 +133,7 @@ fun ListResultUserScreen(
 }
 
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ListResultUserScreenPreview() {
     QuickMemTheme {

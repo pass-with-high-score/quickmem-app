@@ -80,7 +80,6 @@ class SearchResultViewModel @Inject constructor(
             }
             try {
                 _uiState.update { it.copy(isLoading = true) }
-                Timber.d("datssssa")
                 awaitAll(
                     async { getStudySets() },
                     async { getClasses() },
@@ -129,10 +128,10 @@ class SearchResultViewModel @Inject constructor(
             SearchResultUiAction.RefreshSearchAllResult -> {
                 viewModelScope.launch {
                     delay(500)
-                    launch{ getStudySets() }
-                    launch{ getClasses() }
-                    launch{ getFolders() }
-                    launch{ getUsers() }
+                    launch { getStudySets() }
+                    launch { getClasses() }
+                    launch { getFolders() }
+                    launch { getUsers() }
                 }
             }
 
@@ -231,7 +230,7 @@ class SearchResultViewModel @Inject constructor(
                     .onCompletion {
                         _uiState.update { it.copy(isLoading = false) }
                     }
-                    .collect{ pagingData ->
+                    .collect { pagingData ->
                         _folderState.value = pagingData
                     }
             } catch (e: Exception) {

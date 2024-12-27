@@ -146,7 +146,7 @@ fun FolderDetailTopAppBar(
     )
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun FolderDetailTopAppBarPreview() {
     QuickMemTheme {

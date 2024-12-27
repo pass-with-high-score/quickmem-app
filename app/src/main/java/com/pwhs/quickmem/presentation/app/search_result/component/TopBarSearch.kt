@@ -21,7 +21,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
@@ -33,7 +33,7 @@ fun TopBarSearchResult(
     title: String,
     onNavigateBack: () -> Unit,
     onClickFilter: () -> Unit = {},
-    showFilterIcon: Boolean = false
+    showFilterIcon: Boolean = false,
 ) {
     TopAppBar(
         modifier = modifier,
@@ -83,7 +83,7 @@ fun TopBarSearchResult(
     )
 }
 
-@PreviewLightDark
+@Preview(showSystemUi = true)
 @Composable
 fun CreateTopAppBarPreview() {
     QuickMemTheme {

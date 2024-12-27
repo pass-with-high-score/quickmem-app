@@ -3,6 +3,7 @@ package com.pwhs.quickmem.presentation.app.study_set.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
@@ -26,7 +27,7 @@ class EditStudySetViewModel @Inject constructor(
     private val studySetRepository: StudySetRepository,
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(EditStudySetUiState())
     val uiState = _uiState.asStateFlow()
@@ -35,12 +36,12 @@ class EditStudySetViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val studySetId: String = savedStateHandle["studySetId"] ?: ""
-        val studySetTitle = savedStateHandle["studySetTitle"] ?: ""
-        val studySetDescription = savedStateHandle["studySetDescription"] ?: ""
-        val studySetSubjectId: Int = savedStateHandle["studySetSubjectId"] ?: 1
-        val studySetColorId: Int = savedStateHandle["studySetColorId"] ?: 1
-        val studySetIsPublic: Boolean = savedStateHandle["studySetIsPublic"] ?: false
+        val studySetId: String = savedStateHandle.get<String>("studySetId") ?: ""
+        val studySetTitle: String = savedStateHandle.get<String>("studySetTitle") ?: ""
+        val studySetDescription: String = savedStateHandle.get<String>("studySetDescription") ?: ""
+        val studySetSubjectId: Int = savedStateHandle.get<Int>("studySetSubjectId") ?: 1
+        val studySetColorId: Int = savedStateHandle.get<Int>("studySetColorId") ?: 1
+        val studySetIsPublic: Boolean = savedStateHandle.get<Boolean>("studySetIsPublic") == true
         _uiState.update {
             it.copy(
                 id = studySetId,
@@ -71,12 +72,12 @@ class EditStudySetViewModel @Inject constructor(
                 val uiState = _uiState.value
                 if (uiState.title.isEmpty()) {
                     _uiState.update {
-                        it.copy(titleError = "Title is required")
+                        it.copy(titleError = R.string.txt_title_is_required)
                     }
                     return
                 } else {
                     _uiState.update {
-                        it.copy(titleError = "")
+                        it.copy(titleError = null)
                     }
                     saveStudySet()
                 }

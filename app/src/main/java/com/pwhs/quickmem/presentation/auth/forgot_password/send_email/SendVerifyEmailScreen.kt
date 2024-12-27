@@ -51,7 +51,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun SendVerifyEmailScreen(
     modifier: Modifier = Modifier,
     navigator: DestinationsNavigator,
-    viewModel: SendVerifyEmailViewModel = hiltViewModel()
+    viewModel: SendVerifyEmailViewModel = hiltViewModel(),
 ) {
     val uiState = viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -102,7 +102,7 @@ private fun SendVerifyEmail(
     email: String = "",
     @StringRes emailError: Int? = null,
     onEmailChanged: (String) -> Unit = {},
-    onResetClick: () -> Unit = {}
+    onResetClick: () -> Unit = {},
 ) {
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
@@ -168,7 +168,7 @@ private fun SendVerifyEmail(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun PreviewForgotPasswordVerifyEmailScreen() {
     QuickMemTheme {

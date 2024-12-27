@@ -26,7 +26,6 @@ import com.pwhs.quickmem.presentation.component.LoadingOverlay
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.CreateFolderScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.CreateFolderScreenDestination.invoke
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import com.pwhs.quickmem.R
@@ -45,7 +44,7 @@ fun AddStudySetToFoldersScreen(
     navigator: DestinationsNavigator,
     viewModel: AddStudySetToFoldersViewModel = hiltViewModel(),
     resultNavigator: ResultBackNavigator<Boolean>,
-    resultAddStudySetToFolders: ResultRecipient<FolderDetailScreenDestination, Boolean>
+    resultAddStudySetToFolders: ResultRecipient<FolderDetailScreenDestination, Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -164,13 +163,10 @@ fun AddStudySetToFolders(
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
+@Preview(showSystemUi = true)
 @Composable
 private fun AddStudySetToFolderPreview() {
-   QuickMemTheme {
-       AddStudySetToFolders()
-   }
+    QuickMemTheme {
+        AddStudySetToFolders()
+    }
 }

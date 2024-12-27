@@ -34,6 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
@@ -45,6 +46,7 @@ import com.pwhs.quickmem.presentation.ads.BannerAds
 import com.pwhs.quickmem.presentation.app.home.search_by_subject.component.SearchStudySetBySubjectTopAppBar
 import com.pwhs.quickmem.presentation.app.library.component.SearchTextField
 import com.pwhs.quickmem.presentation.app.library.study_set.component.StudySetItem
+import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.CreateStudySetScreenDestination
@@ -113,12 +115,12 @@ fun SearchStudySetBySubject(
     studySets: LazyPagingItems<GetStudySetResponseModel>? = null,
     onStudySetClick: (GetStudySetResponseModel?) -> Unit = {},
     @StringRes nameSubject: Int = R.string.txt_general,
-    colorSubject: Color,
+    colorSubject: Color = colorScheme.primary,
     @DrawableRes icon: Int = R.drawable.ic_all,
     studySetCount: Int = 0,
     @StringRes descriptionSubject: Int = R.string.txt_general_subjects_that_do_not_fit_into_specific_categories,
     isLoading: Boolean = false,
-    onNavigateBack: () -> Unit,
+    onNavigateBack: () -> Unit = {},
     onStudySetRefresh: () -> Unit = {},
     onAddStudySet: () -> Unit = {}
 ) {
@@ -273,5 +275,13 @@ fun SearchStudySetBySubject(
                     .fillMaxWidth()
             )
         }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun SearchStudySetBySubjectScreenPreview() {
+    QuickMemTheme {
+        SearchStudySetBySubject()
     }
 }

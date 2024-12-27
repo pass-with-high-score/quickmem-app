@@ -107,7 +107,7 @@ fun AddFolderToClassList(
                             )
                         }
                     }
-                    items(items = filterFolders, key = {it.id}) { folder ->
+                    items(items = filterFolders, key = { it.id }) { folder ->
                         AddFolderToClassItem(
                             folder = folder,
                             onAddFolderToClass = {

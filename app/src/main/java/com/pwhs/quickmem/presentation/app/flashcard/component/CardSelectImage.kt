@@ -42,7 +42,7 @@ fun CardSelectImage(
     definitionImageUri: Uri?,
     definitionImageUrl: String?,
     onDeleteImage: () -> Unit,
-    onChooseImage: () -> Unit
+    onChooseImage: () -> Unit,
 ) {
     // State for showing the image viewer dialog
     var isImageViewerOpen by remember { mutableStateOf(false) }

@@ -391,7 +391,7 @@ fun CreateFlashCard(
 }
 
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun CreateFlashCardPreview() {
     QuickMemTheme {

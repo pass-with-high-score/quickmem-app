@@ -10,7 +10,9 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.pwhs.quickmem.R
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,7 +33,7 @@ fun AuthTopAppBar(
             ) {
                 Icon(
                     imageVector = Filled.ArrowBack,
-                    contentDescription = "Back",
+                    contentDescription = stringResource(R.string.txt_back),
                 )
             }
         },

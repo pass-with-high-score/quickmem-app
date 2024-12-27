@@ -39,54 +39,54 @@ interface AuthRepository {
     suspend fun checkEmailValidity(email: String): Flow<Resources<Boolean>>
     suspend fun login(loginRequestModel: LoginRequestModel): Flow<Resources<AuthResponseModel>>
     suspend fun signup(
-        signUpRequestModel: SignupRequestModel
+        signUpRequestModel: SignupRequestModel,
     ): Flow<Resources<SignupResponseModel>>
 
     suspend fun verifyEmail(
-        verifyEmailResponseModel: VerifyEmailResponseModel
+        verifyEmailResponseModel: VerifyEmailResponseModel,
     ): Flow<Resources<AuthResponseModel>>
 
     suspend fun resendOtp(
-        resendEmailRequestModel: ResendEmailRequestModel
+        resendEmailRequestModel: ResendEmailRequestModel,
     ): Flow<Resources<OtpResponseModel>>
 
     suspend fun updateFullName(
         token: String,
-        updateFullNameRequestModel: UpdateFullNameRequestModel
+        updateFullNameRequestModel: UpdateFullNameRequestModel,
     ): Flow<Resources<UpdateFullNameResponseModel>>
 
     suspend fun updateUsername(
         token: String,
-        updateUsernameRequestModel: UpdateUsernameRequestModel
+        updateUsernameRequestModel: UpdateUsernameRequestModel,
     ): Flow<Resources<UpdateUsernameResponseModel>>
 
     suspend fun updateEmail(
         token: String,
-        updateEmailRequestModel: UpdateEmailRequestModel
+        updateEmailRequestModel: UpdateEmailRequestModel,
     ): Flow<Resources<UpdateEmailResponseModel>>
 
     suspend fun changePassword(
         token: String,
-        changePasswordRequestModel: ChangePasswordRequestModel
+        changePasswordRequestModel: ChangePasswordRequestModel,
     ): Flow<Resources<ChangePasswordResponseModel>>
 
     suspend fun sendResetPassword(
-        sendResetPasswordRequestModel: SendResetPasswordRequestModel
+        sendResetPasswordRequestModel: SendResetPasswordRequestModel,
     ): Flow<Resources<SendResetPasswordResponseModel>>
 
     suspend fun resetPassword(
-        resetPasswordRequestModel: ResetPasswordRequestModel
+        resetPasswordRequestModel: ResetPasswordRequestModel,
     ): Flow<Resources<ResetPasswordResponseModel>>
 
     suspend fun verifyPassword(
         token: String,
-        verifyPasswordRequestModel: VerifyPasswordRequestModel
+        verifyPasswordRequestModel: VerifyPasswordRequestModel,
     ): Flow<Resources<VerifyPasswordResponseModel>>
 
     suspend fun getUserDetail(
         userId: String,
         token: String,
-        isOwner: Boolean
+        isOwner: Boolean,
     ): Flow<Resources<UserDetailResponseModel>>
 
     suspend fun getAvatar(token: String): Flow<Resources<List<AvatarResponseModel>>>
@@ -94,27 +94,27 @@ interface AuthRepository {
     suspend fun updateAvatar(
         token: String,
         avatarId: String,
-        updateAvatarRequestModel: UpdateAvatarRequestModel
+        updateAvatarRequestModel: UpdateAvatarRequestModel,
     ): Flow<Resources<UpdateAvatarResponseModel>>
 
     suspend fun searchUser(
         token: String,
         username: String,
-        page: Int?
+        page: Int?,
     ): Flow<PagingData<SearchUserResponseModel>>
 
     suspend fun getUserProfile(
         token: String,
-        userId: String
+        userId: String,
     ): Flow<Resources<GetUserProfileResponseModel>>
 
     suspend fun changeRole(
         token: String,
-        changeRoleRequestModel: ChangeRoleRequestModel
+        changeRoleRequestModel: ChangeRoleRequestModel,
     ): Flow<Resources<ChangeRoleResponseModel>>
 
     suspend fun updateCoin(
         token: String,
-        updateCoinRequestModel: UpdateCoinRequestModel
+        updateCoinRequestModel: UpdateCoinRequestModel,
     ): Flow<Resources<UpdateCoinResponseModel>>
 }

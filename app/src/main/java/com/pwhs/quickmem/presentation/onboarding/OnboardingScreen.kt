@@ -45,7 +45,7 @@ import kotlinx.coroutines.launch
 fun OnboardingScreen(
     modifier: Modifier = Modifier,
     viewModel: OnboardingViewModel = hiltViewModel(),
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
 ) {
     Onboarding(
         modifier = modifier,
@@ -76,7 +76,7 @@ fun OnboardingScreen(
 private fun Onboarding(
     modifier: Modifier = Modifier,
     onSkipClick: () -> Unit = { },
-    onGetStartedClick: () -> Unit = { }
+    onGetStartedClick: () -> Unit = { },
 ) {
     Scaffold(
         modifier = modifier.gradientBackground(),
@@ -161,7 +161,7 @@ private fun Onboarding(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun OnboardingScreenPreview() {
     QuickMemTheme {

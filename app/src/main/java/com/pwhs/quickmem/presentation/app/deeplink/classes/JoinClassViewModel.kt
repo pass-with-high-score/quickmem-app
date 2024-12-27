@@ -25,7 +25,7 @@ class JoinClassViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
-    private val classRepository: ClassRepository
+    private val classRepository: ClassRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(JoinClassUiState())
     val uiState = _uiState.asStateFlow()
@@ -35,7 +35,7 @@ class JoinClassViewModel @Inject constructor(
 
     init {
         val code = savedStateHandle.get<String>("code") ?: ""
-        val isFromDeepLink = savedStateHandle.get<Boolean>("isFromDeepLink") ?: false
+        val isFromDeepLink = savedStateHandle.get<Boolean>("isFromDeepLink") == true
         _uiState.update {
             it.copy(
                 code = code,

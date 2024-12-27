@@ -43,7 +43,7 @@ fun AddStudySetToClassScreen(
     navigator: DestinationsNavigator,
     viewModel: AddStudySetToClassViewModel = hiltViewModel(),
     resultNavigator: ResultBackNavigator<Boolean>,
-    resultAddStudySetToClass: ResultRecipient<StudySetDetailScreenDestination, Boolean>
+    resultAddStudySetToClass: ResultRecipient<StudySetDetailScreenDestination, Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -66,7 +66,8 @@ fun AddStudySetToClassScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is AddStudySetToClassUiEvent.Error -> {
-                    Toast.makeText(context, context.getString(event.message), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(event.message), Toast.LENGTH_SHORT)
+                        .show()
                 }
 
                 is AddStudySetToClassUiEvent.StudySetAddedToClass -> {

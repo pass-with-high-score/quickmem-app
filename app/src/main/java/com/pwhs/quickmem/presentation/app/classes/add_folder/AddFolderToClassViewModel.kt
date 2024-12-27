@@ -28,7 +28,7 @@ class AddFolderToClassViewModel @Inject constructor(
     private val folderRepository: FolderRepository,
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _folders = MutableStateFlow<List<GetFolderResponseModel>>(emptyList())
     val folders: StateFlow<List<GetFolderResponseModel>> = _folders
@@ -40,8 +40,7 @@ class AddFolderToClassViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val classId: String = savedStateHandle["classId"] ?: ""
-        Timber.d("AddFolderToClassViewModel: $classId")
+        val classId: String = savedStateHandle.get<String>("classId") ?: ""
         _uiState.update { it.copy(classId = classId) }
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: return@launch

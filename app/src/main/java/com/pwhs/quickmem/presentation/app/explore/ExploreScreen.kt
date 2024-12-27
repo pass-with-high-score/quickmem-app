@@ -65,7 +65,7 @@ import com.revenuecat.purchases.CustomerInfo
 fun ExploreScreen(
     modifier: Modifier = Modifier,
     navigator: DestinationsNavigator,
-    viewModel: ExploreViewModel = hiltViewModel()
+    viewModel: ExploreViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -325,7 +325,7 @@ fun Explore(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ExploreScreenPreview() {
     MaterialTheme {

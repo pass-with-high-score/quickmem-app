@@ -15,5 +15,5 @@ data class FlashCardResponseModel(
     val quizStatus: String,
     var isAnswered: Boolean = false,
     val createdAt: String,
-    val updatedAt: String
+    val updatedAt: String,
 )

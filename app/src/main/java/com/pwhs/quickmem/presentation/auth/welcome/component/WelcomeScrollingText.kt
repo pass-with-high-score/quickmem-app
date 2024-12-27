@@ -36,7 +36,7 @@ fun WelcomeScrollingText(textList: List<String>, displayCount: Int, currentIndex
                     durationMillis = 2000,
                     easing = LinearOutSlowInEasing
                 ),
-                label = "Alpha"
+                label = "alpha"
             )
             Text(
                 text = textList[index],

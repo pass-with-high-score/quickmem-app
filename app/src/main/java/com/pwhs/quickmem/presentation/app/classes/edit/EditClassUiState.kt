@@ -6,5 +6,5 @@ data class EditClassUiState(
     val allowSetManagement: Boolean = false,
     val allowMemberManagement: Boolean = false,
     val title: String = "",
-    val description: String = ""
+    val description: String = "",
 )

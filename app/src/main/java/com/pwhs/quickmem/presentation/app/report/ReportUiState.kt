@@ -5,5 +5,5 @@ data class ReportUiState(
     val reportType: ReportTypeEnum? = null,
     val reportedEntityId: String = "",
     val reason: String = "",
-    val ownerOfReportedEntity: String = ""
+    val ownerOfReportedEntity: String = "",
 )

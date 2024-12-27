@@ -23,7 +23,7 @@ class UserDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val authRepository: AuthRepository,
     private val tokenManager: TokenManager,
-    private val appManager: AppManager
+    private val appManager: AppManager,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(UserDetailUiState())
@@ -34,9 +34,9 @@ class UserDetailViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val userId = savedStateHandle.get<String>("userId") ?: ""
-            val localUserId = appManager.userId.firstOrNull() ?: ""
-            val isOwner = userId == localUserId
+            val userId: String = savedStateHandle.get<String>("userId") ?: ""
+            val localUserId: String = appManager.userId.firstOrNull() ?: ""
+            val isOwner: Boolean = userId == localUserId
             _uiState.update {
                 it.copy(
                     userId = userId,
@@ -57,9 +57,9 @@ class UserDetailViewModel @Inject constructor(
 
     private fun loadUserDetails() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = uiState.value.userId
-            val isOwner = uiState.value.isOwner
+            val token: String = tokenManager.accessToken.firstOrNull() ?: ""
+            val userId: String = uiState.value.userId
+            val isOwner: Boolean = uiState.value.isOwner
 
             authRepository.getUserDetail(token = token, userId = userId, isOwner = isOwner)
                 .collect { resource ->
@@ -89,6 +89,4 @@ class UserDetailViewModel @Inject constructor(
                 }
         }
     }
-
-
 }

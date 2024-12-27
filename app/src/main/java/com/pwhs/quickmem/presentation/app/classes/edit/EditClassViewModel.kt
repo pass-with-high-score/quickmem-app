@@ -24,7 +24,7 @@ class EditClassViewModel @Inject constructor(
     private val classRepository: ClassRepository,
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(EditClassUiState())
     val uiState = _uiState.asStateFlow()
@@ -33,11 +33,11 @@ class EditClassViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val classId: String = savedStateHandle["classId"] ?: ""
-        val classTitle = savedStateHandle["classTitle"] ?: ""
-        val classDescription = savedStateHandle["classDescription"] ?: ""
-        val allowSet: Boolean = savedStateHandle["isSetAllowed"] ?: false
-        val allowMember: Boolean = savedStateHandle["isMemberAllowed"] ?: false
+        val classId: String = savedStateHandle.get<String>("classId") ?: ""
+        val classTitle: String = savedStateHandle.get<String>("classTitle") ?: ""
+        val classDescription: String = savedStateHandle.get<String>("classDescription") ?: ""
+        val allowSet: Boolean = savedStateHandle.get<Boolean>("isSetAllowed") == true
+        val allowMember: Boolean = savedStateHandle.get<Boolean>("isMemberAllowed") == true
 
         _uiState.update {
             it.copy(

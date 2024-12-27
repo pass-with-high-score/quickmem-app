@@ -2,6 +2,7 @@ package com.pwhs.quickmem.presentation.app.folder.create
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
@@ -54,12 +55,12 @@ class CreateFolderViewModel @Inject constructor(
                 val uiState = _uiState.value
                 if (uiState.title.isEmpty()) {
                     _uiState.update {
-                        it.copy(titleError = "Title is required")
+                        it.copy(titleError = R.string.txt_title_required)
                     }
                     return
                 } else {
                     _uiState.update {
-                        it.copy(titleError = "")
+                        it.copy(titleError = null)
                     }
                 }
                 viewModelScope.launch {
@@ -85,14 +86,18 @@ class CreateFolderViewModel @Inject constructor(
                                 _uiState.update {
                                     it.copy(isLoading = false)
                                 }
-                                _uiEvent.send(CreateFolderUiEvent.FolderCreated(resources.data!!.id))
+                                _uiEvent.send(
+                                    CreateFolderUiEvent.FolderCreated(
+                                        resources.data?.id ?: ""
+                                    )
+                                )
                             }
 
                             is Resources.Error -> {
                                 _uiState.update {
                                     it.copy(isLoading = false)
                                 }
-                                _uiEvent.send(CreateFolderUiEvent.ShowError(resources.message!!))
+                                _uiEvent.send(CreateFolderUiEvent.ShowError(R.string.txt_error_create_folder))
                             }
                         }
                     }

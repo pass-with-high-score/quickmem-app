@@ -13,6 +13,6 @@ interface StudySetRemoteDataSource {
         page: Int,
         colorId: Int?,
         subjectId: Int?,
-        isAIGenerated: Boolean?
+        isAIGenerated: Boolean?,
     ): List<GetStudySetResponseModel>
 }

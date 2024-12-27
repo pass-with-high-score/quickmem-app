@@ -3,6 +3,7 @@ package com.pwhs.quickmem.presentation.app.folder.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.folder.UpdateFolderRequestModel
@@ -23,7 +24,7 @@ import javax.inject.Inject
 class EditFolderViewModel @Inject constructor(
     private val tokenManager: TokenManager,
     savedStateHandle: SavedStateHandle,
-    private val folderRepository: FolderRepository
+    private val folderRepository: FolderRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(EditFolderUiState())
     val uiState = _uiState.asStateFlow()
@@ -32,10 +33,10 @@ class EditFolderViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val folderId: String = savedStateHandle["folderId"] ?: ""
-        val folderTitle = savedStateHandle["folderTitle"] ?: ""
-        val folderDescription = savedStateHandle["folderDescription"] ?: ""
-        val folderIsPublic: Boolean = savedStateHandle["folderIsPublic"] ?: false
+        val folderId: String = savedStateHandle.get<String>("folderId") ?: ""
+        val folderTitle: String = savedStateHandle.get<String>("folderTitle") ?: ""
+        val folderDescription: String = savedStateHandle.get<String>("folderDescription") ?: ""
+        val folderIsPublic: Boolean = savedStateHandle.get<Boolean>("folderIsPublic") == true
         _uiState.update {
             it.copy(
                 id = folderId,
@@ -57,13 +58,15 @@ class EditFolderViewModel @Inject constructor(
 
                 when {
                     trimmedTitle.isEmpty() -> {
-                        _uiState.update { it.copy(titleError = "Title is required") }
+                        _uiState.update { it.copy(titleError = R.string.txt_title_required) }
                     }
+
                     trimmedTitle.length < 3 -> {
-                        _uiState.update { it.copy(titleError = "Title must be at least 1 characters") }
+                        _uiState.update { it.copy(titleError = R.string.txt_title_must_be_at_least_1_characters) }
                     }
+
                     else -> {
-                        _uiState.update { it.copy(titleError = "") }
+                        _uiState.update { it.copy(titleError = null) }
                         Timber.d("SaveClicked: $trimmedTitle")
                         saveFolder()
                     }
@@ -99,7 +102,7 @@ class EditFolderViewModel @Inject constructor(
             )
             folderRepository.updateFolder(
                 token = tokenManager.accessToken.firstOrNull() ?: run {
-                    _uiEvent.send(EditFolderUiEvent.ShowError("Please login again!"))
+                    _uiEvent.send(EditFolderUiEvent.ShowError(R.string.txt_please_login_again))
                     return@launch
                 },
                 folderId = uiState.value.id,
@@ -111,21 +114,23 @@ class EditFolderViewModel @Inject constructor(
                             it.copy(isLoading = true)
                         }
                     }
+
                     is Resources.Success -> {
                         _uiState.update {
                             it.copy(isLoading = false)
                         }
                         resource.data?.let {
                             _uiEvent.send(EditFolderUiEvent.FolderEdited)
-                        }?: run {
-                            _uiEvent.send(EditFolderUiEvent.ShowError("Failed to update folder"))
+                        } ?: run {
+                            _uiEvent.send(EditFolderUiEvent.ShowError(R.string.txt_failed_to_update_folder))
                         }
                     }
+
                     is Resources.Error -> {
                         _uiState.update {
                             it.copy(isLoading = false)
                         }
-                        _uiEvent.send(EditFolderUiEvent.ShowError(resource.message!!))
+                        _uiEvent.send(EditFolderUiEvent.ShowError(R.string.txt_failed_to_update_folder))
                     }
                 }
 

@@ -53,7 +53,7 @@ fun QuickMemAlertDialog(
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun QuickMemAlertDialogPreview() {
     QuickMemAlertDialog(

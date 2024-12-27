@@ -6,7 +6,7 @@ import com.pwhs.quickmem.R
 enum class ReportTypeEnum(
     @StringRes val title: Int,
     @StringRes val questionText: Int,
-    @StringRes val options: List<Int>
+    @StringRes val options: List<Int>,
 ) {
     STUDY_SET(
         title = R.string.txt_report_this_study_set,

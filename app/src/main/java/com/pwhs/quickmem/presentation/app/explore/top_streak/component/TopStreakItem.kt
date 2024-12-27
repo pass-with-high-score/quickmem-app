@@ -34,9 +34,9 @@ import com.pwhs.quickmem.domain.model.streak.GetTopStreakResponseModel
 @Composable
 fun StreakItem(
     rank: Int,
-    topStreak : GetTopStreakResponseModel,
+    topStreak: GetTopStreakResponseModel,
     onClickToUserDetail: (GetTopStreakResponseModel) -> Unit = {},
-    isCurrentUser: Boolean = false
+    isCurrentUser: Boolean = false,
 ) {
     Row(
         modifier = Modifier

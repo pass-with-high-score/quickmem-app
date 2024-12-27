@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.search.SearchQueryModel
+import com.pwhs.quickmem.ui.theme.QuickMemTheme
 
 @Composable
 fun SearchRecentList(
@@ -29,7 +31,7 @@ fun SearchRecentList(
     listResult: List<SearchQueryModel> = emptyList(),
     onSearchRecent: (String) -> Unit = {},
     onClearAll: () -> Unit = {},
-    onDelete: (SearchQueryModel) -> Unit = {}
+    onDelete: (SearchQueryModel) -> Unit = {},
 ) {
     Column(
         modifier = modifier.padding(start = 20.dp, end = 16.dp)
@@ -78,7 +80,7 @@ fun SearchRecentList(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun PreviewListSearchRecent() {
     val sampleData = listOf(
@@ -89,7 +91,12 @@ fun PreviewListSearchRecent() {
         SearchQueryModel(id = 5, timestamp = 1683285000000L, query = "Room database")
     )
 
-    SearchRecentList(
-        listResult = sampleData,
-    )
+    QuickMemTheme {
+        Scaffold { innerPadding ->
+            SearchRecentList(
+                listResult = sampleData,
+                modifier = Modifier.padding(innerPadding)
+            )
+        }
+    }
 }

@@ -22,7 +22,7 @@ import javax.inject.Inject
 class StandardViewModel @Inject constructor(
     private val streakRepository: StreakRepository,
     private val tokenManager: TokenManager,
-    private val appManager: AppManager
+    private val appManager: AppManager,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(StandardUiState())
     val uiState = _uiState.asStateFlow()

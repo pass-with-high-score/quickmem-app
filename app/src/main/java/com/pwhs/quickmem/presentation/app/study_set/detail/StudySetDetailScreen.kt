@@ -650,7 +650,7 @@ fun StudySetDetail(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun StudySetDetailScreenPreview() {
     StudySetDetail(isOwner = false)

@@ -5,7 +5,7 @@ import com.pwhs.quickmem.R
 
 data class OnboardingPage(
     @StringRes val title: Int,
-    @StringRes val description: Int
+    @StringRes val description: Int,
 )
 
 val onboardingPagesList = listOf(

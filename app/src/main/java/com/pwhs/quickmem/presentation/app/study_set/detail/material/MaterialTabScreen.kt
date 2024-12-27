@@ -457,7 +457,7 @@ fun MaterialTabScreen(
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun MaterialTabScreenPreview() {
     QuickMemTheme {

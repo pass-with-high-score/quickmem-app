@@ -14,6 +14,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -116,7 +117,7 @@ fun ListResultClassesScreen(
                             textAlign = TextAlign.Center
                         )
                         Button(
-                            onClick = { retry() },
+                            onClick = onClassRefresh,
                             modifier = Modifier.padding(top = 16.dp)
                         ) {
                             Text(text = stringResource(R.string.txt_retry))
@@ -131,10 +132,14 @@ fun ListResultClassesScreen(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ListResultClassesScreenPreview() {
     QuickMemTheme {
-        ListResultClassesScreen()
+        Scaffold { innerPadding ->
+            ListResultClassesScreen(
+                modifier = Modifier.padding(innerPadding),
+            )
+        }
     }
 }

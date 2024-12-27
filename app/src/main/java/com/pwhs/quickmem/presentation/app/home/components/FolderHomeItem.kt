@@ -135,7 +135,7 @@ fun FolderHomeItem(
 }
 
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 private fun FolderItemPreview() {
     QuickMemTheme {

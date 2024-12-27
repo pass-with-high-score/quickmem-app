@@ -36,7 +36,7 @@ class AddStudySetToFoldersViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val studySetId: String = savedStateHandle["studySetId"] ?: ""
+        val studySetId: String = savedStateHandle.get<String>("studySetId") ?: ""
         _uiState.update { it.copy(studySetId = studySetId) }
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: return@launch

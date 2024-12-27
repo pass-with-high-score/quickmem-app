@@ -6,6 +6,6 @@ interface SearchStudySetBySubjectRemoteDataSource {
     suspend fun getStudySetBySubjectId(
         token: String,
         subjectId: Int,
-        page: Int
+        page: Int,
     ): List<GetStudySetResponseModel>
 }

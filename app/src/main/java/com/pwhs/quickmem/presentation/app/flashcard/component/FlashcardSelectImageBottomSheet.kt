@@ -47,7 +47,7 @@ fun FlashcardSelectImageBottomSheet(
     isSearchImageLoading: Boolean,
     searchImageResponseModel: SearchImageResponseModel?,
     imagePicker: ImagePicker,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
     val context = LocalContext.current
     ModalBottomSheet(

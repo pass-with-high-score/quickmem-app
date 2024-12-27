@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class UpdateFullNameArgs(
     val userId: String,
-    val fullName: String
+    val fullName: String,
 )

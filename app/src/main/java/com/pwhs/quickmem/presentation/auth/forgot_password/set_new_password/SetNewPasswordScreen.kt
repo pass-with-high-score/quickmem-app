@@ -198,7 +198,7 @@ private fun SetNewPassword(
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun PreviewForgotPasswordVerifyPasswordScreen() {
     QuickMemTheme {

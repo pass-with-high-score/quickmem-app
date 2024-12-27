@@ -8,5 +8,5 @@ data class CreateClassResponseModel(
     val allowMemberManagement: Boolean,
     val allowSetManagement: Boolean,
     val createdAt: String,
-    val updatedAt: String
+    val updatedAt: String,
 )

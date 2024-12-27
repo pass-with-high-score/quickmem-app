@@ -60,7 +60,7 @@ fun ListStudySetScreen(
     val filterStudySets = studySets.filter {
         searchQuery.trim().takeIf { query -> query.isNotEmpty() }?.let { query ->
             it.title.contains(query, ignoreCase = true)
-        } ?: true
+        } != false
     }
 
     Scaffold(
@@ -173,7 +173,7 @@ fun ListStudySetScreen(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ListStudySetScreenPreview() {
     QuickMemTheme {

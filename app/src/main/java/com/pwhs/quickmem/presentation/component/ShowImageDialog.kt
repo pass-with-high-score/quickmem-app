@@ -30,7 +30,7 @@ fun ShowImageDialog(
     definitionImageUri: String,
     onDismissRequest: () -> Unit,
     title: String = stringResource(id = R.string.txt_close),
-    color: Color = MaterialTheme.colorScheme.primary
+    color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Dialog(onDismissRequest = {
         onDismissRequest()

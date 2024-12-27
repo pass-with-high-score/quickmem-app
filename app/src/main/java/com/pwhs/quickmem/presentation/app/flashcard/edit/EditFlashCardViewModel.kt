@@ -39,13 +39,13 @@ class EditFlashCardViewModel @Inject constructor(
     private var job: Job? = null
 
     init {
-        val flashcardId: String = savedStateHandle["flashcardId"] ?: ""
-        val term: String = savedStateHandle["term"] ?: ""
-        val definition: String = savedStateHandle["definition"] ?: ""
-        val definitionImageUrl: String = savedStateHandle["definitionImageUrl"] ?: ""
-        val hint: String = savedStateHandle["hint"] ?: ""
-        val explanation: String = savedStateHandle["explanation"] ?: ""
-        val studySetColorId: Int = savedStateHandle["studySetColorId"] ?: 1
+        val flashcardId: String = savedStateHandle.get<String>("flashcardId") ?: ""
+        val term: String = savedStateHandle.get<String>("term") ?: ""
+        val definition: String = savedStateHandle.get<String>("definition") ?: ""
+        val definitionImageUrl: String = savedStateHandle.get<String>("definitionImageUrl") ?: ""
+        val hint: String = savedStateHandle.get<String>("hint") ?: ""
+        val explanation: String = savedStateHandle.get<String>("explanation") ?: ""
+        val studySetColorId: Int = savedStateHandle.get<Int>("studySetColorId") ?: 1
         _uiState.update {
             it.copy(
                 flashcardId = flashcardId,

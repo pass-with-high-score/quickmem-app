@@ -39,7 +39,7 @@ fun AuthButton(
     textColor: Color = Color.White,
     text: String,
     isEnable: Boolean = true,
-    @DrawableRes icon: Int? = null
+    @DrawableRes icon: Int? = null,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
@@ -90,14 +90,15 @@ fun AuthButton(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 private fun AuthButtonPreview() {
     QuickMemTheme {
         Column(
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxSize()
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
         ) {
             AuthButton(
                 onClick = {},

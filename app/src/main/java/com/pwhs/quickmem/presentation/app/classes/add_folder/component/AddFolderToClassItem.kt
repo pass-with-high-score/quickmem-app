@@ -94,7 +94,10 @@ fun AddFolderToClassItem(
                         text = when (folder.studySetCount) {
                             0 -> stringResource(R.string.txt_no_study_sets)
                             1 -> stringResource(R.string.txt_one_study_set)
-                            else -> stringResource(R.string.txt_study_sets_library, folder.studySetCount)
+                            else -> stringResource(
+                                R.string.txt_study_sets_library,
+                                folder.studySetCount
+                            )
                         },
                         style = typography.bodyMedium
                     )

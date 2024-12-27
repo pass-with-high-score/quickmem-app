@@ -25,7 +25,7 @@ class AddStudySetToFolderViewModel @Inject constructor(
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
     private val studySetRepository: StudySetRepository,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(AddStudySetToFolderUiState())
     val uiState = _uiState.asStateFlow()
@@ -34,7 +34,7 @@ class AddStudySetToFolderViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val folderId: String = savedStateHandle["folderId"] ?: ""
+        val folderId: String = savedStateHandle.get<String>("folderId") ?: ""
         _uiState.update { it.copy(folderId = folderId) }
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: return@launch

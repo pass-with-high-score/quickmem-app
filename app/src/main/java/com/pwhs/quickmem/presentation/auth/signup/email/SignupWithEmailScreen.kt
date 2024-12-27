@@ -257,7 +257,7 @@ private fun SignupWithEmail(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun PreviewSignupWithEmailScreen() {
     QuickMemTheme {

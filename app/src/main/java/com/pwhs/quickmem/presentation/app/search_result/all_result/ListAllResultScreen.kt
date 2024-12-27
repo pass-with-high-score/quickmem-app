@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.pwhs.quickmem.R
@@ -29,6 +31,7 @@ import com.pwhs.quickmem.presentation.app.library.folder.component.FolderItem
 import com.pwhs.quickmem.presentation.app.library.study_set.component.StudySetItem
 import com.pwhs.quickmem.presentation.app.search_result.all_result.component.SectionHeader
 import com.pwhs.quickmem.presentation.app.search_result.user.component.SearchUserResultItem
+import com.pwhs.quickmem.ui.theme.QuickMemTheme
 
 @Composable
 fun ListAllResultScreen(
@@ -44,7 +47,7 @@ fun ListAllResultScreen(
     onSeeAllClickStudySet: () -> Unit = {},
     onSeeAllClickFolder: () -> Unit = {},
     onSeeAllClickClass: () -> Unit = {},
-    onSeeAllClickUsers: () -> Unit = {}
+    onSeeAllClickUsers: () -> Unit = {},
 ) {
     when (studySets?.itemCount == 0 && folders?.itemCount == 0 && classes?.itemCount == 0 && users?.itemCount == 0) {
         true -> {
@@ -145,6 +148,18 @@ fun ListAllResultScreen(
                     Spacer(modifier = Modifier.padding(60.dp))
                 }
             }
+        }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun ListResultScreenPreview() {
+    QuickMemTheme {
+        Scaffold { innerPadding ->
+            ListAllResultScreen(
+                modifier = Modifier.padding(innerPadding),
+            )
         }
     }
 }

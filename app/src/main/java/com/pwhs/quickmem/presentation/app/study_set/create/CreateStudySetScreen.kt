@@ -1,6 +1,7 @@
 package com.pwhs.quickmem.presentation.app.study_set.create
 
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,7 +53,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun CreateStudySetScreen(
     modifier: Modifier = Modifier,
     viewModel: CreateStudySetViewModel = hiltViewModel(),
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -105,7 +106,7 @@ fun CreateStudySet(
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
     title: String = "",
-    titleError: String = "",
+    @StringRes titleError: Int? = null,
     onTitleChange: (String) -> Unit = {},
     description: String = "",
     descriptionError: String = "",
@@ -117,7 +118,7 @@ fun CreateStudySet(
     isPublic: Boolean = true,
     onIsPublicChange: (Boolean) -> Unit = {},
     onDoneClick: () -> Unit = {},
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
 ) {
     val sheetSubjectState = rememberModalBottomSheetState()
     var showBottomSheetCreate by remember {
@@ -161,7 +162,7 @@ fun CreateStudySet(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     value = title,
                     title = stringResource(R.string.txt_study_set_title),
-                    valueError = titleError,
+                    valueError = titleError?.let { stringResource(it) },
                     onValueChange = onTitleChange,
                     placeholder = stringResource(R.string.txt_enter_study_set_title)
                 )
@@ -219,10 +220,7 @@ fun CreateStudySet(
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
+@Preview(showSystemUi = true)
 @Composable
 fun CreateFlashCardScreenPreview() {
     QuickMemTheme {

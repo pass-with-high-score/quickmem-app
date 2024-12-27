@@ -20,11 +20,11 @@ import javax.inject.Inject
 
 class UploadImageRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val context: Context
+    private val context: Context,
 ) : UploadImageRepository {
     override suspend fun uploadImage(
         token: String,
-        imageUri: Uri
+        imageUri: Uri,
     ): Flow<Resources<UploadImageResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -54,7 +54,7 @@ class UploadImageRepositoryImpl @Inject constructor(
 
     override suspend fun removeImage(
         token: String,
-        imageURL: String
+        imageURL: String,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -74,7 +74,7 @@ class UploadImageRepositoryImpl @Inject constructor(
     override suspend fun uploadUserAvatar(
         token: String,
         imageUri: Uri,
-        userId: String
+        userId: String,
     ): Flow<Resources<UploadImageResponseModel>> {
         return flow {
             if (token.isEmpty()) {

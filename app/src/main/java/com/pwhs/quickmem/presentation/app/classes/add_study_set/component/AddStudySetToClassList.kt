@@ -55,7 +55,7 @@ fun AddStudySetToClassList(
     val filterStudySets = studySets.filter {
         searchQuery.trim().takeIf { query -> query.isNotEmpty() }?.let { query ->
             it.title.contains(query, ignoreCase = true)
-        } ?: true
+        } != false
     }
 
     Box(modifier = modifier) {
@@ -129,7 +129,7 @@ fun AddStudySetToClassList(
                             }
                         }
                     }
-                    items(items = filterStudySets, key = {it.id}) { studySet ->
+                    items(items = filterStudySets, key = { it.id }) { studySet ->
                         AddStudySetToClassItem(
                             studySet = studySet,
                             onAddStudySetToClass = {

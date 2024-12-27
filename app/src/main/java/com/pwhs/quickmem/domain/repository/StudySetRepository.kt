@@ -23,56 +23,56 @@ import kotlinx.coroutines.flow.Flow
 interface StudySetRepository {
     suspend fun createStudySet(
         token: String,
-        createStudySetRequestModel: CreateStudySetRequestModel
+        createStudySetRequestModel: CreateStudySetRequestModel,
     ): Flow<Resources<CreateStudySetResponseModel>>
 
     suspend fun getStudySetById(
         token: String,
-        studySetId: String
+        studySetId: String,
     ): Flow<Resources<GetStudySetResponseModel>>
 
     suspend fun getStudySetsByOwnerId(
         token: String,
         ownerId: String,
         classId: String?,
-        folderId: String?
+        folderId: String?,
     ): Flow<Resources<List<GetStudySetResponseModel>>>
 
     suspend fun updateStudySet(
         token: String,
         studySetId: String,
-        updateStudySetRequestModel: UpdateStudySetRequestModel
+        updateStudySetRequestModel: UpdateStudySetRequestModel,
     ): Flow<Resources<UpdateStudySetResponseModel>>
 
     suspend fun deleteStudySet(
         token: String,
-        studySetId: String
+        studySetId: String,
     ): Flow<Resources<Unit>>
 
     suspend fun resetProgress(
         token: String,
         studySetId: String,
-        resetType: String
+        resetType: String,
     ): Flow<Resources<Unit>>
 
     suspend fun addStudySetToFolder(
         token: String,
-        addStudySetToFolderRequestModel: AddStudySetToFolderRequestModel
+        addStudySetToFolderRequestModel: AddStudySetToFolderRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun addStudySetToClass(
         token: String,
-        addStudySetToClassRequestModel: AddStudySetToClassRequestModel
+        addStudySetToClassRequestModel: AddStudySetToClassRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun addStudySetToFolders(
         token: String,
-        addStudySetToFoldersRequestModel: AddStudySetToFoldersRequestModel
+        addStudySetToFoldersRequestModel: AddStudySetToFoldersRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun addStudySetToClasses(
         token: String,
-        addStudySetToClassesRequestModel: AddStudySetToClassesRequestModel
+        addStudySetToClassesRequestModel: AddStudySetToClassesRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun getSearchResultStudySets(
@@ -83,47 +83,47 @@ interface StudySetRepository {
         page: Int,
         colorId: Int?,
         subjectId: Int?,
-        isAIGenerated: Boolean?
+        isAIGenerated: Boolean?,
     ): Flow<PagingData<GetStudySetResponseModel>>
 
     suspend fun getStudySetByCode(
         token: String,
-        code: String
+        code: String,
     ): Flow<Resources<GetStudySetResponseModel>>
 
     suspend fun makeCopyStudySet(
         token: String,
         studySetId: String,
-        newOwnerId: String
+        newOwnerId: String,
     ): Flow<Resources<CreateStudySetResponseModel>>
 
     suspend fun getTop5Subject(
-        token: String
+        token: String,
     ): Flow<Resources<List<GetTop5SubjectResponseModel>>>
 
     suspend fun getStudySetBySubjectId(
         token: String,
         subjectId: Int,
-        page: Int
+        page: Int,
     ): Flow<PagingData<GetStudySetResponseModel>>
 
     suspend fun saveRecentAccessStudySet(
         token: String,
-        saveRecentAccessStudySetRequestModel: SaveRecentAccessStudySetRequestModel
+        saveRecentAccessStudySetRequestModel: SaveRecentAccessStudySetRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun getRecentAccessStudySet(
         token: String,
-        userId: String
+        userId: String,
     ): Flow<Resources<List<GetStudySetResponseModel>>>
 
     suspend fun createStudySetByAI(
         token: String,
-        createStudySetByAIRequestModel: CreateStudySetByAIRequestModel
+        createStudySetByAIRequestModel: CreateStudySetByAIRequestModel,
     ): Flow<Resources<CreateStudySetResponseModel>>
 
     suspend fun createWriteHintAI(
         token: String,
-        createWriteHintAIRequestModel: CreateWriteHintAIRequestModel
+        createWriteHintAIRequestModel: CreateWriteHintAIRequestModel,
     ): Flow<Resources<CreateWriteHintAIResponseModel>>
 }

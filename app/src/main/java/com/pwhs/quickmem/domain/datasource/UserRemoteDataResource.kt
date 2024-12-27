@@ -6,6 +6,6 @@ interface UserRemoteDataResource {
     suspend fun searchUser(
         token: String,
         username: String,
-        page: Int?
+        page: Int?,
     ): List<SearchUserResponseModel>
 }

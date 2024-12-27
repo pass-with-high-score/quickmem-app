@@ -77,7 +77,7 @@ fun ChangeAvatarTopAppBar(
     )
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun ChangeAvatarTopAppBarTopAppBarPreview() {
     QuickMemTheme {

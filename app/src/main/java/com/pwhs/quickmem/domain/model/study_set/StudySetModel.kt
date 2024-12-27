@@ -10,5 +10,5 @@ data class StudySetModel(
     val ownerId: String,
     val ownerUsername: String,
     val ownerAvatarUrl: String,
-    val isPublic: Boolean
+    val isPublic: Boolean,
 )

@@ -4,5 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class SearchResultArgs(
-    val query: String
+    val query: String,
 )

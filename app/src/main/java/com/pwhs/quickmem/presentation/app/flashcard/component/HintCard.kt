@@ -25,7 +25,7 @@ fun HintCard(
     hint: String,
     onHintChanged: (String) -> Unit,
     onShowHintClicked: (Boolean) -> Unit,
-    color: Color
+    color: Color,
 ) {
     Card(
         modifier = modifier

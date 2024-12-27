@@ -22,7 +22,7 @@ fun SettingSwitch(
     title: String,
     subtitle: String? = null,
     value: Boolean = false,
-    onChangeValue: (Boolean) -> Unit = {}
+    onChangeValue: (Boolean) -> Unit = {},
 ) {
 
     Row(

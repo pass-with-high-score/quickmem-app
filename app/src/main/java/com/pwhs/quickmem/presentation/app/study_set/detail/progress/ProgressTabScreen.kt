@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,6 +26,7 @@ import com.pwhs.quickmem.R
 import com.pwhs.quickmem.data.mapper.study_time.toStudyTimeModel
 import com.pwhs.quickmem.domain.model.study_time.GetStudyTimeByStudySetResponseModel
 import com.pwhs.quickmem.presentation.component.LearningTimeBars
+import com.pwhs.quickmem.ui.theme.QuickMemTheme
 
 @Composable
 fun ProgressTabScreen(
@@ -125,15 +127,18 @@ fun ProgressTabScreen(
 }
 
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 private fun PressTabScreen() {
-    MaterialTheme {
-        ProgressTabScreen(
-            totalStudySet = 10,
-            studySetsNotLearnCount = 3,
-            studySetsStillLearningCount = 4,
-            studySetsKnowCount = 3
-        )
+    QuickMemTheme {
+        Scaffold { innerPadding ->
+            ProgressTabScreen(
+                modifier = Modifier.padding(innerPadding),
+                totalStudySet = 10,
+                studySetsNotLearnCount = 3,
+                studySetsStillLearningCount = 4,
+                studySetsKnowCount = 3
+            )
+        }
     }
 }

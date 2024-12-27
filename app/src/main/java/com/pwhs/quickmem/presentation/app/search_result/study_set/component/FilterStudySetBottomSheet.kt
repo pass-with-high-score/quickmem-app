@@ -43,7 +43,7 @@ fun FilterStudySetBottomSheet(
     onCreatorChange: (SearchResultCreatorEnum) -> Unit,
     onNavigateBack: () -> Unit,
     onResetClick: () -> Unit,
-    onApplyClick: () -> Unit
+    onApplyClick: () -> Unit,
 ) {
     val sheetSubjectState = rememberModalBottomSheetState()
     var showBottomSheetCreate by remember { mutableStateOf(false) }

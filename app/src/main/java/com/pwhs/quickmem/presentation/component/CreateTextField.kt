@@ -24,7 +24,7 @@ fun CreateTextField(
     value: String,
     placeholder: String,
     onValueChange: (String) -> Unit,
-    valueError: String
+    valueError: String? = null,
 ) {
     Column(
         modifier = modifier
@@ -42,10 +42,13 @@ fun CreateTextField(
             value = value,
             onValueChange = onValueChange,
             placeholder = { Text(placeholder) },
-            isError = valueError.isNotEmpty(),
+            isError = !valueError.isNullOrEmpty(),
             supportingText = {
-                valueError.isNotEmpty().let {
-                    Text(valueError)
+                valueError?.let {
+                    Text(
+                        text = it,
+                        style = typography.bodySmall
+                    )
                 }
             },
             modifier = Modifier
@@ -64,7 +67,7 @@ fun CreateTextField(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun CreateTextFieldPreview() {
     QuickMemTheme {

@@ -67,5 +67,4 @@ fun ExplanationCard(
             }
         }
     }
-
 }

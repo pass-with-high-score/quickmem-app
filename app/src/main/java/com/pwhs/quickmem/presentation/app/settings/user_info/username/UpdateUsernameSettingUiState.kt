@@ -5,5 +5,5 @@ data class UpdateUsernameSettingUiState(
     val username: String = "",
     val newUsername: String = "",
     val isLoading: Boolean = false,
-    val errorMessage: String = ""
+    val errorMessage: String = "",
 )

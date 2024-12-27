@@ -17,5 +17,5 @@ data class FolderDetailUiState(
     val updatedAt: String = "",
     val isLoading: Boolean = false,
     val isOwner: Boolean = false,
-    val totalFlashCards: Int = 0
+    val totalFlashCards: Int = 0,
 )

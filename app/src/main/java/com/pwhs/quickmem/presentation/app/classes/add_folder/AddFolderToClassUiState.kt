@@ -5,7 +5,7 @@ import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 data class AddFolderToClassUiState(
     val classId: String = "",
     val isImported: Boolean = false,
-    val isLoading : Boolean = false,
+    val isLoading: Boolean = false,
     val userAvatar: String = "",
     val username: String = "",
     val token: String = "",

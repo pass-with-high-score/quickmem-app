@@ -5,9 +5,8 @@ data class ColorModel(
     val name: String = "",
     val hexValue: String = "",
     val createdAt: String? = null,
-    val updatedAt: String? = null
+    val updatedAt: String? = null,
 ) {
-
 
     // list default colors
     companion object {

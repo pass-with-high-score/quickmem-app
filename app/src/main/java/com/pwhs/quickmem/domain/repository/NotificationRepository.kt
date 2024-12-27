@@ -7,16 +7,16 @@ import kotlinx.coroutines.flow.Flow
 interface NotificationRepository {
     suspend fun loadNotifications(
         userId: String,
-        token: String
+        token: String,
     ): Flow<Resources<List<GetNotificationResponseModel>>>
 
     suspend fun markNotificationAsRead(
         notificationId: String,
-        token: String
+        token: String,
     ): Flow<Resources<Unit>>
 
     suspend fun deleteNotification(
         notificationId: String,
-        token: String
+        token: String,
     ): Flow<Resources<Unit>>
 }

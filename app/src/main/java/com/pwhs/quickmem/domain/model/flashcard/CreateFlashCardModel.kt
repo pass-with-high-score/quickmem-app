@@ -6,5 +6,5 @@ data class CreateFlashCardModel(
     val explanation: String? = null,
     val hint: String? = null,
     val studySetId: String,
-    val term: String
+    val term: String,
 )

@@ -1,6 +1,7 @@
 package com.pwhs.quickmem.presentation.app.search
 
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -47,7 +48,7 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
     navigator: DestinationsNavigator,
-    resultSearchResult: ResultRecipient<SearchResultScreenDestination, Boolean>
+    resultSearchResult: ResultRecipient<SearchResultScreenDestination, Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -79,7 +80,8 @@ fun SearchScreen(
                 }
 
                 is SearchUiEvent.ShowError -> {
-                    Toast.makeText(context, event.error, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(event.error), Toast.LENGTH_SHORT)
+                        .show()
                 }
 
                 SearchUiEvent.ClearAllSearchRecent -> {
@@ -119,12 +121,12 @@ private fun Search(
     onNavigateBack: () -> Unit = {},
     listSearchQuery: List<SearchQueryModel> = emptyList(),
     query: String = "",
-    errorMessage: String = "",
+    @StringRes errorMessage: Int? = null,
     onClearAll: () -> Unit = {},
     onQueryChange: (String) -> Unit = {},
     onSearch: () -> Unit = {},
     onSearchRecentClick: (String) -> Unit = {},
-    onDeleteQuery: (SearchQueryModel) -> Unit = {}
+    onDeleteQuery: (SearchQueryModel) -> Unit = {},
 ) {
 
     Scaffold(
@@ -136,7 +138,7 @@ private fun Search(
                         modifier = Modifier.padding(horizontal = 8.dp),
                         searchQuery = query,
                         onSearchQueryChange = onQueryChange,
-                        errorMessage = errorMessage,
+                        errorMessage = errorMessage?.let { stringResource(it) },
                         placeholder = stringResource(R.string.txt_study_sets_folder_classes),
                         onSearch = onSearch,
                     )
@@ -192,7 +194,7 @@ private fun Search(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun SearchScreenPreview() {
     QuickMemTheme {

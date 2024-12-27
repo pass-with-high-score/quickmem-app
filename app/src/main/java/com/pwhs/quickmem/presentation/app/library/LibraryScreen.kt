@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
@@ -40,6 +41,7 @@ import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.presentation.app.library.classes.ListClassesScreen
 import com.pwhs.quickmem.presentation.app.library.folder.ListFolderScreen
 import com.pwhs.quickmem.presentation.app.library.study_set.ListStudySetScreen
+import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.ClassDetailScreenDestination
@@ -60,7 +62,7 @@ fun LibraryScreen(
     viewModel: LibraryViewModel = hiltViewModel(),
     resultStudySetDetail: ResultRecipient<StudySetDetailScreenDestination, Boolean>,
     resultClassDetail: ResultRecipient<ClassDetailScreenDestination, Boolean>,
-    resultFolderDetail: ResultRecipient<FolderDetailScreenDestination, Boolean>
+    resultFolderDetail: ResultRecipient<FolderDetailScreenDestination, Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -295,5 +297,13 @@ fun Library(
                 )
             }
         }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Composable
+private fun LibraryScreenPreview() {
+    QuickMemTheme {
+        Library()
     }
 }

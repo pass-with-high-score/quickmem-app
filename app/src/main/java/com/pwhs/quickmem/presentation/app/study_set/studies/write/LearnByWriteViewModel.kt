@@ -41,7 +41,7 @@ class LearnByWriteViewModel @Inject constructor(
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
     savedStateHandle: SavedStateHandle,
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application) {
 
     private val _uiState = MutableStateFlow(LearnByTrueFalseUiState())
@@ -51,14 +51,15 @@ class LearnByWriteViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val studySetId = savedStateHandle.get<String>("studySetId") ?: ""
-        val isGetAll = savedStateHandle.get<Boolean>("isGetAll") == true
-        val studySetTitle = savedStateHandle.get<String>("studySetTitle") ?: ""
-        val studySetDescription = savedStateHandle.get<String>("studySetDescription") ?: ""
-        val studySetColorId = savedStateHandle.get<Int>("studySetColorId") ?: 1
-        val studySetSubjectId = savedStateHandle.get<Int>("studySetSubjectId") ?: 1
-        val folderId = savedStateHandle.get<String>("folderId") ?: ""
-        val learnFrom = savedStateHandle.get<LearnFrom>("learnFrom") ?: LearnFrom.STUDY_SET
+        val studySetId: String = savedStateHandle.get<String>("studySetId") ?: ""
+        val isGetAll: Boolean = savedStateHandle.get<Boolean>("isGetAll") == true
+        val studySetTitle: String = savedStateHandle.get<String>("studySetTitle") ?: ""
+        val studySetDescription: String = savedStateHandle.get<String>("studySetDescription") ?: ""
+        val studySetColorId: Int = savedStateHandle.get<Int>("studySetColorId") ?: 1
+        val studySetSubjectId: Int = savedStateHandle.get<Int>("studySetSubjectId") ?: 1
+        val folderId: String = savedStateHandle.get<String>("folderId") ?: ""
+        val learnFrom: LearnFrom =
+            savedStateHandle.get<LearnFrom>("learnFrom") ?: LearnFrom.STUDY_SET
         _uiState.update { state ->
             state.copy(
                 folderId = folderId,
@@ -262,7 +263,7 @@ class LearnByWriteViewModel @Inject constructor(
     private fun submitCorrectAnswer(
         flashCardId: String,
         writeStatus: WriteStatus,
-        userAnswer: String
+        userAnswer: String,
     ) {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
@@ -357,7 +358,7 @@ class LearnByWriteViewModel @Inject constructor(
     }
 
     private fun generateQuestion(
-        currentCard: FlashCardResponseModel?
+        currentCard: FlashCardResponseModel?,
     ): WriteQuestion? {
         if (currentCard == null) return null
 

@@ -39,72 +39,72 @@ fun OnboardingPageView(page: OnboardingPage) {
         isVisible = true
     }
 
-   BoxWithConstraints {
-       if(this.maxHeight > 720.dp) {
-           Column(
-               modifier = Modifier
-                   .fillMaxWidth()
-                   .padding(16.dp)
-                   .height(400.dp)
-                   .graphicsLayer(alpha = alpha),
-               horizontalAlignment = Alignment.CenterHorizontally,
-               verticalArrangement = Arrangement.Center
-           ) {
-               Spacer(modifier = Modifier.height(16.dp))
-               Text(
-                   text = stringResource(page.title),
-                   style = MaterialTheme.typography.titleLarge.copy(
-                       fontWeight = FontWeight.Bold,
-                       fontSize = 28.sp,
-                       color = MaterialTheme.colorScheme.primary
-                   ),
-                   textAlign = TextAlign.Center
-               )
-               Spacer(modifier = Modifier.height(8.dp))
-               Text(
-                   text = '"' + stringResource(page.description) + '"',
-                   style = MaterialTheme.typography.bodyMedium.copy(
-                       color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                       fontSize = 16.sp
-                   ),
-                   textAlign = TextAlign.Center
-               )
-           }
-       } else {
-           Column(
-               modifier = Modifier
-                   .fillMaxWidth()
-                   .padding(16.dp)
-                   .height(200.dp)
-                   .graphicsLayer(alpha = alpha),
-               horizontalAlignment = Alignment.CenterHorizontally,
-               verticalArrangement = Arrangement.Center
-           ) {
-               Spacer(modifier = Modifier.height(16.dp))
-               Text(
-                   text = stringResource(page.title),
-                   style = MaterialTheme.typography.titleLarge.copy(
-                       fontWeight = FontWeight.Bold,
-                       fontSize = 28.sp,
-                       color = MaterialTheme.colorScheme.primary
-                   ),
-                   textAlign = TextAlign.Center
-               )
-               Spacer(modifier = Modifier.height(8.dp))
-               Text(
-                   text = '"' + stringResource(page.description) + '"',
-                   style = MaterialTheme.typography.bodyMedium.copy(
-                       color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-                       fontSize = 16.sp
-                   ),
-                   textAlign = TextAlign.Center
-               )
-           }
-       }
-   }
+    BoxWithConstraints {
+        if (this.maxHeight > 720.dp) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .height(400.dp)
+                    .graphicsLayer(alpha = alpha),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = stringResource(page.title),
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 28.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    ),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = '"' + stringResource(page.description) + '"',
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                        fontSize = 16.sp
+                    ),
+                    textAlign = TextAlign.Center
+                )
+            }
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .height(200.dp)
+                    .graphicsLayer(alpha = alpha),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = stringResource(page.title),
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 28.sp,
+                        color = MaterialTheme.colorScheme.primary
+                    ),
+                    textAlign = TextAlign.Center
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = '"' + stringResource(page.description) + '"',
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                        fontSize = 16.sp
+                    ),
+                    textAlign = TextAlign.Center
+                )
+            }
+        }
+    }
 }
 
-@Preview(showSystemUi = true)
+@Preview(showBackground = true)
 @Composable
 fun OnboardingPageViewPreview() {
     QuickMemTheme {

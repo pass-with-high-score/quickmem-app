@@ -29,7 +29,7 @@ fun SearchRecentItem(
     modifier: Modifier = Modifier,
     query: String,
     onSearchRecent: (String) -> Unit = {},
-    onDelete: () -> Unit
+    onDelete: () -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -43,7 +43,7 @@ fun SearchRecentItem(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 imageVector = Icons.Filled.AccessTime,
-                contentDescription = "Time",
+                contentDescription = query,
                 tint = MaterialTheme.colorScheme.onBackground,
                 modifier = Modifier.padding(start = 8.dp)
             )

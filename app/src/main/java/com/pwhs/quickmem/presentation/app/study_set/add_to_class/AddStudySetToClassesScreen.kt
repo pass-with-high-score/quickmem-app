@@ -25,6 +25,7 @@ import com.pwhs.quickmem.domain.model.classes.GetClassByOwnerResponseModel
 import com.pwhs.quickmem.presentation.app.study_set.add_to_class.component.AddStudySetToClassesList
 import com.pwhs.quickmem.presentation.component.AddItemsTopAppBar
 import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.ClassDetailScreenDestination
@@ -161,11 +162,10 @@ fun AddStudySetToFolders(
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
+@Preview(showSystemUi = true)
 @Composable
 private fun AddStudySetToFolderPreview() {
-    AddStudySetToFolders()
+    QuickMemTheme {
+        AddStudySetToFolders()
+    }
 }

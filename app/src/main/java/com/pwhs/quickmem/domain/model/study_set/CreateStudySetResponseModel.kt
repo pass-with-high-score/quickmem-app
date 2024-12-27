@@ -9,5 +9,5 @@ data class CreateStudySetResponseModel(
     val isAIGenerated: Boolean,
     val title: String,
     val updatedAt: String,
-    val createdAt: String
+    val createdAt: String,
 )

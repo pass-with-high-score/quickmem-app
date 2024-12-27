@@ -119,7 +119,7 @@ fun ClassItem(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ClassItemPreview() {
     QuickMemTheme {

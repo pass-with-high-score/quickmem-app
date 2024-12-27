@@ -559,13 +559,13 @@ fun ClassDetail(
     )
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ClassDetailScreenPreview() {
     QuickMemTheme {
         ClassDetail(
             title = "Class Title",
-            isOwner = false
+            isOwner = false,
         )
     }
 }

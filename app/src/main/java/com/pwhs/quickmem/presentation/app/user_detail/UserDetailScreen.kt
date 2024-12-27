@@ -74,7 +74,7 @@ fun UserDetailScreen(
     navigator: DestinationsNavigator,
     resultStudySetDetail: ResultRecipient<StudySetDetailScreenDestination, Boolean>,
     resultClassDetail: ResultRecipient<ClassDetailScreenDestination, Boolean>,
-    resultFolderDetail: ResultRecipient<FolderDetailScreenDestination, Boolean>
+    resultFolderDetail: ResultRecipient<FolderDetailScreenDestination, Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -198,7 +198,7 @@ private fun UserDetail(
     onFolderClick: (GetFolderResponseModel) -> Unit = {},
     onClassClick: (GetClassByOwnerResponseModel) -> Unit = {},
     onRefresh: () -> Unit = {},
-    onReportClick: () -> Unit = {}
+    onReportClick: () -> Unit = {},
 ) {
     var tabIndex by rememberSaveable { mutableIntStateOf(UserDetailTabEnum.STUDY_SET.index) }
     val tabTitles = listOf(
@@ -341,7 +341,7 @@ private fun UserDetail(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun UserDetailPreview() {
     QuickMemTheme {

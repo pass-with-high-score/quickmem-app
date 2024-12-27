@@ -12,5 +12,5 @@ data class UserDetailResponseModel(
     val id: String,
     val role: String,
     val studySets: List<GetStudySetResponseModel>,
-    val username: String
+    val username: String,
 )

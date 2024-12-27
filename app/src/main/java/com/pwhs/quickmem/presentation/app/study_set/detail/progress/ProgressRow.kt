@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,10 +21,10 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ProgressRow(
-    label: String,
-    percentage: Int,
-    color: Color,
-    modifier: Modifier = Modifier
+    label: String = "",
+    percentage: Int = 0,
+    color: Color = MaterialTheme.colorScheme.primary,
+    modifier: Modifier = Modifier,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,

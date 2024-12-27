@@ -8,5 +8,5 @@ data class UpdateStudySetResponseModel(
     val subjectId: Long,
     val title: String,
     val updatedAt: String,
-    val createdAt: String
+    val createdAt: String,
 )

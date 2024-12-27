@@ -2,6 +2,7 @@ package com.pwhs.quickmem.presentation.app.study_set.create
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
@@ -48,12 +49,12 @@ class CreateStudySetViewModel @Inject constructor(
                 val uiState = _uiState.value
                 if (uiState.title.isEmpty()) {
                     _uiState.update {
-                        it.copy(titleError = "Title is required")
+                        it.copy(titleError = R.string.txt_title_is_required)
                     }
                     return
                 } else {
                     _uiState.update {
-                        it.copy(titleError = "")
+                        it.copy(titleError = null)
                     }
                     createStudySet()
                 }

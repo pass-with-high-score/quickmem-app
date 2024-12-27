@@ -41,7 +41,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun CreateClassScreen(
     modifier: Modifier = Modifier,
     viewModel: CreateClassViewModel = hiltViewModel(),
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -113,7 +113,7 @@ fun CreateClass(
     allowMemberManagement: Boolean = false,
     onAllowMemberManagementChange: (Boolean) -> Unit = {},
     onDoneClick: () -> Unit = {},
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
 ) {
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()

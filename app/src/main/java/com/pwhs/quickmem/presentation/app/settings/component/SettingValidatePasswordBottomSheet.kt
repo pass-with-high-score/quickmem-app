@@ -30,7 +30,7 @@ fun SettingValidatePasswordBottomSheet(
     showVerifyPasswordBottomSheet: Boolean = false,
     bottomSheetState: SheetState = rememberModalBottomSheetState(),
     password: String = "",
-    errorMessage: String = "",
+    errorMessage: String? = null,
     onChangePassword: (String) -> Unit = {},
     onSubmitClick: () -> Unit = {},
     onDismissRequest: () -> Unit = {}

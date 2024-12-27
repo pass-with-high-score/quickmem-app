@@ -6,5 +6,5 @@ data class CreateClassUiState(
     val titleError: String = "",
     val description: String = "",
     val allowMemberManagement: Boolean = false,
-    val allowSetManagement: Boolean = false
+    val allowSetManagement: Boolean = false,
 )

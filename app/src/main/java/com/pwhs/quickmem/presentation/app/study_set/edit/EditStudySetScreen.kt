@@ -1,6 +1,7 @@
 package com.pwhs.quickmem.presentation.app.study_set.edit
 
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -104,7 +105,7 @@ fun EditStudySet(
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
     title: String = "",
-    titleError: String = "",
+    @StringRes titleError: Int? = null,
     onTitleChange: (String) -> Unit = {},
     description: String = "",
     descriptionError: String = "",
@@ -116,7 +117,7 @@ fun EditStudySet(
     isPublic: Boolean = true,
     onIsPublicChange: (Boolean) -> Unit = {},
     onDoneClick: () -> Unit = {},
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
 ) {
     val sheetSubjectState = rememberModalBottomSheetState()
     var showBottomSheetEdit by remember {
@@ -160,7 +161,7 @@ fun EditStudySet(
                 CreateTextField(
                     value = title,
                     title = stringResource(R.string.txt_study_set_title),
-                    valueError = titleError,
+                    valueError = titleError?.let { stringResource(it) },
                     onValueChange = onTitleChange,
                     placeholder = stringResource(R.string.txt_enter_study_set_title)
                 )

@@ -13,7 +13,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 @Destination<RootGraph>
 @Composable
 fun WebViewApp(
-    modifier: Modifier = Modifier,
     oAuthLink: String = "",
     navigator: DestinationsNavigator
 ) {

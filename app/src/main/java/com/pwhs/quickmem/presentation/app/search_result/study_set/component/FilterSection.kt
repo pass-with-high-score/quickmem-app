@@ -22,7 +22,7 @@ fun FilterSection(
     title: String,
     options: List<String>,
     selectedOption: String,
-    onOptionSelected: (String) -> Unit
+    onOptionSelected: (String) -> Unit,
 ) {
     Text(
         text = title,

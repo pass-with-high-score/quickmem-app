@@ -25,7 +25,7 @@ import com.pwhs.quickmem.ui.theme.QuickMemTheme
 @Composable
 fun ClassDetailEmpty(
     modifier: Modifier = Modifier,
-    isOwner:Boolean,
+    isOwner: Boolean,
     title: String = "",
     subtitle: String = "",
     buttonTitle: String = "",
@@ -55,7 +55,7 @@ fun ClassDetailEmpty(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
-            if (isOwner){
+            if (isOwner) {
                 Button(
                     onClick = onAddClick,
                 ) {

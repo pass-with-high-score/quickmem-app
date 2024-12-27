@@ -141,7 +141,7 @@ private fun ChangeLanguage(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ChangeLanguageScreenPreview() {
     QuickMemTheme {

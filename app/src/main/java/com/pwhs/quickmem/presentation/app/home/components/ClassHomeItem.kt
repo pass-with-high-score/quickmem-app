@@ -42,7 +42,7 @@ import com.pwhs.quickmem.ui.theme.QuickMemTheme
 fun ClassHomeItem(
     modifier: Modifier = Modifier,
     classItem: GetClassByOwnerResponseModel?,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     Card(
         modifier = modifier
@@ -125,7 +125,7 @@ fun ClassHomeItem(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ClassItemPreview() {
     QuickMemTheme {

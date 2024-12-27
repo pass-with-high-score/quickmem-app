@@ -1,9 +1,7 @@
 package com.pwhs.quickmem.presentation.app.home
 
 import android.Manifest
-import android.os.Build
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -588,8 +586,7 @@ private fun Home(
     LoadingOverlay(isLoading = isLoading)
 }
 
-@RequiresApi(Build.VERSION_CODES.TIRAMISU)
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun HomeScreenPreview() {
     QuickMemTheme {

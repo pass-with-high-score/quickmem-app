@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 data class VerifyEmailArgs(
     val email: String,
     val isFromSignup: Boolean,
-    val resetPasswordToken: String
+    val resetPasswordToken: String,
 )

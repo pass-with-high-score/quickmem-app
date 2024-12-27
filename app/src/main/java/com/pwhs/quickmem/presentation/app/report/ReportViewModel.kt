@@ -23,7 +23,7 @@ class ReportViewModel @Inject constructor(
     private val reportRepository: ReportRepository,
     private val appManager: AppManager,
     private val tokenManager: TokenManager,
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ReportUiState())
     val uiState = _uiState.asStateFlow()
@@ -32,9 +32,11 @@ class ReportViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val reportType = savedStateHandle.get<ReportTypeEnum>("reportType") ?: ReportTypeEnum.CLASS
-        val reportedEntityId = savedStateHandle.get<String>("reportedEntityId") ?: ""
-        val ownerOfReportedEntity = savedStateHandle.get<String>("ownerOfReportedEntity") ?: ""
+        val reportType: ReportTypeEnum =
+            savedStateHandle.get<ReportTypeEnum>("reportType") ?: ReportTypeEnum.CLASS
+        val reportedEntityId: String = savedStateHandle.get<String>("reportedEntityId") ?: ""
+        val ownerOfReportedEntity: String =
+            savedStateHandle.get<String>("ownerOfReportedEntity") ?: ""
         _uiState.update {
             it.copy(
                 reportType = reportType,

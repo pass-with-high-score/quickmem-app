@@ -303,7 +303,7 @@ fun Profile(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun ProfilePreview() {
     QuickMemTheme {

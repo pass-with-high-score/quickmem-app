@@ -38,7 +38,7 @@ class ExploreViewModel @Inject constructor(
     private val streakRepository: StreakRepository,
     private val studySetRepository: StudySetRepository,
     private val authRepository: AuthRepository,
-    application: Application
+    application: Application,
 ) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(ExploreUiState())
     val uiState = _uiState.asStateFlow()
@@ -212,7 +212,7 @@ class ExploreViewModel @Inject constructor(
 
     private fun updateCoins(
         coinAction: CoinAction,
-        coin: Int = 1
+        coin: Int = 1,
     ) {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""

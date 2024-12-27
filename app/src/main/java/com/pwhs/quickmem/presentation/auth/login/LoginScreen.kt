@@ -240,7 +240,7 @@ fun Login(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun LoginScreenPreview() {
     QuickMemTheme {

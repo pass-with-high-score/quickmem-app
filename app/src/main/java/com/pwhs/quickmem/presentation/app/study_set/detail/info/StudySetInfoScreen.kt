@@ -247,7 +247,7 @@ fun StudySetInfo(
 
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun StudySetInfoPreview() {
     QuickMemTheme {
@@ -259,5 +259,4 @@ private fun StudySetInfoPreview() {
             isPublic = true
         )
     }
-
 }

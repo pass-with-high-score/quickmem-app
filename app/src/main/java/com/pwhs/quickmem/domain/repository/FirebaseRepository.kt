@@ -6,5 +6,8 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface FirebaseRepository {
-    suspend fun sendDeviceToken(accessToken: String, deviceTokenRequest: DeviceTokenRequestModel): Flow<Resources<Unit>>
+    suspend fun sendDeviceToken(
+        accessToken: String,
+        deviceTokenRequest: DeviceTokenRequestModel,
+    ): Flow<Resources<Unit>>
 }

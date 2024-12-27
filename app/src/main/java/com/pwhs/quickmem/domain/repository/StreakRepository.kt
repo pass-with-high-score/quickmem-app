@@ -11,6 +11,6 @@ interface StreakRepository {
     suspend fun updateStreak(token: String, userId: String): Flow<Resources<StreakModel>>
     suspend fun getTopStreaks(
         token: String,
-        limit: Int?
+        limit: Int?,
     ): Flow<Resources<List<GetTopStreakResponseModel>>>
 }

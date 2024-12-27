@@ -5,5 +5,5 @@ data class EditFlashCardModel(
     val definitionImageURL: String? = null,
     val explanation: String? = null,
     val hint: String? = null,
-    val term: String
+    val term: String,
 )

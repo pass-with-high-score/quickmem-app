@@ -5,5 +5,5 @@ data class StudyTimeModel(
     val quiz: Int,
     val total: Int,
     val trueFalse: Int,
-    val write: Int
+    val write: Int,
 )

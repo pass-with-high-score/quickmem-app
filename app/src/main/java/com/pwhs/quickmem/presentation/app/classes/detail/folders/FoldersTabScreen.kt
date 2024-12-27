@@ -33,7 +33,7 @@ fun FoldersTabScreen(
     folders: List<GetFolderResponseModel> = emptyList(),
     onAddFoldersClicked: () -> Unit = {},
     onFolderItemClicked: (GetFolderResponseModel) -> Unit = {},
-    onDeleteFolderClicked: (String) -> Unit = {}
+    onDeleteFolderClicked: (String) -> Unit = {},
 ) {
     var searchQuery by remember { mutableStateOf("") }
 

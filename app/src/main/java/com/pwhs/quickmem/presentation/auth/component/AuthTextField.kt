@@ -41,11 +41,11 @@ import com.pwhs.quickmem.util.upperCaseFirstLetter
 
 @Composable
 fun AuthTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    label: String,
+    value: String = "",
+    onValueChange: (String) -> Unit = {},
+    label: String = "",
     @DrawableRes iconId: Int? = null,
-    contentDescription: String,
+    contentDescription: String = label.upperCaseFirstLetter(),
     readOnly: Boolean = false,
     enabled: Boolean = true,
     type: TextFieldType = TextFieldType.TEXT,

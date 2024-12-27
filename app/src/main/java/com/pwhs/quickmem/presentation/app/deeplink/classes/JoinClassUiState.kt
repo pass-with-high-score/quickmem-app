@@ -9,5 +9,5 @@ data class JoinClassUiState(
     val isUnAuthorized: Boolean = false,
     val code: String? = null,
     val isFromDeepLink: Boolean = false,
-    val classDetailResponseModel: GetClassDetailResponseModel? = null
+    val classDetailResponseModel: GetClassDetailResponseModel? = null,
 )

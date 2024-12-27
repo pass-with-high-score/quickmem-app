@@ -10,11 +10,11 @@ import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class ReportRepositoryImpl @Inject constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
 ) : ReportRepository {
     override suspend fun createReport(
         token: String,
-        createReportRequestModel: CreateReportRequestModel
+        createReportRequestModel: CreateReportRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {

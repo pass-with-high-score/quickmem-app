@@ -134,7 +134,7 @@ fun ListClassesScreen(
                                 )
                             }
                         }
-                        items(items = filterClass, key = {it.id}) { classItem ->
+                        items(items = filterClass, key = { it.id }) { classItem ->
                             ClassItem(
                                 modifier = Modifier.padding(horizontal = 16.dp),
                                 classItem = classItem,
@@ -167,7 +167,7 @@ fun ListClassesScreen(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ListClassScreenPreview() {
     QuickMemTheme {

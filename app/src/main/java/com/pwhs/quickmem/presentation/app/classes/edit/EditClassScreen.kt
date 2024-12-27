@@ -178,7 +178,7 @@ fun EditClass(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun EditClassPreview() {
     MaterialTheme {

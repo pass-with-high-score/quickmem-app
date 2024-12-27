@@ -16,7 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.Preview
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.LearnFrom
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
@@ -25,17 +25,17 @@ import com.pwhs.quickmem.ui.theme.QuickMemTheme
 @Composable
 fun StudyTopAppBar(
     modifier: Modifier = Modifier,
-    currentCardIndex: Int,
-    totalCards: Int,
-    onBackClicked: () -> Unit,
+    currentCardIndex: Int = 0,
+    totalCards: Int = 0,
+    onBackClicked: () -> Unit = {},
     isEnOfSet: Boolean = false,
     onRestartClicked: () -> Unit = {},
     shouldShowRestart: Boolean = true,
     isGetAll: Boolean = false,
-    learnFrom: LearnFrom,
+    learnFrom: LearnFrom = LearnFrom.STUDY_SET,
     isSwapCard: Boolean = false,
     onSwapCard: () -> Unit = {},
-    studySetColor: Color = MaterialTheme.colorScheme.primary
+    studySetColor: Color = MaterialTheme.colorScheme.primary,
 ) {
     CenterAlignedTopAppBar(
         modifier = modifier,
@@ -86,15 +86,10 @@ fun StudyTopAppBar(
     )
 }
 
-@PreviewLightDark
+@Preview(showBackground = true)
 @Composable
 fun StudyTopAppBarPreview() {
     QuickMemTheme {
-        StudyTopAppBar(
-            currentCardIndex = 0,
-            totalCards = 10,
-            onBackClicked = {},
-            learnFrom = LearnFrom.STUDY_SET
-        )
+        StudyTopAppBar()
     }
 }

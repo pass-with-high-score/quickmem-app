@@ -14,11 +14,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class StreakRepositoryImpl @Inject constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
 ) : StreakRepository {
     override suspend fun getStreaksByUserId(
         token: String,
-        userId: String
+        userId: String,
     ): Flow<Resources<GetStreakModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -37,7 +37,7 @@ class StreakRepositoryImpl @Inject constructor(
 
     override suspend fun updateStreak(
         token: String,
-        userId: String
+        userId: String,
     ): Flow<Resources<StreakModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -56,7 +56,7 @@ class StreakRepositoryImpl @Inject constructor(
 
     override suspend fun getTopStreaks(
         token: String,
-        limit: Int?
+        limit: Int?,
     ): Flow<Resources<List<GetTopStreakResponseModel>>> {
         return flow {
             if (token.isEmpty()) {

@@ -28,12 +28,12 @@ import com.pwhs.quickmem.ui.theme.QuickMemTheme
 
 @Composable
 fun SearchTextField(
+    modifier: Modifier = Modifier,
     searchQuery: String = "",
     placeholder: String = "",
     onSearchQueryChange: (String) -> Unit = {},
-    errorMessage: String = "",
+    errorMessage: String? = null,
     onSearch: () -> Unit = {},
-    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
@@ -72,7 +72,7 @@ fun SearchTextField(
                 )
             },
             supportingText = {
-                if (errorMessage.isNotEmpty()) {
+                if (errorMessage?.isEmpty() == true) {
                     Text(
                         text = errorMessage,
                         style = typography.bodySmall.copy(
@@ -89,7 +89,7 @@ fun SearchTextField(
                 unfocusedTextColor = colorScheme.onSurface,
                 errorContainerColor = Color.Transparent,
             ),
-            isError = errorMessage.isNotEmpty(),
+            isError = errorMessage?.isNotEmpty() == true,
             modifier = modifier
                 .fillMaxWidth()
                 .padding(top = 4.dp),
@@ -97,7 +97,7 @@ fun SearchTextField(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun SearchTextFieldPreview() {
     QuickMemTheme {

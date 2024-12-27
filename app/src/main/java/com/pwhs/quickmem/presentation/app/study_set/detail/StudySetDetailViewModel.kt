@@ -47,8 +47,8 @@ class StudySetDetailViewModel @Inject constructor(
     private var job: Job? = null
 
     init {
-        val id: String = savedStateHandle["id"] ?: ""
-        val code: String = savedStateHandle["code"] ?: ""
+        val id: String = savedStateHandle.get<String>("id") ?: ""
+        val code: String = savedStateHandle.get<String>("code") ?: ""
         _uiState.update { it.copy(id = id, linkShareCode = code) }
         initData()
         firebaseAnalytics.logEvent("open_study_set") {

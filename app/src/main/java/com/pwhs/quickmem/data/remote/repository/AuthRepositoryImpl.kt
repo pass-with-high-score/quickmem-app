@@ -54,7 +54,7 @@ import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val userRemoteDataResource: UserRemoteDataResource
+    private val userRemoteDataResource: UserRemoteDataResource,
 ) : AuthRepository {
     override suspend fun checkEmailValidity(email: String): Flow<Resources<Boolean>> {
         return flow {
@@ -109,7 +109,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun verifyEmail(
-        verifyEmailResponseModel: VerifyEmailResponseModel
+        verifyEmailResponseModel: VerifyEmailResponseModel,
     ): Flow<Resources<AuthResponseModel>> {
         return flow {
             emit(Resources.Loading())
@@ -123,7 +123,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun resendOtp(
-        resendEmailRequestModel: ResendEmailRequestModel
+        resendEmailRequestModel: ResendEmailRequestModel,
     ): Flow<Resources<OtpResponseModel>> {
         return flow {
             emit(Resources.Loading())
@@ -139,7 +139,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun updateFullName(
         token: String,
-        updateFullNameRequestModel: UpdateFullNameRequestModel
+        updateFullNameRequestModel: UpdateFullNameRequestModel,
     ): Flow<Resources<UpdateFullNameResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -161,7 +161,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun updateUsername(
         token: String,
-        updateUsernameRequestModel: UpdateUsernameRequestModel
+        updateUsernameRequestModel: UpdateUsernameRequestModel,
     ): Flow<Resources<UpdateUsernameResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -184,7 +184,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun updateEmail(
         token: String,
-        updateEmailRequestModel: UpdateEmailRequestModel
+        updateEmailRequestModel: UpdateEmailRequestModel,
     ): Flow<Resources<UpdateEmailResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -206,7 +206,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun changePassword(
         token: String,
-        changePasswordRequestModel: ChangePasswordRequestModel
+        changePasswordRequestModel: ChangePasswordRequestModel,
     ): Flow<Resources<ChangePasswordResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -227,7 +227,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun sendResetPassword(
-        sendResetPasswordRequestModel: SendResetPasswordRequestModel
+        sendResetPasswordRequestModel: SendResetPasswordRequestModel,
     ): Flow<Resources<SendResetPasswordResponseModel>> {
         return flow {
             emit(Resources.Loading())
@@ -242,7 +242,7 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun resetPassword(
-        resetPasswordRequestModel: ResetPasswordRequestModel
+        resetPasswordRequestModel: ResetPasswordRequestModel,
     ): Flow<Resources<ResetPasswordResponseModel>> {
         return flow {
             emit(Resources.Loading())
@@ -258,7 +258,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun verifyPassword(
         token: String,
-        verifyPasswordRequestModel: VerifyPasswordRequestModel
+        verifyPasswordRequestModel: VerifyPasswordRequestModel,
     ): Flow<Resources<VerifyPasswordResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -281,7 +281,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun getUserDetail(
         userId: String,
         token: String,
-        isOwner: Boolean
+        isOwner: Boolean,
     ): Flow<Resources<UserDetailResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -318,7 +318,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun updateAvatar(
         token: String,
         avatarId: String,
-        updateAvatarRequestModel: UpdateAvatarRequestModel
+        updateAvatarRequestModel: UpdateAvatarRequestModel,
     ): Flow<Resources<UpdateAvatarResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -340,7 +340,7 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun searchUser(
         token: String,
         username: String,
-        page: Int?
+        page: Int?,
     ): Flow<PagingData<SearchUserResponseModel>> {
         if (token.isEmpty()) {
             return emptyFlow()
@@ -363,7 +363,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun getUserProfile(
         token: String,
-        userId: String
+        userId: String,
     ): Flow<Resources<GetUserProfileResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -382,7 +382,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun changeRole(
         token: String,
-        changeRoleRequestModel: ChangeRoleRequestModel
+        changeRoleRequestModel: ChangeRoleRequestModel,
     ): Flow<Resources<ChangeRoleResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -404,7 +404,7 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun updateCoin(
         token: String,
-        updateCoinRequestModel: UpdateCoinRequestModel
+        updateCoinRequestModel: UpdateCoinRequestModel,
     ): Flow<Resources<UpdateCoinResponseModel>> {
         return flow {
             if (token.isEmpty()) {

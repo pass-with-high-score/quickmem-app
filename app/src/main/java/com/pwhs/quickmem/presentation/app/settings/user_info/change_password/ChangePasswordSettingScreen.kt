@@ -27,7 +27,7 @@ import com.ramcosta.composedestinations.result.ResultBackNavigator
 fun ChangePasswordSettingScreen(
     modifier: Modifier = Modifier,
     viewModel: ChangePasswordSettingViewModel = hiltViewModel(),
-    resultNavigator: ResultBackNavigator<Boolean>
+    resultNavigator: ResultBackNavigator<Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -40,7 +40,11 @@ fun ChangePasswordSettingScreen(
                 }
 
                 ChangePasswordSettingUiEvent.OnPasswordChanged -> {
-                    Toast.makeText(context, "Password changed successfully", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_password_changed_successfully),
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                     resultNavigator.navigateBack(true)
                 }
@@ -89,7 +93,7 @@ fun ChangePasswordSetting(
     onNewPasswordChanged: (String) -> Unit = {},
     onConfirmPasswordChanged: (String) -> Unit = {},
     onNavigateBack: () -> Unit = {},
-    onSaved: () -> Unit = {}
+    onSaved: () -> Unit = {},
 ) {
     Scaffold(
         modifier = modifier,
@@ -144,7 +148,7 @@ fun ChangePasswordSetting(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun ChangePasswordSettingScreenPreview() {
     QuickMemTheme {

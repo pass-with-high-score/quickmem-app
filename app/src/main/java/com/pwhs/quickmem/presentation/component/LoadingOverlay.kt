@@ -28,7 +28,7 @@ fun LoadingOverlay(
     isLoading: Boolean,
     modifier: Modifier = Modifier,
     color: Color? = null,
-    text: String? = null
+    text: String? = null,
 ) {
     if (isLoading) {
         AlertDialog(
@@ -67,7 +67,7 @@ fun LoadingOverlay(
     }
 }
 
-@Preview
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun LoadingOverlayPreview() {
     QuickMemTheme {

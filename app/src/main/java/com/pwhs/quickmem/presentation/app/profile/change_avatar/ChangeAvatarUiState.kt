@@ -8,5 +8,5 @@ data class ChangeAvatarUiState(
     val avatarUrls: List<AvatarResponseModel> = emptyList(),
     val selectedAvatarUrl: String? = null,
     val avatarUrl: String? = null,
-    val avatarUri: Uri? = null
+    val avatarUri: Uri? = null,
 )

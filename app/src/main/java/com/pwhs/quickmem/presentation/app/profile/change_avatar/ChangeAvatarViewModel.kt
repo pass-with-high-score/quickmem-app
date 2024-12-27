@@ -26,7 +26,7 @@ class ChangeAvatarViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val uploadImageRepository: UploadImageRepository,
     private val appManager: AppManager,
-    private val tokenManager: TokenManager
+    private val tokenManager: TokenManager,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ChangeAvatarUiState())

@@ -166,7 +166,7 @@ fun StudySetItem(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 private fun StudySetItemPreview() {
     QuickMemTheme {

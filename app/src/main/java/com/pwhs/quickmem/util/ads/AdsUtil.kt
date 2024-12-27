@@ -22,7 +22,7 @@ object AdsUtil {
     fun interstitialAds(
         context: Context,
         isPlus: Boolean = false,
-        onAdWatched: () -> Unit = {}
+        onAdWatched: () -> Unit = {},
     ) {
         if (isPlus) {
             onAdWatched()
@@ -90,7 +90,11 @@ object AdsUtil {
         )
     }
 
-    fun rewardedInterstitialAd(context: Context, onAdWatched: () -> Unit, onAdLoadFailedToLoad: () -> Unit ) {
+    fun rewardedInterstitialAd(
+        context: Context,
+        onAdWatched: () -> Unit,
+        onAdLoadFailedToLoad: () -> Unit,
+    ) {
         // Load an ad
         RewardedInterstitialAd.load(
             context,
@@ -99,8 +103,10 @@ object AdsUtil {
             object : RewardedInterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(error: LoadAdError) {
                     super.onAdFailedToLoad(error)
-                    Toast.makeText(context,
-                        context.getString(R.string.txt_no_ads_found), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_no_ads_found), Toast.LENGTH_SHORT
+                    ).show()
                     onAdLoadFailedToLoad()
                 }
 

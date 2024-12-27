@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +43,7 @@ import com.pwhs.quickmem.ui.theme.QuickMemTheme
 @Composable
 fun AddStudySetToFoldersItem(
     modifier: Modifier = Modifier,
-    folder : GetFolderResponseModel,
+    folder: GetFolderResponseModel,
     isAdded: Boolean = false,
     onAddStudySetToFolders: (String) -> Unit = {},
 ) {
@@ -77,7 +78,7 @@ fun AddStudySetToFoldersItem(
                 ) {
                     Icon(
                         imageVector = Outlined.Folder,
-                        contentDescription = "Folder Icon"
+                        contentDescription = stringResource(R.string.txt_folder),
                     )
                     Text(
                         text = folder.title,
@@ -91,9 +92,12 @@ fun AddStudySetToFoldersItem(
                 ) {
                     Text(
                         text = when (folder.studySetCount) {
-                            0 -> "No study sets"
-                            1 -> "1 study set"
-                            else -> "${folder.studySetCount} study sets"
+                            0 -> stringResource(R.string.txt_no_study_sets)
+                            1 -> stringResource(R.string.txt_one_study_set)
+                            else -> stringResource(
+                                R.string.txt_study_sets_library,
+                                folder.studySetCount
+                            )
                         },
                         style = typography.bodyMedium
                     )
@@ -137,7 +141,9 @@ fun AddStudySetToFoldersItem(
             ) {
                 Icon(
                     painter = painterResource(if (isAdded) R.drawable.ic_check_circle else R.drawable.ic_add_circle),
-                    contentDescription = if (isAdded) "Check Icon" else "Add Icon",
+                    contentDescription = if (isAdded) stringResource(R.string.txt_delete_folder) else stringResource(
+                        R.string.txt_add_folder
+                    ),
                     modifier = Modifier.size(26.dp),
                     tint = colorScheme.onSurface
                 )

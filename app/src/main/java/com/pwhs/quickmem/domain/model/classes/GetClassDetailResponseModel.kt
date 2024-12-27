@@ -21,5 +21,5 @@ data class GetClassDetailResponseModel(
     val memberCount: Int,
     val members: List<ClassMemberModel>? = emptyList(),
     val studySetCount: Int,
-    val studySets: List<GetStudySetResponseModel>? = emptyList()
+    val studySets: List<GetStudySetResponseModel>? = emptyList(),
 )

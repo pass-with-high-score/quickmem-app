@@ -13,12 +13,12 @@ import java.io.IOException
 import javax.inject.Inject
 
 class NotificationRepositoryImpl @Inject constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
 ) : NotificationRepository {
 
     override suspend fun loadNotifications(
         userId: String,
-        token: String
+        token: String,
     ): Flow<Resources<List<GetNotificationResponseModel>>> {
         return flow {
             if (token.isEmpty()) {
@@ -40,7 +40,7 @@ class NotificationRepositoryImpl @Inject constructor(
 
     override suspend fun markNotificationAsRead(
         notificationId: String,
-        token: String
+        token: String,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -61,7 +61,7 @@ class NotificationRepositoryImpl @Inject constructor(
 
     override suspend fun deleteNotification(
         notificationId: String,
-        token: String
+        token: String,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {

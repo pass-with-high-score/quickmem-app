@@ -25,11 +25,11 @@ import javax.inject.Inject
 
 class FolderRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
-    private val folderRemoteDataSource: FolderRemoteDataSource
+    private val folderRemoteDataSource: FolderRemoteDataSource,
 ) : FolderRepository {
     override suspend fun createFolder(
         token: String,
-        createFolderRequestModel: CreateFolderRequestModel
+        createFolderRequestModel: CreateFolderRequestModel,
     ): Flow<Resources<CreateFolderResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -50,7 +50,7 @@ class FolderRepositoryImpl @Inject constructor(
 
     override suspend fun getFolderById(
         token: String,
-        folderId: String
+        folderId: String,
     ): Flow<Resources<GetFolderResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -70,7 +70,7 @@ class FolderRepositoryImpl @Inject constructor(
     override suspend fun updateFolder(
         token: String,
         folderId: String,
-        updateFolderRequestModel: UpdateFolderRequestModel
+        updateFolderRequestModel: UpdateFolderRequestModel,
     ): Flow<Resources<UpdateFolderResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -96,7 +96,7 @@ class FolderRepositoryImpl @Inject constructor(
         token: String,
         userId: String,
         classId: String?,
-        studySetId: String?
+        studySetId: String?,
     ): Flow<Resources<List<GetFolderResponseModel>>> {
         return flow {
             if (token.isEmpty()) {
@@ -136,7 +136,7 @@ class FolderRepositoryImpl @Inject constructor(
 
     override suspend fun addFolderToClass(
         token: String,
-        addFolderToClassRequestModel: AddFolderToClassRequestModel
+        addFolderToClassRequestModel: AddFolderToClassRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -159,7 +159,7 @@ class FolderRepositoryImpl @Inject constructor(
     override suspend fun getSearchResultFolders(
         token: String,
         title: String,
-        page: Int?
+        page: Int?,
     ): Flow<PagingData<GetFolderResponseModel>> {
         if (token.isEmpty()) {
             return emptyFlow()
@@ -181,7 +181,7 @@ class FolderRepositoryImpl @Inject constructor(
 
     override suspend fun getFolderByLinkCode(
         token: String,
-        code: String
+        code: String,
     ): Flow<Resources<GetFolderResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -200,7 +200,7 @@ class FolderRepositoryImpl @Inject constructor(
 
     override suspend fun saveRecentAccessFolder(
         token: String,
-        saveRecentAccessFolderRequestModel: SaveRecentAccessFolderRequestModel
+        saveRecentAccessFolderRequestModel: SaveRecentAccessFolderRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -222,7 +222,7 @@ class FolderRepositoryImpl @Inject constructor(
 
     override suspend fun getRecentAccessFolders(
         token: String,
-        userId: String
+        userId: String,
     ): Flow<Resources<List<GetFolderResponseModel>>> {
         return flow {
             if (token.isEmpty()) {
@@ -242,7 +242,7 @@ class FolderRepositoryImpl @Inject constructor(
     override suspend fun resetProgress(
         token: String,
         folderId: String,
-        resetType: String
+        resetType: String,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {

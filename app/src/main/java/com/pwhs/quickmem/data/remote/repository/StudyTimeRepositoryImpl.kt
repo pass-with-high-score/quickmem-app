@@ -14,11 +14,11 @@ import timber.log.Timber
 import javax.inject.Inject
 
 class StudyTimeRepositoryImpl @Inject constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
 ) : StudyTimeRepository {
     override suspend fun getStudyTimeByStudySet(
         token: String,
-        studySetId: String
+        studySetId: String,
     ): Flow<Resources<GetStudyTimeByStudySetResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -37,7 +37,7 @@ class StudyTimeRepositoryImpl @Inject constructor(
 
     override suspend fun getStudyTimeByUser(
         token: String,
-        userId: String
+        userId: String,
     ): Flow<Resources<GetStudyTimeByUserResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -56,7 +56,7 @@ class StudyTimeRepositoryImpl @Inject constructor(
 
     override suspend fun createStudyTime(
         token: String,
-        createStudyTimeModel: CreateStudyTimeModel
+        createStudyTimeModel: CreateStudyTimeModel,
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {

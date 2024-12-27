@@ -81,7 +81,7 @@ fun StandardScaffold(
         BottomNavItem.Profile
     ),
     content: @Composable (PaddingValues) -> Unit,
-    viewModel: StandardViewModel = hiltViewModel()
+    viewModel: StandardViewModel = hiltViewModel(),
 ) {
     val sheetSelectCreateState = rememberModalBottomSheetState()
     var showBottomSheetCreate by remember {

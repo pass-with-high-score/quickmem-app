@@ -41,7 +41,7 @@ class VerifyEmailViewModel @Inject constructor(
 
     init {
         val email = stateHandle.get<String>("email") ?: ""
-        val isFromSignup = stateHandle.get<Boolean>("isFromSignup") ?: false
+        val isFromSignup = stateHandle.get<Boolean>("isFromSignup") == true
         val resetPasswordToken = stateHandle.get<String>("resetPasswordToken") ?: ""
         _uiState.update {
             it.copy(

@@ -52,7 +52,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun JoinClassScreen(
     modifier: Modifier = Modifier,
     viewModel: JoinClassViewModel = hiltViewModel(),
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -118,7 +118,7 @@ fun JoinClass(
     classDetailResponseModel: GetClassDetailResponseModel? = null,
     onJoinClass: () -> Unit = {},
     onBackHome: () -> Unit = {},
-    onOwnerClick: () -> Unit = {}
+    onOwnerClick: () -> Unit = {},
 ) {
     Scaffold(
         topBar = {

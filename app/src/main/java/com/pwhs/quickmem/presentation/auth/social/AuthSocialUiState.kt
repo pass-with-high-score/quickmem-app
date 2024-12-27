@@ -15,5 +15,5 @@ data class AuthSocialUiState(
     val role: UserRole = UserRole.STUDENT,
     val fullName: String = "",
     val token: String = "",
-    val isSignUp: Boolean = false
+    val isSignUp: Boolean = false,
 )

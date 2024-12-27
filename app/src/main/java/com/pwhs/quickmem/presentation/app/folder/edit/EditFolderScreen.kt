@@ -1,6 +1,7 @@
 package com.pwhs.quickmem.presentation.app.folder.edit
 
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,7 +44,7 @@ import com.ramcosta.composedestinations.result.ResultBackNavigator
 fun EditFolderScreen(
     modifier: Modifier = Modifier,
     viewModel: EditFolderViewModel = hiltViewModel(),
-    resultNavigator: ResultBackNavigator<Boolean>
+    resultNavigator: ResultBackNavigator<Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -59,7 +60,8 @@ fun EditFolderScreen(
                 }
 
                 is EditFolderUiEvent.ShowError -> {
-                    Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(event.message), Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         }
@@ -90,7 +92,7 @@ fun EditFolder(
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
     title: String = "",
-    titleError: String = "",
+    @StringRes titleError: Int? = null,
     onTitleChange: (String) -> Unit = {},
     description: String = "",
     descriptionError: String = "",
@@ -98,7 +100,7 @@ fun EditFolder(
     isPublic: Boolean = false,
     onIsPublicChange: (Boolean) -> Unit = {},
     onDoneClick: () -> Unit = {},
-    onNavigateBack: () -> Unit = {}
+    onNavigateBack: () -> Unit = {},
 ) {
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
@@ -131,7 +133,7 @@ fun EditFolder(
                 CreateTextField(
                     value = title,
                     title = stringResource(R.string.txt_folder_title),
-                    valueError = titleError,
+                    valueError = titleError?.let { stringResource(it) },
                     onValueChange = onTitleChange,
                     placeholder = stringResource(R.string.txt_enter_folder_title)
                 )
@@ -163,10 +165,7 @@ fun EditFolder(
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
+@Preview(showSystemUi = true)
 @Composable
 fun CreateFolderScreenPreview() {
     QuickMemTheme {
