@@ -10,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -21,17 +22,27 @@ fun QuickMemAlertDialog(
     text: String,
     confirmButtonTitle: String,
     dismissButtonTitle: String,
-    buttonColor: Color = colorScheme.primary
+    buttonColor: Color = colorScheme.primary,
 ) {
     AlertDialog(
         containerColor = Color.White,
         modifier = modifier,
         onDismissRequest = onDismissRequest,
         title = {
-            Text(text = title, style = typography.titleLarge)
+            Text(
+                text = title,
+                style = typography.titleLarge.copy(
+                    fontWeight = FontWeight.Bold,
+                    color = colorScheme.onBackground
+                )
+            )
         },
         text = {
-            Text(text = text)
+            Text(
+                text = text,
+                style = typography.bodyMedium,
+                color = colorScheme.onBackground
+            )
         },
         confirmButton = {
             Button(

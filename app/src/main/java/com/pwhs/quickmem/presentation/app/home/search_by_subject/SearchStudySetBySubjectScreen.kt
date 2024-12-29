@@ -149,7 +149,8 @@ fun SearchStudySetBySubject(
         ) {
             LazyColumn(
                 modifier = Modifier
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 item {
@@ -157,7 +158,6 @@ fun SearchStudySetBySubject(
                         searchQuery = searchQuery,
                         onSearchQueryChange = { searchQuery = it },
                         placeholder = stringResource(R.string.txt_search_study_sets),
-                        modifier = Modifier.padding(horizontal = 16.dp)
                     )
                 }
                 items(studySets?.itemCount ?: 0, key = { it }) { index ->
@@ -168,7 +168,6 @@ fun SearchStudySetBySubject(
                         )
                     ) {
                         StudySetItem(
-                            modifier = Modifier.padding(horizontal = 16.dp),
                             studySet = studySet,
                             onStudySetClick = { onStudySetClick(studySet) }
                         )
@@ -207,8 +206,7 @@ fun SearchStudySetBySubject(
                                 Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(innerPadding)
-                                        .padding(horizontal = 16.dp),
+                                        .padding(innerPadding),
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.spacedBy(10.dp)
                                 ) {
@@ -243,8 +241,7 @@ fun SearchStudySetBySubject(
                                 Column(
                                     modifier = Modifier
                                         .fillMaxWidth()
-                                        .padding(innerPadding)
-                                        .padding(horizontal = 16.dp),
+                                        .padding(innerPadding),
                                     horizontalAlignment = Alignment.CenterHorizontally,
                                     verticalArrangement = Arrangement.spacedBy(10.dp)
                                 ) {
