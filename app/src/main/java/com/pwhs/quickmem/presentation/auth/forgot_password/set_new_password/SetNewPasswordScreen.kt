@@ -6,15 +6,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme.colorScheme
-import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,9 +25,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.TextFieldType
@@ -54,7 +51,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun SetNewPasswordScreen(
     modifier: Modifier = Modifier,
     navigator: DestinationsNavigator,
-    viewModel: SetNewPasswordViewModel = hiltViewModel()
+    viewModel: SetNewPasswordViewModel = hiltViewModel(),
 ) {
     val uiState = viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -115,11 +112,11 @@ private fun SetNewPassword(
     onNavigationIconClick: () -> Unit = {},
     password: String = "",
     confirmPassword: String = "",
-   @StringRes passwordError: Int? = null,
-   @StringRes confirmPasswordError: Int? = null,
+    @StringRes passwordError: Int? = null,
+    @StringRes confirmPasswordError: Int? = null,
     onPasswordChanged: (String) -> Unit = {},
     onConfirmPasswordChanged: (String) -> Unit = {},
-    onSubmitClick: () -> Unit = {}
+    onSubmitClick: () -> Unit = {},
 ) {
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
@@ -133,7 +130,19 @@ private fun SetNewPassword(
         modifier = modifier.gradientBackground(),
         containerColor = Color.Transparent,
         topBar = {
-            AuthTopAppBar(onClick = onNavigationIconClick)
+            AuthTopAppBar(
+                onClick = onNavigationIconClick,
+                title = {
+                    Text(
+                        text = stringResource(R.string.txt_enter_new_password),
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
+            )
         }
     ) { innerPadding ->
         Box {
@@ -143,24 +152,10 @@ private fun SetNewPassword(
                     .fillMaxSize()
                     .padding(16.dp)
                     .verticalScroll(scrollState)
-                    .padding(top = 40.dp)
                     .imePadding(),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = stringResource(R.string.txt_please_enter_your_new_password),
-                    style = typography.headlineLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 22.sp,
-                        color = colorScheme.primary
-                    ),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-
-                Spacer(modifier = Modifier.height(26.dp))
-
                 AuthTextField(
                     value = password,
                     onValueChange = onPasswordChanged,
@@ -198,6 +193,7 @@ private fun SetNewPassword(
     }
 }
 
+@Preview(showSystemUi = true, locale = "vi")
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewForgotPasswordVerifyPasswordScreen() {

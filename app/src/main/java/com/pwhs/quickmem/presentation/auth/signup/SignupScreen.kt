@@ -7,7 +7,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -25,6 +27,7 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -48,7 +51,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun SignupScreen(
     modifier: Modifier = Modifier,
     navigator: DestinationsNavigator,
-    viewModel: SignupViewModel = hiltViewModel()
+    viewModel: SignupViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = true) {
@@ -56,8 +59,10 @@ fun SignupScreen(
             when (event) {
                 SignupUiEvent.SignupWithGoogle -> {
                     // open web view
-                    Toast.makeText(context,
-                        context.getString(R.string.txt_currently_not_available), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_currently_not_available), Toast.LENGTH_SHORT
+                    ).show()
 //                    navigator.navigate(
 //                        WebViewAppDestination(
 //                            oAuthLink = "https://api.quickmem.app/auth/google",
@@ -67,7 +72,11 @@ fun SignupScreen(
 
                 SignupUiEvent.SignupWithFacebook -> {
                     // open web view
-                    Toast.makeText(context, context.getString(R.string.txt_currently_not_available), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_currently_not_available),
+                        Toast.LENGTH_SHORT
+                    ).show()
 //                    navigator.navigate(
 //                        WebViewAppDestination(
 //                            oAuthLink = "https://api.quickmem.app/auth/facebook",
@@ -121,7 +130,7 @@ fun Signup(
     onSignupWithEmail: () -> Unit = {},
     onSignupWithGoogle: () -> Unit = {},
     onSignupWithFacebook: () -> Unit = {},
-    onPrivacyPolicyClick: () -> Unit = {}
+    onPrivacyPolicyClick: () -> Unit = {},
 ) {
     Scaffold(
         modifier = modifier.gradientBackground(),
@@ -129,6 +138,15 @@ fun Signup(
         topBar = {
             AuthTopAppBar(
                 onClick = onNavigationIconClick,
+                title = {
+                    Text(
+                        text = stringResource(R.string.txt_sign_up),
+                        style = typography.titleLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    )
+                }
             )
         }
     ) { innerPadding ->
@@ -138,20 +156,12 @@ fun Signup(
                 .padding(horizontal = 16.dp)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
         ) {
-
-            Text(
-                text = stringResource(R.string.txt_sign_up),
-                style = typography.headlineMedium.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = colorScheme.primary
-                )
-            )
-
+            Spacer(modifier = Modifier.height(30.dp))
+            
             Text(
                 text = stringResource(R.string.txt_signup_description),
-                style = typography.bodyMedium.copy(
+                style = typography.bodyLarge.copy(
                     color = colorScheme.onSurface
                 ),
                 modifier = Modifier
@@ -216,7 +226,8 @@ fun Signup(
                         withStyle(
                             style = SpanStyle(
                                 color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                textDecoration = TextDecoration.Underline
                             )
                         ) {
                             append(stringResource(R.string.txt_terms_and_conditions))
@@ -225,7 +236,8 @@ fun Signup(
                         withStyle(
                             style = SpanStyle(
                                 color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                textDecoration = TextDecoration.Underline
                             )
                         ) {
                             append(stringResource(R.string.txt_privacy_policy))
@@ -253,7 +265,8 @@ fun Signup(
                         withStyle(
                             style = SpanStyle(
                                 color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                textDecoration = TextDecoration.Underline
                             )
                         ) {
                             append(" " + stringResource(R.string.txt_log_in))
@@ -271,6 +284,7 @@ fun Signup(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun SignupScreenPreview() {
     QuickMemTheme {

@@ -18,7 +18,6 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -35,7 +34,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -57,7 +55,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun UpdateFullNameScreen(
     modifier: Modifier = Modifier,
     viewModel: UpdateFullNameViewModel = hiltViewModel(),
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -114,7 +112,7 @@ fun UpdateFullName(
     onSubmitClick: () -> Unit = {},
     onSkipClick: () -> Unit = {},
     isLoading: Boolean = false,
-    @StringRes errorMessage: Int? = null
+    @StringRes errorMessage: Int? = null,
 ) {
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
@@ -136,7 +134,7 @@ fun UpdateFullName(
                         text = stringResource(R.string.txt_what_should_we_call_you),
                         style = typography.titleMedium.copy(
                             fontSize = 18.sp,
-                            color = colorScheme.primary
+                            color = Color.White
                         )
                     )
                 },
@@ -147,7 +145,7 @@ fun UpdateFullName(
                         IconButton(onClick = onSkipClick) {
                             Icon(
                                 Icons.Filled.Close,
-                                tint = colorScheme.primary,
+                                tint = Color.White,
                                 contentDescription = stringResource(R.string.txt_close),
                             )
                         }
@@ -198,6 +196,7 @@ fun UpdateFullName(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun PreviewSetName() {
     QuickMemTheme {

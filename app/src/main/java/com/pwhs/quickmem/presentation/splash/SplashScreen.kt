@@ -96,7 +96,10 @@ fun SplashScreen(
 
                 is SplashUiEvent.NoInternet -> {
                     // Show no internet dialog
-                    Toast.makeText(context, "No internet", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_no_internet), Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -138,7 +141,7 @@ fun AnimatedText(modifier: Modifier = Modifier) {
         ) {
             Image(
                 painter = painterResource(id = R.drawable.ic_bear),
-                contentDescription = "Quick Mem Logo",
+                contentDescription = stringResource(id = R.string.app_name),
                 modifier = modifier
                     .size(48.dp)
                     .padding(end = 8.dp)

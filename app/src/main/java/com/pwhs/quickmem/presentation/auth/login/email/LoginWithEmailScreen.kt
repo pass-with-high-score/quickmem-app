@@ -3,7 +3,6 @@ package com.pwhs.quickmem.presentation.auth.login.email
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -26,9 +24,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -58,7 +54,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun LoginWithEmailScreen(
     modifier: Modifier = Modifier,
     navigator: DestinationsNavigator,
-    viewModel: LoginWithEmailViewModel = hiltViewModel()
+    viewModel: LoginWithEmailViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -127,7 +123,7 @@ private fun LoginWithEmail(
     @StringRes passwordError: Int? = null,
     onPasswordChanged: (String) -> Unit = {},
     onLoginClick: () -> Unit = {},
-    onForgotPasswordClick: () -> Unit = {}
+    onForgotPasswordClick: () -> Unit = {},
 ) {
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
@@ -150,25 +146,19 @@ private fun LoginWithEmail(
                     .fillMaxSize()
                     .padding(16.dp)
                     .verticalScroll(scrollState)
-                    .padding(top = 40.dp)
                     .imePadding(),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_logo),
-                    contentDescription = "Logo",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier.size(60.dp)
-                )
 
                 Text(
                     text = stringResource(R.string.txt_login_with_email),
-                    style = typography.headlineLarge.copy(
+                    style = typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
-                        color = colorScheme.primary
+                        color = Color.White,
+                        textAlign = TextAlign.Start
                     ),
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.fillMaxWidth()
                 )
 
                 AuthTextField(
@@ -206,10 +196,11 @@ private fun LoginWithEmail(
                             text = stringResource(R.string.txt_forgot_password),
                             style = typography.bodyLarge.copy(
                                 color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                textAlign = TextAlign.End,
+                                textDecoration = TextDecoration.Underline
                             ),
-                            textAlign = TextAlign.End,
-                            textDecoration = TextDecoration.Underline
+                            modifier = Modifier.fillMaxWidth()
                         )
                     }
                 }
@@ -234,7 +225,8 @@ private fun LoginWithEmail(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun PreviewLoginWithEmailScreen() {
     QuickMemTheme {

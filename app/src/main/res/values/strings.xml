@@ -11,11 +11,11 @@
     <string name="txt_onboarding_description3">QuickMem uses spaced repetition to help you remember what you learn.</string>
     <string name="txt_reset_password">Reset Password</string>
     <string name="txt_email_address">Email Address</string>
-    <string name="txt_forgot_your_password">Forgot Your Password?</string>
+    <string name="txt_forgot_your_password">Forgot your password?</string>
     <string name="txt_email_verification_failed">Email verification failed</string>
     <string name="txt_password_reset_failed">Password reset failed</string>
     <string name="txt_password_reset_successful">Password reset successful</string>
-    <string name="txt_please_enter_your_new_password">Please enter your new password</string>
+    <string name="txt_enter_new_password">Enter new password</string>
     <string name="txt_new_password">New Password</string>
     <string name="txt_confirm_password">Confirm Password</string>
     <string name="txt_log_in_with_email">Log in with email</string>
@@ -23,7 +23,7 @@
     <string name="txt_continue_with_google">Continue with Google</string>
     <string name="txt_continue_with_facebook">Continue with Facebook</string>
     <string name="txt_don_t_have_an_account">Don\'t have an account?</string>
-    <string name="txt_sign_up">" Sign up"</string>
+    <string name="txt_sign_up">"Sign up"</string>
     <string name="txt_login_failure">Login failure</string>
     <string name="txt_login_success">Login success</string>
     <string name="txt_login_with_email">Login with email</string>
@@ -74,7 +74,7 @@
     <string name="txt_bear">Bear</string>
     <string name="txt_english_us" translatable="false">English (US)</string>
     <string name="txt_get_started_for_free">Get started for free</string>
-    <string name="txt_vietnamese" translatable="false">Tiếng việt</string>
+    <string name="txt_vietnamese" translatable="false">Tiếng Việt</string>
     <string name="txt_change_language">Change Language</string>
     <string name="txt_back">Back</string>
     <string name="txt_settings">Settings</string>
@@ -255,7 +255,7 @@
     <string name="dialog_title_not_eligible">Not Eligible</string>
     <string name="dialog_message_underage">You must be at least 20 years old to change role. Please come back on %1$s.</string>
     <string name="txt_signup_description">Hello there! Let\'s get started.</string>
-    <string name="txt_login_description">Welcome back! Log in to your account</string>
+    <string name="txt_login_description">Great to see you again! Log in to continue</string>
     <string name="txt_ai_generated">AI Generated</string>
     <string name="txt_yes">Yes</string>
     <string name="txt_top_streak">Top Streak</string>
@@ -663,4 +663,7 @@
     <string name="txt_toggle_password_visibility">Toggle password visibility</string>
     <string name="txt_new_password_must_be_different_from_the_current_password">New password must be different from the current password</string>
     <string name="txt_please_fill_in_all_fields">Please fill in all fields</string>
+    <string name="txt_no_internet">Oops! You\'re offline</string>
+    <string name="txt_enter_your_email">Enter your email</string>
+    <string name="txt_reset_password_description">We\'ll send you an email with an OTP to reset your password.</string>
 </resources>

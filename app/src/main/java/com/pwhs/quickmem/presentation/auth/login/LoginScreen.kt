@@ -5,7 +5,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -22,6 +24,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -37,10 +41,8 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.LoginWithEmailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SignupScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.WebViewAppDestination
 import com.ramcosta.composedestinations.generated.destinations.WelcomeScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import timber.log.Timber
 
 @Destination<RootGraph>
 @Composable
@@ -135,6 +137,15 @@ fun Login(
         topBar = {
             AuthTopAppBar(
                 onClick = onNavigationIconClick,
+                title = {
+                    Text(
+                        text = stringResource(R.string.txt_log_in),
+                        style = typography.titleLarge.copy(
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    )
+                }
             )
         }
     ) { innerPadding ->
@@ -144,26 +155,19 @@ fun Login(
                 .padding(horizontal = 16.dp)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
         ) {
 
-            Text(
-                text = stringResource(R.string.txt_log_in),
-                style = typography.headlineMedium.copy(
-                    fontWeight = FontWeight.Bold,
-                    color = colorScheme.primary
-                )
-            )
+            Spacer(modifier = Modifier.height(30.dp))
 
             Text(
                 text = stringResource(R.string.txt_login_description),
-                style = typography.bodyMedium.copy(
+                style = typography.bodyLarge.copy(
                     color = colorScheme.onSurface,
-                    fontSize = 16.sp
+                    textAlign = TextAlign.Center
                 ),
                 modifier = Modifier
                     .padding(top = 8.dp)
-                    .padding(bottom = 30.dp)
+                    .padding(bottom = 30.dp),
             )
 
             AuthButton(
@@ -223,9 +227,11 @@ fun Login(
                         withStyle(
                             style = SpanStyle(
                                 color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold
+                                fontWeight = FontWeight.Bold,
+                                textDecoration = TextDecoration.Underline
                             )
                         ) {
+                            append(" ")
                             append(stringResource(R.string.txt_sign_up))
                         }
                     }
@@ -241,6 +247,7 @@ fun Login(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun LoginScreenPreview() {
     QuickMemTheme {

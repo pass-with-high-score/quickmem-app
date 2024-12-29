@@ -2,7 +2,10 @@ package com.pwhs.quickmem.presentation.auth.component
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,8 +24,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
@@ -53,7 +61,7 @@ fun AuthTextField(
     onClick: (() -> Unit)? = null,
     @StringRes error: Int? = null,
     imeAction: ImeAction = ImeAction.Next,
-    onDone: () -> Unit = {}
+    onDone: () -> Unit = {},
 ) {
     var showPassword by rememberSaveable { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
@@ -93,12 +101,25 @@ fun AuthTextField(
             ),
             leadingIcon = {
                 iconId?.let {
-                    Icon(
-                        painter = painterResource(id = iconId),
-                        contentDescription = contentDescription,
-                        modifier = Modifier.size(24.dp),
-                        tint = colorScheme.onSurface
-                    )
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .size(30.dp)
+                            .clip(shapes.extraLarge)
+                            .shadow(
+                                elevation = 2.dp,
+                                shape = shapes.extraLarge
+                            )
+                            .background(colorScheme.surface, shapes.extraLarge)
+                    ) {
+                        Image(
+                            painter = painterResource(id = iconId),
+                            contentDescription = contentDescription,
+                            modifier = Modifier.size(24.dp),
+                            colorFilter = ColorFilter.tint(colorScheme.onSurface),
+                            contentScale = ContentScale.Crop
+                        )
+                    }
                 }
             },
             trailingIcon = {

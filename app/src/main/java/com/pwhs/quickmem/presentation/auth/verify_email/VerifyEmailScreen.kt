@@ -54,7 +54,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.presentation.auth.component.AuthButton
@@ -212,7 +211,8 @@ private fun VerifyEmail(
                     ) {
                         Icon(
                             imageVector = AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(R.string.txt_back)
+                            contentDescription = stringResource(R.string.txt_back),
+                            tint = Color.White
                         )
                     }
                 }
@@ -240,8 +240,7 @@ private fun VerifyEmail(
                         text = stringResource(R.string.txt_check_your_email),
                         style = typography.titleLarge.copy(
                             fontWeight = FontWeight.Bold,
-                            fontSize = 24.sp,
-                            color = colorScheme.primary
+                            color = Color.White
                         ),
                         modifier = Modifier.padding(bottom = 10.dp)
                     )
@@ -252,8 +251,8 @@ private fun VerifyEmail(
                                 append(" $email")
                             }
                         },
-                        style = typography.bodyMedium.copy(
-                            fontSize = 16.sp,
+                        style = typography.bodyLarge.copy(
+                            color = colorScheme.onSurface,
                         ),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.padding(bottom = 10.dp)
@@ -266,7 +265,7 @@ private fun VerifyEmail(
                     OtpInputField(
                         modifier = Modifier
                             .focusRequester(focusRequester)
-                            .padding(bottom = 20.dp),
+                            .padding(bottom = 10.dp),
                         otpText = otp,
                         shouldCursorBlink = false,
                         onOtpModified = { value, otpFilled ->
@@ -285,6 +284,7 @@ private fun VerifyEmail(
                 ) {
                     Text(
                         text = stringResource(R.string.txt_didn_t_receive_the_code),
+                        style = typography.bodyMedium
                     )
                     TextButton(
                         onClick = onNavigationBack,
@@ -294,8 +294,7 @@ private fun VerifyEmail(
                         Text(
                             text = stringResource(R.string.txt_update_email),
                             style = typography.bodyMedium.copy(
-                                color = colorScheme.primary,
-                                fontSize = 16.sp,
+                                color = Color.White,
                                 fontWeight = FontWeight.Bold
                             ),
                             textDecoration = TextDecoration.Underline
@@ -307,7 +306,7 @@ private fun VerifyEmail(
                     text = stringResource(R.string.txt_verify),
                     onClick = onVerifyClick,
                     modifier = Modifier
-                        .padding(top = 20.dp, bottom = 15.dp)
+                        .padding(vertical = 15.dp)
                         .padding(horizontal = 32.dp)
                 )
 
@@ -337,9 +336,8 @@ private fun VerifyEmail(
                             ) {
                                 Text(
                                     text = stringResource(R.string.txt_resend),
-                                    style = typography.bodyMedium.copy(
+                                    style = typography.bodyLarge.copy(
                                         color = colorScheme.onSurface,
-                                        fontSize = 16.sp,
                                         fontWeight = FontWeight.Bold
                                     )
                                 )
@@ -358,6 +356,7 @@ private fun VerifyEmail(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun VerifyEmailScreenPreview() {
     QuickMemTheme {

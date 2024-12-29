@@ -3,18 +3,15 @@ package com.pwhs.quickmem.presentation.auth.signup.email
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,12 +24,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -61,7 +57,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 fun SignupWithEmailScreen(
     modifier: Modifier = Modifier,
     navigator: DestinationsNavigator,
-    viewModel: SignupWithEmailViewModel = hiltViewModel()
+    viewModel: SignupWithEmailViewModel = hiltViewModel(),
 ) {
     val uiState = viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -135,7 +131,7 @@ private fun SignupWithEmail(
     @StringRes birthdayError: Int? = null,
     onBirthdayChanged: (String) -> Unit = {},
     onRoleChanged: (UserRole) -> Unit = {},
-    onSignUpClick: () -> Unit = {}
+    onSignUpClick: () -> Unit = {},
 ) {
     var isDatePickerVisible by rememberSaveable { mutableStateOf(false) }
     var isRoleVisible by rememberSaveable { mutableStateOf(false) }
@@ -164,27 +160,19 @@ private fun SignupWithEmail(
                     .padding(innerPadding)
                     .padding(16.dp)
                     .verticalScroll(scrollState)
-                    .padding(top = 40.dp, bottom = 16.dp)
+                    .padding(bottom = 16.dp)
                     .imePadding(),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_logo),
-                    contentDescription = "Logo",
-                    contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .size(60.dp)
-                )
-
-
                 Text(
                     text = stringResource(R.string.txt_signup_with_email),
-                    style = MaterialTheme.typography.headlineLarge.copy(
+                    style = typography.titleLarge.copy(
                         fontWeight = FontWeight.Bold,
-                        color = colorScheme.primary
+                        color = Color.White,
+                        textAlign = TextAlign.Start
                     ),
-                    modifier = Modifier.padding(16.dp)
+                    modifier = Modifier.fillMaxWidth()
                 )
                 AuthTextField(
                     value = birthday,
@@ -212,7 +200,7 @@ private fun SignupWithEmail(
                     onValueChange = onPasswordChanged,
                     label = stringResource(R.string.txt_create_your_password),
                     iconId = R.drawable.ic_lock,
-                    contentDescription = stringResource(R.string.txt_password),
+                    contentDescription = stringResource(R.string.txt_create_your_password),
                     type = TextFieldType.PASSWORD,
                     error = passwordError,
                     imeAction = ImeAction.Done,
@@ -258,6 +246,7 @@ private fun SignupWithEmail(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun PreviewSignupWithEmailScreen() {
     QuickMemTheme {

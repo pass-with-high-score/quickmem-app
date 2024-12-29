@@ -12,10 +12,12 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material3.ButtonDefaults.buttonColors
-import androidx.compose.material3.ElevatedButton
+import androidx.compose.material.icons.filled.KeyboardArrowUp
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.ModalBottomSheet
@@ -135,19 +137,27 @@ private fun WelCome(
                     containerColor = Color.Transparent
                 ),
                 actions = {
-                    ElevatedButton(
+                    Card(
                         onClick = {
                             scope.launch {
                                 showBottomSheetLanguage = true
                                 sheetLanguageState.show()
                             }
                         },
-                        colors = buttonColors(
-                            containerColor = colorScheme.primary.copy(alpha = 0.2f),
-                        )
+                        colors = CardDefaults.cardColors(
+                            containerColor = colorScheme.primary.copy(alpha = 0.8f),
+                            contentColor = Color.White
+                        ),
+                        elevation = CardDefaults.elevatedCardElevation(
+                            defaultElevation = 2.dp
+                        ),
+                        shape = MaterialTheme.shapes.large,
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .padding(horizontal = 10.dp)
+                                .padding(vertical = 5.dp)
                         ) {
                             Text(
                                 when (language) {
@@ -161,8 +171,13 @@ private fun WelCome(
                                 )
                             )
                             Icon(
-                                imageVector = Icons.Default.KeyboardArrowDown,
-                                contentDescription = "Arrow Down"
+                                imageVector = if (showBottomSheetLanguage) {
+                                    Icons.Default.KeyboardArrowUp
+                                } else {
+                                    Icons.Default.KeyboardArrowDown
+                                },
+                                contentDescription = "Arrow Down",
+                                tint = Color.White
                             )
                         }
                     }
@@ -198,7 +213,7 @@ private fun WelCome(
                             withStyle(
                                 style = SpanStyle(
                                     color = color,
-                                    fontSize = 30.sp,
+                                    fontSize = 26.sp,
                                     fontWeight = FontWeight.Black
                                 )
                             ) {
@@ -345,6 +360,7 @@ private fun WelCome(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun WelcomeScreenPreview() {
     QuickMemTheme {

@@ -6,9 +6,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -28,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -115,7 +114,19 @@ private fun SendVerifyEmail(
         modifier = modifier.gradientBackground(),
         containerColor = Color.Transparent,
         topBar = {
-            AuthTopAppBar(onClick = onNavigationIconClick)
+            AuthTopAppBar(
+                onClick = onNavigationIconClick,
+                title = {
+                    Text(
+                        text = stringResource(id = R.string.txt_forgot_your_password),
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White,
+                        textAlign = TextAlign.Center,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                },
+            )
         }
     ) { innerPadding ->
         Box {
@@ -125,33 +136,30 @@ private fun SendVerifyEmail(
                     .fillMaxSize()
                     .padding(16.dp)
                     .verticalScroll(scrollState)
-                    .padding(top = 40.dp)
                     .imePadding(),
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Spacer(modifier = Modifier.height(26.dp))
-                Text(
-                    text = stringResource(id = R.string.txt_forgot_your_password),
-                    style = typography.headlineLarge.copy(
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 22.sp,
-                        color = colorScheme.primary
-                    ),
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(horizontal = 16.dp)
-                )
-
                 AuthTextField(
                     value = email,
                     onValueChange = onEmailChanged,
-                    label = stringResource(id = R.string.txt_email_address),
+                    label = stringResource(id = R.string.txt_enter_your_email),
                     iconId = R.drawable.ic_email,
                     contentDescription = stringResource(id = R.string.txt_email),
                     type = TextFieldType.EMAIL,
                     error = emailError,
                     imeAction = ImeAction.Done,
                     onDone = onResetClick
+                )
+
+                Text(
+                    text = stringResource(id = R.string.txt_reset_password_description),
+                    style = typography.bodyMedium.copy(
+                        fontSize = 16.sp,
+                        color = colorScheme.onSurface,
+                        textAlign = TextAlign.Start
+                    ),
+                    modifier = Modifier.padding(top = 16.dp, bottom = 10.dp)
                 )
 
                 AuthButton(
@@ -168,6 +176,7 @@ private fun SendVerifyEmail(
     }
 }
 
+@Preview(showSystemUi = true, locale = "vi")
 @Preview(showSystemUi = true)
 @Composable
 fun PreviewForgotPasswordVerifyEmailScreen() {

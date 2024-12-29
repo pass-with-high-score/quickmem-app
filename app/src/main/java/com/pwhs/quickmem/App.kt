@@ -19,7 +19,6 @@ class App : Application() {
             val policy = StrictMode.ThreadPolicy.Builder()
                 .detectAll()
                 .penaltyLog()
-                .penaltyDialog()
                 .build()
             StrictMode.setThreadPolicy(policy)
         }

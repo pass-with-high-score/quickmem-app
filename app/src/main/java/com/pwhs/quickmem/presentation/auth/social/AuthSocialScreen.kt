@@ -2,12 +2,13 @@ package com.pwhs.quickmem.presentation.auth.social
 
 import android.widget.Toast
 import androidx.annotation.StringRes
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
@@ -19,14 +20,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -136,6 +136,7 @@ fun AuthSocial(
 ) {
     var isDatePickerVisible by rememberSaveable { mutableStateOf(false) }
     var isRoleVisible by rememberSaveable { mutableStateOf(false) }
+    val scrollState = rememberScrollState()
     Scaffold(
         modifier = modifier.gradientBackground(),
         containerColor = Color.Transparent,
@@ -148,26 +149,33 @@ fun AuthSocial(
         Column(
             modifier = Modifier
                 .padding(innerPadding)
-                .fillMaxSize()
                 .padding(16.dp)
-                .padding(top = 40.dp),
+                .verticalScroll(scrollState)
+                .padding(bottom = 16.dp)
+                .imePadding(),
             verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = stringResource(R.string.txt_almost_done),
-                style = MaterialTheme.typography.headlineLarge.copy(
+                style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.Bold,
-                    color = colorScheme.primary
-                )
+                    color = Color.White,
+                    textAlign = TextAlign.Start
+                ),
+                modifier = Modifier.fillMaxWidth()
             )
 
             Text(
                 text = stringResource(R.string.txt_enter_your_birthday_this_won_t_be_visible_to_others),
-                style = MaterialTheme.typography.headlineSmall.copy(
+                style = MaterialTheme.typography.bodyMedium.copy(
                     fontSize = 16.sp,
-                    color = colorScheme.primary
+                    color = colorScheme.onSurface,
+                    textAlign = TextAlign.Start
                 ),
-                modifier = Modifier.padding(top = 16.dp, bottom = 22.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp, bottom = 16.dp)
             )
 
             AuthTextField(
@@ -175,7 +183,7 @@ fun AuthSocial(
                 onValueChange = onBirthdayChanged,
                 label = stringResource(R.string.txt_select_your_birthday),
                 iconId = R.drawable.ic_calendar,
-                contentDescription = "Birthday",
+                contentDescription = stringResource(R.string.txt_select_your_birthday),
                 readOnly = true,
                 enabled = false,
                 onClick = { isDatePickerVisible = true },
@@ -189,41 +197,6 @@ fun AuthSocial(
                     onRoleChanged = onRoleChanged
                 )
             }
-
-            Text(
-                buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            color = colorScheme.onSurface,
-                            fontSize = 16.sp,
-                        )
-                    ) {
-                        append(stringResource(R.string.txt_by_signing_up_you_agree_to_the))
-                        withStyle(
-                            style = SpanStyle(
-                                color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append(stringResource(R.string.txt_terms_and_conditions))
-                        }
-                        append(stringResource(R.string.txt_and_the))
-                        withStyle(
-                            style = SpanStyle(
-                                color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold
-                            )
-                        ) {
-                            append(stringResource(R.string.txt_privacy_policy))
-                        }
-                        append(stringResource(R.string.txt_of_quickmem))
-                    }
-                },
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .clickable { },
-            )
-
             if (isDatePickerVisible) {
                 DatePickerModalInput(
                     onDateSelected = {
@@ -250,6 +223,7 @@ fun AuthSocial(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun PreviewSignupWithGoogleScreen() {
     QuickMemTheme {

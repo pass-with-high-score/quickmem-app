@@ -2,11 +2,11 @@ package com.pwhs.quickmem.presentation.auth.component
 
 import androidx.compose.material.icons.Icons.AutoMirrored.Filled
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults.iconButtonColors
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -19,8 +19,9 @@ import com.pwhs.quickmem.ui.theme.QuickMemTheme
 @Composable
 fun AuthTopAppBar(
     onClick: () -> Unit = {},
+    title: @Composable () -> Unit = {},
 ) {
-    TopAppBar(
+    CenterAlignedTopAppBar(
         colors = topAppBarColors(
             containerColor = Color.Transparent,
         ),
@@ -29,7 +30,7 @@ fun AuthTopAppBar(
                 onClick = onClick,
                 colors = iconButtonColors(
                     contentColor = Color.White
-                )
+                ),
             ) {
                 Icon(
                     imageVector = Filled.ArrowBack,
@@ -37,12 +38,11 @@ fun AuthTopAppBar(
                 )
             }
         },
-        title = {
-        },
+        title = title,
     )
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 private fun AuthTopAppBarPreview() {
     QuickMemTheme {
