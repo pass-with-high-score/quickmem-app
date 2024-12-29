@@ -152,8 +152,9 @@ fun ChangeAvatar(
                     .padding(horizontal = 8.dp)
             ) {
                 LazyVerticalGrid(
-                    columns = GridCells.Adaptive(100.dp),
-                    modifier = modifier.fillMaxSize()
+                    columns = GridCells.Fixed(3),
+                    modifier = modifier.fillMaxSize(),
+                    // Dont you content padding, it not work
                 ) {
                     item {
                         AvatarItem(
