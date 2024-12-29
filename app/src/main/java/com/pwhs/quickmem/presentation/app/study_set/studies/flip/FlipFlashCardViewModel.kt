@@ -30,7 +30,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -104,7 +103,6 @@ class FlipFlashCardViewModel @Inject constructor(
                 }
                 if (event.index == _uiState.value.flashCardList.size - 1) {
                     _uiState.update {
-                        Timber.d("isEndOfList: true")
                         it.copy(
                             isEndOfList = true,
                             learningTime = System.currentTimeMillis() - it.startTime
@@ -112,6 +110,7 @@ class FlipFlashCardViewModel @Inject constructor(
                     }
                     playCompleteSound()
                     sendCompletedStudyTime()
+                    _uiEvent.trySend(FlipFlashCardUiEvent.Finished)
                     return
                 }
             }

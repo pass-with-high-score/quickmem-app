@@ -50,6 +50,8 @@ import com.pwhs.quickmem.core.data.enums.QuizStatus
 import com.pwhs.quickmem.core.data.states.RandomAnswer
 import com.pwhs.quickmem.core.data.states.WrongAnswer
 import com.pwhs.quickmem.domain.model.flashcard.FlashCardResponseModel
+import com.pwhs.quickmem.presentation.StandardUiAction
+import com.pwhs.quickmem.presentation.StandardViewModel
 import com.pwhs.quickmem.presentation.app.study_set.studies.component.UnfinishedLearningBottomSheet
 import com.pwhs.quickmem.presentation.app.study_set.studies.quiz.component.QuizFlashCardFinish
 import com.pwhs.quickmem.presentation.app.study_set.studies.quiz.component.QuizView
@@ -70,7 +72,8 @@ import kotlinx.coroutines.launch
 fun LearnByQuizScreen(
     modifier: Modifier = Modifier,
     resultNavigator: ResultBackNavigator<Boolean>,
-    viewModel: LearnByQuizViewModel = hiltViewModel()
+    viewModel: LearnByQuizViewModel = hiltViewModel(),
+    standardViewModel: StandardViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -78,7 +81,12 @@ fun LearnByQuizScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 LearnByQuizUiEvent.Finished -> {
-                    Toast.makeText(context, "Finished", Toast.LENGTH_SHORT).show()
+                    standardViewModel.onEvent(StandardUiAction.UpdateStreak)
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_you_have_finished),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 LearnByQuizUiEvent.Back -> {
@@ -276,7 +284,8 @@ fun LearnByQuiz(
                     .padding(innerPadding)
             ) {
                 val currentProgress by animateFloatAsState(
-                    targetValue = currentCardIndex.toFloat() / flashCardList.size.toFloat().coerceAtLeast(1f)
+                    targetValue = currentCardIndex.toFloat() / flashCardList.size.toFloat()
+                        .coerceAtLeast(1f)
                 )
                 LinearProgressIndicator(
                     modifier = Modifier.fillMaxWidth(),

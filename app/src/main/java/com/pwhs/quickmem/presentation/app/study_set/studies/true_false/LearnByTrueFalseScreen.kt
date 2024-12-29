@@ -52,6 +52,8 @@ import coil.compose.AsyncImage
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.LearnFrom
 import com.pwhs.quickmem.domain.model.flashcard.FlashCardResponseModel
+import com.pwhs.quickmem.presentation.StandardUiAction
+import com.pwhs.quickmem.presentation.StandardViewModel
 import com.pwhs.quickmem.presentation.app.study_set.studies.component.UnfinishedLearningBottomSheet
 import com.pwhs.quickmem.presentation.app.study_set.studies.true_false.component.TrueFalseButton
 import com.pwhs.quickmem.presentation.app.study_set.studies.true_false.component.TrueFalseFlashcardFinish
@@ -69,8 +71,9 @@ import com.ramcosta.composedestinations.result.ResultBackNavigator
 @Composable
 fun LearnByTrueFalseScreen(
     modifier: Modifier = Modifier,
+    resultBackNavigator: ResultBackNavigator<Boolean>,
     viewModel: LearnByTrueFalseViewModel = hiltViewModel(),
-    resultBackNavigator: ResultBackNavigator<Boolean>
+    standardViewModel: StandardViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -82,9 +85,10 @@ fun LearnByTrueFalseScreen(
                 }
 
                 LearnByTrueFalseUiEvent.Finished -> {
+                    standardViewModel.onEvent(StandardUiAction.UpdateStreak)
                     Toast.makeText(
                         context,
-                        context.getString(R.string.txt_finished),
+                        context.getString(R.string.txt_you_have_finished),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -218,7 +222,8 @@ fun LearnByTrueFalse(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 val currentProgress by animateFloatAsState(
-                    targetValue = currentCardIndex.toFloat() / flashCardList.size.toFloat().coerceAtLeast(1f)
+                    targetValue = currentCardIndex.toFloat() / flashCardList.size.toFloat()
+                        .coerceAtLeast(1f)
                 )
                 LinearProgressIndicator(
                     modifier = Modifier.fillMaxWidth(),

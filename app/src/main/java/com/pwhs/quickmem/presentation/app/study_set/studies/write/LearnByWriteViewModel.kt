@@ -182,7 +182,6 @@ class LearnByWriteViewModel @Inject constructor(
                                         )
                                     }
                                     playCompleteSound()
-                                    _uiEvent.send(LearnByWriteUiEvent.Finished)
                                     return@collect
                                 }
 
@@ -232,7 +231,6 @@ class LearnByWriteViewModel @Inject constructor(
                                         )
                                     }
                                     playCompleteSound()
-                                    _uiEvent.send(LearnByWriteUiEvent.Finished)
                                     return@collect
                                 }
 

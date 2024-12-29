@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import javax.inject.Inject
@@ -34,7 +33,24 @@ class StandardViewModel @Inject constructor(
                     appManager.userId.collectLatest { userId ->
                         if (userId.isNotEmpty()) {
                             getStreaksByUserId(token, userId)
-                            updateStreak(token, userId)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun onEvent(event: StandardUiAction) {
+        when (event) {
+            is StandardUiAction.UpdateStreak -> {
+                viewModelScope.launch {
+                    tokenManager.accessToken.collectLatest { token ->
+                        if (!token.isNullOrEmpty()) {
+                            appManager.userId.collectLatest { userId ->
+                                if (userId.isNotEmpty()) {
+                                    updateStreak(token, userId)
+                                }
+                            }
                         }
                     }
                 }
@@ -57,9 +73,9 @@ class StandardViewModel @Inject constructor(
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
                             streaks = streaks,
-                            streakDates = streakDates
+                            streakDates = streakDates,
+                            streakCount = streaks.lastOrNull()?.streakCount ?: 0
                         )
-                        Timber.d("Dates: $streakDates")
                     }
 
                     is Resources.Error -> {

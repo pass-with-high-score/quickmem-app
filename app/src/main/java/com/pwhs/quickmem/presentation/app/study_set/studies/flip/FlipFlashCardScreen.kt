@@ -44,6 +44,8 @@ import com.msusman.compose.cardstack.rememberStackState
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.LearnFrom
 import com.pwhs.quickmem.domain.model.flashcard.FlashCardResponseModel
+import com.pwhs.quickmem.presentation.StandardUiAction
+import com.pwhs.quickmem.presentation.StandardViewModel
 import com.pwhs.quickmem.presentation.app.study_set.component.StudyCardBottomSheet
 import com.pwhs.quickmem.presentation.app.study_set.studies.flip.component.FlipFlashCardButton
 import com.pwhs.quickmem.presentation.app.study_set.studies.flip.component.FlipFlashCardFinish
@@ -59,7 +61,6 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import kotlinx.coroutines.delay
-import timber.log.Timber
 
 @Destination<RootGraph>(
     navArgs = FlipFlashCardArgs::class
@@ -69,6 +70,7 @@ fun FlipFlashCardScreen(
     modifier: Modifier = Modifier,
     resultNavigator: ResultBackNavigator<Boolean>,
     viewModel: FlipFlashCardViewModel = hiltViewModel(),
+    standardViewModel: StandardViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -77,9 +79,10 @@ fun FlipFlashCardScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 FlipFlashCardUiEvent.Finished -> {
+                    standardViewModel.onEvent(StandardUiAction.UpdateStreak)
                     Toast.makeText(
                         context,
-                        context.getString(R.string.txt_finished),
+                        context.getString(R.string.txt_you_have_finished),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
@@ -289,11 +292,9 @@ fun FlipFlashCard(
                                         items = flashCards,
                                         onSwiped = { index, direction ->
                                             isFlipCard = false
-                                            Timber.d("Index of flashcard: $index")
                                             if (index in flashCards.indices) {
                                                 onUpdatedCardIndex(index)
                                                 val flashCardId = flashCards[index].id
-                                                Timber.d("Swiped index: $index, direction: $direction")
                                                 when (direction) {
                                                     Direction.Left, Direction.TopAndLeft, Direction.BottomAndLeft, Direction.Top -> {
                                                         onUpdateCountStillLearning(

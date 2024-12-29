@@ -185,7 +185,6 @@ class LearnByTrueFalseViewModel @Inject constructor(
                                         )
                                     }
                                     playCompleteSound()
-                                    _uiEvent.send(LearnByTrueFalseUiEvent.Finished)
                                     return@collect
                                 }
 
@@ -236,7 +235,6 @@ class LearnByTrueFalseViewModel @Inject constructor(
                                         )
                                     }
                                     playCompleteSound()
-                                    _uiEvent.send(LearnByTrueFalseUiEvent.Finished)
                                     return@collect
                                 }
 

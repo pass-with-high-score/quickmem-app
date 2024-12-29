@@ -189,7 +189,6 @@ class LearnByQuizViewModel @Inject constructor(
                                         )
                                     }
                                     playCompleteSound()
-                                    _uiEvent.send(LearnByQuizUiEvent.Finished)
                                     return@collect
                                 }
 
@@ -242,7 +241,6 @@ class LearnByQuizViewModel @Inject constructor(
                                         )
                                     }
                                     playCompleteSound()
-                                    _uiEvent.send(LearnByQuizUiEvent.Finished)
                                     return@collect
                                 }
 
