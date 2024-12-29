@@ -62,7 +62,7 @@ fun SearchStudySetBySubjectScreen(
     modifier: Modifier = Modifier,
     viewModel: SearchStudySetBySubjectViewModel = hiltViewModel(),
     navigator: DestinationsNavigator,
-    resultBackNavigator: ResultBackNavigator<Boolean>
+    resultBackNavigator: ResultBackNavigator<Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -92,10 +92,9 @@ fun SearchStudySetBySubjectScreen(
         icon = uiState.icon,
         studySetCount = uiState.studySetCount,
         isLoading = uiState.isLoading,
-        nameSubject = uiState.subject?.subjectName ?: R.string.txt_general,
+        nameSubject = uiState.subject?.subjectName,
         colorSubject = uiState.subject?.color ?: Color.Blue,
-        descriptionSubject = uiState.subject?.subjectDescription
-            ?: R.string.txt_general_subjects_that_do_not_fit_into_specific_categories,
+        descriptionSubject = uiState.subject?.subjectDescription,
         studySets = studySetItems,
         onNavigateBack = {
             resultBackNavigator.navigateBack(true)
@@ -104,7 +103,11 @@ fun SearchStudySetBySubjectScreen(
             viewModel.onEvent(SearchStudySetBySubjectUiAction.RefreshStudySets)
         },
         onAddStudySet = {
-            navigator.navigate(CreateStudySetScreenDestination())
+            navigator.navigate(
+                CreateStudySetScreenDestination(
+                    subjectId = uiState.subject?.id ?: 1
+                )
+            )
         }
     )
 }
@@ -114,15 +117,15 @@ fun SearchStudySetBySubject(
     modifier: Modifier = Modifier,
     studySets: LazyPagingItems<GetStudySetResponseModel>? = null,
     onStudySetClick: (GetStudySetResponseModel?) -> Unit = {},
-    @StringRes nameSubject: Int = R.string.txt_general,
+    @StringRes nameSubject: Int? = null,
     colorSubject: Color = colorScheme.primary,
-    @DrawableRes icon: Int = R.drawable.ic_all,
+    @DrawableRes icon: Int? = null,
     studySetCount: Int = 0,
-    @StringRes descriptionSubject: Int = R.string.txt_general_subjects_that_do_not_fit_into_specific_categories,
+    @StringRes descriptionSubject: Int? = null,
     isLoading: Boolean = false,
     onNavigateBack: () -> Unit = {},
     onStudySetRefresh: () -> Unit = {},
-    onAddStudySet: () -> Unit = {}
+    onAddStudySet: () -> Unit = {},
 ) {
     var searchQuery by remember { mutableStateOf("") }
 
@@ -132,11 +135,11 @@ fun SearchStudySetBySubject(
         topBar = {
             SearchStudySetBySubjectTopAppBar(
                 onNavigateBack = onNavigateBack,
-                name = stringResource(nameSubject),
+                name = nameSubject?.let { stringResource(it) },
                 color = colorSubject,
                 icon = icon,
                 studySetCount = studySetCount,
-                description = stringResource(descriptionSubject),
+                description = descriptionSubject?.let { stringResource(it) },
                 onAddStudySet = onAddStudySet
             )
         }

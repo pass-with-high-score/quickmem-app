@@ -1,5 +1,6 @@
 package com.pwhs.quickmem.presentation.app.study_set.create
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
@@ -7,6 +8,7 @@ import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.study_set.CreateStudySetRequestModel
+import com.pwhs.quickmem.domain.model.subject.SubjectModel
 import com.pwhs.quickmem.domain.repository.StudySetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -24,12 +26,22 @@ class CreateStudySetViewModel @Inject constructor(
     private val studySetRepository: StudySetRepository,
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(CreateStudySetUiState())
     val uiState = _uiState.asStateFlow()
 
     private val _uiEvent = Channel<CreateStudySetUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
+
+    init {
+        val subjectId: Int? = savedStateHandle.get<Int>("subjectId")
+        if (subjectId != null) {
+            _uiState.update {
+                it.copy(subjectModel = SubjectModel.defaultSubjects.first { it.id == subjectId })
+            }
+        }
+    }
 
     fun onEvent(event: CreateStudySetUiAction) {
         when (event) {

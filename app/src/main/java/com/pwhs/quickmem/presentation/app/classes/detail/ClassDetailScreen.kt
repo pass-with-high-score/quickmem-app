@@ -490,6 +490,7 @@ fun ClassDetail(
             text = stringResource(R.string.txt_are_you_sure_you_want_to_delete_this_class),
             confirmButtonTitle = stringResource(R.string.txt_delete),
             dismissButtonTitle = stringResource(R.string.txt_cancel),
+            buttonColor = colorScheme.error,
         )
     }
 
@@ -506,6 +507,7 @@ fun ClassDetail(
             text = stringResource(R.string.txt_are_you_sure_you_want_to_exit_this_class),
             confirmButtonTitle = stringResource(R.string.txt_exit),
             dismissButtonTitle = stringResource(R.string.txt_cancel),
+            buttonColor = colorScheme.error,
         )
     }
 

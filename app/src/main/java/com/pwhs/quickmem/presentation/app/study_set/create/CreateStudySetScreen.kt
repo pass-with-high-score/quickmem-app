@@ -48,7 +48,9 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@Destination<RootGraph>
+@Destination<RootGraph>(
+    navArgs = CreateStudySetArgs::class
+)
 @Composable
 fun CreateStudySetScreen(
     modifier: Modifier = Modifier,

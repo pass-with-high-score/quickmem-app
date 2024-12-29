@@ -40,13 +40,13 @@ import com.pwhs.quickmem.util.gradientBackground
 @Composable
 fun SearchStudySetBySubjectTopAppBar(
     modifier: Modifier = Modifier,
-    name: String = "",
-    description: String = "",
+    name: String? = null,
+    description: String? = null,
     color: Color,
     studySetCount: Int = 0,
-    @DrawableRes icon: Int = R.drawable.ic_all,
+    @DrawableRes icon: Int? = null,
     onNavigateBack: () -> Unit,
-    onAddStudySet: () -> Unit = {}
+    onAddStudySet: () -> Unit = {},
 ) {
     LargeTopAppBar(
         modifier = modifier.background(color.gradientBackground()),
@@ -62,24 +62,28 @@ fun SearchStudySetBySubjectTopAppBar(
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        painter = painterResource(id = icon),
-                        contentDescription = null,
-                        tint = colorScheme.onSurface,
-                        modifier = Modifier
-                            .size(30.dp)
-                            .padding(end = 8.dp)
-                    )
-                    Text(
-                        text = name,
-                        style = typography.titleMedium.copy(
-                            fontWeight = FontWeight.Bold,
-                            color = colorScheme.onSurface,
-                            fontSize = 20.sp
-                        ),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    icon?.let {
+                        Icon(
+                            painter = painterResource(id = icon),
+                            contentDescription = null,
+                            tint = colorScheme.onSurface,
+                            modifier = Modifier
+                                .size(30.dp)
+                                .padding(end = 8.dp)
+                        )
+                    }
+                    name?.let {
+                        Text(
+                            text = name,
+                            style = typography.titleMedium.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = colorScheme.onSurface,
+                                fontSize = 20.sp
+                            ),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
                 }
                 Text(
                     text = stringResource(R.string.txt_sets, studySetCount),
@@ -89,14 +93,16 @@ fun SearchStudySetBySubjectTopAppBar(
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                Text(
-                    text = description,
-                    style = typography.bodyMedium.copy(
-                        color = colorScheme.secondary
-                    ),
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
+                description?.let {
+                    Text(
+                        text = description,
+                        style = typography.bodyMedium.copy(
+                            color = colorScheme.secondary
+                        ),
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                }
             }
         },
         expandedHeight = 150.dp,
@@ -128,6 +134,7 @@ fun SearchStudySetBySubjectTopAppBar(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun TopBarSearchPreview() {
     QuickMemTheme {

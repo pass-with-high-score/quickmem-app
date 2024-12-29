@@ -393,6 +393,7 @@ fun FolderDetail(
             text = stringResource(R.string.txt_are_you_sure_you_want_to_delete_this_folder),
             confirmButtonTitle = stringResource(R.string.txt_delete),
             dismissButtonTitle = stringResource(R.string.txt_cancel),
+            buttonColor = colorScheme.error,
         )
     }
     FolderMenuBottomSheet(

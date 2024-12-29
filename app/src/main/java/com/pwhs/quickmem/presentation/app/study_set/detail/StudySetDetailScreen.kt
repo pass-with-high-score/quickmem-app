@@ -230,8 +230,10 @@ fun StudySetDetailScreen(
                 }
 
                 is StudySetDetailUiEvent.StudySetCopied -> {
-                    Toast.makeText(context,
-                        context.getString(R.string.txt_study_set_copied), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_study_set_copied), Toast.LENGTH_SHORT
+                    ).show()
                     navigator.navigate(
                         StudySetDetailScreenDestination(
                             id = event.newStudySetId,
@@ -631,6 +633,7 @@ fun StudySetDetail(
             text = stringResource(R.string.txt_are_you_sure_you_want_to_delete_this_study_set),
             confirmButtonTitle = stringResource(R.string.txt_delete),
             dismissButtonTitle = stringResource(R.string.txt_cancel),
+            buttonColor = colorScheme.error,
         )
     }
 

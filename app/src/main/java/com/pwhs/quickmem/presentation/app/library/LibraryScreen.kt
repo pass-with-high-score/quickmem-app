@@ -157,7 +157,7 @@ fun LibraryScreen(
             )
         },
         navigateToCreateStudySet = {
-            navigator.navigate(CreateStudySetScreenDestination)
+            navigator.navigate(CreateStudySetScreenDestination())
         },
         navigateToCreateClass = {
             navigator.navigate(CreateClassScreenDestination)
