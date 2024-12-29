@@ -88,6 +88,8 @@ import com.ramcosta.composedestinations.generated.destinations.SearchScreenDesti
 import com.ramcosta.composedestinations.generated.destinations.SearchStudySetBySubjectScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.ramcosta.composedestinations.result.NavResult
+import com.ramcosta.composedestinations.result.ResultRecipient
 import com.revenuecat.purchases.CustomerInfo
 
 @Destination<RootGraph>(
@@ -105,6 +107,9 @@ fun HomeScreen(
     folderCode: String? = null,
     classCode: String? = null,
     viewModel: HomeViewModel = hiltViewModel(),
+    resultStudySetDetail: ResultRecipient<StudySetDetailScreenDestination, Boolean>,
+    resultClassDetail: ResultRecipient<ClassDetailScreenDestination, Boolean>,
+    resultFolderDetail: ResultRecipient<FolderDetailScreenDestination, Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -156,6 +161,44 @@ fun HomeScreen(
                         launchSingleTop = true
                         restoreState = false
                     }
+                }
+            }
+        }
+    }
+    resultStudySetDetail.onNavResult { result ->
+        when (result) {
+            NavResult.Canceled -> {
+            }
+
+            is NavResult.Value -> {
+                if (result.value) {
+                    viewModel.onEvent(HomeUiAction.RefreshHome)
+                }
+            }
+        }
+    }
+
+    resultClassDetail.onNavResult { result ->
+        when (result) {
+            NavResult.Canceled -> {
+            }
+
+            is NavResult.Value -> {
+                if (result.value) {
+                    viewModel.onEvent(HomeUiAction.RefreshHome)
+                }
+            }
+        }
+    }
+
+    resultFolderDetail.onNavResult { result ->
+        when (result) {
+            NavResult.Canceled -> {
+            }
+
+            is NavResult.Value -> {
+                if (result.value) {
+                    viewModel.onEvent(HomeUiAction.RefreshHome)
                 }
             }
         }

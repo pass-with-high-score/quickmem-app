@@ -1,19 +1,27 @@
 # QuickMem
 
-**QuickMem** is an Android application designed to enhance learning through flashcards. It helps users efficiently memorize and review various subjects by offering a flashcard-based learning approach, similar to popular apps like Quizlet and Anki. The app is built using modern Android technologies, including Kotlin, Jetpack Compose, Dagger Hilt, and more, ensuring a smooth and engaging user experience.
+**QuickMem** is an Android application designed to enhance learning through flashcards. It helps
+users efficiently memorize and review various subjects by offering a flashcard-based learning
+approach, similar to popular apps like Quizlet and Anki. The app is built using modern Android
+technologies, including Kotlin, Jetpack Compose, Dagger Hilt, and more, ensuring a smooth and
+engaging user experience.
 
 ## Participate in Testing
 
 #### Step 1: Join the Google Group
+
 [Google Group - QuickMem](https://groups.google.com/g/quickmem)
 
 #### Step 2: Join the Closed Testing
+
 [Google Play Closed Testing - QuickMem](https://play.google.com/apps/testing/com.pwhs.quickmem)
 
 ## Features
 
-- **User Authentication & Onboarding**: Secure sign-up and sign-in process with user account management.
-- **Flashcard & Study Set Management**: Create, edit, and manage flashcards and study sets for different subjects.
+- **User Authentication & Onboarding**: Secure sign-up and sign-in process with user account
+  management.
+- **Flashcard & Study Set Management**: Create, edit, and manage flashcards and study sets for
+  different subjects.
 - **Progress Tracking**: Track study progress and flashcard performance over time.
 - **Customizable Flashcard Modes**: Choose from various study modes to reinforce learning.
 - **Daily Reminders**: Get reminders to review flashcards and stay on track with learning goals.
@@ -22,9 +30,11 @@
 - **Logging & Debugging**: Built-in logging for debugging and performance monitoring with Timber.
 - **Data Storage**: Local data storage using DataStore to persist user data and flashcards.
 - **Daily Notifications**: Schedule daily notifications for reminders and study sessions.
-- **AI-Powered Features**: Create smart flashcards and study sets using AI algorithms for better learning.
+- **AI-Powered Features**: Create smart flashcards and study sets using AI algorithms for better
+  learning.
 - **Multi-Language Support**: Support for multiple languages and localization for a global audience.
-- **Multi-Method Study**: Use different study methods like flip, multiple-choice, and fill-in-the-blank for flashcards.
+- **Multi-Method Study**: Use different study methods like flip, multiple-choice, and
+  fill-in-the-blank for flashcards.
 
 ## Installation
 
@@ -76,18 +86,22 @@
 
 ## Project Structure
 
-- `app/src/main/java/com/pwhs/quickmem/`: Contains the main application code and features related to flashcard management, user authentication, and study modes.
+- `app/src/main/java/com/pwhs/quickmem/`: Contains the main application code and features related to
+  flashcard management, user authentication, and study modes.
 - `app/src/main/res/`: Contains resource files like strings, images, and layouts.
 - `app/build.gradle.kts`: Build configuration for the app module.
 - `.github/workflows/`: Contains GitHub Actions workflows for CI/CD.
 
 ## Backend
 
-The app utilizes a backend for syncing data, flashcards, and user information. For security reasons, sensitive information such as VPS details and Google services are not publicly disclosed. Please contact me via email for further information.
+The app utilizes a backend for syncing data, flashcards, and user information. For security reasons,
+sensitive information such as VPS details and Google services are not publicly disclosed. Please
+contact me via email for further information.
 
 ## Contributing
 
-This project is part of my graduation project for the "Mobile Application Development" course at FPT Polytechnic College. At the moment, contributions are not being accepted.
+Contributions are what make the open-source community such an amazing place to learn, inspire, and
+create. Any contributions you make are **greatly appreciated**.
 
 ## Acknowledgements
 
