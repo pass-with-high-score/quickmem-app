@@ -31,11 +31,6 @@ fun String.emailIsValid(): Boolean {
     return this.validEmail()
 }
 
-fun String.strongPassword(): Boolean {
-    val regex = "^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9])(?=.*[a-z]).{8,}$".toRegex()
-    return this.matches(regex)
-}
-
 fun String.toTimestamp(): Long? {
     if (this.isEmpty()) return null
     val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())

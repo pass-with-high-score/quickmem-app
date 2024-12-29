@@ -12,7 +12,6 @@ import com.pwhs.quickmem.domain.model.auth.LoginRequestModel
 import com.pwhs.quickmem.domain.model.auth.ResendEmailRequestModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
 import com.pwhs.quickmem.util.emailIsValid
-import com.pwhs.quickmem.util.strongPassword
 import com.revenuecat.purchases.CustomerInfo
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError
@@ -163,7 +162,7 @@ class LoginWithEmailViewModel @Inject constructor(
 
                                                         override fun onReceived(
                                                             customerInfo: CustomerInfo,
-                                                            created: Boolean
+                                                            created: Boolean,
                                                         ) {
                                                             Timber.d("Customer info: $customerInfo")
                                                         }
@@ -229,7 +228,7 @@ class LoginWithEmailViewModel @Inject constructor(
         } else {
             _uiState.update { it.copy(emailError = null) }
         }
-        if (!uiState.value.password.strongPassword() || uiState.value.password.isEmpty()) {
+        if (uiState.value.password.length < 6 || uiState.value.password.isEmpty()) {
             _uiState.update { it.copy(passwordError = R.string.txt_password_is_too_weak_and_required) }
             isValid = false
         } else {

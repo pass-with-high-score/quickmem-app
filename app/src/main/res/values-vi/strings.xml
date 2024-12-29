@@ -569,7 +569,7 @@
     <string name="txt_email_is_not_registered">Email chưa được đăng ký</string>
     <string name="txt_invalid_email_or_password">Email hoặc mật khẩu không hợp lệ</string>
     <string name="txt_your_account_has_been_blocked">Tài khoản của bạn đã bị khóa</string>
-    <string name="txt_password_is_too_weak_and_required">Mật khẩu quá yếu! Mật khẩu phải chứa ít nhất 8 ký tự, 1 chữ cái viết hoa, 1 chữ cái viết thường, 1 số và 1 ký tự đặc biệt.</string>
+    <string name="txt_password_is_too_weak_and_required">Mật khẩu cần có ít nhất 6 ký tự.</string>
     <string name="txt_birthday_is_required">Ngày sinh là bắt buộc</string>
     <string name="txt_email_is_already_registered">Email đã được đăng ký</string>
     <string name="txt_something_went_wrong">Đã xảy ra lỗi</string>
@@ -648,14 +648,16 @@
     <string name="txt_study_set_not_found">Không tìm thấy bộ học</string>
     <string name="txt_flashcard_not_found">Không tìm thấy thẻ</string>
     <string name="txt_study_set_copied">Tạo bản sao mới thành công!</string>
-    <string name="txt_title_must_be_at_least_1_characters">Title must be at least 1 characters</string>
-    <string name="txt_failed_to_update_folder">Failed to update folder</string>
-    <string name="txt_sets">%1$s sets</string>
-    <string name="txt_please_enter_a_search_query">Please enter a search query</string>
-    <string name="txt_error_create_folder">An error when create folder</string>
-    <string name="txt_search_recent_query_not_found">Search recent query not found.</string>
-    <string name="txt_failed_to_clear_search_history">Failed to clear search history</string>
-    <string name="txt_password_changed_successfully">Password changed successfully</string>
-    <string name="txt_password_is_incorrect">Password is incorrect</string>
-    <string name="txt_toggle_password_visibility">Toggle password visibility</string>
+    <string name="txt_title_must_be_at_least_1_characters">Tiêu đề phải có ít nhất 1 ký tự</string>
+    <string name="txt_failed_to_update_folder">Cập nhật thư mục thất bại</string>
+    <string name="txt_sets">%1$s bộ</string>
+    <string name="txt_please_enter_a_search_query">Vui lòng nhập truy vấn tìm kiếm</string>
+    <string name="txt_error_create_folder">Lỗi khi tạo thư mục</string>
+    <string name="txt_search_recent_query_not_found">Không tìm thấy truy vấn tìm kiếm gần đây</string>
+    <string name="txt_failed_to_clear_search_history">Xóa lịch sử tìm kiếm thất bại</string>
+    <string name="txt_password_changed_successfully">Đổi mật khẩu thành công</string>
+    <string name="txt_password_is_incorrect">Mật khẩu không chính xác</string>
+    <string name="txt_toggle_password_visibility">Chuyển đổi hiển thị mật khẩu</string>
+    <string name="txt_new_password_must_be_different_from_the_current_password">Mật khẩu mới phải khác mật khẩu hiện tại</string>
+    <string name="txt_please_fill_in_all_fields">Vui lòng điền vào tất cả các trường</string>
 </resources>

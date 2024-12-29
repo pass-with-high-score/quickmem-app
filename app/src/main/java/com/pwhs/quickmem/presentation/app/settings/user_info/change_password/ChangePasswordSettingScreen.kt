@@ -1,6 +1,7 @@
 package com.pwhs.quickmem.presentation.app.settings.user_info.change_password
 
 import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -36,7 +37,11 @@ fun ChangePasswordSettingScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 is ChangePasswordSettingUiEvent.OnError -> {
-                    Toast.makeText(context, event.errorMessage, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(event.errorMessage),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 ChangePasswordSettingUiEvent.OnPasswordChanged -> {
@@ -85,9 +90,9 @@ fun ChangePasswordSetting(
     currentPassword: String = "",
     newPassword: String = "",
     confirmPassword: String = "",
-    errorCurrentPassword: String = "",
-    errorNewPassword: String = "",
-    errorConfirmPassword: String = "",
+    @StringRes errorCurrentPassword: Int? = null,
+    @StringRes errorNewPassword: Int? = null,
+    @StringRes errorConfirmPassword: Int? = null,
     isLoading: Boolean = false,
     onCurrentPasswordChanged: (String) -> Unit = {},
     onNewPasswordChanged: (String) -> Unit = {},
@@ -119,7 +124,7 @@ fun ChangePasswordSetting(
                     value = currentPassword,
                     onValueChange = onCurrentPasswordChanged,
                     placeholder = stringResource(R.string.txt_current_password),
-                    errorMessage = errorCurrentPassword,
+                    errorMessage = errorCurrentPassword?.let { stringResource(it) },
                     isSecure = true
                 )
                 SettingTextField(
@@ -128,7 +133,7 @@ fun ChangePasswordSetting(
                     value = newPassword,
                     onValueChange = onNewPasswordChanged,
                     placeholder = stringResource(R.string.txt_new_password),
-                    errorMessage = errorNewPassword,
+                    errorMessage = errorNewPassword?.let { stringResource(it) },
                     isSecure = true
                 )
                 SettingTextField(
@@ -137,7 +142,7 @@ fun ChangePasswordSetting(
                     value = confirmPassword,
                     onValueChange = onConfirmPasswordChanged,
                     placeholder = stringResource(R.string.txt_confirm_new_password),
-                    errorMessage = errorConfirmPassword,
+                    errorMessage = errorConfirmPassword?.let { stringResource(it) },
                     isSecure = true
                 )
             }

@@ -11,7 +11,6 @@ import com.pwhs.quickmem.domain.repository.AuthRepository
 import com.pwhs.quickmem.util.emailIsValid
 import com.pwhs.quickmem.util.getNameFromEmail
 import com.pwhs.quickmem.util.getUsernameFromEmail
-import com.pwhs.quickmem.util.strongPassword
 import com.wajahatkarim3.easyvalidation.core.view_ktx.validEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -65,7 +64,7 @@ class SignupWithEmailViewModel @Inject constructor(
             }
 
             is SignUpWithEmailUiAction.PasswordChanged -> {
-                if (!event.password.strongPassword()) {
+                if (event.password.length < 6) {
                     _uiState.update {
                         it.copy(
                             password = event.password,
@@ -176,7 +175,7 @@ class SignupWithEmailViewModel @Inject constructor(
         } else {
             _uiState.update { it.copy(emailError = null) }
         }
-        if (!uiState.value.password.strongPassword() || uiState.value.password.isEmpty()) {
+        if (uiState.value.password.isEmpty() || uiState.value.password.length < 6) {
             _uiState.update { it.copy(passwordError = R.string.txt_password_is_too_weak_and_required) }
             isValid = false
         } else {

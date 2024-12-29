@@ -3,11 +3,11 @@ package com.pwhs.quickmem.presentation.app.settings.user_info.change_password
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.auth.ChangePasswordRequestModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
-import com.pwhs.quickmem.util.strongPassword
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -22,7 +22,7 @@ import javax.inject.Inject
 class ChangePasswordSettingViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val tokenManager: TokenManager,
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ChangePasswordSettingUiState())
     val uiState = _uiState.asStateFlow()
@@ -43,7 +43,7 @@ class ChangePasswordSettingViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         currentPassword = event.currentPassword,
-                        errorCurrentPassword = ""
+                        errorCurrentPassword = null
                     )
                 }
             }
@@ -52,7 +52,7 @@ class ChangePasswordSettingViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         newPassword = event.newPassword,
-                        errorNewPassword = ""
+                        errorNewPassword = null
                     )
                 }
             }
@@ -61,7 +61,7 @@ class ChangePasswordSettingViewModel @Inject constructor(
                 _uiState.update {
                     it.copy(
                         confirmPassword = event.confirmPassword,
-                        errorConfirmPassword = ""
+                        errorConfirmPassword = null
                     )
                 }
             }
@@ -75,7 +75,7 @@ class ChangePasswordSettingViewModel @Inject constructor(
                 ) {
                     changePassword()
                 } else {
-                    _uiEvent.trySend(ChangePasswordSettingUiEvent.OnError("Invalid password"))
+                    _uiEvent.trySend(ChangePasswordSettingUiEvent.OnError(R.string.txt_error_occurred))
                 }
             }
         }
@@ -100,14 +100,12 @@ class ChangePasswordSettingViewModel @Inject constructor(
                     is Resources.Error -> {
                         _uiState.update {
                             it.copy(
-                                errorCurrentPassword = resource.message ?: "An error occurred",
+                                errorCurrentPassword = R.string.txt_error_occurred,
                                 isLoading = false
                             )
                         }
                         _uiEvent.send(
-                            ChangePasswordSettingUiEvent.OnError(
-                                resource.message ?: "An error occurred"
-                            )
+                            ChangePasswordSettingUiEvent.OnError(R.string.txt_error_occurred)
                         )
                     }
 
@@ -131,24 +129,24 @@ class ChangePasswordSettingViewModel @Inject constructor(
     private fun validatePassword(
         newPassword: String,
         confirmPassword: String,
-        currentPassword: String
+        currentPassword: String,
     ): Boolean {
         if (currentPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
             _uiState.update {
                 it.copy(
-                    errorCurrentPassword = "Please fill in all fields",
-                    errorNewPassword = "Please fill in all fields",
-                    errorConfirmPassword = "Please fill in all fields",
+                    errorCurrentPassword = R.string.txt_please_fill_in_all_fields,
+                    errorNewPassword = R.string.txt_please_fill_in_all_fields,
+                    errorConfirmPassword = R.string.txt_please_fill_in_all_fields,
                     isLoading = false
                 )
             }
             return false
         }
 
-        if (!newPassword.strongPassword()) {
+        if (newPassword.length < 6) {
             _uiState.update {
                 it.copy(
-                    errorNewPassword = "Password must be at least 8 characters long",
+                    errorNewPassword = R.string.txt_password_is_too_weak_and_required,
                     isLoading = false
                 )
             }
@@ -158,8 +156,8 @@ class ChangePasswordSettingViewModel @Inject constructor(
         if (newPassword != confirmPassword) {
             _uiState.update {
                 it.copy(
-                    errorNewPassword = "Passwords do not match",
-                    errorConfirmPassword = "Passwords do not match",
+                    errorNewPassword = R.string.txt_passwords_do_not_match,
+                    errorConfirmPassword = R.string.txt_passwords_do_not_match,
                     isLoading = false
                 )
             }
@@ -169,7 +167,7 @@ class ChangePasswordSettingViewModel @Inject constructor(
         if (currentPassword == newPassword) {
             _uiState.update {
                 it.copy(
-                    errorNewPassword = "New password must be different from the current password",
+                    errorNewPassword = R.string.txt_new_password_must_be_different_from_the_current_password,
                     isLoading = false
                 )
             }
