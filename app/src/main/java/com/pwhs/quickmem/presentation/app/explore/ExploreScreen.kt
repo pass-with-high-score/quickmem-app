@@ -17,7 +17,6 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
@@ -52,6 +51,7 @@ import com.pwhs.quickmem.domain.model.streak.GetTopStreakResponseModel
 import com.pwhs.quickmem.presentation.app.explore.create_study_set_ai.CreateStudySetAITab
 import com.pwhs.quickmem.presentation.app.explore.top_streak.TopStreakScreen
 import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.util.ads.AdsUtil
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
@@ -326,9 +326,10 @@ fun Explore(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun ExploreScreenPreview() {
-    MaterialTheme {
+    QuickMemTheme {
         Explore()
     }
 }

@@ -190,7 +190,10 @@ fun StudyFlipFlashCard(
                                                             else -> 13.sp
                                                         }
                                                     ),
-                                                    textAlign = TextAlign.Center,
+                                                    textAlign = when {
+                                                        flashCard.term.length <= 15 -> TextAlign.Center
+                                                        else -> TextAlign.Start
+                                                    },
                                                     modifier = Modifier
                                                         .padding(30.dp)
                                                         .wrapContentSize(Alignment.Center),
@@ -286,7 +289,10 @@ fun StudyFlipFlashCard(
                                                             else -> 15.sp
                                                         }
                                                     ),
-                                                    textAlign = TextAlign.Center,
+                                                    textAlign = when {
+                                                        flashCard.term.length <= 15 -> TextAlign.Center
+                                                        else -> TextAlign.Start
+                                                    },
                                                     modifier = Modifier
                                                         .wrapContentSize(Alignment.Center),
                                                     softWrap = true
@@ -381,7 +387,10 @@ fun StudyFlipFlashCard(
                                                             else -> 13.sp
                                                         }
                                                     ),
-                                                    textAlign = TextAlign.Center,
+                                                    textAlign = when {
+                                                        flashCard.term.length <= 15 -> TextAlign.Center
+                                                        else -> TextAlign.Start
+                                                    },
                                                     modifier = Modifier
                                                         .padding(30.dp)
                                                         .wrapContentSize(Alignment.Center),
@@ -480,7 +489,10 @@ fun StudyFlipFlashCard(
                                                             else -> 13.sp
                                                         }
                                                     ),
-                                                    textAlign = TextAlign.Center,
+                                                    textAlign = when {
+                                                        flashCard.term.length <= 15 -> TextAlign.Center
+                                                        else -> TextAlign.Start
+                                                    },
                                                     modifier = Modifier
                                                         .wrapContentSize(Alignment.Center),
                                                     softWrap = true

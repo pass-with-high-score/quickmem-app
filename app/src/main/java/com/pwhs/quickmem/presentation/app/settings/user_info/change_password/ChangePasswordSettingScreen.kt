@@ -154,6 +154,7 @@ fun ChangePasswordSetting(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun ChangePasswordSettingScreenPreview() {
     QuickMemTheme {

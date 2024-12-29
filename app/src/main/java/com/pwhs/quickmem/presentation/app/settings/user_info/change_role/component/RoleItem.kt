@@ -10,9 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.UserRole
-import com.pwhs.quickmem.util.upperCaseFirstLetter
 
 @Composable
 fun RoleItem(
@@ -31,7 +32,10 @@ fun RoleItem(
             onClick = { onRoleChanged(role) }
         )
         Text(
-            text = role.name.lowercase().upperCaseFirstLetter(),
+            text = when (role) {
+                UserRole.TEACHER -> stringResource(R.string.txt_teacher)
+                UserRole.STUDENT -> stringResource(R.string.txt_student)
+            },
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(horizontal = 8.dp)
         )

@@ -29,6 +29,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
@@ -39,6 +40,7 @@ import com.pwhs.quickmem.presentation.app.settings.component.SettingCard
 import com.pwhs.quickmem.presentation.app.settings.component.SettingItem
 import com.pwhs.quickmem.presentation.app.settings.component.SettingTitleSection
 import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.ClassDetailScreenDestination
@@ -209,5 +211,14 @@ fun JoinClass(
             }
             LoadingOverlay(isLoading = isLoading)
         }
+    }
+}
+
+@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
+@Composable
+private fun JoinClassScreenPreview() {
+    QuickMemTheme {
+        JoinClass()
     }
 }

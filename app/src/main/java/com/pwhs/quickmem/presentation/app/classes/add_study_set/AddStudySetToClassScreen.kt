@@ -25,6 +25,7 @@ import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.presentation.app.classes.add_study_set.component.AddStudySetToClassList
 import com.pwhs.quickmem.presentation.component.AddItemsTopAppBar
 import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.CreateStudySetScreenDestination
@@ -163,11 +164,11 @@ fun AddStudySetToClass(
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
+@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun AddStudySetPreview() {
-    AddStudySetToClass()
+    QuickMemTheme {
+        AddStudySetToClass()
+    }
 }

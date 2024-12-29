@@ -27,7 +27,7 @@ import com.ramcosta.composedestinations.result.ResultBackNavigator
 fun UpdateEmailSettingScreen(
     modifier: Modifier = Modifier,
     viewModel: UpdateEmailSettingViewModel = hiltViewModel(),
-    resultNavigator: ResultBackNavigator<Boolean>
+    resultNavigator: ResultBackNavigator<Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -40,7 +40,11 @@ fun UpdateEmailSettingScreen(
                 }
 
                 UpdateEmailSettingUiEvent.OnEmailChanged -> {
-                    Toast.makeText(context, "Check your email for verification", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_check_your_email_for_verification),
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                     resultNavigator.navigateBack(true)
                 }
@@ -73,7 +77,7 @@ fun UpdateEmailSetting(
     isLoading: Boolean = false,
     onEmailChanged: (String) -> Unit = {},
     onNavigateBack: () -> Unit = {},
-    onSaved: () -> Unit = {}
+    onSaved: () -> Unit = {},
 ) {
     Scaffold(
         modifier = modifier,
@@ -109,7 +113,8 @@ fun UpdateEmailSetting(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun UpdateEmailSettingScreenPreview() {
     QuickMemTheme {

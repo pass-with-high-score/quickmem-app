@@ -17,12 +17,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.UserRole
-import com.pwhs.quickmem.util.upperCaseFirstLetter
 
 @Composable
 fun RadioGroup(
     modifier: Modifier = Modifier,
-    onRoleChanged: (UserRole) -> Unit = {}
+    onRoleChanged: (UserRole) -> Unit = {},
 ) {
     val options = listOf(UserRole.STUDENT, UserRole.TEACHER)
     val selectedOption = rememberSaveable { mutableStateOf(options[0]) }
@@ -49,7 +48,10 @@ fun RadioGroup(
                         }
                     )
                     Text(
-                        text = option.name.lowercase().upperCaseFirstLetter(),
+                        text = when (option) {
+                            UserRole.TEACHER -> stringResource(R.string.txt_teacher)
+                            UserRole.STUDENT -> stringResource(R.string.txt_student)
+                        },
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(start = 8.dp)
                     )

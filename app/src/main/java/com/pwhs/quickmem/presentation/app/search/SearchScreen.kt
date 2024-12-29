@@ -195,18 +195,10 @@ private fun Search(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun SearchScreenPreview() {
     QuickMemTheme {
-        Search(
-            query = "",
-            listSearchQuery = emptyList(),
-            onQueryChange = {},
-            onSearch = {},
-            onClearAll = {},
-            onSearchRecentClick = {},
-            onNavigateBack = {},
-            onDeleteQuery = {}
-        )
+        Search()
     }
 }

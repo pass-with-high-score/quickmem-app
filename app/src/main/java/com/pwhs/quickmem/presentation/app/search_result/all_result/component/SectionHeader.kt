@@ -29,7 +29,7 @@ fun SectionHeader(
     ) {
         Text(
             text = title,
-            style = typography.titleLarge,
+            style = typography.titleMedium,
             textAlign = TextAlign.Center
         )
         TextButton(

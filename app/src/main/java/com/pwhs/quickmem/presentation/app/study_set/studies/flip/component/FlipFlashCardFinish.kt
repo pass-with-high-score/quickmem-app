@@ -41,7 +41,6 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.presentation.app.study_set.detail.progress.StudySetDonutChart
 import com.pwhs.quickmem.util.toStringTime
-import timber.log.Timber
 
 @Composable
 fun FlipFlashCardFinish(
@@ -204,7 +203,6 @@ fun FlipFlashCardFinish(
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
-                        Timber.d("toStringTime learningTime: ${learningTime.toStringTime()}")
                         Text(
                             text = learningTime.toStringTime(),
                             style = MaterialTheme.typography.bodyMedium.copy(

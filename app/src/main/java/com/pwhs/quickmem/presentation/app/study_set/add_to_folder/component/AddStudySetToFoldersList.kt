@@ -85,7 +85,7 @@ fun AddStudySetToFoldersList(
                         color = colorScheme.onSurface.copy(alpha = 0.1f),
                     )
                     Text(
-                        text = stringResource(R.string.txt_there_are_no_folders_yet_create_one_to_get_started),
+                        text = stringResource(R.string.txt_empty_folder_prompt),
                         textAlign = TextAlign.Center,
                         style = typography.bodyMedium.copy(
                             color = colorScheme.onSurface.copy(alpha = 0.6f),

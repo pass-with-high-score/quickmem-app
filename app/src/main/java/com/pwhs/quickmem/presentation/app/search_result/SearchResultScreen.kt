@@ -186,8 +186,8 @@ fun SearchResult(
     modifier: Modifier = Modifier,
     isLoading: Boolean = false,
     query: String = "",
-    tabIndex: Int,
-    onTabSelected: (Int) -> Unit,
+    tabIndex: Int = SearchResultEnum.ALL_RESULT.index,
+    onTabSelected: (Int) -> Unit = {},
     colorModel: ColorModel? = ColorModel.defaultColors.first(),
     onColorChange: (ColorModel) -> Unit = {},
     subjectModel: SubjectModel? = SubjectModel.defaultSubjects.first(),
@@ -354,14 +354,10 @@ fun SearchResult(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun SearchResultScreen() {
     QuickMemTheme {
-        SearchResult(
-            isLoading = false,
-            tabIndex = 0,
-            onTabSelected = {},
-            onNavigateBack = {}
-        )
+        SearchResult()
     }
 }

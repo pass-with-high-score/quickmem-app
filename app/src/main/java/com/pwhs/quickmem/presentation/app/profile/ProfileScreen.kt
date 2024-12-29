@@ -304,6 +304,7 @@ fun Profile(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun ProfilePreview() {
     QuickMemTheme {

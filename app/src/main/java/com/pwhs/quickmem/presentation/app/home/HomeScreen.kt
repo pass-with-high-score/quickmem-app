@@ -587,6 +587,7 @@ private fun Home(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun HomeScreenPreview() {
     QuickMemTheme {

@@ -392,6 +392,7 @@ fun CreateFlashCard(
 
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun CreateFlashCardPreview() {
     QuickMemTheme {

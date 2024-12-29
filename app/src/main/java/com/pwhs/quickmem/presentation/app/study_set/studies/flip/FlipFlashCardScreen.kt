@@ -31,7 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Devices
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -69,7 +68,7 @@ import timber.log.Timber
 fun FlipFlashCardScreen(
     modifier: Modifier = Modifier,
     resultNavigator: ResultBackNavigator<Boolean>,
-    viewModel: FlipFlashCardViewModel = hiltViewModel()
+    viewModel: FlipFlashCardViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -78,7 +77,11 @@ fun FlipFlashCardScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 FlipFlashCardUiEvent.Finished -> {
-                    Toast.makeText(context, "Finished", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_finished),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
 
                 FlipFlashCardUiEvent.Back -> {
@@ -475,7 +478,8 @@ fun FlipFlashCard(
 
 }
 
-@Preview(showBackground = true, device = Devices.PIXEL_7_PRO)
+@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun FlipFlashCardScreenPreview() {
     QuickMemTheme {

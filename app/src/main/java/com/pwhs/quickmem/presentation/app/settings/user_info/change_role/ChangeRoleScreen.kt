@@ -154,7 +154,8 @@ private fun ChangeRole(
 }
 
 
-@Preview
+@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun ChangeRoleScreenPreview() {
     QuickMemTheme {

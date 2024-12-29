@@ -301,6 +301,7 @@ fun Library(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun LibraryScreenPreview() {
     QuickMemTheme {

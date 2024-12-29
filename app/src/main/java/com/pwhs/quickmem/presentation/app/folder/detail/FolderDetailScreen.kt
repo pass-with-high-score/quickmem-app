@@ -499,6 +499,7 @@ fun FolderDetail(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun FolderDetailPreview() {
     QuickMemTheme {

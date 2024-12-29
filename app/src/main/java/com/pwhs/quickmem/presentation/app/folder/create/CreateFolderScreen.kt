@@ -164,6 +164,7 @@ fun CreateFolder(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun CreateFolderScreenPreview() {
     QuickMemTheme {

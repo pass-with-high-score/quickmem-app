@@ -165,7 +165,8 @@ fun AddFolderToClass(
     }
 }
 
-@Preview
+@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun AddFolderToClassPreview() {
     QuickMemTheme {

@@ -299,8 +299,8 @@
     <string name="txt_create_folder">Create Folder</string>
     <string name="txt_check_icon">Check Icon</string>
     <string name="txt_add_icon">Add Icon</string>
-    <string name="txt_there_are_no_folders_yet_create_one_to_get_started">There are no folders yet, create one to get started!</string>
-    <string name="txt_there_are_no_owned_study_sets_create_one_to_get_started">There are no owned study sets, create one to get started!</string>
+    <string name="txt_empty_folder_prompt">There are no folders yet, create one to get started!</string>
+    <string name="txt_empty_owned_study_sets_prompt">There are no owned study sets, create one to get started!</string>
     <string name="txt_no_study_set_folder_found">No study set fold found</string>
     <string name="txt_create_study_set">Create Study Set</string>
     <string name="txt_create_new_class">Create new class</string>
@@ -666,4 +666,6 @@
     <string name="txt_no_internet">Oops! You\'re offline</string>
     <string name="txt_enter_your_email">Enter your email</string>
     <string name="txt_reset_password_description">We\'ll send you an email with an OTP to reset your password.</string>
+    <string name="txt_check_your_email_for_verification">Check your email for verification</string>
+    <string name="txt_student">Student</string>
 </resources>

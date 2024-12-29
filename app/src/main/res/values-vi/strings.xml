@@ -297,8 +297,8 @@
     <string name="txt_create_folder">Tạo thư mục</string>
     <string name="txt_check_icon">Biểu tượng kiểm tra</string>
     <string name="txt_add_icon">Biểu tượng thêm</string>
-    <string name="txt_there_are_no_folders_yet_create_one_to_get_started">Chưa có thư mục nào, hãy tạo một cái để bắt đầu!</string>
-    <string name="txt_there_are_no_owned_study_sets_create_one_to_get_started">Chưa có bộ học nào thuộc sở hữu, hãy tạo một cái để bắt đầu!</string>
+    <string name="txt_empty_folder_prompt">Bạn chưa có thư mục nào. Tạo ngay để bắt đầu!</string>
+    <string name="txt_empty_owned_study_sets_prompt">Bạn chưa có bộ học nào của riêng mình. Tạo ngay để bắt đầu!</string>
     <string name="txt_no_study_set_folder_found">Không tìm thấy bộ học</string>
     <string name="txt_create_study_set">Tạo bộ học</string>
     <string name="txt_create_new_class">Tạo lớp học mới</string>
@@ -309,8 +309,8 @@
     <string name="txt_allow_class_members_to_add_study_set_and_folders">Cho phép thành viên lớp thêm bộ học và thư mục</string>
     <string name="txt_add_study_set_to_class">Thêm bộ học vào lớp</string>
     <string name="txt_add_folder_to_class">Thêm thư mục vào lớp</string>
-    <string name="txt_edit_class">Chỉnh sửa lớp</string>
-    <string name="txt_join_class">Tham gia lớp</string>
+    <string name="txt_edit_class">Chỉnh sửa lớp học</string>
+    <string name="txt_join_class">Tham gia lớp học</string>
     <string name="txt_share_class">Chia sẻ lớp</string>
     <string name="txt_exit_class">Rời lớp</string>
     <string name="txt_delete_class">Xóa lớp</string>
@@ -378,7 +378,7 @@
     <string name="txt_time">Thời gian</string>
     <string name="txt_learning_time">Thời gian học</string>
     <string name="txt_keep_reviewing_terms">Tiếp tục ôn lại %1$s thuật ngữ</string>
-    <string name="txt_restart_flashcards">Khởi động lại Flashcards</string>
+    <string name="txt_restart_flashcards">Học lại flashcards</string>
     <string name="txt_known">Đã biết</string>
     <string name="txt_tap_the_card_to_flip">Nhấn vào thẻ để lật</string>
     <string name="txt_swipe_left_to_mark_as_known">Vuốt sang trái để đánh dấu là đã biết</string>
@@ -663,4 +663,6 @@
     <string name="txt_no_internet">Ôi không! Bạn đang ngoại tuyến</string>
     <string name="txt_enter_your_email">Nhập địa chỉ email của bạn</string>
     <string name="txt_reset_password_description">Nhập email của bạn để nhận OTP đặt lại mật khẩu.</string>
+    <string name="txt_check_your_email_for_verification">Kiểm tra email của bạn để xác minh</string>
+    <string name="txt_student">Học sinh</string>
 </resources>

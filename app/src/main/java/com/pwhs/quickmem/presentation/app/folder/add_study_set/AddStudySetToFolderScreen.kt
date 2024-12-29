@@ -30,6 +30,7 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.presentation.component.AddItemsTopAppBar
+import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
@@ -164,7 +165,10 @@ fun AddStudySetToFolder(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun AddStudySetToFolderPreview() {
-    AddStudySetToFolder()
+    QuickMemTheme {
+        AddStudySetToFolder()
+    }
 }

@@ -49,7 +49,6 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.annotation.parameters.DeepLink
 import com.ramcosta.composedestinations.generated.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import timber.log.Timber
 
 
 @Destination<RootGraph>(
@@ -87,7 +86,6 @@ fun AuthSocialScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 AuthSocialUiEvent.SignUpSuccess -> {
-                    Timber.d("Sign up success")
                     navigator.popBackStack()
                     navigator.navigate(HomeScreenDestination()) {
                         popUpTo(HomeScreenDestination) {

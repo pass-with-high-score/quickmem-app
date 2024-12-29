@@ -79,7 +79,6 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
 import com.revenuecat.purchases.CustomerInfo
-import timber.log.Timber
 import java.util.Date
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
@@ -768,7 +767,6 @@ fun Setting(
                 val timePickerState = timeStudySchedule.toTimePickerState()
                 QuickmemTimePicker(
                     onConfirm = {
-                        Timber.d("Time selected: $it")
                         onChangeTimeStudyAlarm(
                             it.toFormattedString()
                         )
@@ -785,6 +783,7 @@ fun Setting(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun SettingScreenPreview(modifier: Modifier = Modifier) {
     QuickMemTheme {

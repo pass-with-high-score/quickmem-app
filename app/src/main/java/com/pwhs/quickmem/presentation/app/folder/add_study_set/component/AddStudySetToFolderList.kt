@@ -89,7 +89,7 @@ fun AddStudySetToFolderList(
                         color = colorScheme.onSurface.copy(alpha = 0.1f),
                     )
                     Text(
-                        text = stringResource(id = R.string.txt_there_are_no_owned_study_sets_create_one_to_get_started),
+                        text = stringResource(id = R.string.txt_empty_owned_study_sets_prompt),
                         textAlign = TextAlign.Center,
                         style = typography.bodyMedium.copy(
                             color = colorScheme.onSurface.copy(alpha = 0.6f),

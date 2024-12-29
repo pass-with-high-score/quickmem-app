@@ -184,7 +184,8 @@ fun CreateClass(
 }
 
 
-@Preview
+@Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 private fun CreateClassesPreview() {
     QuickMemTheme {

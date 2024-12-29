@@ -323,7 +323,8 @@ fun CreateFlashCard(
                         HorizontalDivider(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(16.dp)
+                                .padding(16.dp),
+                            color = studySetColor.copy(alpha = 0.5f)
                         )
                     }
 
@@ -389,6 +390,7 @@ fun CreateFlashCard(
 
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun CreateFlashCardPreview() {
     QuickMemTheme {
