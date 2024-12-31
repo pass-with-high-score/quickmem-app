@@ -1,6 +1,8 @@
 package com.pwhs.quickmem.presentation.auth.login
 
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,6 +18,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.presentation.auth.component.AuthButton
 import com.pwhs.quickmem.presentation.auth.component.AuthTopAppBar
+import com.pwhs.quickmem.presentation.auth.utils.GoogleSignInUtils
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.util.gradientBackground
 import com.ramcosta.composedestinations.annotation.Destination
@@ -120,6 +124,7 @@ fun LoginScreen(
             viewModel.onEvent(LoginUiAction.LoginWithFacebook)
         }
     )
+
 }
 
 @Composable
@@ -131,6 +136,19 @@ fun Login(
     onLoginWithGoogle: () -> Unit = {},
     onLoginWithFacebook: () -> Unit = {},
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
+        GoogleSignInUtils.doGoogleSignIn(
+            context = context,
+            scope = scope,
+            launcher = null,
+            login = {
+                Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+            }
+        )
+
+    }
     Scaffold(
         modifier = modifier.gradientBackground(),
         containerColor = Color.Transparent,
@@ -200,7 +218,16 @@ fun Login(
 
             AuthButton(
                 modifier = Modifier.padding(top = 16.dp),
-                onClick = onLoginWithGoogle,
+                onClick = {
+                    GoogleSignInUtils.doGoogleSignIn(
+                        context = context,
+                        scope = scope,
+                        launcher = launcher,
+                        login = {
+                            Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+                        }
+                    )
+                },
                 text = stringResource(R.string.txt_continue_with_google),
                 colors = Color.White,
                 textColor = colorScheme.onSurface,

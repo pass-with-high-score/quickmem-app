@@ -117,4 +117,14 @@ interface AuthRepository {
         token: String,
         updateCoinRequestModel: UpdateCoinRequestModel,
     ): Flow<Resources<UpdateCoinResponseModel>>
+
+    suspend fun authWithGoogle(
+        provider: String,
+        idToken: String,
+    ): Flow<Resources<AuthResponseModel>>
+
+    suspend fun authWithFacebook(
+        provider: String,
+        accessToken: String,
+    ): Flow<Resources<AuthResponseModel>>
 }

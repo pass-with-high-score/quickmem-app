@@ -31,3 +31,8 @@
 -keepclassmembers class * {
     kotlinx.serialization.KSerializer serializer(...);
 }
+
+-if class androidx.credentials.CredentialManager
+-keep class androidx.credentials.playservices.** {
+  *;
+}

@@ -130,6 +130,10 @@ dependencies {
     implementation(libs.compose.charts)
     implementation(libs.firebase.crashlytics)
 
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.credentials.play.services.auth)
+    implementation(libs.googleid)
+
     implementation(libs.play.services.ads)
 
     implementation(projects.composeCardstack)

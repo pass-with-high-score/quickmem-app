@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "743857474439",
     "project_id": "quickmem-pwhs",
-    "storage_bucket": "quickmem-pwhs.appspot.com"
+    "storage_bucket": "quickmem-pwhs.firebasestorage.app"
   },
   "client": [
     {
@@ -12,7 +12,20 @@
           "package_name": "com.pwhs.quickmem"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "743857474439-m2iab099ja4uo4ui4ekrtepmrjki38lk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.pwhs.quickmem",
+            "certificate_hash": "76ab593bbd26c04dfe04973e295e734d6fbab419"
+          }
+        },
+        {
+          "client_id": "743857474439-b8umbci861okgpukka3l8lr1tfrvjso8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCjPH24pBKYrxF6_0VFagoQae134266GDQ"
@@ -20,7 +33,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "743857474439-b8umbci861okgpukka3l8lr1tfrvjso8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

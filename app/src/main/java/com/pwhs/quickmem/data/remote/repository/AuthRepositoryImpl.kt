@@ -423,4 +423,20 @@ class AuthRepositoryImpl @Inject constructor(
             }
         }
     }
+
+    override suspend fun authWithGoogle(
+        provider: String,
+        idToken: String,
+    ): Flow<Resources<AuthResponseModel>> {
+        // TODO: Implement this method
+        return emptyFlow()
+    }
+
+    override suspend fun authWithFacebook(
+        provider: String,
+        accessToken: String,
+    ): Flow<Resources<AuthResponseModel>> {
+        // TODO("Not yet implemented")
+        return emptyFlow()
+    }
 }

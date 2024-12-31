@@ -26,7 +26,7 @@ class LoginViewModel @Inject constructor(
             is LoginUiAction.LoginWithGoogle -> loginWithGoogle()
             is LoginUiAction.LoginWithFacebook -> loginWithFacebook()
             is LoginUiAction.LoginWithEmail -> loginWithEmail()
-            LoginUiAction.NavigateToSignUp -> navigateToSignUp()
+            is LoginUiAction.NavigateToSignUp -> navigateToSignUp()
         }
     }
 
