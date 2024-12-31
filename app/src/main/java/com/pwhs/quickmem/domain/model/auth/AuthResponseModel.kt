@@ -10,7 +10,7 @@ data class AuthResponseModel(
     val birthday: String? = null,
     val accessToken: String? = null,
     val refreshToken: String? = null,
-    val provider: String? = null,
+    val provider: List<String>? = null,
     val isVerified: Boolean? = null,
     val coin: Int? = null,
     val bannedAt: String? = null,

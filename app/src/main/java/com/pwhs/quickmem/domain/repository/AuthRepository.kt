@@ -1,8 +1,10 @@
 package com.pwhs.quickmem.domain.repository
 
 import androidx.paging.PagingData
+import com.pwhs.quickmem.core.data.enums.AuthProvider
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.auth.AuthResponseModel
+import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import com.pwhs.quickmem.domain.model.auth.ChangePasswordRequestModel
 import com.pwhs.quickmem.domain.model.auth.ChangePasswordResponseModel
 import com.pwhs.quickmem.domain.model.auth.ChangeRoleRequestModel
@@ -17,6 +19,7 @@ import com.pwhs.quickmem.domain.model.auth.SendResetPasswordRequestModel
 import com.pwhs.quickmem.domain.model.auth.SendResetPasswordResponseModel
 import com.pwhs.quickmem.domain.model.auth.SignupRequestModel
 import com.pwhs.quickmem.domain.model.auth.SignupResponseModel
+import com.pwhs.quickmem.domain.model.auth.SignupSocialCredentialRequestModel
 import com.pwhs.quickmem.domain.model.auth.UpdateAvatarRequestModel
 import com.pwhs.quickmem.domain.model.auth.UpdateAvatarResponseModel
 import com.pwhs.quickmem.domain.model.auth.UpdateEmailRequestModel
@@ -118,13 +121,21 @@ interface AuthRepository {
         updateCoinRequestModel: UpdateCoinRequestModel,
     ): Flow<Resources<UpdateCoinResponseModel>>
 
-    suspend fun authWithGoogle(
-        provider: String,
-        idToken: String,
+    suspend fun loginWithGoogle(
+        authSocialGoogleRequestModel: AuthSocialGoogleRequestModel,
     ): Flow<Resources<AuthResponseModel>>
 
-    suspend fun authWithFacebook(
-        provider: String,
+    suspend fun signupWithGoogle(
+        signupSocialCredentialRequestModel: SignupSocialCredentialRequestModel,
+    ): Flow<Resources<AuthResponseModel>>
+
+    suspend fun loginWithFacebook(
+        provider: AuthProvider,
+        accessToken: String,
+    ): Flow<Resources<AuthResponseModel>>
+
+    suspend fun signupWithFacebook(
+        provider: AuthProvider,
         accessToken: String,
     ): Flow<Resources<AuthResponseModel>>
 }

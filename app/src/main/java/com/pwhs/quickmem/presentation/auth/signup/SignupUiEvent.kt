@@ -1,6 +1,12 @@
 package com.pwhs.quickmem.presentation.auth.signup
 
+import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
+
 sealed class SignupUiEvent {
-    data object SignupWithGoogle : SignupUiEvent()
+    data class SignupWithGoogle(val authSocialGoogleRequestModel: AuthSocialGoogleRequestModel) :
+        SignupUiEvent()
+
     data object SignupWithFacebook : SignupUiEvent()
+    data class ShowError(val error: Int) : SignupUiEvent()
+    data object SignupSuccess : SignupUiEvent()
 }

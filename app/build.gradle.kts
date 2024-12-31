@@ -140,6 +140,8 @@ dependencies {
     implementation(projects.easycrop)
     implementation(libs.lottie.compose)
 
+    implementation("com.google.firebase:firebase-auth")
+
     // Compose
     implementation(libs.bundles.compose)
     implementation(platform(libs.androidx.compose.bom))

@@ -23,7 +23,7 @@ data class AuthResponseDto(
     @SerializedName("refreshToken")
     val refreshToken: String? = null,
     @SerializedName("provider")
-    val provider: String? = null,
+    val provider: List<String>? = null,
     @SerializedName("isVerified")
     val isVerified: Boolean? = null,
     @SerializedName("coin")

@@ -6,7 +6,7 @@ import com.pwhs.quickmem.core.data.enums.UserRole
 
 data class AuthSocialUiState(
     val isLoading: Boolean = false,
-    val error: String = "",
+    @StringRes val error: Int? = null,
     val provider: AuthProvider? = null,
     val email: String = "",
     val birthDay: String = "",
@@ -15,5 +15,5 @@ data class AuthSocialUiState(
     val role: UserRole = UserRole.STUDENT,
     val fullName: String = "",
     val token: String = "",
-    val isSignUp: Boolean = false,
+    val id: String = "",
 )

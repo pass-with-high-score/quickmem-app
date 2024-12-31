@@ -1,6 +1,7 @@
 package com.pwhs.quickmem.data.remote
 
 import com.pwhs.quickmem.data.dto.auth.AuthResponseDto
+import com.pwhs.quickmem.data.dto.auth.AuthSocialGoogleRequestDto
 import com.pwhs.quickmem.data.dto.auth.ChangePasswordRequestDto
 import com.pwhs.quickmem.data.dto.auth.ChangePasswordResponseDto
 import com.pwhs.quickmem.data.dto.auth.ChangeRoleRequestDto
@@ -15,6 +16,7 @@ import com.pwhs.quickmem.data.dto.auth.SendResetPasswordRequestDto
 import com.pwhs.quickmem.data.dto.auth.SendResetPasswordResponseDto
 import com.pwhs.quickmem.data.dto.auth.SignupRequestDto
 import com.pwhs.quickmem.data.dto.auth.SignupResponseDto
+import com.pwhs.quickmem.data.dto.auth.SignupSocialCredentialRequestDto
 import com.pwhs.quickmem.data.dto.auth.UpdateAvatarRequestDto
 import com.pwhs.quickmem.data.dto.auth.UpdateAvatarResponseDto
 import com.pwhs.quickmem.data.dto.auth.UpdateEmailRequestDto
@@ -206,6 +208,12 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Body request: UpdateCoinRequestDto,
     ): UpdateCoinResponseDto
+
+    @POST("auth/signup/google")
+    suspend fun signupWithGoogle(@Body socialCredentialRequestDto: SignupSocialCredentialRequestDto): AuthResponseDto
+
+    @POST("auth/login/google")
+    suspend fun loginWithGoogle(@Body authSocialGoogleRequestDto: AuthSocialGoogleRequestDto): AuthResponseDto
 
     // Upload
     @Multipart

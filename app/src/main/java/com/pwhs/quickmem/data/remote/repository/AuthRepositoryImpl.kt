@@ -4,6 +4,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.pwhs.quickmem.BuildConfig
+import com.pwhs.quickmem.core.data.enums.AuthProvider
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.data.dto.verify_email.EmailRequestDto
 import com.pwhs.quickmem.data.mapper.auth.toDto
@@ -14,6 +15,7 @@ import com.pwhs.quickmem.data.paging.UserPagingSource
 import com.pwhs.quickmem.data.remote.ApiService
 import com.pwhs.quickmem.domain.datasource.UserRemoteDataResource
 import com.pwhs.quickmem.domain.model.auth.AuthResponseModel
+import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import com.pwhs.quickmem.domain.model.auth.ChangePasswordRequestModel
 import com.pwhs.quickmem.domain.model.auth.ChangePasswordResponseModel
 import com.pwhs.quickmem.domain.model.auth.ChangeRoleRequestModel
@@ -28,6 +30,7 @@ import com.pwhs.quickmem.domain.model.auth.SendResetPasswordRequestModel
 import com.pwhs.quickmem.domain.model.auth.SendResetPasswordResponseModel
 import com.pwhs.quickmem.domain.model.auth.SignupRequestModel
 import com.pwhs.quickmem.domain.model.auth.SignupResponseModel
+import com.pwhs.quickmem.domain.model.auth.SignupSocialCredentialRequestModel
 import com.pwhs.quickmem.domain.model.auth.UpdateAvatarRequestModel
 import com.pwhs.quickmem.domain.model.auth.UpdateAvatarResponseModel
 import com.pwhs.quickmem.domain.model.auth.UpdateEmailRequestModel
@@ -424,19 +427,46 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun authWithGoogle(
-        provider: String,
-        idToken: String,
+    override suspend fun loginWithGoogle(
+        authSocialGoogleRequestModel: AuthSocialGoogleRequestModel,
     ): Flow<Resources<AuthResponseModel>> {
-        // TODO: Implement this method
-        return emptyFlow()
+        return flow {
+            emit(Resources.Loading())
+            try {
+                val response = apiService.loginWithGoogle(authSocialGoogleRequestModel.toDto())
+                emit(Resources.Success(response.toModel()))
+            } catch (e: Exception) {
+                Timber.e(e)
+                emit(Resources.Error(e.toString()))
+            }
+        }
     }
 
-    override suspend fun authWithFacebook(
-        provider: String,
+    override suspend fun signupWithGoogle(signupSocialCredentialRequestModel: SignupSocialCredentialRequestModel): Flow<Resources<AuthResponseModel>> {
+        return flow {
+            emit(Resources.Loading())
+            try {
+                val response =
+                    apiService.signupWithGoogle(signupSocialCredentialRequestModel.toDto())
+                emit(Resources.Success(response.toModel()))
+            } catch (e: Exception) {
+                Timber.e(e)
+                emit(Resources.Error(e.toString()))
+            }
+        }
+    }
+
+    override suspend fun loginWithFacebook(
+        provider: AuthProvider,
         accessToken: String,
     ): Flow<Resources<AuthResponseModel>> {
-        // TODO("Not yet implemented")
-        return emptyFlow()
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun signupWithFacebook(
+        provider: AuthProvider,
+        accessToken: String,
+    ): Flow<Resources<AuthResponseModel>> {
+        TODO("Not yet implemented")
     }
 }

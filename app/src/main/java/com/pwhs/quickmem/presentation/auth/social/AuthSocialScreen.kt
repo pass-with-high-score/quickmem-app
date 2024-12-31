@@ -46,52 +46,33 @@ import com.pwhs.quickmem.util.toFormattedString
 import com.pwhs.quickmem.util.toTimestamp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
-import com.ramcosta.composedestinations.annotation.parameters.DeepLink
+import com.ramcosta.composedestinations.generated.NavGraphs
 import com.ramcosta.composedestinations.generated.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 
 @Destination<RootGraph>(
-    deepLinks = [
-        DeepLink(uriPattern = "quickmem://oauth/google/callback?token={token}&email={email}&fullName={fullName}&provider={provider}&picture={picture}&isSignUp={isSignUp}"),
-        DeepLink(uriPattern = "quickmem://oauth/facebook/callback?token={token}&email={email}&fullName={fullName}&provider={provider}&picture={picture}&isSignUp={isSignUp}"),
-    ]
+    navArgs = AuthSocialArgs::class
 )
 @Composable
 fun AuthSocialScreen(
     modifier: Modifier = Modifier,
     viewModel: AuthSocialViewModel = hiltViewModel(),
     navigator: DestinationsNavigator,
-    email: String = "",
-    token: String = "",
-    fullName: String = "",
-    provider: String = "",
-    picture: String = "",
-    isSignUp: Boolean = false,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
-    LaunchedEffect(email, token, fullName, picture, provider, isSignUp) {
-        viewModel.initDataDeeplink(
-            email = email,
-            fullName = fullName,
-            avatarUrl = picture,
-            token = token,
-            provider = provider,
-            isSignUp = isSignUp
-        )
-    }
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
                 AuthSocialUiEvent.SignUpSuccess -> {
-                    navigator.popBackStack()
                     navigator.navigate(HomeScreenDestination()) {
-                        popUpTo(HomeScreenDestination) {
-                            inclusive = true
-                            launchSingleTop = true
+                        popUpTo(NavGraphs.root) {
+                            saveState = false
                         }
+                        launchSingleTop = true
+                        restoreState = false
                     }
                 }
 
@@ -108,6 +89,7 @@ fun AuthSocialScreen(
         onNavigationIconClick = {
             navigator.popBackStack()
         },
+        displayName = uiState.fullName,
         onRegisterClick = {
             viewModel.onEvent(AuthSocialUiAction.Register)
         },
@@ -128,6 +110,7 @@ fun AuthSocial(
     onNavigationIconClick: () -> Unit = {},
     onRegisterClick: () -> Unit = {},
     birthday: String = "",
+    displayName: String = "",
     @StringRes birthdayError: Int? = null,
     onBirthdayChanged: (String) -> Unit = {},
     onRoleChanged: (UserRole) -> Unit = {},
@@ -155,7 +138,7 @@ fun AuthSocial(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = stringResource(R.string.txt_almost_done),
+                text = stringResource(R.string.txt_almost_done) + ", $displayName!",
                 style = MaterialTheme.typography.titleLarge.copy(
                     fontWeight = FontWeight.Bold,
                     color = Color.White,

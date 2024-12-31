@@ -1,6 +1,5 @@
 package com.pwhs.quickmem.presentation.auth.utils
 
-
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
@@ -14,9 +13,17 @@ import androidx.credentials.exceptions.GetCredentialException
 import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.pwhs.quickmem.core.data.enums.AuthProvider
+import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
+import java.security.MessageDigest
+import java.util.UUID
 
 class GoogleSignInUtils {
 
@@ -25,7 +32,7 @@ class GoogleSignInUtils {
             context: Context,
             scope: CoroutineScope,
             launcher: ManagedActivityResultLauncher<Intent, ActivityResult>?,
-            login: () -> Unit,
+            login: (AuthSocialGoogleRequestModel) -> Unit = {},
         ) {
             val credentialManager = CredentialManager.create(context)
 
@@ -35,7 +42,6 @@ class GoogleSignInUtils {
             scope.launch {
                 try {
                     val result = credentialManager.getCredential(context, request)
-                    Timber.d("Credential result: $result")
                     when (result.credential) {
                         is CustomCredential -> {
                             if (result.credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
@@ -43,19 +49,28 @@ class GoogleSignInUtils {
                                     GoogleIdTokenCredential.createFrom(result.credential.data)
                                 val googleTokenId = googleIdTokenCredential.idToken
                                 val avatar = googleIdTokenCredential.profilePictureUri
-                                val firstName = googleIdTokenCredential.givenName
-                                val lastName = googleIdTokenCredential.familyName
                                 val id = googleIdTokenCredential.id
-                                Timber.d("GoogleIdToken: $googleTokenId")
-                                Timber.d("Avatar: $avatar")
-                                Timber.d("First Name: $firstName")
-                                Timber.d("Last Name: $lastName")
-                                Timber.d("Id: $id")
+                                val authCredential =
+                                    GoogleAuthProvider.getCredential(googleTokenId, null)
+                                val user =
+                                    Firebase.auth.signInWithCredential(authCredential).await().user
+
+                                val authSocialGoogleRequestModel = AuthSocialGoogleRequestModel(
+                                    id = id,
+                                    email = user?.email ?: "",
+                                    provider = AuthProvider.GOOGLE.name,
+                                    displayName = user?.displayName ?: "",
+                                    photoUrl = avatar.toString(),
+                                    idToken = googleTokenId
+                                )
+
+                                login(authSocialGoogleRequestModel)
                             }
                         }
 
                         else -> {
-
+                            Timber.e("No credential found")
+                            launcher?.launch(getIntent())
                         }
                     }
                 } catch (e: NoCredentialException) {
@@ -76,10 +91,18 @@ class GoogleSignInUtils {
         }
 
         private fun getCredentialOptions(): CredentialOption {
+            val rawNonce = UUID.randomUUID().toString()
+            val bytes = rawNonce.toByteArray()
+            val md = MessageDigest.getInstance("SHA-256")
+            val digest = md.digest(bytes)
+            val hashedNonce = digest.fold("") { str, it ->
+                str + "%02x".format(it)
+            }
             return GetGoogleIdOption.Builder()
                 .setFilterByAuthorizedAccounts(false)
                 .setAutoSelectEnabled(false)
                 .setServerClientId("743857474439-b8umbci861okgpukka3l8lr1tfrvjso8.apps.googleusercontent.com")
+                .setNonce(hashedNonce)
                 .build()
         }
     }

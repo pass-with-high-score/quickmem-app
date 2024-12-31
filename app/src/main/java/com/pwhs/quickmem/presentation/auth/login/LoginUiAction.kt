@@ -1,8 +1,12 @@
 package com.pwhs.quickmem.presentation.auth.login
 
+import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
+
 sealed class LoginUiAction {
     data object NavigateToSignUp : LoginUiAction()
     data object LoginWithEmail : LoginUiAction()
-    data object LoginWithGoogle : LoginUiAction()
+    data class LoginWithGoogle(val authSocialGoogleRequestModel: AuthSocialGoogleRequestModel) :
+        LoginUiAction()
+
     data object LoginWithFacebook : LoginUiAction()
 }

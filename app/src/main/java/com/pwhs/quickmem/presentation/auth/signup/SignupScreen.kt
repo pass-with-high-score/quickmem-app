@@ -3,6 +3,8 @@ package com.pwhs.quickmem.presentation.auth.signup
 import android.content.Intent
 import android.net.Uri
 import android.widget.Toast
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,12 +37,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
+import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import com.pwhs.quickmem.presentation.auth.component.AuthButton
 import com.pwhs.quickmem.presentation.auth.component.AuthTopAppBar
+import com.pwhs.quickmem.presentation.auth.utils.GoogleSignInUtils
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.util.gradientBackground
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
+import com.ramcosta.composedestinations.generated.NavGraphs
+import com.ramcosta.composedestinations.generated.destinations.AuthSocialScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SignupScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SignupWithEmailScreenDestination
@@ -57,20 +65,20 @@ fun SignupScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                SignupUiEvent.SignupWithGoogle -> {
-                    // open web view
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.txt_currently_not_available), Toast.LENGTH_SHORT
-                    ).show()
-//                    navigator.navigate(
-//                        WebViewAppDestination(
-//                            oAuthLink = "https://api.quickmem.app/auth/google",
-//                        )
-//                    )
+                is SignupUiEvent.SignupWithGoogle -> {
+                    navigator.navigate(
+                        AuthSocialScreenDestination(
+                            email = event.authSocialGoogleRequestModel.email,
+                            displayName = event.authSocialGoogleRequestModel.displayName,
+                            photoUrl = event.authSocialGoogleRequestModel.photoUrl,
+                            idToken = event.authSocialGoogleRequestModel.idToken,
+                            id = event.authSocialGoogleRequestModel.id,
+                            provider = event.authSocialGoogleRequestModel.provider.toString()
+                        )
+                    )
                 }
 
-                SignupUiEvent.SignupWithFacebook -> {
+                is SignupUiEvent.SignupWithFacebook -> {
                     // open web view
                     Toast.makeText(
                         context,
@@ -82,6 +90,24 @@ fun SignupScreen(
 //                            oAuthLink = "https://api.quickmem.app/auth/facebook",
 //                        )
 //                    )
+                }
+
+                is SignupUiEvent.ShowError -> {
+                    Toast.makeText(
+                        context,
+                        context.getString(event.error),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+                is SignupUiEvent.SignupSuccess -> {
+                    navigator.navigate(HomeScreenDestination()) {
+                        popUpTo(NavGraphs.root) {
+                            saveState = false
+                        }
+                        launchSingleTop = true
+                        restoreState = false
+                    }
                 }
             }
         }
@@ -106,8 +132,8 @@ fun SignupScreen(
                 }
             }
         },
-        onSignupWithGoogle = {
-            viewModel.signupWithGoogle()
+        onSignupWithGoogle = { authSocialGoogleRequestModel ->
+            viewModel.signupWithGoogle(authSocialGoogleRequestModel)
         },
         onSignupWithFacebook = {
             viewModel.signupWithFacebook()
@@ -128,10 +154,24 @@ fun Signup(
     onNavigationIconClick: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
     onSignupWithEmail: () -> Unit = {},
-    onSignupWithGoogle: () -> Unit = {},
+    onSignupWithGoogle: (AuthSocialGoogleRequestModel) -> Unit = {},
     onSignupWithFacebook: () -> Unit = {},
     onPrivacyPolicyClick: () -> Unit = {},
 ) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
+            GoogleSignInUtils.doGoogleSignIn(
+                context = context,
+                scope = scope,
+                launcher = null,
+                login = {
+                    Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+                }
+            )
+
+        }
     Scaffold(
         modifier = modifier.gradientBackground(),
         containerColor = Color.Transparent,
@@ -158,7 +198,7 @@ fun Signup(
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Spacer(modifier = Modifier.height(30.dp))
-            
+
             Text(
                 text = stringResource(R.string.txt_signup_description),
                 style = typography.bodyLarge.copy(
@@ -199,7 +239,16 @@ fun Signup(
 
             AuthButton(
                 modifier = Modifier.padding(top = 16.dp),
-                onClick = onSignupWithGoogle,
+                onClick = {
+                    GoogleSignInUtils.doGoogleSignIn(
+                        context = context,
+                        scope = scope,
+                        launcher = launcher,
+                        login = {
+                            onSignupWithGoogle(it)
+                        }
+                    )
+                },
                 text = stringResource(R.string.txt_continue_with_google),
                 colors = Color.White,
                 textColor = colorScheme.onSurface,

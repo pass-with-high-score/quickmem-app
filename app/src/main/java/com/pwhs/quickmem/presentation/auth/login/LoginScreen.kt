@@ -35,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
+import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import com.pwhs.quickmem.presentation.auth.component.AuthButton
 import com.pwhs.quickmem.presentation.auth.component.AuthTopAppBar
 import com.pwhs.quickmem.presentation.auth.utils.GoogleSignInUtils
@@ -42,6 +43,9 @@ import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.util.gradientBackground
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
+import com.ramcosta.composedestinations.generated.NavGraphs
+import com.ramcosta.composedestinations.generated.destinations.AuthSocialScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.LoginScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.LoginWithEmailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SignupScreenDestination
@@ -59,21 +63,8 @@ fun LoginScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                LoginUiEvent.LoginWithGoogle -> {
-                    // open web view
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.txt_currently_not_available),
-                        Toast.LENGTH_SHORT
-                    ).show()
-//                    navigator.navigate(
-//                        WebViewAppDestination(
-//                            oAuthLink = "https://api.quickmem.app/auth/google",
-//                        )
-//                    )
-                }
 
-                LoginUiEvent.LoginWithFacebook -> {
+                is LoginUiEvent.LoginWithFacebook -> {
                     // open web view
                     Toast.makeText(
                         context,
@@ -87,16 +78,52 @@ fun LoginScreen(
 //                    )
                 }
 
-                LoginUiEvent.LoginWithEmail -> {
+                is LoginUiEvent.LoginWithEmail -> {
                     navigator.navigate(LoginWithEmailScreenDestination)
                 }
 
-                LoginUiEvent.NavigateToSignUp -> {
+                is LoginUiEvent.NavigateToSignUp -> {
                     navigator.navigate(SignupScreenDestination) {
                         popUpTo(LoginScreenDestination) {
                             inclusive = true
                         }
                     }
+                }
+
+                is LoginUiEvent.LoginFailure -> {
+                    Toast.makeText(
+                        context,
+                        "Maybe you need to sign up first",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    navigator.navigate(
+                        AuthSocialScreenDestination(
+                            email = event.authSocialGoogleRequestModel.email,
+                            displayName = event.authSocialGoogleRequestModel.displayName,
+                            photoUrl = event.authSocialGoogleRequestModel.photoUrl,
+                            idToken = event.authSocialGoogleRequestModel.idToken,
+                            id = event.authSocialGoogleRequestModel.id,
+                            provider = event.authSocialGoogleRequestModel.provider.toString()
+                        )
+                    )
+                }
+
+                is LoginUiEvent.LoginSuccess -> {
+                    navigator.navigate(HomeScreenDestination()) {
+                        popUpTo(NavGraphs.root) {
+                            saveState = false
+                        }
+                        launchSingleTop = true
+                        restoreState = false
+                    }
+                }
+
+                is LoginUiEvent.ShowError -> {
+                    Toast.makeText(
+                        context,
+                        context.getString(event.error),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -117,8 +144,8 @@ fun LoginScreen(
         onLoginWithEmail = {
             viewModel.onEvent(LoginUiAction.LoginWithEmail)
         },
-        onLoginWithGoogle = {
-            viewModel.onEvent(LoginUiAction.LoginWithGoogle)
+        onLoginWithGoogle = { authSocialGoogleRequestModel ->
+            viewModel.onEvent(LoginUiAction.LoginWithGoogle(authSocialGoogleRequestModel))
         },
         onLoginWithFacebook = {
             viewModel.onEvent(LoginUiAction.LoginWithFacebook)
@@ -133,22 +160,23 @@ fun Login(
     onNavigationIconClick: () -> Unit = {},
     onNavigateToSignup: () -> Unit = {},
     onLoginWithEmail: () -> Unit = {},
-    onLoginWithGoogle: () -> Unit = {},
+    onLoginWithGoogle: (AuthSocialGoogleRequestModel) -> Unit = {},
     onLoginWithFacebook: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
-        GoogleSignInUtils.doGoogleSignIn(
-            context = context,
-            scope = scope,
-            launcher = null,
-            login = {
-                Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
-            }
-        )
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
+            GoogleSignInUtils.doGoogleSignIn(
+                context = context,
+                scope = scope,
+                launcher = null,
+                login = {
+                    Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+                }
+            )
 
-    }
+        }
     Scaffold(
         modifier = modifier.gradientBackground(),
         containerColor = Color.Transparent,
@@ -224,7 +252,7 @@ fun Login(
                         scope = scope,
                         launcher = launcher,
                         login = {
-                            Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+                            onLoginWithGoogle(it)
                         }
                     )
                 },

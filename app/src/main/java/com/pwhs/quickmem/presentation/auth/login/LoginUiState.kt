@@ -1,6 +1,8 @@
 package com.pwhs.quickmem.presentation.auth.login
 
+import androidx.annotation.StringRes
+
 data class LoginUiState(
     val isLoading: Boolean = false,
-    val error: String = "",
+    @StringRes val error: Int? = null,
 )
