@@ -88,6 +88,7 @@ class LoginViewModel @Inject constructor(
                             appManager.saveUserName(resource.data?.username ?: "")
                             appManager.saveUserRole(resource.data?.role ?: "")
                             appManager.saveUserCoins(resource.data?.coin ?: 0)
+                            appManager.saveUserLoginProviders(resource.data?.provider ?: emptyList())
                             Purchases.sharedInstance.apply {
                                 setEmail(resource.data?.email)
                                 setDisplayName(resource.data?.fullName)

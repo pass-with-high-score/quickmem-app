@@ -5,7 +5,7 @@ import com.pwhs.quickmem.domain.model.auth.SignupRequestModel
 
 fun SignupRequestDto.toModel() = SignupRequestModel(
     avatarUrl = avatarUrl?.trim(),
-    email = email?.trim(),
+    email = email?.trim()?.lowercase(),
     username = username?.trim(),
     fullName = fullName?.trim(),
     role = role,
@@ -16,7 +16,7 @@ fun SignupRequestDto.toModel() = SignupRequestModel(
 
 fun SignupRequestModel.toDto() = SignupRequestDto(
     avatarUrl = avatarUrl?.trim(),
-    email = email?.trim(),
+    email = email?.trim()?.lowercase(),
     username = username?.trim(),
     fullName = fullName?.trim(),
     role = role,

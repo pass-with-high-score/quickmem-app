@@ -127,6 +127,9 @@ class VerifyEmailViewModel @Inject constructor(
                             appManager.saveUserName(resource.data?.username ?: "")
                             appManager.saveUserId(resource.data?.id ?: "")
                             appManager.saveUserRole(resource.data?.role ?: "")
+                            appManager.saveUserLoginProviders(
+                                resource.data?.provider ?: emptyList()
+                            )
                             appManager.saveIsLoggedIn(true)
                             _uiState.update { it.copy(isLoading = false) }
                             Purchases.sharedInstance.apply {
@@ -141,7 +144,7 @@ class VerifyEmailViewModel @Inject constructor(
 
                                         override fun onReceived(
                                             customerInfo: CustomerInfo,
-                                            created: Boolean
+                                            created: Boolean,
                                         ) {
                                             Timber.d("Customer info: $customerInfo")
                                         }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -51,6 +52,7 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.LanguageCode
+import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import com.pwhs.quickmem.presentation.app.settings.component.SettingCard
 import com.pwhs.quickmem.presentation.app.settings.component.SettingItem
 import com.pwhs.quickmem.presentation.app.settings.component.SettingSwitch
@@ -213,6 +215,11 @@ fun SettingsScreen(
                         )
                     )
                 }
+
+                is SettingUiEvent.ShowError -> {
+                    Toast.makeText(context, context.getString(event.error), Toast.LENGTH_SHORT)
+                        .show()
+                }
             }
         }
     }
@@ -304,6 +311,10 @@ fun SettingsScreen(
         isPlaySound = uiState.isPlaySound,
         onChangeIsPlaySound = {
             viewModel.onEvent(SettingUiAction.OnChangeIsPlaySound(it))
+        },
+        userLoginProviders = uiState.userLoginProviders,
+        onVerifyWithGoogle = {
+            viewModel.onEvent(SettingUiAction.OnVerifyWithGoogle(it))
         }
     )
 }
@@ -343,6 +354,8 @@ fun Setting(
     onChangeTimeStudyAlarm: (String) -> Unit = {},
     isPlaySound: Boolean = false,
     onChangeIsPlaySound: (Boolean) -> Unit = {},
+    userLoginProviders: List<String> = emptyList(),
+    onVerifyWithGoogle: (AuthSocialGoogleRequestModel) -> Unit = {},
 ) {
 
     val bottomSheetState = rememberModalBottomSheetState()
@@ -489,8 +502,13 @@ fun Setting(
                                 title = stringResource(R.string.txt_email),
                                 subtitle = email,
                                 onClick = {
-                                    showVerifyPasswordBottomSheet = true
-                                    onChangeType(SettingChangeValueEnum.EMAIL)
+                                    if (userLoginProviders.contains("EMAIL")) {
+                                        showVerifyPasswordBottomSheet = true
+                                        onChangeType(SettingChangeValueEnum.EMAIL)
+                                    }else {
+                                        Toast.makeText(context,
+                                            context.getString(R.string.txt_you_can_t_change_email_right_now), Toast.LENGTH_SHORT).show()
+                                    }
                                 }
                             )
                             HorizontalDivider()
@@ -504,11 +522,23 @@ fun Setting(
                             )
                             HorizontalDivider()
                             SettingItem(
-                                title = stringResource(R.string.txt_change_password),
+                                title = stringResource(R.string.txt_login_providers),
+                                subtitle = userLoginProviders.joinToString(", ") {
+                                    it.lowercase().upperCaseFirstLetter()
+                                },
                                 onClick = {
-                                    onNavigateToChangePassword()
+                                    // TODO(): Implement this feature
                                 }
                             )
+                            if (userLoginProviders.contains("EMAIL")) {
+                                HorizontalDivider()
+                                SettingItem(
+                                    title = stringResource(R.string.txt_change_password),
+                                    onClick = {
+                                        onNavigateToChangePassword()
+                                    }
+                                )
+                            }
                         }
                     }
                 }
@@ -544,30 +574,30 @@ fun Setting(
                         }
                     }
                 }
-                item {
-                    SettingTitleSection(title = stringResource(R.string.txt_offline_studying))
-                    SettingCard {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            SettingSwitch(
-                                title = stringResource(R.string.txt_save_study_sets_for_offline_studying),
-                                subtitle = stringResource(R.string.txt_your_8_most_recently_studied_sets_will_be_saved_for_offline_studying),
-                                value = true,
-                                onChangeValue = {
-                                    // TODO(): Implement this feature
-                                }
-                            )
-                            HorizontalDivider()
-                            SettingItem(
-                                title = stringResource(R.string.txt_manage_storage),
-                                onClick = {
-                                    onNavigateToManageStorage()
-                                }
-                            )
-                        }
-                    }
-                }
+//                item {
+//                    SettingTitleSection(title = stringResource(R.string.txt_offline_studying))
+//                    SettingCard {
+//                        Column(
+//                            modifier = Modifier.padding(16.dp)
+//                        ) {
+//                            SettingSwitch(
+//                                title = stringResource(R.string.txt_save_study_sets_for_offline_studying),
+//                                subtitle = stringResource(R.string.txt_your_8_most_recently_studied_sets_will_be_saved_for_offline_studying),
+//                                value = true,
+//                                onChangeValue = {
+//                                    // TODO(): Implement this feature
+//                                }
+//                            )
+//                            HorizontalDivider()
+//                            SettingItem(
+//                                title = stringResource(R.string.txt_manage_storage),
+//                                onClick = {
+//                                    onNavigateToManageStorage()
+//                                }
+//                            )
+//                        }
+//                    }
+//                }
                 item {
                     SettingTitleSection(title = stringResource(R.string.txt_preferences))
                     SettingCard {
@@ -710,11 +740,11 @@ fun Setting(
                     onChangePassword("")
                 },
                 password = password,
-                onSubmitClick = {
-                    onSubmitClick()
-                },
+                onSubmitClick = onSubmitClick,
+                onVerifyWithGoogle = onVerifyWithGoogle,
                 onChangePassword = onChangePassword,
-                errorMessage = errorMessage?.let { stringResource(it) }
+                errorMessage = errorMessage?.let { stringResource(it) },
+                isGoogleSignIn = userLoginProviders.contains("GOOGLE"),
             )
             LoadingOverlay(
                 isLoading = isLoading

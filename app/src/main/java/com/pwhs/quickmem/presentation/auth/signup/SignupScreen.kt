@@ -123,7 +123,7 @@ fun SignupScreen(
                 is SignupUiEvent.NavigateToLogin -> {
                     Toast.makeText(
                         context,
-                        "Email already exists, please login",
+                        context.getString(R.string.txt_email_already_exists_please_login),
                         Toast.LENGTH_SHORT
                     ).show()
                     navigator.navigate(
@@ -192,7 +192,11 @@ fun Signup(
                 scope = scope,
                 launcher = null,
                 login = {
-                    Toast.makeText(context, "Login successful", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_login_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             )
 

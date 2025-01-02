@@ -344,7 +344,8 @@
     <string name="txt_practice_every_day_so_you_don_t_lose_your_streak">Luyện tập mỗi ngày để không mất chuỗi của bạn!</string>
     <string name="txt_continue">Tiếp tục</string>
     <string name="txt_first_verify_your_account">Đầu tiên, xác minh tài khoản của bạn</string>
-    <string name="txt_to_confirm_it_s_really_you_please_enter_your_quickmem_password">Để xác nhận bạn thực sự là bạn, vui lòng nhập mật khẩu QuickMem của bạn</string>
+    <string name="txt_to_confirm_auth_email">Để xác nhận bạn thực sự là bạn, vui lòng nhập mật khẩu QuickMem của bạn</string>
+    <string name="txt_to_confirm_auth_google">Để xác nhận bạn thực sự là bạn, vui lòng đăng nhập bằng Google</string>
     <string name="txt_current_password">Mật khẩu hiện tại</string>
     <string name="txt_confirm_new_password">Xác nhận mật khẩu mới</string>
     <string name="txt_you_have_reached_the_top_on_the_top_streak_leaderboard">Bạn đã đạt vị trí số %1$d trên bảng xếp hạng chuỗi đỉnh cao!</string>
@@ -665,5 +666,11 @@
     <string name="txt_reset_password_description">Nhập email của bạn để nhận OTP đặt lại mật khẩu.</string>
     <string name="txt_check_your_email_for_verification">Kiểm tra email của bạn để xác minh</string>
     <string name="txt_student">Học sinh</string>
-    <string name="txt_signup_success">Sign up successfully</string>
+    <string name="txt_signup_success">Đăng ký thành công</string>
+    <string name="txt_login_providers">Các phương thức đăng nhập</string>
+    <string name="txt_email_is_not_match">Email không khớp với tài khoản của bạn</string>
+    <string name="txt_change_email_notice">Lưu ý: Vui lòng đăng nhập lại sau khi thay đổi email</string>
+    <string name="txt_you_can_t_change_email_right_now">Bạn không thể thay đổi email ngay bây giờ!</string>
+    <string name="txt_email_already_exists_please_login">Email đã tồn tại, vui lòng đăng nhập</string>
+    <string name="txt_maybe_you_need_to_sign_up_first">Có thể bạn cần đăng ký tài khoản trước</string>
 </resources>

@@ -5,7 +5,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -104,6 +106,14 @@ fun UpdateEmailSetting(
                     onValueChange = onEmailChanged,
                     placeholder = stringResource(R.string.txt_email),
                     errorMessage = errorMessage
+                )
+
+                Text(
+                    text = stringResource(R.string.txt_change_email_notice),
+                    modifier = Modifier.padding(16.dp),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.error
+                    )
                 )
             }
             LoadingOverlay(

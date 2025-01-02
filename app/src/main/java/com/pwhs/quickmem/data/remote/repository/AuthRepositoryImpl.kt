@@ -64,7 +64,7 @@ class AuthRepositoryImpl @Inject constructor(
         return flow {
             emit(Resources.Loading())
             try {
-                val emailDto = EmailRequestDto(email)
+                val emailDto = EmailRequestDto(email.lowercase())
                 val response = apiService.checkEmail(BuildConfig.EMAIL_VERIFICATION_URL, emailDto)
                 if (response.isReachable == "safe" || response.isReachable == "risky") {
                     emit(Resources.Success(true))
@@ -98,10 +98,10 @@ class AuthRepositoryImpl @Inject constructor(
                 val response = apiService.signUp(signUpRequestModel.toDto())
                 emit(Resources.Success(response.toModel()))
             } catch (e: HttpException) {
-                if (e.code() == 409) {
-                    emit(Resources.Error("User zalready exists"))
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
                 } else {
-                    Timber.e(e)
                     emit(Resources.Error(e.toString()))
                 }
             } catch (e: Exception) {

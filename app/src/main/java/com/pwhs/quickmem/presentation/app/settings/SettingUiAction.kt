@@ -1,5 +1,7 @@
 package com.pwhs.quickmem.presentation.app.settings
 
+import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
+
 sealed class SettingUiAction {
     data object Logout : SettingUiAction()
     data object Refresh : SettingUiAction()
@@ -12,7 +14,10 @@ sealed class SettingUiAction {
 
     data class OnChangeAppPushNotifications(val isAppPushNotificationsEnabled: Boolean) :
         SettingUiAction()
+
     data class OnChangeStudyAlarm(val isStudyAlarmEnabled: Boolean) : SettingUiAction()
     data class OnChangeTimeStudyAlarm(val timeStudyAlarm: String) : SettingUiAction()
     data class OnChangeIsPlaySound(val isPlaySound: Boolean) : SettingUiAction()
+    data class OnVerifyWithGoogle(val authSocialGoogleRequestModel: AuthSocialGoogleRequestModel) :
+        SettingUiAction()
 }

@@ -9,6 +9,7 @@ import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.schedule_alarm.AndroidAlarmScheduler
 import com.pwhs.quickmem.core.utils.Resources
+import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import com.pwhs.quickmem.domain.model.auth.VerifyPasswordRequestModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
 import com.pwhs.quickmem.domain.repository.SearchQueryRepository
@@ -139,6 +140,42 @@ class SettingsViewModel @Inject constructor(
                     appManager.saveIsPlaySound(event.isPlaySound)
                 }
             }
+
+            is SettingUiAction.OnVerifyWithGoogle -> {
+                verifyWithGoogle(event.authSocialGoogleRequestModel)
+            }
+        }
+    }
+
+    private fun verifyWithGoogle(authSocialGoogleRequestModel: AuthSocialGoogleRequestModel) {
+        viewModelScope.launch {
+            val email = appManager.userEmail.firstOrNull() ?: ""
+            if (email != authSocialGoogleRequestModel.email) {
+                _uiEvent.send(SettingUiEvent.ShowError(R.string.txt_email_is_not_match))
+                return@launch
+            } else {
+                when (_uiState.value.changeType) {
+                    SettingChangeValueEnum.FULL_NAME -> {
+                        _uiEvent.send(SettingUiEvent.NavigateToChangeFullName)
+                    }
+
+                    SettingChangeValueEnum.USERNAME -> {
+                        _uiEvent.send(SettingUiEvent.NavigateToChangeUsername)
+                    }
+
+                    SettingChangeValueEnum.EMAIL -> {
+                        _uiEvent.send(SettingUiEvent.NavigateToChangeEmail)
+                    }
+
+                    SettingChangeValueEnum.ROLE -> {
+                        _uiEvent.send(SettingUiEvent.NavigateToChangeRole)
+                    }
+
+                    SettingChangeValueEnum.NONE -> {
+                        // do nothing
+                    }
+                }
+            }
         }
     }
 
@@ -156,6 +193,7 @@ class SettingsViewModel @Inject constructor(
                 val enabledStudySchedule = appManager.enabledStudySchedule.firstOrNull() == true
                 val timeStudySchedule = appManager.timeStudySchedule.firstOrNull() ?: ""
                 val isPlaySound = appManager.isPlaySound.firstOrNull() == true
+                val userLoginProviders = appManager.userLoginProviders.firstOrNull() ?: emptyList()
                 _uiState.update {
                     it.copy(
                         userId = userId,
@@ -167,7 +205,8 @@ class SettingsViewModel @Inject constructor(
                         isAppPushNotificationsEnabled = isAppPushNotificationsEnabled,
                         isStudyAlarmEnabled = enabledStudySchedule && isPushNotificationsEnabled && isAppPushNotificationsEnabled,
                         timeStudyAlarm = timeStudySchedule,
-                        isPlaySound = isPlaySound
+                        isPlaySound = isPlaySound,
+                        userLoginProviders = userLoginProviders
                     )
                 }
                 getCustomerInfo()

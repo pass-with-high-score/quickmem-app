@@ -98,7 +98,7 @@ fun LoginScreen(
                 is LoginUiEvent.LoginFailure -> {
                     Toast.makeText(
                         context,
-                        "Maybe you need to sign up first",
+                        context.getString(R.string.txt_maybe_you_need_to_sign_up_first),
                         Toast.LENGTH_SHORT
                     ).show()
                     navigator.navigate(
@@ -138,7 +138,7 @@ fun LoginScreen(
                 is LoginUiEvent.NavigateToLoginWithEmail -> {
                     Toast.makeText(
                         context,
-                        "Email already exists, please login",
+                        context.getString(R.string.txt_email_already_exists_please_login),
                         Toast.LENGTH_SHORT
                     ).show()
                     navigator.navigate(

@@ -347,7 +347,8 @@
     <string name="txt_practice_every_day_so_you_don_t_lose_your_streak">Practice every day so you don\'t lose your streak!</string>
     <string name="txt_continue">Continue</string>
     <string name="txt_first_verify_your_account">First, verify your account</string>
-    <string name="txt_to_confirm_it_s_really_you_please_enter_your_quickmem_password">To confirm it\'s really you, please enter your QuickMem password</string>
+    <string name="txt_to_confirm_auth_email">To confirm it\'s really you, please enter your QuickMem password</string>
+    <string name="txt_to_confirm_auth_google">To confirm it\'s really you, please sign in with your Google account</string>
     <string name="txt_current_password">Current Password</string>
     <string name="txt_confirm_new_password">Confirm New Password</string>
     <string name="txt_you_have_reached_the_top_on_the_top_streak_leaderboard">You have reached the top %1$d on the Top Streak leaderboard!</string>
@@ -670,4 +671,10 @@
     <string name="txt_check_your_email_for_verification">Check your email for verification</string>
     <string name="txt_student">Student</string>
     <string name="txt_signup_success">Sign up successfully</string>
+    <string name="txt_login_providers">Login Providers</string>
+    <string name="txt_email_is_not_match">Email is not match with your account</string>
+    <string name="txt_change_email_notice">Notice: Please login again after changing email</string>
+    <string name="txt_you_can_t_change_email_right_now">You can\'t change email right now!</string>
+    <string name="txt_email_already_exists_please_login">Email already exists, please login</string>
+    <string name="txt_maybe_you_need_to_sign_up_first">Maybe you need to sign up first</string>
 </resources>

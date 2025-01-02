@@ -6,6 +6,8 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.pwhs.quickmem.utils.dataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -23,6 +25,7 @@ class AppManager @Inject constructor(private val context: Context) {
         val USER_EMAIL = stringPreferencesKey("USER_EMAIL")
         val USER_ROLE = stringPreferencesKey("USER_ROLE")
         val USER_BIRTHDAY = stringPreferencesKey("USER_BIRTHDAY")
+        val USER_LOGIN_PROVIDER = stringPreferencesKey("USER_LOGIN_PROVIDER")
         val PUSH_NOTIFICATIONS = booleanPreferencesKey("PUSH_NOTIFICATIONS")
         val APP_PUSH_NOTIFICATIONS = booleanPreferencesKey("APP_PUSH_NOTIFICATIONS")
         val USER_COINS = intPreferencesKey("USER_COINS")
@@ -33,11 +36,11 @@ class AppManager @Inject constructor(private val context: Context) {
 
     val isFirstRun: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[IS_FIRST_RUN] ?: true
+            preferences[IS_FIRST_RUN] != false
         }
     val isLoggedIn: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[IS_LOGGED_IN] ?: false
+            preferences[IS_LOGGED_IN] == true
         }
     val userId: Flow<String> = context.dataStore.data
         .map { preferences ->
@@ -61,11 +64,11 @@ class AppManager @Inject constructor(private val context: Context) {
         }
     val pushNotifications: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[PUSH_NOTIFICATIONS] ?: true
+            preferences[PUSH_NOTIFICATIONS] != false
         }
     val appPushNotifications: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[APP_PUSH_NOTIFICATIONS] ?: false
+            preferences[APP_PUSH_NOTIFICATIONS] == true
         }
 
     val userRole: Flow<String> = context.dataStore.data
@@ -85,7 +88,7 @@ class AppManager @Inject constructor(private val context: Context) {
 
     val enabledStudySchedule: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[ENABLED_STUDY_SCHEDULE] ?: false
+            preferences[ENABLED_STUDY_SCHEDULE] == true
         }
 
     val timeStudySchedule: Flow<String> = context.dataStore.data
@@ -95,7 +98,14 @@ class AppManager @Inject constructor(private val context: Context) {
 
     val isPlaySound: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
-            preferences[IS_PLAY_SOUND] ?: true
+            preferences[IS_PLAY_SOUND] != false
+        }
+
+    val userLoginProviders: Flow<List<String>> = context.dataStore.data
+        .map { preferences ->
+            val json = preferences[USER_LOGIN_PROVIDER] ?: "[]"
+            val type = object : TypeToken<List<String>>() {}.type
+            Gson().fromJson(json, type)
         }
 
     suspend fun saveIsFirstRun(isFirstRun: Boolean) {
@@ -201,6 +211,14 @@ class AppManager @Inject constructor(private val context: Context) {
         Timber.d("Saving is play sound: $isPlaySound")
         context.dataStore.edit { preferences ->
             preferences[IS_PLAY_SOUND] = isPlaySound
+        }
+    }
+
+    suspend fun saveUserLoginProviders(loginProviders: List<String>) {
+        Timber.d("Saving user login providers: $loginProviders")
+        val json = Gson().toJson(loginProviders)
+        context.dataStore.edit { preferences ->
+            preferences[USER_LOGIN_PROVIDER] = json
         }
     }
 
