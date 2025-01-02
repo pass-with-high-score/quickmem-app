@@ -49,9 +49,9 @@ import com.pwhs.quickmem.presentation.app.flashcard.component.FlashcardSelectIma
 import com.pwhs.quickmem.presentation.app.flashcard.component.HintCard
 import com.pwhs.quickmem.presentation.component.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.ImageCompressor
-import com.pwhs.quickmem.util.bitmapToUri
-import com.pwhs.quickmem.util.toColor
+import com.pwhs.quickmem.utils.ImageCompressor
+import com.pwhs.quickmem.utils.bitmapToUri
+import com.pwhs.quickmem.utils.toColor
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator

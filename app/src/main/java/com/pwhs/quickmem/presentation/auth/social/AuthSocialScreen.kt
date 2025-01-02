@@ -40,10 +40,10 @@ import com.pwhs.quickmem.presentation.auth.component.AuthTopAppBar
 import com.pwhs.quickmem.presentation.auth.signup.email.component.DatePickerModalInput
 import com.pwhs.quickmem.presentation.auth.signup.email.component.RadioGroup
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.gradientBackground
-import com.pwhs.quickmem.util.isDateSmallerThan
-import com.pwhs.quickmem.util.toFormattedString
-import com.pwhs.quickmem.util.toTimestamp
+import com.pwhs.quickmem.utils.gradientBackground
+import com.pwhs.quickmem.utils.isDateSmallerThan
+import com.pwhs.quickmem.utils.toFormattedString
+import com.pwhs.quickmem.utils.toTimestamp
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.NavGraphs

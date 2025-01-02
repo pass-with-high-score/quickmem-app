@@ -40,7 +40,7 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.presentation.app.study_set.detail.progress.StudySetDonutChart
-import com.pwhs.quickmem.util.toStringTime
+import com.pwhs.quickmem.utils.toStringTime
 
 @Composable
 fun FlipFlashCardFinish(

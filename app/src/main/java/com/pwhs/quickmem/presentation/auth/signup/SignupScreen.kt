@@ -7,6 +7,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -41,14 +43,16 @@ import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import com.pwhs.quickmem.presentation.auth.component.AuthButton
 import com.pwhs.quickmem.presentation.auth.component.AuthTopAppBar
 import com.pwhs.quickmem.presentation.auth.utils.GoogleSignInUtils
+import com.pwhs.quickmem.presentation.component.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.gradientBackground
+import com.pwhs.quickmem.utils.gradientBackground
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.NavGraphs
 import com.ramcosta.composedestinations.generated.destinations.AuthSocialScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.LoginScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.LoginWithEmailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SignupScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SignupWithEmailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.WelcomeScreenDestination
@@ -62,6 +66,7 @@ fun SignupScreen(
     viewModel: SignupViewModel = hiltViewModel(),
 ) {
     val context = LocalContext.current
+    val uiState = viewModel.uiState.collectAsState()
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
@@ -101,6 +106,11 @@ fun SignupScreen(
                 }
 
                 is SignupUiEvent.SignupSuccess -> {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_signup_success),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     navigator.navigate(HomeScreenDestination()) {
                         popUpTo(NavGraphs.root) {
                             saveState = false
@@ -109,12 +119,26 @@ fun SignupScreen(
                         restoreState = false
                     }
                 }
+
+                is SignupUiEvent.NavigateToLogin -> {
+                    Toast.makeText(
+                        context,
+                        "Email already exists, please login",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    navigator.navigate(
+                        LoginWithEmailScreenDestination(
+                            email = event.authSocialGoogleRequestModel.email
+                        )
+                    )
+                }
             }
         }
     }
 
     Signup(
         modifier = modifier,
+        isLoading = uiState.value.isLoading,
         onNavigateToLogin = {
             navigator.navigate(LoginScreenDestination) {
                 popUpTo(SignupScreenDestination) {
@@ -151,6 +175,7 @@ fun SignupScreen(
 @Composable
 fun Signup(
     modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
     onNavigationIconClick: () -> Unit = {},
     onNavigateToLogin: () -> Unit = {},
     onSignupWithEmail: () -> Unit = {},
@@ -190,143 +215,149 @@ fun Signup(
             )
         }
     ) { innerPadding ->
-        Column(
-            modifier = modifier
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp)
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Spacer(modifier = Modifier.height(30.dp))
-
-            Text(
-                text = stringResource(R.string.txt_signup_description),
-                style = typography.bodyLarge.copy(
-                    color = colorScheme.onSurface
-                ),
-                modifier = Modifier
-                    .padding(top = 8.dp)
-                    .padding(bottom = 30.dp)
-            )
-
-            AuthButton(
-                modifier = Modifier.padding(top = 16.dp),
-                onClick = onSignupWithEmail,
-                text = stringResource(R.string.txt_sign_up_with_email),
-                colors = colorScheme.primary,
-                textColor = Color.White,
-                icon = R.drawable.ic_email
-            )
-
-            Row(
-                modifier = Modifier.padding(vertical = 16.dp),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.CenterVertically
+        Box {
+            Column(
+                modifier = modifier
+                    .padding(innerPadding)
+                    .padding(horizontal = 16.dp)
+                    .fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                HorizontalDivider(
-                    color = colorScheme.onSurface,
-                    modifier = Modifier.weight(1f)
-                )
+                Spacer(modifier = Modifier.height(30.dp))
+
                 Text(
-                    text = stringResource(R.string.txt_or),
-                    style = typography.bodyMedium.copy(color = colorScheme.onSurface)
+                    text = stringResource(R.string.txt_signup_description),
+                    style = typography.bodyLarge.copy(
+                        color = colorScheme.onSurface
+                    ),
+                    modifier = Modifier
+                        .padding(top = 8.dp)
+                        .padding(bottom = 30.dp)
                 )
-                HorizontalDivider(
-                    color = colorScheme.onSurface,
-                    modifier = Modifier.weight(1f)
+
+                AuthButton(
+                    modifier = Modifier.padding(top = 16.dp),
+                    onClick = onSignupWithEmail,
+                    text = stringResource(R.string.txt_sign_up_with_email),
+                    colors = colorScheme.primary,
+                    textColor = Color.White,
+                    icon = R.drawable.ic_email
+                )
+
+                Row(
+                    modifier = Modifier.padding(vertical = 16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    HorizontalDivider(
+                        color = colorScheme.onSurface,
+                        modifier = Modifier.weight(1f)
+                    )
+                    Text(
+                        text = stringResource(R.string.txt_or),
+                        style = typography.bodyMedium.copy(color = colorScheme.onSurface)
+                    )
+                    HorizontalDivider(
+                        color = colorScheme.onSurface,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+
+                AuthButton(
+                    modifier = Modifier.padding(top = 16.dp),
+                    onClick = {
+                        GoogleSignInUtils.doGoogleSignIn(
+                            context = context,
+                            scope = scope,
+                            launcher = launcher,
+                            login = {
+                                onSignupWithGoogle(it)
+                            }
+                        )
+                    },
+                    text = stringResource(R.string.txt_continue_with_google),
+                    colors = Color.White,
+                    textColor = colorScheme.onSurface,
+                    icon = R.drawable.ic_google
+                )
+                AuthButton(
+                    modifier = Modifier.padding(top = 16.dp),
+                    onClick = onSignupWithFacebook,
+                    text = stringResource(R.string.txt_continue_with_facebook),
+                    colors = Color.White,
+                    textColor = colorScheme.onSurface,
+                    icon = R.drawable.ic_facebook
+                )
+
+                Text(
+                    buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = colorScheme.onSurface,
+                                fontSize = 16.sp,
+                            )
+                        ) {
+                            append(stringResource(R.string.txt_by_signing_up_you_agree_to_the))
+                            withStyle(
+                                style = SpanStyle(
+                                    color = colorScheme.primary,
+                                    fontWeight = FontWeight.Bold,
+                                    textDecoration = TextDecoration.Underline
+                                )
+                            ) {
+                                append(stringResource(R.string.txt_terms_and_conditions))
+                            }
+                            append(stringResource(R.string.txt_and_the))
+                            withStyle(
+                                style = SpanStyle(
+                                    color = colorScheme.primary,
+                                    fontWeight = FontWeight.Bold,
+                                    textDecoration = TextDecoration.Underline
+                                )
+                            ) {
+                                append(stringResource(R.string.txt_privacy_policy))
+                            }
+                            append(stringResource(R.string.txt_of_quickmem))
+                        }
+                    },
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .clickable {
+                            onPrivacyPolicyClick()
+                        },
+                    textAlign = TextAlign.Center
+                )
+
+                Text(
+                    buildAnnotatedString {
+                        withStyle(
+                            style = SpanStyle(
+                                color = colorScheme.onSurface,
+                                fontSize = 16.sp,
+                            )
+                        ) {
+                            append(stringResource(R.string.txt_already_have_an_account))
+                            withStyle(
+                                style = SpanStyle(
+                                    color = colorScheme.primary,
+                                    fontWeight = FontWeight.Bold,
+                                    textDecoration = TextDecoration.Underline
+                                )
+                            ) {
+                                append(" " + stringResource(R.string.txt_log_in))
+                            }
+                        }
+                    },
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .clickable {
+                            onNavigateToLogin()
+                        }
                 )
             }
-
-            AuthButton(
-                modifier = Modifier.padding(top = 16.dp),
-                onClick = {
-                    GoogleSignInUtils.doGoogleSignIn(
-                        context = context,
-                        scope = scope,
-                        launcher = launcher,
-                        login = {
-                            onSignupWithGoogle(it)
-                        }
-                    )
-                },
-                text = stringResource(R.string.txt_continue_with_google),
-                colors = Color.White,
-                textColor = colorScheme.onSurface,
-                icon = R.drawable.ic_google
-            )
-            AuthButton(
-                modifier = Modifier.padding(top = 16.dp),
-                onClick = onSignupWithFacebook,
-                text = stringResource(R.string.txt_continue_with_facebook),
-                colors = Color.White,
-                textColor = colorScheme.onSurface,
-                icon = R.drawable.ic_facebook
-            )
-
-            Text(
-                buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            color = colorScheme.onSurface,
-                            fontSize = 16.sp,
-                        )
-                    ) {
-                        append(stringResource(R.string.txt_by_signing_up_you_agree_to_the))
-                        withStyle(
-                            style = SpanStyle(
-                                color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold,
-                                textDecoration = TextDecoration.Underline
-                            )
-                        ) {
-                            append(stringResource(R.string.txt_terms_and_conditions))
-                        }
-                        append(stringResource(R.string.txt_and_the))
-                        withStyle(
-                            style = SpanStyle(
-                                color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold,
-                                textDecoration = TextDecoration.Underline
-                            )
-                        ) {
-                            append(stringResource(R.string.txt_privacy_policy))
-                        }
-                        append(stringResource(R.string.txt_of_quickmem))
-                    }
-                },
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .clickable {
-                        onPrivacyPolicyClick()
-                    },
-                textAlign = TextAlign.Center
-            )
-
-            Text(
-                buildAnnotatedString {
-                    withStyle(
-                        style = SpanStyle(
-                            color = colorScheme.onSurface,
-                            fontSize = 16.sp,
-                        )
-                    ) {
-                        append(stringResource(R.string.txt_already_have_an_account))
-                        withStyle(
-                            style = SpanStyle(
-                                color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold,
-                                textDecoration = TextDecoration.Underline
-                            )
-                        ) {
-                            append(" " + stringResource(R.string.txt_log_in))
-                        }
-                    }
-                },
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .clickable {
-                        onNavigateToLogin()
-                    }
+            LoadingOverlay(
+                isLoading = isLoading,
+                text = stringResource(R.string.txt_signing_up)
             )
         }
     }

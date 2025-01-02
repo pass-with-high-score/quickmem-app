@@ -52,7 +52,7 @@ import com.pwhs.quickmem.presentation.app.explore.create_study_set_ai.CreateStud
 import com.pwhs.quickmem.presentation.app.explore.top_streak.TopStreakScreen
 import com.pwhs.quickmem.presentation.component.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.ads.AdsUtil
+import com.pwhs.quickmem.utils.ads.AdsUtil
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination

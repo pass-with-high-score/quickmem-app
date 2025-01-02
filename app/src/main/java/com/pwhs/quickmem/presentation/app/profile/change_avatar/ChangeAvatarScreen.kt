@@ -30,8 +30,8 @@ import com.pwhs.quickmem.presentation.app.profile.change_avatar.component.Avatar
 import com.pwhs.quickmem.presentation.app.profile.change_avatar.component.ChangeAvatarTopAppBar
 import com.pwhs.quickmem.presentation.component.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.bitmapToUri
-import com.pwhs.quickmem.util.rememberImageCameraCapture
+import com.pwhs.quickmem.utils.bitmapToUri
+import com.pwhs.quickmem.utils.rememberImageCameraCapture
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.result.ResultBackNavigator

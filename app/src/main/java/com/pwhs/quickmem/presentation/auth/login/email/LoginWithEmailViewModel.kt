@@ -1,5 +1,6 @@
 package com.pwhs.quickmem.presentation.auth.login.email
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
@@ -11,7 +12,7 @@ import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.auth.LoginRequestModel
 import com.pwhs.quickmem.domain.model.auth.ResendEmailRequestModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
-import com.pwhs.quickmem.util.emailIsValid
+import com.pwhs.quickmem.utils.emailIsValid
 import com.revenuecat.purchases.CustomerInfo
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError
@@ -33,6 +34,7 @@ class LoginWithEmailViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginWithEmailUiState())
@@ -40,6 +42,13 @@ class LoginWithEmailViewModel @Inject constructor(
 
     private val _uiEvent = Channel<LoginWithEmailUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
+
+    init {
+        val email = savedStateHandle.get<String>("email")
+        if (!email.isNullOrEmpty()) {
+            _uiState.update { it.copy(email = email) }
+        }
+    }
 
     fun onEvent(event: LoginWithEmailUiAction) {
         when (event) {

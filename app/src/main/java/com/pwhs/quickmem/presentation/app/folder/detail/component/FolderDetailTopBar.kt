@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.gradientBackground
+import com.pwhs.quickmem.utils.gradientBackground
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

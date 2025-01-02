@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.util
+package com.pwhs.quickmem.utils
 
 import java.text.SimpleDateFormat
 import java.util.Calendar

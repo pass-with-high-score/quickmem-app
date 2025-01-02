@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.util
+package com.pwhs.quickmem.utils
 
 import androidx.compose.ui.graphics.Color
 import com.wajahatkarim3.easyvalidation.core.view_ktx.validEmail

@@ -8,9 +8,9 @@ import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.auth.SignupRequestModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
-import com.pwhs.quickmem.util.emailIsValid
-import com.pwhs.quickmem.util.getNameFromEmail
-import com.pwhs.quickmem.util.getUsernameFromEmail
+import com.pwhs.quickmem.utils.emailIsValid
+import com.pwhs.quickmem.utils.getNameFromEmail
+import com.pwhs.quickmem.utils.getUsernameFromEmail
 import com.wajahatkarim3.easyvalidation.core.view_ktx.validEmail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

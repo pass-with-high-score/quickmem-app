@@ -55,7 +55,7 @@ import com.pwhs.quickmem.core.data.enums.DifficultyLevel
 import com.pwhs.quickmem.core.data.enums.LanguageCode
 import com.pwhs.quickmem.core.data.enums.QuestionType
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.rememberImeState
+import com.pwhs.quickmem.utils.rememberImeState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

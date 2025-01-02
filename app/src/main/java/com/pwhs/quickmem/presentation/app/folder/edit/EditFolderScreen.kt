@@ -31,7 +31,7 @@ import com.pwhs.quickmem.presentation.component.CreateTopAppBar
 import com.pwhs.quickmem.presentation.component.LoadingOverlay
 import com.pwhs.quickmem.presentation.component.SwitchContainer
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.rememberImeState
+import com.pwhs.quickmem.utils.rememberImeState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.result.ResultBackNavigator

@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.util.ads
+package com.pwhs.quickmem.utils.ads
 
 import android.content.Context
 import android.widget.Toast

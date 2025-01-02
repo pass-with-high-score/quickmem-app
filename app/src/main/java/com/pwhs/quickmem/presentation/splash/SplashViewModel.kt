@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.util.isInternetAvailable
+import com.pwhs.quickmem.utils.isInternetAvailable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay

@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.LanguageCode
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.changeLanguage
-import com.pwhs.quickmem.util.getLanguageCode
+import com.pwhs.quickmem.utils.changeLanguage
+import com.pwhs.quickmem.utils.getLanguageCode
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.result.ResultBackNavigator

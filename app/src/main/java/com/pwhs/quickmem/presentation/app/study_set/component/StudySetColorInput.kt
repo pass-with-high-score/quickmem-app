@@ -32,7 +32,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.color.ColorModel
-import com.pwhs.quickmem.util.toColor
+import com.pwhs.quickmem.utils.toColor
 
 @Composable
 fun StudySetColorInput(

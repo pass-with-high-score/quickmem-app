@@ -8,7 +8,7 @@ import com.pwhs.quickmem.data.mapper.upload.toUploadImageResponseModel
 import com.pwhs.quickmem.data.remote.ApiService
 import com.pwhs.quickmem.domain.model.upload.UploadImageResponseModel
 import com.pwhs.quickmem.domain.repository.UploadImageRepository
-import com.pwhs.quickmem.util.RealPathUtil
+import com.pwhs.quickmem.utils.RealPathUtil
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

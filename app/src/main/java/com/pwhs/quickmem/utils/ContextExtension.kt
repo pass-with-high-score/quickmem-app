@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.util
+package com.pwhs.quickmem.utils
 
 import android.app.LocaleManager
 import android.content.Context

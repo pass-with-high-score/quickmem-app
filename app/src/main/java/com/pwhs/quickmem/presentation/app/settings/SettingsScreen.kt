@@ -60,10 +60,10 @@ import com.pwhs.quickmem.presentation.component.LoadingOverlay
 import com.pwhs.quickmem.presentation.component.QuickMemAlertDialog
 import com.pwhs.quickmem.presentation.component.QuickmemTimePicker
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.getLanguageCode
-import com.pwhs.quickmem.util.toFormattedString
-import com.pwhs.quickmem.util.toTimePickerState
-import com.pwhs.quickmem.util.upperCaseFirstLetter
+import com.pwhs.quickmem.utils.getLanguageCode
+import com.pwhs.quickmem.utils.toFormattedString
+import com.pwhs.quickmem.utils.toTimePickerState
+import com.pwhs.quickmem.utils.upperCaseFirstLetter
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.NavGraphs

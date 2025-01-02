@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.notification.GetNotificationResponseModel
-import com.pwhs.quickmem.util.calculateTimeAgo
+import com.pwhs.quickmem.utils.calculateTimeAgo
 
 @Composable
 fun NotificationItem(

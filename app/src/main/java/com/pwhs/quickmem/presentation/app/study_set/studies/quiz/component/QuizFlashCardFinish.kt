@@ -53,7 +53,7 @@ import com.pwhs.quickmem.presentation.app.study_set.detail.progress.StudySetDonu
 import com.pwhs.quickmem.presentation.component.ShowImageDialog
 import com.pwhs.quickmem.ui.theme.correctColor
 import com.pwhs.quickmem.ui.theme.incorrectColor
-import com.pwhs.quickmem.util.toStringTime
+import com.pwhs.quickmem.utils.toStringTime
 
 @Composable
 fun QuizFlashCardFinish(

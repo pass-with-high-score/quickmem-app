@@ -54,7 +54,7 @@ import com.pwhs.quickmem.domain.model.flashcard.StudySetFlashCardResponseModel
 import com.pwhs.quickmem.presentation.app.study_set.detail.component.ItemMenuBottomSheet
 import com.pwhs.quickmem.presentation.component.QuickMemAlertDialog
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.toColor
+import com.pwhs.quickmem.utils.toColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

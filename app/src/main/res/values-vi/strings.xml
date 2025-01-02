@@ -665,4 +665,5 @@
     <string name="txt_reset_password_description">Nhập email của bạn để nhận OTP đặt lại mật khẩu.</string>
     <string name="txt_check_your_email_for_verification">Kiểm tra email của bạn để xác minh</string>
     <string name="txt_student">Học sinh</string>
+    <string name="txt_signup_success">Sign up successfully</string>
 </resources>

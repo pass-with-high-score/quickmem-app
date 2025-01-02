@@ -15,7 +15,7 @@ import com.pwhs.quickmem.domain.model.users.UpdateCoinRequestModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
 import com.pwhs.quickmem.domain.repository.StreakRepository
 import com.pwhs.quickmem.domain.repository.StudySetRepository
-import com.pwhs.quickmem.util.getLanguageCode
+import com.pwhs.quickmem.utils.getLanguageCode
 import com.revenuecat.purchases.CustomerInfo
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError

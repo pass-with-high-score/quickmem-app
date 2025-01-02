@@ -3,7 +3,7 @@ package com.pwhs.quickmem.core.datastore
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.pwhs.quickmem.util.dataStore
+import com.pwhs.quickmem.utils.dataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import timber.log.Timber

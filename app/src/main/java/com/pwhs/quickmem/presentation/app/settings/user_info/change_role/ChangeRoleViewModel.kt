@@ -9,8 +9,8 @@ import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.auth.ChangeRoleRequestModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
-import com.pwhs.quickmem.util.isDateSmallerThan
-import com.pwhs.quickmem.util.toTimestamp
+import com.pwhs.quickmem.utils.isDateSmallerThan
+import com.pwhs.quickmem.utils.toTimestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

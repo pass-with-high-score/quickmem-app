@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.pwhs.quickmem.domain.model.users.ClassMemberModel
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.upperCaseFirstLetter
+import com.pwhs.quickmem.utils.upperCaseFirstLetter
 import com.pwhs.quickmem.R
 
 @Composable

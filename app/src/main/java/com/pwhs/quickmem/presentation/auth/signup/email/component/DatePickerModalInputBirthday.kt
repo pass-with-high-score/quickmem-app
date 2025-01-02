@@ -25,7 +25,6 @@ fun DatePickerModalInput(
 ) {
     val datePickerState = rememberDatePickerState(
         initialDisplayMode = DisplayMode.Input,
-        yearRange = 1930..2024,
         initialSelectedDateMillis = initialDate ?: System.currentTimeMillis()
     )
 

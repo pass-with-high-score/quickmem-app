@@ -9,7 +9,6 @@ import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
-import com.pwhs.quickmem.presentation.auth.login.LoginUiEvent
 import com.revenuecat.purchases.CustomerInfo
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError
@@ -51,7 +50,19 @@ class SignupViewModel @Inject constructor(
                 when (resource) {
                     is Resources.Error -> {
                         _uiState.update { it.copy(isLoading = false) }
-                        _uiEvent.trySend(SignupUiEvent.SignupWithGoogle(authSocialGoogleRequestModel))
+                        if (resource.status == 409) {
+                            _uiEvent.trySend(
+                                SignupUiEvent.NavigateToLogin(
+                                    authSocialGoogleRequestModel = authSocialGoogleRequestModel
+                                )
+                            )
+                        } else {
+                            _uiEvent.trySend(
+                                SignupUiEvent.SignupWithGoogle(
+                                    authSocialGoogleRequestModel = authSocialGoogleRequestModel
+                                )
+                            )
+                        }
                     }
 
                     is Resources.Loading -> {

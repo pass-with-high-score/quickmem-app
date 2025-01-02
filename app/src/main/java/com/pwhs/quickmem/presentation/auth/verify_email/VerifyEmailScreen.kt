@@ -60,8 +60,8 @@ import com.pwhs.quickmem.presentation.auth.component.AuthButton
 import com.pwhs.quickmem.presentation.auth.verify_email.components.OtpInputField
 import com.pwhs.quickmem.presentation.component.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.gradientBackground
-import com.pwhs.quickmem.util.rememberImeState
+import com.pwhs.quickmem.utils.gradientBackground
+import com.pwhs.quickmem.utils.rememberImeState
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.NavGraphs

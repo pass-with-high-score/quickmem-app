@@ -45,7 +45,7 @@ import androidx.compose.ui.unit.dp
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.TextFieldType
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.upperCaseFirstLetter
+import com.pwhs.quickmem.utils.upperCaseFirstLetter
 
 @Composable
 fun AuthTextField(

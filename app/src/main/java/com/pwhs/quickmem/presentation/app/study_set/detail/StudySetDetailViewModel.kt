@@ -14,7 +14,7 @@ import com.pwhs.quickmem.domain.model.study_set.SaveRecentAccessStudySetRequestM
 import com.pwhs.quickmem.domain.repository.FlashCardRepository
 import com.pwhs.quickmem.domain.repository.StudySetRepository
 import com.pwhs.quickmem.domain.repository.StudyTimeRepository
-import com.pwhs.quickmem.util.toColor
+import com.pwhs.quickmem.utils.toColor
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel

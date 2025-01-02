@@ -52,7 +52,11 @@ class LoginViewModel @Inject constructor(
                 when (resource) {
                     is Resources.Error -> {
                         _uiState.update { it.copy(isLoading = false) }
-                        _uiEvent.trySend(LoginUiEvent.LoginFailure(authSocialGoogleRequestModel))
+                        if (resource.status == 409) {
+                            _uiEvent.trySend(LoginUiEvent.NavigateToLoginWithEmail(email = authSocialGoogleRequestModel.email))
+                        } else {
+                            _uiEvent.trySend(LoginUiEvent.LoginFailure(authSocialGoogleRequestModel))
+                        }
                     }
 
                     is Resources.Loading -> {

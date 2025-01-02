@@ -44,7 +44,7 @@ import com.pwhs.quickmem.domain.model.subject.SubjectModel
 import com.pwhs.quickmem.domain.model.users.UserResponseModel
 import com.pwhs.quickmem.presentation.component.RoleUserText
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.toColor
+import com.pwhs.quickmem.utils.toColor
 
 @Composable
 fun StudySetItem(

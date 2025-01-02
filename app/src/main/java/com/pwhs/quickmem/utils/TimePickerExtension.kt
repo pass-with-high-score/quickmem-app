@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.util
+package com.pwhs.quickmem.utils
 
 import android.icu.util.Calendar
 import androidx.compose.material3.ExperimentalMaterial3Api

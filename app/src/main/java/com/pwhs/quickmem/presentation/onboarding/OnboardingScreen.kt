@@ -32,7 +32,7 @@ import com.pwhs.quickmem.presentation.onboarding.component.OnboardingIndicator
 import com.pwhs.quickmem.presentation.onboarding.component.OnboardingPageView
 import com.pwhs.quickmem.presentation.onboarding.data.onboardingPagesList
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.util.gradientBackground
+import com.pwhs.quickmem.utils.gradientBackground
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.NavGraphs

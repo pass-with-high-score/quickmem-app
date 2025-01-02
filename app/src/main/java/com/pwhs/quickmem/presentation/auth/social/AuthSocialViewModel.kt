@@ -11,7 +11,7 @@ import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.auth.SignupSocialCredentialRequestModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
-import com.pwhs.quickmem.util.getUsernameFromEmail
+import com.pwhs.quickmem.utils.getUsernameFromEmail
 import com.revenuecat.purchases.CustomerInfo
 import com.revenuecat.purchases.Purchases
 import com.revenuecat.purchases.PurchasesError

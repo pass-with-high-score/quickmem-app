@@ -48,6 +48,7 @@ import com.pwhs.quickmem.domain.model.users.UpdateCoinRequestModel
 import com.pwhs.quickmem.domain.model.users.UpdateCoinResponseModel
 import com.pwhs.quickmem.domain.model.users.UserDetailResponseModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
+import com.pwhs.quickmem.utils.parseApiError
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
@@ -435,6 +436,13 @@ class AuthRepositoryImpl @Inject constructor(
             try {
                 val response = apiService.loginWithGoogle(authSocialGoogleRequestModel.toDto())
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -449,6 +457,13 @@ class AuthRepositoryImpl @Inject constructor(
                 val response =
                     apiService.signupWithGoogle(signupSocialCredentialRequestModel.toDto())
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
