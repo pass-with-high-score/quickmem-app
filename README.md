@@ -68,6 +68,8 @@ engaging user experience.
    RELEASE_KEY_ALIAS="your-release-key-alias"
    RELEASE_STORE_PASSWORD="your-release-store-password"
    RELEASE_KEY_PASSWORD="your-release-key-password"
+   GOOOGLE_OAUTH_CLIENT_ID_DEBUG="your-google-oauth-client-id-debug"
+   GOOOGLE_OAUTH_CLIENT_ID_PRODUCT="your-google-oauth-client-id-product"
    ```
 
 4. Build the project:

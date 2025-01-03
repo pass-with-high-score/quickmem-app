@@ -16,6 +16,7 @@ import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.pwhs.quickmem.BuildConfig
 import com.pwhs.quickmem.core.data.enums.AuthProvider
 import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import kotlinx.coroutines.CoroutineScope
@@ -99,9 +100,9 @@ class GoogleSignInUtils {
                 str + "%02x".format(it)
             }
             return GetGoogleIdOption.Builder()
-                .setFilterByAuthorizedAccounts(false)
-                .setAutoSelectEnabled(false)
-                .setServerClientId("743857474439-b8umbci861okgpukka3l8lr1tfrvjso8.apps.googleusercontent.com")
+                .setFilterByAuthorizedAccounts(true)
+                .setAutoSelectEnabled(true)
+                .setServerClientId(BuildConfig.GOOGLE_OAUTH_CLIENT_ID)
                 .setNonce(hashedNonce)
                 .build()
         }

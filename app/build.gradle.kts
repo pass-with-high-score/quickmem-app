@@ -41,6 +41,10 @@ android {
             localProperties.getProperty("REWARDED_INTERSTITIAL_ADS_ID")
         val oneSignalAppId: String = localProperties.getProperty("ONESIGNAL_APP_ID")
         val revenueCatApiKey: String = localProperties.getProperty("REVENUECAT_API_KEY")
+        val googleOAuthClientIdDebug: String =
+            localProperties.getProperty("GOOOGLE_OAUTH_CLIENT_ID_DEBUG")
+        val googleOAuthClientIdRelease: String =
+            localProperties.getProperty("GOOOGLE_OAUTH_CLIENT_ID_PRODUCT")
 
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         buildConfigField("String", "EMAIL_VERIFICATION_URL", "\"$emailVerificationUrl\"")
@@ -50,6 +54,24 @@ android {
         buildConfigField("String", "REWARDED_INTERSTITIAL_ADS_ID", "\"$rewardedInterstitialAdsId\"")
         buildConfigField("String", "ONESIGNAL_APP_ID", "\"$oneSignalAppId\"")
         buildConfigField("String", "REVENUECAT_API_KEY", "\"$revenueCatApiKey\"")
+
+        buildTypes {
+            debug {
+                buildConfigField(
+                    "String",
+                    "GOOGLE_OAUTH_CLIENT_ID",
+                    "\"$googleOAuthClientIdDebug\""
+                )
+            }
+
+            release {
+                buildConfigField(
+                    "String",
+                    "GOOGLE_OAUTH_CLIENT_ID",
+                    "\"$googleOAuthClientIdRelease\""
+                )
+            }
+        }
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -140,11 +162,11 @@ dependencies {
     implementation(projects.easycrop)
     implementation(libs.lottie.compose)
 
-    implementation("com.google.firebase:firebase-auth")
-    implementation("com.google.android.exoplayer:exoplayer:2.19.1")
-    implementation("androidx.media3:media3-exoplayer:1.3.1")
-    implementation("androidx.media3:media3-exoplayer-dash:1.3.1")
-    implementation("androidx.media3:media3-ui:1.3.1")
+    implementation(libs.google.firebase.auth)
+    implementation(libs.exoplayer)
+    implementation(libs.androidx.media3.exoplayer)
+    implementation(libs.androidx.media3.exoplayer.dash)
+    implementation(libs.androidx.media3.ui)
 
 
     // Compose
