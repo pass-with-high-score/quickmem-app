@@ -84,6 +84,13 @@ class AuthRepositoryImpl @Inject constructor(
             try {
                 val response = apiService.login(loginRequestModel.toDto())
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e.toString())
                 emit(Resources.Error(e.toString()))
@@ -120,6 +127,13 @@ class AuthRepositoryImpl @Inject constructor(
             try {
                 val response = apiService.verifyEmail(verifyEmailResponseModel.toDto())
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 emit(Resources.Error(e.toString()))
             }
@@ -134,6 +148,13 @@ class AuthRepositoryImpl @Inject constructor(
             try {
                 val response = apiService.resendVerificationEmail(resendEmailRequestModel.toDto())
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -156,6 +177,13 @@ class AuthRepositoryImpl @Inject constructor(
                     updateFullNameRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -178,6 +206,13 @@ class AuthRepositoryImpl @Inject constructor(
                     updateUsernameRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -201,6 +236,13 @@ class AuthRepositoryImpl @Inject constructor(
                     updateEmailRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -223,6 +265,13 @@ class AuthRepositoryImpl @Inject constructor(
                     changePasswordRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -238,6 +287,13 @@ class AuthRepositoryImpl @Inject constructor(
             try {
                 val response = apiService.sendResetPassword(sendResetPasswordRequestModel.toDto())
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -253,6 +309,13 @@ class AuthRepositoryImpl @Inject constructor(
             try {
                 val response = apiService.resetPassword(resetPasswordRequestModel.toDto())
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -275,6 +338,13 @@ class AuthRepositoryImpl @Inject constructor(
                     verifyPasswordRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -299,6 +369,13 @@ class AuthRepositoryImpl @Inject constructor(
                     isOwner
                 )
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -312,6 +389,13 @@ class AuthRepositoryImpl @Inject constructor(
             try {
                 val response = apiService.getAvatars(token = token)
                 emit(Resources.Success(response.map { it.toModel() }))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -334,6 +418,13 @@ class AuthRepositoryImpl @Inject constructor(
                     token, avatarId, updateAvatarRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -377,6 +468,13 @@ class AuthRepositoryImpl @Inject constructor(
             try {
                 val response = apiService.getUserProfile(token, userId)
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -399,6 +497,13 @@ class AuthRepositoryImpl @Inject constructor(
                     changeRoleRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))
@@ -421,6 +526,13 @@ class AuthRepositoryImpl @Inject constructor(
                     updateCoinRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
+            } catch (e: HttpException) {
+                val apiError = e.parseApiError()
+                if (apiError != null) {
+                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
+                } else {
+                    emit(Resources.Error(e.toString()))
+                }
             } catch (e: Exception) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))

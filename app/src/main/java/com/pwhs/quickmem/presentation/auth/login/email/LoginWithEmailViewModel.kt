@@ -96,11 +96,11 @@ class LoginWithEmailViewModel @Inject constructor(
                     is Resources.Error -> {
                         _uiState.update {
                             it.copy(
-                                emailError = R.string.txt_email_is_not_registered,
+                                emailError = R.string.txt_invalid_email_address,
                                 isLoading = false
                             )
                         }
-                        _uiEvent.send(LoginWithEmailUiEvent.LoginFailure(R.string.txt_email_is_not_registered))
+                        _uiEvent.send(LoginWithEmailUiEvent.LoginFailure(R.string.txt_invalid_email_address))
                     }
 
                     is Resources.Loading -> {
@@ -116,15 +116,29 @@ class LoginWithEmailViewModel @Inject constructor(
                             authRepository.login(loginRequestModel).collectLatest { login ->
                                 when (login) {
                                     is Resources.Error -> {
-                                        Timber.e(login.message)
-                                        _uiState.update {
-                                            it.copy(
-                                                isLoading = false,
-                                                emailError = R.string.txt_invalid_email_or_password,
-                                                passwordError = R.string.txt_invalid_email_or_password
-                                            )
+                                        if (login.status == 401) {
+                                            _uiState.update {
+                                                it.copy(
+                                                    emailError = R.string.txt_invalid_email_or_password,
+                                                    passwordError = R.string.txt_invalid_email_or_password,
+                                                    isLoading = false
+                                                )
+                                            }
+                                        } else if (login.status == 404) {
+                                            _uiState.update {
+                                                it.copy(
+                                                    emailError = R.string.txt_email_is_not_registered,
+                                                    isLoading = false
+                                                )
+                                            }
+                                        } else {
+                                            _uiState.update {
+                                                it.copy(
+                                                    emailError = R.string.txt_error_occurred,
+                                                    isLoading = false
+                                                )
+                                            }
                                         }
-                                        _uiEvent.send(LoginWithEmailUiEvent.LoginFailure(R.string.txt_invalid_email_or_password))
                                     }
 
                                     is Resources.Loading -> {
@@ -159,7 +173,9 @@ class LoginWithEmailViewModel @Inject constructor(
                                             appManager.saveUserName(login.data?.username ?: "")
                                             appManager.saveUserRole(login.data?.role ?: "")
                                             appManager.saveUserCoins(login.data?.coin ?: 0)
-                                            appManager.saveUserLoginProviders(login.data?.provider ?: emptyList())
+                                            appManager.saveUserLoginProviders(
+                                                login.data?.provider ?: emptyList()
+                                            )
                                             Purchases.sharedInstance.apply {
                                                 setEmail(login.data?.email)
                                                 setDisplayName(login.data?.fullName)
@@ -189,10 +205,11 @@ class LoginWithEmailViewModel @Inject constructor(
                         } else {
                             _uiState.update {
                                 it.copy(
-                                    emailError = R.string.txt_email_is_not_registered,
+                                    emailError = R.string.txt_invalid_email_address,
                                     isLoading = false
                                 )
                             }
+                            _uiEvent.send(LoginWithEmailUiEvent.LoginFailure(R.string.txt_invalid_email_address))
                         }
                     }
                 }
