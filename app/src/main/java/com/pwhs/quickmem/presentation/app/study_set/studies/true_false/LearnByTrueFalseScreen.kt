@@ -52,8 +52,8 @@ import coil.compose.AsyncImage
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.LearnFrom
 import com.pwhs.quickmem.domain.model.flashcard.FlashCardResponseModel
-import com.pwhs.quickmem.presentation.StandardUiAction
-import com.pwhs.quickmem.presentation.StandardViewModel
+import com.pwhs.quickmem.presentation.app.home.HomeUiAction
+import com.pwhs.quickmem.presentation.app.home.HomeViewModel
 import com.pwhs.quickmem.presentation.app.study_set.studies.component.UnfinishedLearningBottomSheet
 import com.pwhs.quickmem.presentation.app.study_set.studies.true_false.component.TrueFalseButton
 import com.pwhs.quickmem.presentation.app.study_set.studies.true_false.component.TrueFalseFlashcardFinish
@@ -73,7 +73,7 @@ fun LearnByTrueFalseScreen(
     modifier: Modifier = Modifier,
     resultBackNavigator: ResultBackNavigator<Boolean>,
     viewModel: LearnByTrueFalseViewModel = hiltViewModel(),
-    standardViewModel: StandardViewModel = hiltViewModel(),
+    homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -85,7 +85,7 @@ fun LearnByTrueFalseScreen(
                 }
 
                 LearnByTrueFalseUiEvent.Finished -> {
-                    standardViewModel.onEvent(StandardUiAction.UpdateStreak)
+                    homeViewModel.onEvent(HomeUiAction.UpdateStreak)
                     Toast.makeText(
                         context,
                         context.getString(R.string.txt_you_have_finished),

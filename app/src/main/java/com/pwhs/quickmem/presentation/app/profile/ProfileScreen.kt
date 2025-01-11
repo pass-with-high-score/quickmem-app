@@ -1,6 +1,5 @@
 package com.pwhs.quickmem.presentation.app.profile
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -275,9 +274,7 @@ fun Profile(
                     }
                 }
                 item {
-                    AnimatedVisibility(
-                        visible = studyTime?.flip != 0 || studyTime.quiz != 0 || studyTime.total != 0 || studyTime.write != 0,
-                    ) {
+                    if (studyTime?.flip != 0 || studyTime.quiz != 0 || studyTime.total != 0 || studyTime.write != 0 && !isLoading) {
                         LearningTimeBars(
                             studyTime = studyTime?.toStudyTimeModel(),
                             color = colorScheme.primary,

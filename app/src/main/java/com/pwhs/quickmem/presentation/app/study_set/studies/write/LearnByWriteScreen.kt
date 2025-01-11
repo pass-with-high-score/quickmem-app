@@ -75,8 +75,8 @@ import coil.compose.AsyncImage
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.WriteStatus
 import com.pwhs.quickmem.domain.model.flashcard.FlashCardResponseModel
-import com.pwhs.quickmem.presentation.StandardUiAction
-import com.pwhs.quickmem.presentation.StandardViewModel
+import com.pwhs.quickmem.presentation.app.home.HomeUiAction
+import com.pwhs.quickmem.presentation.app.home.HomeViewModel
 import com.pwhs.quickmem.presentation.app.study_set.studies.component.UnfinishedLearningBottomSheet
 import com.pwhs.quickmem.presentation.app.study_set.studies.write.component.ExpandableCard
 import com.pwhs.quickmem.presentation.app.study_set.studies.write.component.WriteFlashcardFinish
@@ -103,7 +103,7 @@ fun LearnByWriteScreen(
     modifier: Modifier = Modifier,
     resultBackNavigator: ResultBackNavigator<Boolean>,
     viewModel: LearnByWriteViewModel = hiltViewModel(),
-    standardViewModel: StandardViewModel = hiltViewModel(),
+    homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -115,7 +115,7 @@ fun LearnByWriteScreen(
                 }
 
                 LearnByWriteUiEvent.Finished -> {
-                    standardViewModel.onEvent(StandardUiAction.UpdateStreak)
+                    homeViewModel.onEvent(HomeUiAction.UpdateStreak)
                     Toast.makeText(
                         context,
                         context.getString(R.string.txt_you_have_finished), Toast.LENGTH_SHORT

@@ -10,4 +10,5 @@ sealed class HomeUiAction {
     data class LoadNotifications(val userId: String) : HomeUiAction()
     data class MarkAsRead(val notificationId: String) : HomeUiAction()
     data object RefreshHome : HomeUiAction()
+    data object UpdateStreak : HomeUiAction()
 }

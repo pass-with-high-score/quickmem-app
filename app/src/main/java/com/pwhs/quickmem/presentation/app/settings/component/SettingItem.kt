@@ -44,7 +44,7 @@ fun SettingItem(
                 text = title,
                 maxLines = 1,
                 style = typography.titleMedium.copy(
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Bold,
                     color = colorScheme.onSurface
                 )
             )

@@ -23,4 +23,7 @@ data class HomeUiState(
     val studySets: List<GetStudySetResponseModel> = emptyList(),
     val folders: List<GetFolderResponseModel> = emptyList(),
     val classes: List<GetClassByOwnerResponseModel> = emptyList(),
+    val streakCount: Int = 0,
+    val streaks: List<StreakModel> = emptyList(),
+    val streakDates: List<LocalDate> = emptyList(),
 )

@@ -2,8 +2,13 @@ package com.pwhs.quickmem.presentation.app.home
 
 import android.Manifest
 import android.widget.Toast
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -19,20 +25,16 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Badge
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.LargeTopAppBar
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -55,7 +57,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.animateLottieCompositionAsState
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -69,6 +77,7 @@ import com.pwhs.quickmem.domain.model.subject.SubjectModel
 import com.pwhs.quickmem.presentation.app.home.components.ClassHomeItem
 import com.pwhs.quickmem.presentation.app.home.components.FolderHomeItem
 import com.pwhs.quickmem.presentation.app.home.components.NotificationListBottomSheet
+import com.pwhs.quickmem.presentation.app.home.components.StreakCalendar
 import com.pwhs.quickmem.presentation.app.home.components.StudySetHomeItem
 import com.pwhs.quickmem.presentation.app.home.components.SubjectItem
 import com.pwhs.quickmem.presentation.app.paywall.Paywall
@@ -76,6 +85,8 @@ import com.pwhs.quickmem.presentation.component.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.ui.theme.firasansExtraboldFont
 import com.pwhs.quickmem.ui.theme.premiumColor
+import com.pwhs.quickmem.ui.theme.streakTextColor
+import com.pwhs.quickmem.ui.theme.streakTitleColor
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.annotation.parameters.DeepLink
@@ -91,7 +102,9 @@ import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
 import com.revenuecat.purchases.CustomerInfo
+import java.time.LocalDate
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Destination<RootGraph>(
     deepLinks = [
         DeepLink(uriPattern = "quickmem://join/class?code={classCode}"),
@@ -203,6 +216,16 @@ fun HomeScreen(
             }
         }
     }
+    val notificationPermission =
+        rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS)
+    LaunchedEffect(notificationPermission) {
+        if (!notificationPermission.status.isGranted) {
+            notificationPermission.launchPermissionRequest()
+            viewModel.onEvent(HomeUiAction.OnChangeAppPushNotifications(false))
+        } else {
+            viewModel.onEvent(HomeUiAction.OnChangeAppPushNotifications(true))
+        }
+    }
     Home(
         isLoading = uiState.isLoading,
         modifier = modifier,
@@ -236,9 +259,6 @@ fun HomeScreen(
         },
         onNavigateToSearch = {
             navigator.navigate(SearchScreenDestination)
-        },
-        onNotificationEnabled = { isEnabled ->
-            viewModel.onEvent(HomeUiAction.OnChangeAppPushNotifications(isEnabled))
         },
         customer = uiState.customerInfo,
         onCustomerInfoChanged = { customerInfo ->
@@ -290,7 +310,6 @@ private fun Home(
     onFolderClick: (GetFolderResponseModel) -> Unit = {},
     notificationCount: Int = 0,
     onNavigateToSearch: () -> Unit = {},
-    onNotificationEnabled: (Boolean) -> Unit = {},
     onClickToCreateStudySet: () -> Unit = {},
     customer: CustomerInfo? = null,
     onCustomerInfoChanged: (CustomerInfo) -> Unit = {},
@@ -298,26 +317,28 @@ private fun Home(
     onNotificationClick: (GetNotificationResponseModel) -> Unit = {},
     notifications: List<GetNotificationResponseModel> = emptyList(),
     onSearchStudySetBySubject: (SubjectModel) -> Unit = {},
+    streakCount: Int = 0,
+    streakDates: List<LocalDate> = emptyList(),
 ) {
+
+    val streakBottomSheet = rememberModalBottomSheetState()
+    var showStreakBottomSheet by remember {
+        mutableStateOf(false)
+    }
 
     var showNotificationBottomSheet by remember { mutableStateOf(false) }
     val modalBottomSheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = true,
     )
-
-    val notificationPermission =
-        rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS)
-    LaunchedEffect(notificationPermission) {
-        if (!notificationPermission.status.isGranted) {
-            notificationPermission.launchPermissionRequest()
-            onNotificationEnabled(false)
-        } else {
-            onNotificationEnabled(true)
-        }
-    }
     var isPaywallVisible by remember {
         mutableStateOf(false)
     }
+
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_fire_streak))
+    val progress by animateLottieCompositionAsState(
+        composition = composition,
+        iterations = LottieConstants.IterateForever,
+    )
 
     val refreshState = rememberPullToRefreshState()
 
@@ -325,9 +346,6 @@ private fun Home(
         modifier = modifier,
         topBar = {
             LargeTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = colorScheme.primary.copy(alpha = 0.5f),
-                ),
                 navigationIcon = {
                     Text(
                         when (customer?.activeSubscriptions?.isNotEmpty()) {
@@ -339,8 +357,8 @@ private fun Home(
                             fontFamily = firasansExtraboldFont,
                             color = when (customer?.activeSubscriptions?.isNotEmpty()) {
                                 true -> premiumColor
-                                false -> Color.White
-                                null -> colorScheme.secondary
+                                false -> colorScheme.primary
+                                null -> colorScheme.primary
                             }
                         ),
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
@@ -384,42 +402,65 @@ private fun Home(
                     }
                 },
                 actions = {
-                    if (customer?.activeSubscriptions?.isEmpty() == true) {
-                        Button(
-                            onClick = {
-                                isPaywallVisible = true
-                            },
-                            colors = ButtonDefaults.buttonColors(
-                                containerColor = premiumColor
-                            ),
-                            modifier = Modifier.padding(end = 8.dp),
-                            shape = MaterialTheme.shapes.extraLarge,
+                    Box(
+                        modifier = Modifier
+                            .background(color = Color.White, shape = CircleShape)
+                            .border(
+                                width = 2.dp,
+                                color = colorScheme.primary,
+                                shape = CircleShape
+                            )
+                            .clickable {
+                                showStreakBottomSheet = true
+                            }
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(8.dp)
                         ) {
+                            Image(
+                                painter = painterResource(R.drawable.ic_fire),
+                                contentDescription = stringResource(R.string.txt_streak),
+                                modifier = Modifier
+                                    .size(28.dp)
+                            )
                             Text(
-                                text = stringResource(R.string.txt_upgrade),
-                                style = typography.bodyMedium.copy(
+                                text = "$streakCount",
+                                style = typography.titleLarge.copy(
+                                    color = streakTitleColor,
                                     fontWeight = FontWeight.Bold
                                 )
                             )
                         }
                     }
-                    IconButton(
-                        onClick = { showNotificationBottomSheet = true },
-                    ) {
-                        Box {
-                            Icon(
-                                imageVector = Icons.Outlined.Notifications,
-                                contentDescription = stringResource(R.string.txt_notifications),
-                                tint = colorScheme.onPrimary,
-                                modifier = Modifier.size(30.dp)
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .background(color = Color.White, shape = CircleShape)
+                            .border(
+                                width = 2.dp,
+                                color = colorScheme.primary,
+                                shape = CircleShape
                             )
-                            if (notificationCount > 0) {
-                                Badge(
-                                    modifier = Modifier
-                                        .align(Alignment.TopEnd)
-                                        .size(16.dp),
-                                )
+                            .clickable {
+                                showNotificationBottomSheet = true
                             }
+                            .padding(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Notifications,
+                            contentDescription = stringResource(R.string.txt_notifications),
+                            tint = colorScheme.primary,
+                            modifier = Modifier
+                                .size(30.dp)
+
+                        )
+                        if (notificationCount > 0) {
+                            Badge(
+                                modifier = Modifier
+                                    .align(Alignment.TopEnd)
+                                    .size(10.dp),
+                            )
                         }
                     }
                 }
@@ -625,6 +666,51 @@ private fun Home(
             onNotificationClicked = onNotificationClick,
             sheetState = modalBottomSheetState
         )
+    }
+    if (showStreakBottomSheet) {
+        ModalBottomSheet(
+            onDismissRequest = {
+                showStreakBottomSheet = false
+            },
+            sheetState = streakBottomSheet,
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                LottieAnimation(
+                    composition = composition,
+                    progress = { progress },
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(100.dp)
+                )
+                Text(
+                    text = "$streakCount",
+                    style = typography.titleLarge.copy(
+                        color = streakTitleColor,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 52.sp
+                    )
+                )
+                Text(
+                    text = when (streakCount) {
+                        1 -> stringResource(R.string.txt_day_streak)
+                        else -> stringResource(R.string.txt_days_streak)
+                    },
+                    style = typography.titleLarge.copy(
+                        color = streakTextColor,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                Text(
+                    text = stringResource(R.string.txt_practice_every_day),
+                )
+                StreakCalendar(
+                    streakDates = streakDates
+                )
+            }
+        }
     }
     LoadingOverlay(isLoading = isLoading)
 }

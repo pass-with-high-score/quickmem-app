@@ -50,8 +50,8 @@ import com.pwhs.quickmem.core.data.enums.QuizStatus
 import com.pwhs.quickmem.core.data.states.RandomAnswer
 import com.pwhs.quickmem.core.data.states.WrongAnswer
 import com.pwhs.quickmem.domain.model.flashcard.FlashCardResponseModel
-import com.pwhs.quickmem.presentation.StandardUiAction
-import com.pwhs.quickmem.presentation.StandardViewModel
+import com.pwhs.quickmem.presentation.app.home.HomeUiAction
+import com.pwhs.quickmem.presentation.app.home.HomeViewModel
 import com.pwhs.quickmem.presentation.app.study_set.studies.component.UnfinishedLearningBottomSheet
 import com.pwhs.quickmem.presentation.app.study_set.studies.quiz.component.QuizFlashCardFinish
 import com.pwhs.quickmem.presentation.app.study_set.studies.quiz.component.QuizView
@@ -73,7 +73,7 @@ fun LearnByQuizScreen(
     modifier: Modifier = Modifier,
     resultNavigator: ResultBackNavigator<Boolean>,
     viewModel: LearnByQuizViewModel = hiltViewModel(),
-    standardViewModel: StandardViewModel = hiltViewModel(),
+    homeViewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
@@ -81,7 +81,7 @@ fun LearnByQuizScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
                 LearnByQuizUiEvent.Finished -> {
-                    standardViewModel.onEvent(StandardUiAction.UpdateStreak)
+                    homeViewModel.onEvent(HomeUiAction.UpdateStreak)
                     Toast.makeText(
                         context,
                         context.getString(R.string.txt_you_have_finished),
