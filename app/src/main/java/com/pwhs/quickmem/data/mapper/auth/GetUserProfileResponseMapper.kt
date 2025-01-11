@@ -15,7 +15,9 @@ fun GetUserProfileResponseDto.toModel() = GetUserProfileResponseModel(
     coin = coin,
     bannedReason = bannedReason,
     bannedAt = bannedAt,
-    userStatus = userStatus
+    userStatus = userStatus,
+    studySetCount = studySetCount,
+    folderCount = folderCount
 )
 
 fun GetUserProfileResponseModel.toDto() = GetUserProfileResponseDto(
@@ -30,5 +32,7 @@ fun GetUserProfileResponseModel.toDto() = GetUserProfileResponseDto(
     coin = coin,
     bannedReason = bannedReason,
     bannedAt = bannedAt,
-    userStatus = userStatus
+    userStatus = userStatus,
+    studySetCount = studySetCount,
+    folderCount = folderCount
 )

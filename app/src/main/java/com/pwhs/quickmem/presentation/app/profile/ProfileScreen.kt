@@ -1,8 +1,11 @@
 package com.pwhs.quickmem.presentation.app.profile
 
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,20 +16,18 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ButtonDefaults.outlinedButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.material3.MaterialTheme.typography
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
@@ -38,6 +39,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -48,13 +50,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.data.mapper.study_time.toStudyTimeModel
 import com.pwhs.quickmem.domain.model.study_time.GetStudyTimeByUserResponseModel
 import com.pwhs.quickmem.presentation.app.paywall.Paywall
-import com.pwhs.quickmem.presentation.component.LearningTimeBars
+import com.pwhs.quickmem.presentation.app.profile.components.StatisticsCard
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
-import com.pwhs.quickmem.ui.theme.firasansExtraboldFont
 import com.pwhs.quickmem.ui.theme.premiumColor
+import com.pwhs.quickmem.utils.formatDate
+import com.pwhs.quickmem.utils.toTimeString
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.ChangeAvatarScreenDestination
@@ -91,7 +93,8 @@ fun ProfileScreen(
 
     Profile(
         modifier = modifier,
-        name = uiState.username,
+        fullName = uiState.fullName,
+        username = uiState.username,
         role = uiState.role,
         avatarUrl = uiState.userAvatar,
         isLoading = uiState.isLoading,
@@ -108,7 +111,12 @@ fun ProfileScreen(
             viewModel.onEvent(ProfileUiAction.OnChangeCustomerInfo(customerInfo))
         },
         customerInfo = uiState.customerInfo,
-        studyTime = uiState.studyTime
+        studyTime = uiState.studyTime,
+        createdAt = uiState.createDate,
+        coins = uiState.coins,
+        studySetCount = uiState.studySetCount,
+        folderCount = uiState.folderCount,
+        streakCount = uiState.streakCount,
     )
 }
 
@@ -116,7 +124,8 @@ fun ProfileScreen(
 @Composable
 fun Profile(
     modifier: Modifier = Modifier,
-    name: String = "",
+    fullName: String = "",
+    username: String = "",
     role: String = "",
     onRefresh: () -> Unit = {},
     isLoading: Boolean = false,
@@ -126,34 +135,23 @@ fun Profile(
     onCustomerInfoChanged: (customerInfo: CustomerInfo) -> Unit = {},
     customerInfo: CustomerInfo? = null,
     studyTime: GetStudyTimeByUserResponseModel? = null,
+    createdAt: String? = null,
+    coins: Int = 0,
+    studySetCount: Int = 0,
+    folderCount: Int = 0,
+    streakCount: Int = 0,
 ) {
     var isPaywallVisible by remember {
         mutableStateOf(false)
     }
+
+    val context = LocalContext.current
 
     val refreshState = rememberPullToRefreshState()
     Scaffold(
         modifier = modifier,
         topBar = {
             TopAppBar(
-                navigationIcon = {
-                    Text(
-                        when (customerInfo?.activeSubscriptions?.isNotEmpty()) {
-                            true -> stringResource(R.string.txt_quickmem_plus)
-                            false -> stringResource(R.string.txt_quickmem)
-                            null -> stringResource(R.string.txt_quickmem)
-                        },
-                        style = typography.titleLarge.copy(
-                            fontFamily = firasansExtraboldFont,
-                            color = when (customerInfo?.activeSubscriptions?.isNotEmpty()) {
-                                true -> premiumColor
-                                false -> colorScheme.primary
-                                null -> colorScheme.primary
-                            }
-                        ),
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-                    )
-                },
                 title = {},
                 actions = {
                     if (customerInfo?.activeSubscriptions?.isEmpty() == true) {
@@ -175,6 +173,29 @@ fun Profile(
                             )
                         }
                     }
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .background(color = Color.White, shape = CircleShape)
+                            .border(
+                                width = 2.dp,
+                                color = colorScheme.primary,
+                                shape = CircleShape
+                            )
+                            .clickable {
+                                navigateToSettings()
+                            }
+                            .padding(8.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Settings,
+                            contentDescription = stringResource(R.string.txt_notifications),
+                            tint = colorScheme.primary,
+                            modifier = Modifier
+                                .size(30.dp)
+
+                        )
+                    }
                 }
             )
         }
@@ -194,93 +215,182 @@ fun Profile(
                     .padding(horizontal = 16.dp)
             ) {
                 item {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(avatarUrl.ifEmpty { null })
-                            .build(),
-                        contentDescription = stringResource(R.string.txt_user_avatar),
-                        modifier = Modifier
-                            .padding(top = 40.dp)
-                            .size(80.dp)
-                            .clip(CircleShape)
-                            .clickable { onAvatarClick() },
-                        contentScale = ContentScale.Crop
-                    )
-                }
-
-                item {
-                    Text(
-                        text = name,
-                        style = typography.titleLarge.copy(
-                            fontWeight = FontWeight.Bold
-                        )
-                    )
-
-                    if (role == "TEACHER") {
-                        Text(
-                            text = stringResource(R.string.txt_teacher),
-                            style = typography.bodySmall.copy(
-                                fontWeight = FontWeight.Bold
-                            ),
-                            color = colorScheme.secondary,
-                            modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
-                        )
-                    }
-                }
-                item {
-                    OutlinedButton(
-                        onClick = navigateToSettings,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 10.dp),
-                        shape = shapes.large,
-                        border = BorderStroke(
-                            width = 1.dp,
-                            color = colorScheme.onSurface
-                        ),
-                        colors = outlinedButtonColors(
-                            contentColor = colorScheme.onSurface
-                        )
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
                     ) {
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.SpaceBetween,
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(avatarUrl.ifEmpty { null })
+                                .placeholder(R.drawable.default_avatar)
+                                .build(),
+                            contentDescription = stringResource(R.string.txt_user_avatar),
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 10.dp)
-                        ) {
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Outlined.Settings,
-                                    contentDescription = stringResource(R.string.txt_settings),
-                                    modifier = Modifier.size(30.dp)
+                                .padding(top = 16.dp)
+                                .size(80.dp)
+                                .clip(CircleShape)
+                                .clickable { onAvatarClick() },
+                            contentScale = ContentScale.Crop
+                        )
+                        if (fullName.isNotEmpty()) {
+                            Text(
+                                text = fullName,
+                                style = typography.titleLarge.copy(
+                                    fontWeight = FontWeight.Bold
                                 )
+                            )
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "@$username",
+                                style = typography.titleMedium.copy(
+                                    color = colorScheme.secondary
+                                )
+                            )
+                            VerticalDivider(
+                                color = colorScheme.secondary,
+                                modifier = Modifier
+                                    .padding(horizontal = 4.dp)
+                                    .height(16.dp)
+                            )
+                            if (role == "TEACHER") {
                                 Text(
-                                    text = stringResource(R.string.txt_your_settings),
-                                    style = typography.bodyLarge.copy(
-                                        fontWeight = FontWeight.Bold
-                                    )
+                                    text = stringResource(R.string.txt_teacher),
+                                    style = typography.titleMedium.copy(
+                                        color = colorScheme.secondary
+                                    ),
+                                    color = colorScheme.secondary,
+                                )
+                            } else {
+                                Text(
+                                    text = stringResource(R.string.txt_student),
+                                    style = typography.titleMedium.copy(
+                                        color = colorScheme.secondary
+                                    ),
+                                    color = colorScheme.secondary,
                                 )
                             }
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                                contentDescription = "Navigate to settings",
-                                modifier = Modifier.size(30.dp)
+                        }
+
+                        if (createdAt != null) {
+                            Text(
+                                text = createdAt.formatDate(),
+                                style = typography.bodyMedium.copy(
+                                    color = colorScheme.secondary
+                                )
                             )
                         }
                     }
                 }
                 item {
-                    if (studyTime?.flip != 0 || studyTime.quiz != 0 || studyTime.total != 0 || studyTime.write != 0 && !isLoading) {
-                        LearningTimeBars(
-                            studyTime = studyTime?.toStudyTimeModel(),
-                            color = colorScheme.primary,
-                            modifier = Modifier
-                                .height(310.dp)
+                    Column {
+                        Text(
+                            text = stringResource(R.string.txt_statistics),
+                            style = typography.titleMedium.copy(
+                                fontWeight = FontWeight.Bold
+                            ),
+                            modifier = Modifier.padding(top = 16.dp)
                         )
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            StatisticsCard(
+                                modifier = Modifier.weight(1f),
+                                value = streakCount.toString(),
+                                icon = R.drawable.ic_streak_fire,
+                                title = R.string.txt_streak
+                            )
+                            Spacer(modifier = Modifier.padding(8.dp))
+                            StatisticsCard(
+                                modifier = Modifier.weight(1f),
+                                value = coins.toString(),
+                                icon = R.drawable.ic_coin,
+                                title = R.string.txt_coin
+                            )
+                        }
+                        Spacer(modifier = Modifier.padding(8.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            StatisticsCard(
+                                modifier = Modifier.weight(1f),
+                                value = studySetCount.toString(),
+                                icon = R.drawable.ic_study_set,
+                                title = R.string.txt_study_set
+                            )
+                            Spacer(modifier = Modifier.padding(8.dp))
+                            StatisticsCard(
+                                modifier = Modifier.weight(1f),
+                                value = folderCount.toString(),
+                                icon = R.drawable.ic_folder,
+                                title = R.string.txt_folder
+                            )
+                        }
+                    }
+                }
+                item {
+                    Column(
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(
+                            text = stringResource(R.string.txt_study_time),
+                            style = typography.titleMedium.copy(
+                                fontWeight = FontWeight.Bold
+                            ),
+                            modifier = Modifier.padding(top = 16.dp)
+                        )
+                        StatisticsCard(
+                            modifier = Modifier.fillMaxWidth(),
+                            value = studyTime?.total?.toTimeString(context)
+                                ?: stringResource(R.string.txt_no_data),
+                            icon = R.drawable.ic_clock,
+                            title = R.string.txt_total_time
+                        )
+
+                        Spacer(modifier = Modifier.padding(8.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            StatisticsCard(
+                                modifier = Modifier.weight(1f),
+                                value = studyTime?.flip?.toTimeString(context)
+                                    ?: stringResource(R.string.txt_no_data),
+                                icon = R.drawable.ic_flipcard,
+                                title = R.string.txt_flip_card
+                            )
+                            Spacer(modifier = Modifier.padding(8.dp))
+                            StatisticsCard(
+                                modifier = Modifier.weight(1f),
+                                value = studyTime?.quiz?.toTimeString(context)
+                                    ?: stringResource(R.string.txt_no_data),
+                                icon = R.drawable.ic_quiz,
+                                title = R.string.txt_quiz
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.padding(8.dp))
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            StatisticsCard(
+                                modifier = Modifier.weight(1f),
+                                value = studyTime?.trueFalse?.toTimeString(context)
+                                    ?: stringResource(R.string.txt_no_data),
+                                icon = R.drawable.ic_tf,
+                                title = R.string.txt_true_false
+                            )
+
+                            Spacer(modifier = Modifier.padding(8.dp))
+
+                            StatisticsCard(
+                                modifier = Modifier.weight(1f),
+                                value = studyTime?.write?.toTimeString(context)
+                                    ?: stringResource(R.string.txt_no_data),
+                                icon = R.drawable.ic_write,
+                                title = R.string.txt_write
+                            )
+                        }
                     }
                 }
                 item {
@@ -306,7 +416,8 @@ fun Profile(
 fun ProfilePreview() {
     QuickMemTheme {
         Profile(
-            name = "John Doe",
+            fullName = "Nguyen Quang Minh",
+            username = "nqmgaming",
             role = "TEACHER",
             avatarUrl = "https://www.example.com/avatar.jpg"
         )

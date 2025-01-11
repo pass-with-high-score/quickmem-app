@@ -677,4 +677,21 @@
     <string name="txt_you_can_t_change_email_right_now">You can\'t change email right now!</string>
     <string name="txt_email_already_exists_please_login">Email already exists, please login</string>
     <string name="txt_maybe_you_need_to_sign_up_first">Maybe you need to sign up first</string>
+    <string name="txt_study_time">Study time</string>
+    <string name="txt_total_time">Total time</string>
+    <string name="txt_no_data">No data</string>
+    <string name="txt_statistics">Statistics</string>
+    <plurals name="hours">
+        <item quantity="one">%d hour</item>
+        <item quantity="other">%d hours</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="one">%d minute</item>
+        <item quantity="other">%d minutes</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="one">%d second</item>
+        <item quantity="other">%d seconds</item>
+    </plurals>
+
 </resources>

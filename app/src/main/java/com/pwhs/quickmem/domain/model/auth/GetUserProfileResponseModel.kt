@@ -13,4 +13,6 @@ data class GetUserProfileResponseModel(
     val bannedAt: String? = null,
     val userStatus: String? = null,
     val bannedReason: String? = null,
+    val studySetCount: Int,
+    val folderCount: Int,
 )

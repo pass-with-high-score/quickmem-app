@@ -302,8 +302,8 @@ fun FolderDetail(
     onNavigateToLearn: (LearnMode, Boolean) -> Unit = { _, _ -> },
 ) {
     val context = LocalContext.current
-    val formattedCreatedAt = formatDate(createdAt)
-    val formattedUpdatedAt = formatDate(updatedAt)
+    val formattedCreatedAt = createdAt.formatDate()
+    val formattedUpdatedAt = updatedAt.formatDate()
     val dateLabel = if (createdAt != updatedAt) {
         stringResource(R.string.txt_modified, formattedUpdatedAt)
     } else {

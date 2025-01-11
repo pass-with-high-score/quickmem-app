@@ -27,4 +27,8 @@ data class GetUserProfileResponseDto(
     val userStatus: String? = null,
     @SerializedName("bannedReason")
     val bannedReason: String? = null,
+    @SerializedName("studySetCount")
+    val studySetCount: Int,
+    @SerializedName("folderCount")
+    val folderCount: Int,
 )

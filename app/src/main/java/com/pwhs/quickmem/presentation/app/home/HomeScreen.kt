@@ -291,7 +291,9 @@ fun HomeScreen(
         },
         onHomeRefresh = {
             viewModel.onEvent(HomeUiAction.RefreshHome)
-        }
+        },
+        streakCount = uiState.streakCount,
+        streakDates = uiState.streakDates,
     )
 }
 

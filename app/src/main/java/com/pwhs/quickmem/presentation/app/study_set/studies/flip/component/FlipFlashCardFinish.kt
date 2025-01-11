@@ -130,7 +130,7 @@ fun FlipFlashCardFinish(
                             .padding(16.dp)
                     ) {
                         Image(
-                            painter = painterResource(id = R.drawable.ic_card),
+                            painter = painterResource(id = R.drawable.ic_study_set),
                             contentDescription = "Card",
                             contentScale = ContentScale.Crop
                         )

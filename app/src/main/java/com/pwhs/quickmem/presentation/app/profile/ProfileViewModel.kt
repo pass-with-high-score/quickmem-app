@@ -6,6 +6,7 @@ import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.repository.AuthRepository
+import com.pwhs.quickmem.domain.repository.StreakRepository
 import com.pwhs.quickmem.domain.repository.StudyTimeRepository
 import com.revenuecat.purchases.CustomerInfo
 import com.revenuecat.purchases.Purchases
@@ -34,6 +35,7 @@ class ProfileViewModel @Inject constructor(
     private val tokenManager: TokenManager,
     private val authRepository: AuthRepository,
     private val studyTimeRepository: StudyTimeRepository,
+    private val streakRepository: StreakRepository,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ProfileUiState())
     val uiState: StateFlow<ProfileUiState> = _uiState.asStateFlow()
@@ -58,6 +60,7 @@ class ProfileViewModel @Inject constructor(
                 getStudyTime(token = token, userId = userId)
             }
         }
+        getStreaksByUserId()
     }
 
     fun onEvent(event: ProfileUiAction) {
@@ -111,8 +114,13 @@ class ProfileViewModel @Inject constructor(
                                 it.copy(
                                     isLoading = false,
                                     username = data.username,
+                                    fullName = data.fullname,
                                     role = data.role,
-                                    userAvatar = data.avatarUrl
+                                    userAvatar = data.avatarUrl,
+                                    createDate = data.createdAt,
+                                    coins = data.coin,
+                                    studySetCount = data.studySetCount,
+                                    folderCount = data.folderCount
                                 )
                             }
                             appManager.saveUserName(data.username)
@@ -121,6 +129,8 @@ class ProfileViewModel @Inject constructor(
                             appManager.saveUserFullName(data.fullname)
                             appManager.saveUserEmail(data.email)
                             appManager.saveUserId(data.id)
+                            appManager.saveUserCoins(data.coin)
+                            appManager.saveUserCreatedAt(data.createdAt)
                             appManager.saveUserCoins(data.coin)
                         }
                     }
@@ -149,10 +159,11 @@ class ProfileViewModel @Inject constructor(
                         )
                     }
                 }.collect()
-                appManager.userRole.collect { role ->
+                appManager.userRole.combine(appManager.userFullName) { role, fullName ->
                     _uiState.update {
                         it.copy(
-                            role = role
+                            role = role,
+                            fullName = fullName
                         )
                     }
                 }
@@ -185,6 +196,32 @@ class ProfileViewModel @Inject constructor(
                     is Resources.Error -> {
                         _uiState.update { it.copy(isLoading = false) }
                         Timber.e("Error fetching study time: ${resource.message}")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getStreaksByUserId() {
+        viewModelScope.launch {
+            val token = tokenManager.accessToken.firstOrNull() ?: return@launch
+            val userId = appManager.userId.firstOrNull() ?: return@launch
+            streakRepository.getStreaksByUserId(token, userId).collect { resource ->
+                when (resource) {
+                    is Resources.Loading -> {
+                        // Do nothing
+                    }
+
+                    is Resources.Success -> {
+                        val streaks = resource.data?.streaks ?: emptyList()
+
+                        _uiState.value = _uiState.value.copy(
+                            streakCount = streaks.lastOrNull()?.streakCount ?: 0
+                        )
+                    }
+
+                    is Resources.Error -> {
+                        // Do nothing
                     }
                 }
             }

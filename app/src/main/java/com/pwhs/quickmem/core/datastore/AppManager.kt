@@ -25,6 +25,7 @@ class AppManager @Inject constructor(private val context: Context) {
         val USER_EMAIL = stringPreferencesKey("USER_EMAIL")
         val USER_ROLE = stringPreferencesKey("USER_ROLE")
         val USER_BIRTHDAY = stringPreferencesKey("USER_BIRTHDAY")
+        val USER_CREATED_AT = stringPreferencesKey("USER_CREATED_AT")
         val USER_LOGIN_PROVIDER = stringPreferencesKey("USER_LOGIN_PROVIDER")
         val PUSH_NOTIFICATIONS = booleanPreferencesKey("PUSH_NOTIFICATIONS")
         val APP_PUSH_NOTIFICATIONS = booleanPreferencesKey("APP_PUSH_NOTIFICATIONS")
@@ -106,6 +107,11 @@ class AppManager @Inject constructor(private val context: Context) {
             val json = preferences[USER_LOGIN_PROVIDER] ?: "[]"
             val type = object : TypeToken<List<String>>() {}.type
             Gson().fromJson(json, type)
+        }
+
+    val userCreatedAt: Flow<String> = context.dataStore.data
+        .map { preferences ->
+            preferences[USER_CREATED_AT] ?: ""
         }
 
     suspend fun saveIsFirstRun(isFirstRun: Boolean) {
@@ -219,6 +225,13 @@ class AppManager @Inject constructor(private val context: Context) {
         val json = Gson().toJson(loginProviders)
         context.dataStore.edit { preferences ->
             preferences[USER_LOGIN_PROVIDER] = json
+        }
+    }
+
+    suspend fun saveUserCreatedAt(createdAt: String) {
+        Timber.d("Saving user created at: $createdAt")
+        context.dataStore.edit { preferences ->
+            preferences[USER_CREATED_AT] = createdAt
         }
     }
 

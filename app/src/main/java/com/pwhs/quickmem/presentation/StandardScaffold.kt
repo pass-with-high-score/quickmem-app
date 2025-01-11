@@ -40,10 +40,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.LottieConstants
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.presentation.component.BottomSheetItem
 import com.ramcosta.composedestinations.generated.destinations.CreateClassScreenDestination
@@ -194,7 +190,7 @@ fun StandardScaffold(
                 ) {
                     BottomSheetItem(
                         title = stringResource(R.string.txt_study_set),
-                        icon = R.drawable.ic_card,
+                        icon = R.drawable.ic_study_set,
                         onClick = {
                             showBottomSheetCreate = false
                             navController.navigate(CreateStudySetScreenDestination.route)

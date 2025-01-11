@@ -673,4 +673,18 @@
     <string name="txt_you_can_t_change_email_right_now">Bạn không thể thay đổi email ngay bây giờ!</string>
     <string name="txt_email_already_exists_please_login">Email đã tồn tại, vui lòng đăng nhập</string>
     <string name="txt_maybe_you_need_to_sign_up_first">Có thể bạn cần đăng ký tài khoản trước</string>
+    <string name="txt_study_time">Thời gian học</string>
+    <string name="txt_total_time">Tổng thời gian</string>
+    <string name="txt_no_data">Chưa có dữ liệu</string>
+    <string name="txt_statistics">Thống kê</string>
+    <plurals name="hours">
+        <item quantity="other">%d giờ</item>
+    </plurals>
+    <plurals name="minutes">
+        <item quantity="other">%d phút</item>
+    </plurals>
+    <plurals name="seconds">
+        <item quantity="other">%d giây</item>
+    </plurals>
+
 </resources>

@@ -147,7 +147,7 @@ fun TrueFalseFlashcardFinish(
                                 .padding(16.dp)
                         ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.ic_card),
+                                painter = painterResource(id = R.drawable.ic_study_set),
                                 contentDescription = "Card",
                             )
                             Text(
