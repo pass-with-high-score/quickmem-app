@@ -10,10 +10,7 @@ import com.revenuecat.purchases.CustomerInfo
 data class ExploreUiState(
     val isLoading: Boolean = false,
     val ownerId: String = "",
-    val topStreaks: List<GetTopStreakResponseModel> = emptyList(),
-    val streakOwner: GetTopStreakResponseModel? = null,
     val customerInfo: CustomerInfo? = null,
-    val rankOwner: Int? = null,
     val description: String = "",
     val difficulty: DifficultyLevel = DifficultyLevel.EASY,
     val language: String = LanguageCode.EN.code,

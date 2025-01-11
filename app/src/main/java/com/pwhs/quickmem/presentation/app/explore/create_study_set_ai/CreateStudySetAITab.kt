@@ -1,5 +1,6 @@
 package com.pwhs.quickmem.presentation.app.explore.create_study_set_ai
 
+import android.annotation.SuppressLint
 import androidx.annotation.StringRes
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
@@ -57,6 +58,7 @@ import com.pwhs.quickmem.core.data.enums.QuestionType
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.utils.rememberImeState
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateStudySetAITab(
@@ -139,11 +141,10 @@ fun CreateStudySetAITab(
         bottomBar = {
             Spacer(modifier = Modifier.height(100.dp))
         },
-    ) { innerPadding ->
+    ) {
         Box {
             Column(
                 modifier = modifier
-                    .padding(innerPadding)
                     .verticalScroll(scrollState)
                     .imePadding(),
             ) {

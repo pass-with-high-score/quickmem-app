@@ -13,7 +13,6 @@ import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.study_set.CreateStudySetByAIRequestModel
 import com.pwhs.quickmem.domain.model.users.UpdateCoinRequestModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
-import com.pwhs.quickmem.domain.repository.StreakRepository
 import com.pwhs.quickmem.domain.repository.StudySetRepository
 import com.pwhs.quickmem.utils.getLanguageCode
 import com.revenuecat.purchases.CustomerInfo
@@ -35,7 +34,6 @@ import javax.inject.Inject
 class ExploreViewModel @Inject constructor(
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
-    private val streakRepository: StreakRepository,
     private val studySetRepository: StudySetRepository,
     private val authRepository: AuthRepository,
     application: Application,
@@ -50,7 +48,6 @@ class ExploreViewModel @Inject constructor(
         val languageCode = getApplication<Application>().getLanguageCode()
         _uiState.update { it.copy(language = languageCode) }
         getUserCoin()
-        getTopStreaks()
         getCustomerInfo()
     }
 
@@ -58,7 +55,6 @@ class ExploreViewModel @Inject constructor(
         when (event) {
             ExploreUiAction.RefreshTopStreaks -> {
                 getUserCoin()
-                getTopStreaks()
                 getCustomerInfo()
             }
 
@@ -103,44 +99,6 @@ class ExploreViewModel @Inject constructor(
             is ExploreUiAction.OnEarnCoins -> {
                 updateCoins(coinAction = CoinAction.ADD, coin = 1)
             }
-        }
-    }
-
-    private fun getTopStreaks() {
-        viewModelScope.launch {
-            tokenManager.accessToken.collect { token ->
-                streakRepository.getTopStreaks(token = token ?: "", limit = 10)
-                    .collect { resource ->
-                        when (resource) {
-                            is Resources.Loading -> {
-                                _uiState.update { it.copy(isLoading = true) }
-                            }
-
-                            is Resources.Success -> {
-                                val topStreaks = resource.data ?: emptyList()
-                                val streakOwner =
-                                    topStreaks.find { it.userId == uiState.value.ownerId }
-                                val rankOwner =
-                                    topStreaks.indexOfFirst { it.userId == uiState.value.ownerId }
-                                        .takeIf { it != -1 }?.plus(1)
-                                _uiState.update {
-                                    it.copy(
-                                        isLoading = false,
-                                        topStreaks = topStreaks,
-                                        streakOwner = streakOwner,
-                                        rankOwner = rankOwner
-                                    )
-                                }
-                            }
-
-                            is Resources.Error -> {
-                                _uiState.update { it.copy(isLoading = false) }
-                                _uiEvent.send(ExploreUiEvent.Error(R.string.txt_error_occurred))
-                            }
-                        }
-                    }
-            }
-
         }
     }
 
@@ -272,6 +230,5 @@ class ExploreViewModel @Inject constructor(
                 )
             }
         }
-
     }
 }
