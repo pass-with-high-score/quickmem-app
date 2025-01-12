@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.presentation.app.home.search_by_subject
+package com.pwhs.quickmem.presentation.app.home.subject
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel

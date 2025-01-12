@@ -663,6 +663,11 @@ interface ApiService {
         @Path("id") notificationId: String,
     )
 
+    @POST("notifications/clear")
+    suspend fun clearAllNotifications(
+        @Header("Authorization") token: String,
+    )
+
     // Study Time
     @GET("study-time/study-set/{studySetId}")
     suspend fun getStudyTimeByStudySet(

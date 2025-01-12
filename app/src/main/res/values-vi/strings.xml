@@ -677,6 +677,7 @@
     <string name="txt_total_time">Tổng thời gian</string>
     <string name="txt_no_data">Chưa có dữ liệu</string>
     <string name="txt_statistics">Thống kê</string>
+    <string name="txt_failed_to_clear_all_notifications">Lỗi khi xoá tất cả thông báo</string>
     <plurals name="hours">
         <item quantity="other">%d giờ</item>
     </plurals>

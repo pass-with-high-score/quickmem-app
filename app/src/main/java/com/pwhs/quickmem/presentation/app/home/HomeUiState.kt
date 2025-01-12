@@ -16,7 +16,6 @@ data class HomeUiState(
     val userId: String = "",
     val notificationCount: Int = 0,
     val customerInfo: CustomerInfo? = null,
-    val notifications: List<GetNotificationResponseModel> = emptyList(),
     @StringRes val error: Int? = null,
     val top5Subjects: List<GetTop5SubjectResponseModel> = emptyList(),
     val subjects: List<SubjectModel> = emptyList(),

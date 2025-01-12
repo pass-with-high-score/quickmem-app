@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.presentation.app.home.search_by_subject
+package com.pwhs.quickmem.presentation.app.home.subject
 
 import android.widget.Toast
 import androidx.annotation.DrawableRes
@@ -43,7 +43,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.presentation.ads.BannerAds
-import com.pwhs.quickmem.presentation.app.home.search_by_subject.component.SearchStudySetBySubjectTopAppBar
+import com.pwhs.quickmem.presentation.app.home.subject.component.SearchStudySetBySubjectTopAppBar
 import com.pwhs.quickmem.presentation.app.library.component.SearchTextField
 import com.pwhs.quickmem.presentation.app.library.study_set.component.StudySetItem
 import com.pwhs.quickmem.ui.theme.QuickMemTheme

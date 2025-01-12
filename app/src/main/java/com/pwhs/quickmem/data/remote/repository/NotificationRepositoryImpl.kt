@@ -79,5 +79,22 @@ class NotificationRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun clearAllNotifications(token: String): Flow<Resources<Unit>> {
+        return flow {
+            if (token.isEmpty()) {
+                return@flow
+            }
+            emit(Resources.Loading())
+            try {
+                apiService.clearAllNotifications(token)
+                emit(Resources.Success(Unit))
+            } catch (e: HttpException) {
+                emit(Resources.Error(e.localizedMessage ?: "Failed to clear all notifications"))
+            } catch (e: IOException) {
+                emit(Resources.Error(e.localizedMessage ?: "Network Error"))
+            }
+        }
+    }
+
 }
 

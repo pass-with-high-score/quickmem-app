@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.presentation.app.home.search_by_subject
+package com.pwhs.quickmem.presentation.app.home.subject
 
 sealed class SearchStudySetBySubjectUiAction() {
     data object RefreshStudySets : SearchStudySetBySubjectUiAction()

@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.presentation.app.home.search_by_subject.component
+package com.pwhs.quickmem.presentation.app.home.subject.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.background

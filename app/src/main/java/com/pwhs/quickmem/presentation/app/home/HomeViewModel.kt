@@ -101,18 +101,6 @@ class HomeViewModel @Inject constructor(
                 }
             }
 
-            is HomeUiAction.LoadNotifications -> {
-                viewModelScope.launch {
-                    val token = tokenManager.accessToken.firstOrNull() ?: ""
-                    val userId = appManager.userId.firstOrNull() ?: ""
-                    loadNotifications(token = token, userId = userId)
-                }
-            }
-
-            is HomeUiAction.MarkAsRead -> {
-                markNotificationAsRead(event.notificationId)
-            }
-
             is HomeUiAction.RefreshHome -> {
                 initData()
             }
@@ -155,7 +143,6 @@ class HomeViewModel @Inject constructor(
                         val notificationCount = result.data?.count { !it.isRead } ?: 0
                         state.copy(
                             isLoading = false,
-                            notifications = result.data ?: emptyList(),
                             notificationCount = notificationCount,
                             error = null
                         )
@@ -166,34 +153,6 @@ class HomeViewModel @Inject constructor(
                             isLoading = false,
                             error = R.string.txt_failed_to_load_notifications
                         )
-                    }
-                }
-            }
-        }
-    }
-
-    private fun markNotificationAsRead(notificationId: String) {
-        viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            notificationRepository.markNotificationAsRead(notificationId, token).collect { result ->
-                when (result) {
-                    is Resources.Success -> _uiState.update { state ->
-                        state.copy(
-                            notifications = state.notifications.map { notification ->
-                                if (notification.id == notificationId) notification.copy(isRead = true) else notification
-                            },
-                            notificationCount = state.notificationCount - 1,
-                        )
-                    }
-
-                    is Resources.Error -> {
-                        _uiState.update {
-                            it.copy(error = R.string.txt_failed_to_mark_notification_as_read)
-                        }
-                    }
-
-                    is Resources.Loading -> {
-                        // do nothing
                     }
                 }
             }

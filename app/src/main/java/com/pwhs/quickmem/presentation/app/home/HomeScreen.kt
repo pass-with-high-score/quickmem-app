@@ -68,15 +68,12 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.core.data.enums.NotificationType
 import com.pwhs.quickmem.domain.model.classes.GetClassByOwnerResponseModel
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
-import com.pwhs.quickmem.domain.model.notification.GetNotificationResponseModel
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.domain.model.subject.SubjectModel
 import com.pwhs.quickmem.presentation.app.home.components.ClassHomeItem
 import com.pwhs.quickmem.presentation.app.home.components.FolderHomeItem
-import com.pwhs.quickmem.presentation.app.home.components.NotificationListBottomSheet
 import com.pwhs.quickmem.presentation.app.home.components.StreakCalendar
 import com.pwhs.quickmem.presentation.app.home.components.StudySetHomeItem
 import com.pwhs.quickmem.presentation.app.home.components.SubjectItem
@@ -95,6 +92,7 @@ import com.ramcosta.composedestinations.generated.destinations.ClassDetailScreen
 import com.ramcosta.composedestinations.generated.destinations.CreateStudySetScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.FolderDetailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.JoinClassScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.NotificationScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SearchScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SearchStudySetBySubjectScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination
@@ -264,19 +262,6 @@ fun HomeScreen(
         onCustomerInfoChanged = { customerInfo ->
             viewModel.onEvent(HomeUiAction.OnChangeCustomerInfo(customerInfo))
         },
-        notifications = uiState.notifications,
-        onMarkAsRead = { notificationId ->
-            viewModel.onEvent(HomeUiAction.MarkAsRead(notificationId))
-        },
-        onNotificationClick = { notification ->
-            if (notification.data?.id?.isNotEmpty() == true && notification.data.code?.isNotEmpty() == true && notification.notificationType == NotificationType.INVITE_USER_JOIN_CLASS) {
-                navigator.navigate(
-                    JoinClassScreenDestination(
-                        code = notification.data.code,
-                    )
-                )
-            }
-        },
         onSearchStudySetBySubject = { subject ->
             navigator.navigate(
                 SearchStudySetBySubjectScreenDestination(
@@ -294,6 +279,9 @@ fun HomeScreen(
         },
         streakCount = uiState.streakCount,
         streakDates = uiState.streakDates,
+        onNavigateToNotification = {
+            navigator.navigate(NotificationScreenDestination())
+        }
     )
 }
 
@@ -315,12 +303,10 @@ private fun Home(
     onClickToCreateStudySet: () -> Unit = {},
     customer: CustomerInfo? = null,
     onCustomerInfoChanged: (CustomerInfo) -> Unit = {},
-    onMarkAsRead: (String) -> Unit = {},
-    onNotificationClick: (GetNotificationResponseModel) -> Unit = {},
-    notifications: List<GetNotificationResponseModel> = emptyList(),
     onSearchStudySetBySubject: (SubjectModel) -> Unit = {},
     streakCount: Int = 0,
     streakDates: List<LocalDate> = emptyList(),
+    onNavigateToNotification: () -> Unit = {},
 ) {
 
     val streakBottomSheet = rememberModalBottomSheetState()
@@ -328,10 +314,6 @@ private fun Home(
         mutableStateOf(false)
     }
 
-    var showNotificationBottomSheet by remember { mutableStateOf(false) }
-    val modalBottomSheetState = rememberModalBottomSheetState(
-        skipPartiallyExpanded = true,
-    )
     var isPaywallVisible by remember {
         mutableStateOf(false)
     }
@@ -445,7 +427,7 @@ private fun Home(
                                 shape = CircleShape
                             )
                             .clickable {
-                                showNotificationBottomSheet = true
+                                onNavigateToNotification()
                             }
                             .padding(8.dp)
                     ) {
@@ -658,16 +640,6 @@ private fun Home(
             userId = customer?.originalAppUserId ?: ""
         )
 
-    }
-
-    if (showNotificationBottomSheet) {
-        NotificationListBottomSheet(
-            onDismissRequest = { showNotificationBottomSheet = false },
-            notifications = notifications,
-            onMarkAsRead = onMarkAsRead,
-            onNotificationClicked = onNotificationClick,
-            sheetState = modalBottomSheetState
-        )
     }
     if (showStreakBottomSheet) {
         ModalBottomSheet(

@@ -681,6 +681,7 @@
     <string name="txt_total_time">Total time</string>
     <string name="txt_no_data">No data</string>
     <string name="txt_statistics">Statistics</string>
+    <string name="txt_failed_to_clear_all_notifications">Fail to clear all notifications</string>
     <plurals name="hours">
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>

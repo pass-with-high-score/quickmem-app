@@ -19,4 +19,8 @@ interface NotificationRepository {
         notificationId: String,
         token: String,
     ): Flow<Resources<Unit>>
+
+    suspend fun clearAllNotifications(
+        token: String,
+    ): Flow<Resources<Unit>>
 }
