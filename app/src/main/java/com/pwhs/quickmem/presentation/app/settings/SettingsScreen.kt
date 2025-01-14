@@ -251,7 +251,7 @@ fun SettingsScreen(
         onNavigateToHelpCenter = {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://github.com/pass-with-high-score/quick_mem/issues")
+                Uri.parse("https://github.com/pass-with-high-score/quickmem-app/issues")
             )
             try {
                 context.startActivity(intent)
@@ -338,7 +338,6 @@ fun Setting(
     onSubmitClick: () -> Unit = {},
     onNavigationBack: () -> Unit = {},
     onNavigateToChangePassword: () -> Unit = {},
-    onNavigateToManageStorage: () -> Unit = {},
     onEnablePushNotifications: (Boolean) -> Unit = {},
     onNotificationEnabled: (Boolean) -> Unit = {},
     onNavigateToPrivacyPolicy: () -> Unit = {},

@@ -48,7 +48,7 @@ engaging user experience.
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/pass-with-high-score/quick_mem.git
+   git clone https://github.com/pass-with-high-score/quickmem-app.git
    cd quick_mem
    ```
 
