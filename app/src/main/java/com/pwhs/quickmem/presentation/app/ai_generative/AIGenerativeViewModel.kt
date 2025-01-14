@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.presentation.app.explore
+package com.pwhs.quickmem.presentation.app.ai_generative
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -31,7 +31,7 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
-class ExploreViewModel @Inject constructor(
+class AIGenerativeViewModel @Inject constructor(
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
     private val studySetRepository: StudySetRepository,
@@ -41,7 +41,7 @@ class ExploreViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(ExploreUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _uiEvent = Channel<ExploreUiEvent>()
+    private val _uiEvent = Channel<AIGenerativeUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
@@ -51,26 +51,26 @@ class ExploreViewModel @Inject constructor(
         getCustomerInfo()
     }
 
-    fun onEvent(event: ExploreUiAction) {
+    fun onEvent(event: AIGenerativeUiAction) {
         when (event) {
-            ExploreUiAction.RefreshTopStreaks -> {
+            AIGenerativeUiAction.RefreshTopStreaks -> {
                 getUserCoin()
                 getCustomerInfo()
             }
 
-            is ExploreUiAction.OnDescriptionChanged -> {
+            is AIGenerativeUiAction.OnDescriptionChanged -> {
                 _uiState.update { it.copy(description = event.description) }
             }
 
-            is ExploreUiAction.OnDifficultyLevelChanged -> {
+            is AIGenerativeUiAction.OnDifficultyLevelChanged -> {
                 _uiState.update { it.copy(difficulty = event.difficultyLevel) }
             }
 
-            is ExploreUiAction.OnLanguageChanged -> {
+            is AIGenerativeUiAction.OnLanguageChanged -> {
                 _uiState.update { it.copy(language = event.language) }
             }
 
-            is ExploreUiAction.OnNumberOfFlashcardsChange -> {
+            is AIGenerativeUiAction.OnNumberOfFlashcardsChange -> {
                 _uiState.update {
                     it.copy(
                         numberOfFlashcards = event.numberOfCards
@@ -78,15 +78,15 @@ class ExploreViewModel @Inject constructor(
                 }
             }
 
-            is ExploreUiAction.OnQuestionTypeChanged -> {
+            is AIGenerativeUiAction.OnQuestionTypeChanged -> {
                 _uiState.update { it.copy(questionType = event.questionType) }
             }
 
-            is ExploreUiAction.OnTitleChanged -> {
+            is AIGenerativeUiAction.OnTitleChanged -> {
                 _uiState.update { it.copy(title = event.title) }
             }
 
-            is ExploreUiAction.OnCreateStudySet -> {
+            is AIGenerativeUiAction.OnCreateStudySet -> {
                 if (uiState.value.title.isEmpty()) {
                     _uiState.update {
                         it.copy(errorMessage = R.string.txt_title_is_required)
@@ -96,7 +96,7 @@ class ExploreViewModel @Inject constructor(
                 }
             }
 
-            is ExploreUiAction.OnEarnCoins -> {
+            is AIGenerativeUiAction.OnEarnCoins -> {
                 updateCoins(coinAction = CoinAction.ADD, coin = 1)
             }
         }
@@ -148,7 +148,7 @@ class ExploreViewModel @Inject constructor(
                             )
                         }
                         _uiEvent.send(
-                            ExploreUiEvent.CreatedStudySet(
+                            AIGenerativeUiEvent.CreatedStudySet(
                                 studySetId = resource.data?.id ?: ""
                             )
                         )
@@ -161,7 +161,7 @@ class ExploreViewModel @Inject constructor(
                                 errorMessage = R.string.txt_error_occurred
                             )
                         }
-                        _uiEvent.send(ExploreUiEvent.Error(R.string.txt_error_occurred))
+                        _uiEvent.send(AIGenerativeUiEvent.Error(R.string.txt_error_occurred))
                     }
                 }
             }
@@ -184,7 +184,7 @@ class ExploreViewModel @Inject constructor(
             ).collect { coin ->
                 when (coin) {
                     is Resources.Error -> {
-                        _uiEvent.send(ExploreUiEvent.Error(R.string.txt_too_many_requests_please_wait_1_minute))
+                        _uiEvent.send(AIGenerativeUiEvent.Error(R.string.txt_too_many_requests_please_wait_1_minute))
                     }
 
                     is Resources.Loading -> {
@@ -196,7 +196,7 @@ class ExploreViewModel @Inject constructor(
                         _uiState.update {
                             it.copy(coins = coin.data?.coins ?: 0)
                         }
-                        _uiEvent.trySend(ExploreUiEvent.EarnedCoins(R.string.txt_you_have_earned_1_coin))
+                        _uiEvent.trySend(AIGenerativeUiEvent.EarnedCoins(R.string.txt_you_have_earned_1_coin))
                     }
                 }
             }

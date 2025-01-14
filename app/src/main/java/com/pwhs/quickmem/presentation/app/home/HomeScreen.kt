@@ -22,12 +22,14 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.Badge
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -79,6 +81,7 @@ import com.pwhs.quickmem.presentation.app.home.components.StudySetHomeItem
 import com.pwhs.quickmem.presentation.app.home.components.SubjectItem
 import com.pwhs.quickmem.presentation.app.paywall.Paywall
 import com.pwhs.quickmem.presentation.components.ActionButtonTopAppBar
+import com.pwhs.quickmem.presentation.components.BottomSheetItem
 import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.ui.theme.firasansExtraboldFont
@@ -89,7 +92,10 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.annotation.parameters.DeepLink
 import com.ramcosta.composedestinations.generated.NavGraphs
+import com.ramcosta.composedestinations.generated.destinations.AIGenerativeScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.ClassDetailScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.CreateClassScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.CreateFolderScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.CreateStudySetScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.FolderDetailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.JoinClassScreenDestination
@@ -282,6 +288,20 @@ fun HomeScreen(
         streakDates = uiState.streakDates,
         onNavigateToNotification = {
             navigator.navigate(NotificationScreenDestination())
+        },
+        onNavigateToCreateStudySet = {
+            navigator.navigate(CreateStudySetScreenDestination())
+        },
+        onNavigateToCreateFolder = {
+            navigator.navigate(CreateFolderScreenDestination())
+        },
+        onNavigateToCreateClass = {
+            navigator.navigate(CreateClassScreenDestination())
+        },
+        onNavigateToCreateStudySetByAI = {
+            navigator.navigate(
+                AIGenerativeScreenDestination()
+            )
         }
     )
 }
@@ -308,6 +328,10 @@ private fun Home(
     streakCount: Int = 0,
     streakDates: List<LocalDate> = emptyList(),
     onNavigateToNotification: () -> Unit = {},
+    onNavigateToCreateStudySet: () -> Unit = {},
+    onNavigateToCreateFolder: () -> Unit = {},
+    onNavigateToCreateClass: () -> Unit = {},
+    onNavigateToCreateStudySetByAI: () -> Unit = {},
 ) {
 
     val streakBottomSheet = rememberModalBottomSheetState()
@@ -326,6 +350,11 @@ private fun Home(
     )
 
     val refreshState = rememberPullToRefreshState()
+
+    val sheetSelectCreateState = rememberModalBottomSheetState()
+    var showBottomSheetCreate by remember {
+        mutableStateOf(false)
+    }
 
     Scaffold(
         modifier = modifier,
@@ -391,6 +420,7 @@ private fun Home(
                         onClick = {
                             showStreakBottomSheet = true
                         },
+                        modifier = Modifier.padding(end = 8.dp)
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -444,6 +474,18 @@ private fun Home(
                     }
                 }
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    showBottomSheetCreate = true
+                },
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.txt_add),
+                )
+            }
         },
         bottomBar = {
             Spacer(modifier = Modifier.height(100.dp))
@@ -682,6 +724,53 @@ private fun Home(
         }
     }
     LoadingOverlay(isLoading = isLoading)
+    if (showBottomSheetCreate) {
+        ModalBottomSheet(
+            onDismissRequest = {
+                showBottomSheetCreate = false
+            },
+            sheetState = sheetSelectCreateState,
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                BottomSheetItem(
+                    title = stringResource(R.string.txt_ai_generative),
+                    icon = R.drawable.ic_generative_ai,
+                    onClick = {
+                        showBottomSheetCreate = false
+                        onNavigateToCreateStudySetByAI()
+                    }
+                )
+                BottomSheetItem(
+                    title = stringResource(R.string.txt_study_set),
+                    icon = R.drawable.ic_study_set,
+                    onClick = {
+                        showBottomSheetCreate = false
+                        onNavigateToCreateStudySet()
+                    }
+                )
+                BottomSheetItem(
+                    title = stringResource(R.string.txt_folder),
+                    icon = R.drawable.ic_folder,
+                    onClick = {
+                        showBottomSheetCreate = false
+                        onNavigateToCreateFolder()
+                    }
+                )
+                BottomSheetItem(
+                    title = stringResource(R.string.txt_class),
+                    icon = R.drawable.ic_school,
+                    onClick = {
+                        showBottomSheetCreate = false
+                        onNavigateToCreateClass()
+                    }
+                )
+            }
+        }
+    }
 }
 
 @Preview(showSystemUi = true)

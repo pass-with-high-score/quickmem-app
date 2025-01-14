@@ -1,10 +1,9 @@
-package com.pwhs.quickmem.presentation.app.explore
+package com.pwhs.quickmem.presentation.app.ai_generative
 
 import androidx.annotation.StringRes
 import com.pwhs.quickmem.core.data.enums.DifficultyLevel
 import com.pwhs.quickmem.core.data.enums.LanguageCode
 import com.pwhs.quickmem.core.data.enums.QuestionType
-import com.pwhs.quickmem.domain.model.streak.GetTopStreakResponseModel
 import com.revenuecat.purchases.CustomerInfo
 
 data class ExploreUiState(

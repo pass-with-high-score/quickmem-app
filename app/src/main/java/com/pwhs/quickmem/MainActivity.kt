@@ -18,7 +18,6 @@ import com.pwhs.quickmem.presentation.StandardScaffold
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.generated.NavGraphs
-import com.ramcosta.composedestinations.generated.destinations.ExploreScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.LibraryScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.ProfileScreenDestination
@@ -69,7 +68,6 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     showBottomBar = route in listOf(
                         HomeScreenDestination.route,
-                        ExploreScreenDestination.route,
                         LibraryScreenDestination.route,
                         ProfileScreenDestination.route,
                     ),

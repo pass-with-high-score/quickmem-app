@@ -163,10 +163,10 @@ fun LibraryScreen(
             navigator.navigate(CreateStudySetScreenDestination())
         },
         navigateToCreateClass = {
-            navigator.navigate(CreateClassScreenDestination)
+            navigator.navigate(CreateClassScreenDestination())
         },
         navigateToCreateFolder = {
-            navigator.navigate(CreateFolderScreenDestination)
+            navigator.navigate(CreateFolderScreenDestination())
         }
     )
 }

@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.presentation.app.explore.create_study_set_ai.components
+package com.pwhs.quickmem.presentation.app.ai_generative.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

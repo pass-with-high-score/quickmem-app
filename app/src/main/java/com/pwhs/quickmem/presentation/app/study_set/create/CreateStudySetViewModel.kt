@@ -19,6 +19,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -35,11 +36,15 @@ class CreateStudySetViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val subjectId: Int? = savedStateHandle.get<Int>("subjectId")
-        if (subjectId != null) {
-            _uiState.update {
-                it.copy(subjectModel = SubjectModel.defaultSubjects.first { it.id == subjectId })
+        try {
+            val subjectId: Int? = savedStateHandle.get<Int>("subjectId")
+            if (subjectId != null) {
+                _uiState.update {
+                    it.copy(subjectModel = SubjectModel.defaultSubjects.first { it.id == subjectId })
+                }
             }
+        } catch (e: Exception) {
+            Timber.e(e)
         }
     }
 
