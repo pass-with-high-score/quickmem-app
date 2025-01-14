@@ -58,11 +58,11 @@ fun SendVerifyEmailScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                SendVerifyEmailUiEvent.SendEmailSuccess -> {
+                is SendVerifyEmailUiEvent.SendEmailSuccess -> {
                     navigator.navigate(
                         VerifyEmailScreenDestination(
                             email = uiState.value.email,
-                            isResetPassword = false,
+                            isResetPassword = true,
                             resetPasswordToken = uiState.value.resetPasswordToken
                         )
                     )

@@ -112,7 +112,7 @@ fun LoginWithEmailScreen(
         },
         onLoginClick = { viewModel.onEvent(LoginWithEmailUiAction.Login) },
         onForgotPasswordClick = {
-            navigator.navigate(SendVerifyEmailScreenDestination)
+            navigator.navigate(SendVerifyEmailScreenDestination())
         }
     )
 }
