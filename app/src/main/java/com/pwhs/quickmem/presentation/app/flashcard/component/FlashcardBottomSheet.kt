@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.presentation.component.BottomSheetItem
+import com.pwhs.quickmem.presentation.components.BottomSheetItem
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

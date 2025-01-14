@@ -25,7 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.pwhs.quickmem.core.data.states.RandomAnswer
-import com.pwhs.quickmem.presentation.component.ShowImageDialog
+import com.pwhs.quickmem.presentation.components.ShowImageDialog
 
 @Composable
 fun LearnQuizCardAnswer(

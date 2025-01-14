@@ -28,7 +28,7 @@ import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.UserRole
 import com.pwhs.quickmem.presentation.app.settings.component.SettingTopAppBar
 import com.pwhs.quickmem.presentation.app.settings.user_info.change_role.component.RoleItem
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph

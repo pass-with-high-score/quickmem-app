@@ -1,16 +1,11 @@
 package com.pwhs.quickmem.presentation.auth.welcome
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Card
@@ -20,7 +15,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -53,6 +47,7 @@ import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.LanguageCode
 import com.pwhs.quickmem.presentation.auth.component.AuthButton
 import com.pwhs.quickmem.presentation.auth.welcome.component.WelcomeScrollingText
+import com.pwhs.quickmem.presentation.components.LanguageBottomSheet
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.ui.theme.premiumColor
 import com.pwhs.quickmem.utils.changeLanguage
@@ -258,104 +253,14 @@ private fun WelCome(
     }
 
     if (showBottomSheetLanguage) {
-        ModalBottomSheet(
+        LanguageBottomSheet(
+            sheetState = sheetLanguageState,
             onDismissRequest = {
                 showBottomSheetLanguage = false
             },
-            sheetState = sheetLanguageState,
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp)
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp)
-                        .clickable {
-                            onLanguageChange(
-                                if (language == LanguageCode.VI.code) {
-                                    LanguageCode.EN.code
-                                } else {
-                                    LanguageCode.VI.code
-                                }
-                            )
-                            showBottomSheetLanguage = false
-                        },
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_vn_flag),
-                            contentDescription = stringResource(R.string.txt_vietnamese),
-                            modifier = Modifier
-                                .size(24.dp)
-                        )
-
-                        Text(
-                            text = stringResource(R.string.txt_vietnamese),
-                            style = typography.bodyMedium.copy(
-                                color = colorScheme.onSurface,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            modifier = Modifier
-                                .padding(vertical = 10.dp)
-                                .padding(start = 10.dp)
-                        )
-                    }
-                    if (language == LanguageCode.VI.code) {
-                        Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = stringResource(R.string.txt_check),
-                            tint = colorScheme.primary
-                        )
-                    }
-                }
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp)
-                        .clickable {
-                            onLanguageChange(LanguageCode.EN.code)
-                            showBottomSheetLanguage = false
-                        },
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_us_flag),
-                            contentDescription = stringResource(R.string.txt_english_us),
-                            modifier = Modifier
-                                .size(24.dp)
-                        )
-
-                        Text(
-                            text = stringResource(R.string.txt_english_us),
-                            style = typography.bodyMedium.copy(
-                                color = colorScheme.onSurface,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            modifier = Modifier
-                                .padding(vertical = 10.dp)
-                                .padding(start = 10.dp)
-                        )
-                    }
-
-                    if (language == LanguageCode.EN.code) {
-                        Icon(
-                            imageVector = Icons.Default.Check,
-                            contentDescription = stringResource(R.string.txt_check),
-                            tint = colorScheme.primary
-                        )
-                    }
-                }
-            }
-        }
+            onLanguageChange = onLanguageChange,
+            language = language
+        )
     }
 }
 

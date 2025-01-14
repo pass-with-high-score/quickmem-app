@@ -47,7 +47,7 @@ import com.pwhs.quickmem.presentation.app.flashcard.component.FlashCardTopAppBar
 import com.pwhs.quickmem.presentation.app.flashcard.component.FlashcardBottomSheet
 import com.pwhs.quickmem.presentation.app.flashcard.component.FlashcardSelectImageBottomSheet
 import com.pwhs.quickmem.presentation.app.flashcard.component.HintCard
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.utils.ImageCompressor
 import com.pwhs.quickmem.utils.bitmapToUri

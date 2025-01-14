@@ -54,8 +54,8 @@ import com.pwhs.quickmem.presentation.app.study_set.detail.component.StudySetDet
 import com.pwhs.quickmem.presentation.app.study_set.detail.component.StudySetMoreOptionsBottomSheet
 import com.pwhs.quickmem.presentation.app.study_set.detail.material.MaterialTabScreen
 import com.pwhs.quickmem.presentation.app.study_set.detail.progress.ProgressTabScreen
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
-import com.pwhs.quickmem.presentation.component.QuickMemAlertDialog
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.QuickMemAlertDialog
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.NavGraphs

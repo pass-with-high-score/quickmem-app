@@ -50,8 +50,8 @@ import com.pwhs.quickmem.presentation.app.classes.detail.folders.FoldersTabScree
 import com.pwhs.quickmem.presentation.app.classes.detail.members.MembersTabScreen
 import com.pwhs.quickmem.presentation.app.classes.detail.study_sets.StudySetsTabScreen
 import com.pwhs.quickmem.presentation.app.report.ReportTypeEnum
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
-import com.pwhs.quickmem.presentation.component.QuickMemAlertDialog
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.QuickMemAlertDialog
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph

@@ -22,14 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.presentation.app.folder.add_study_set.component.AddStudySetToFolderList
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.CreateStudySetScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.presentation.component.AddItemsTopAppBar
+import com.pwhs.quickmem.presentation.components.AddItemsTopAppBar
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination
 import com.ramcosta.composedestinations.result.NavResult

@@ -39,7 +39,7 @@ import com.pwhs.quickmem.presentation.ads.BannerAds
 import com.pwhs.quickmem.presentation.app.settings.component.SettingCard
 import com.pwhs.quickmem.presentation.app.settings.component.SettingItem
 import com.pwhs.quickmem.presentation.app.settings.component.SettingTitleSection
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph

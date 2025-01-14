@@ -2,15 +2,17 @@ package com.pwhs.quickmem.presentation.app.library
 
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
@@ -19,6 +21,7 @@ import androidx.compose.material3.TabRow
 import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -197,37 +200,46 @@ fun Library(
     Scaffold(
         modifier = modifier,
         topBar = {
-            CenterAlignedTopAppBar(
+            TopAppBar(
                 title = {
                     Text(
                         text = stringResource(R.string.txt_library),
-                        style = typography.titleMedium.copy(
+                        style = typography.titleLarge.copy(
                             fontWeight = FontWeight.Bold
                         )
                     )
                 },
                 actions = {
-                    IconButton(
-                        onClick = {
-                            when (tabIndex) {
-                                LibraryTabEnum.STUDY_SET.index -> {
-                                    navigateToCreateStudySet()
-                                }
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .background(color = Color.White, shape = CircleShape)
+                            .border(
+                                width = 2.dp,
+                                color = colorScheme.primary,
+                                shape = CircleShape
+                            )
+                            .clickable {
+                                when (tabIndex) {
+                                    LibraryTabEnum.STUDY_SET.index -> {
+                                        navigateToCreateStudySet()
+                                    }
 
-                                LibraryTabEnum.CLASS.index -> {
-                                    navigateToCreateClass()
-                                }
+                                    LibraryTabEnum.CLASS.index -> {
+                                        navigateToCreateClass()
+                                    }
 
-                                LibraryTabEnum.FOLDER.index -> {
-                                    navigateToCreateFolder()
+                                    LibraryTabEnum.FOLDER.index -> {
+                                        navigateToCreateFolder()
+                                    }
                                 }
                             }
-                        }
+                            .padding(8.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = stringResource(R.string.txt_add_study_set),
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(30.dp)
                         )
                     }
                 }

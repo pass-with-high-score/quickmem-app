@@ -6,8 +6,10 @@ import androidx.annotation.StringRes
 sealed class LoginWithEmailUiEvent {
     data object LoginSuccess : LoginWithEmailUiEvent()
     data class LoginFailure(
-        @StringRes val message: Int
+        @StringRes val message: Int,
     ) : LoginWithEmailUiEvent()
 
-    data object NavigateToVerifyEmail : LoginWithEmailUiEvent()
+    data class NavigateToVerifyEmail(
+        val email: String,
+    ) : LoginWithEmailUiEvent()
 }

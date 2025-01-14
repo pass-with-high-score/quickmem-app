@@ -36,7 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.presentation.component.ShowImageDialog
+import com.pwhs.quickmem.presentation.components.ShowImageDialog
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.util.Locale

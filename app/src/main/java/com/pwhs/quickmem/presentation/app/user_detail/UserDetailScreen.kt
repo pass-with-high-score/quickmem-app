@@ -53,7 +53,7 @@ import com.pwhs.quickmem.presentation.app.library.classes.ListClassesScreen
 import com.pwhs.quickmem.presentation.app.library.folder.ListFolderScreen
 import com.pwhs.quickmem.presentation.app.library.study_set.ListStudySetScreen
 import com.pwhs.quickmem.presentation.app.report.ReportTypeEnum
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph

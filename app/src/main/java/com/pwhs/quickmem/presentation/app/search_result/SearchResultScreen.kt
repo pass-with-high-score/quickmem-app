@@ -51,7 +51,7 @@ import com.pwhs.quickmem.presentation.app.search_result.study_set.component.Filt
 import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultCreatorEnum
 import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultSizeEnum
 import com.pwhs.quickmem.presentation.app.search_result.user.ListResultUserScreen
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph

@@ -152,7 +152,14 @@ fun Profile(
         modifier = modifier,
         topBar = {
             TopAppBar(
-                title = {},
+                title = {
+                    Text(
+                        text = stringResource(R.string.txt_profile),
+                        style = typography.titleLarge.copy(
+                            fontWeight = FontWeight.Bold
+                        )
+                    )
+                },
                 actions = {
                     if (customerInfo?.activeSubscriptions?.isEmpty() == true) {
                         Button(

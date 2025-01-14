@@ -191,7 +191,7 @@ fun StudyFlipFlashCard(
                                                         }
                                                     ),
                                                     textAlign = when {
-                                                        flashCard.term.length <= 15 -> TextAlign.Center
+                                                        flashCard.term.length <= 25 -> TextAlign.Center
                                                         else -> TextAlign.Start
                                                     },
                                                     modifier = Modifier
@@ -290,7 +290,7 @@ fun StudyFlipFlashCard(
                                                         }
                                                     ),
                                                     textAlign = when {
-                                                        flashCard.term.length <= 15 -> TextAlign.Center
+                                                        flashCard.term.length <= 25 -> TextAlign.Center
                                                         else -> TextAlign.Start
                                                     },
                                                     modifier = Modifier
@@ -388,7 +388,7 @@ fun StudyFlipFlashCard(
                                                         }
                                                     ),
                                                     textAlign = when {
-                                                        flashCard.term.length <= 15 -> TextAlign.Center
+                                                        flashCard.term.length <= 25 -> TextAlign.Center
                                                         else -> TextAlign.Start
                                                     },
                                                     modifier = Modifier
@@ -490,7 +490,7 @@ fun StudyFlipFlashCard(
                                                         }
                                                     ),
                                                     textAlign = when {
-                                                        flashCard.term.length <= 15 -> TextAlign.Center
+                                                        flashCard.term.length <= 25 -> TextAlign.Center
                                                         else -> TextAlign.Start
                                                     },
                                                     modifier = Modifier

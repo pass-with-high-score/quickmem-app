@@ -23,8 +23,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.presentation.app.classes.add_study_set.component.AddStudySetToClassList
-import com.pwhs.quickmem.presentation.component.AddItemsTopAppBar
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.AddItemsTopAppBar
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph

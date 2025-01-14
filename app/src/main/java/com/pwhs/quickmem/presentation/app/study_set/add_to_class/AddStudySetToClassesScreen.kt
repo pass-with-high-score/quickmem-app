@@ -23,14 +23,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.classes.GetClassByOwnerResponseModel
 import com.pwhs.quickmem.presentation.app.study_set.add_to_class.component.AddStudySetToClassesList
-import com.pwhs.quickmem.presentation.component.AddItemsTopAppBar
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.AddItemsTopAppBar
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.ClassDetailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.CreateFolderScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.CreateFolderScreenDestination.invoke
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultBackNavigator

@@ -25,10 +25,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.presentation.ads.BannerAds
-import com.pwhs.quickmem.presentation.component.CreateTextField
-import com.pwhs.quickmem.presentation.component.CreateTopAppBar
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
-import com.pwhs.quickmem.presentation.component.SwitchContainer
+import com.pwhs.quickmem.presentation.components.CreateTextField
+import com.pwhs.quickmem.presentation.components.CreateTopAppBar
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.SwitchContainer
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.utils.rememberImeState
 import com.ramcosta.composedestinations.annotation.Destination

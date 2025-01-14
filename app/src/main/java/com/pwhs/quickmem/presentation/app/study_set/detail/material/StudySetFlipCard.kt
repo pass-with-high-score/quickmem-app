@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.presentation.component.ShowImageDialog
+import com.pwhs.quickmem.presentation.components.ShowImageDialog
 
 @Composable
 fun calculateDynamicFontSize(text: String): TextUnit {

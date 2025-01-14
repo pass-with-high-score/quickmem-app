@@ -32,7 +32,7 @@ import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.QuizStatus
 import com.pwhs.quickmem.core.data.states.RandomAnswer
 import com.pwhs.quickmem.domain.model.flashcard.FlashCardResponseModel
-import com.pwhs.quickmem.presentation.component.ShowImageDialog
+import com.pwhs.quickmem.presentation.components.ShowImageDialog
 import com.pwhs.quickmem.ui.theme.correctColor
 import com.pwhs.quickmem.ui.theme.incorrectColor
 

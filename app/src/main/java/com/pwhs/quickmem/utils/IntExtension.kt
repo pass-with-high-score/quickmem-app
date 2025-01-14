@@ -27,6 +27,9 @@ fun Int.toTimeString(context: Context): String {
         null
     }
 
-    return listOfNotNull(hourString, minuteString, secondString)
-        .joinToString(" ")
+    val result = listOfNotNull(hourString, minuteString, secondString).joinToString(" ")
+    if (result.isEmpty()) {
+        return context.getString(R.string.txt_no_data)
+    }
+    return result
 }

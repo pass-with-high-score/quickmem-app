@@ -57,8 +57,8 @@ import com.pwhs.quickmem.presentation.app.home.HomeViewModel
 import com.pwhs.quickmem.presentation.app.study_set.studies.component.UnfinishedLearningBottomSheet
 import com.pwhs.quickmem.presentation.app.study_set.studies.true_false.component.TrueFalseButton
 import com.pwhs.quickmem.presentation.app.study_set.studies.true_false.component.TrueFalseFlashcardFinish
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
-import com.pwhs.quickmem.presentation.component.ShowImageDialog
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.ShowImageDialog
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.utils.toColor
 import com.ramcosta.composedestinations.annotation.Destination

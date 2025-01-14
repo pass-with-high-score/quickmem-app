@@ -3,6 +3,8 @@ package com.pwhs.quickmem.presentation.auth.verify_email
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
@@ -32,6 +34,8 @@ class VerifyEmailViewModel @Inject constructor(
     stateHandle: SavedStateHandle,
     private val tokenManager: TokenManager,
     private val appManager: AppManager,
+    private val firebaseCrashlytics: FirebaseCrashlytics,
+    private val firebaseAnalytics: FirebaseAnalytics,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(VerifyEmailUiState())
     val uiState = _uiState.asStateFlow()
@@ -41,12 +45,12 @@ class VerifyEmailViewModel @Inject constructor(
 
     init {
         val email = stateHandle.get<String>("email") ?: ""
-        val isFromSignup = stateHandle.get<Boolean>("isFromSignup") == true
+        val isResetPassword = stateHandle.get<Boolean>("isResetPassword") == true
         val resetPasswordToken = stateHandle.get<String>("resetPasswordToken") ?: ""
         _uiState.update {
             it.copy(
                 email = email,
-                isFromSignup = isFromSignup,
+                isResetPassword = isResetPassword,
                 resetPasswordToken = resetPasswordToken
             )
         }
@@ -107,7 +111,7 @@ class VerifyEmailViewModel @Inject constructor(
                 _uiEvent.send(VerifyEmailUiEvent.WrongOtp)
                 return@launch
             }
-            if (_uiState.value.isFromSignup) {
+            if (!_uiState.value.isResetPassword) {
                 authRepository.verifyEmail(
                     VerifyEmailResponseModel(
                         email = email,
@@ -152,6 +156,8 @@ class VerifyEmailViewModel @Inject constructor(
                                     }
                                 )
                             }
+                            firebaseCrashlytics.setUserId(resource.data?.id.toString())
+                            firebaseAnalytics.setUserId(resource.data?.id.toString())
                             _uiEvent.send(VerifyEmailUiEvent.VerifySuccess)
                         }
 

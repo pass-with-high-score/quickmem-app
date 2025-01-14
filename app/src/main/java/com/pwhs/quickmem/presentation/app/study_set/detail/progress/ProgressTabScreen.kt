@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.data.mapper.study_time.toStudyTimeModel
 import com.pwhs.quickmem.domain.model.study_time.GetStudyTimeByStudySetResponseModel
-import com.pwhs.quickmem.presentation.component.LearningTimeBars
+import com.pwhs.quickmem.presentation.components.LearningTimeBars
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 
 @Composable

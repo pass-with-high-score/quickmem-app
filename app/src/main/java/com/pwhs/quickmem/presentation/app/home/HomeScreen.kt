@@ -78,7 +78,8 @@ import com.pwhs.quickmem.presentation.app.home.components.StreakCalendar
 import com.pwhs.quickmem.presentation.app.home.components.StudySetHomeItem
 import com.pwhs.quickmem.presentation.app.home.components.SubjectItem
 import com.pwhs.quickmem.presentation.app.paywall.Paywall
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.ActionButtonTopAppBar
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.ui.theme.firasansExtraboldFont
 import com.pwhs.quickmem.ui.theme.premiumColor
@@ -386,17 +387,10 @@ private fun Home(
                     }
                 },
                 actions = {
-                    Box(
-                        modifier = Modifier
-                            .background(color = Color.White, shape = CircleShape)
-                            .border(
-                                width = 2.dp,
-                                color = colorScheme.primary,
-                                shape = CircleShape
-                            )
-                            .clickable {
-                                showStreakBottomSheet = true
-                            }
+                    ActionButtonTopAppBar(
+                        onClick = {
+                            showStreakBottomSheet = true
+                        },
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -417,6 +411,7 @@ private fun Home(
                             )
                         }
                     }
+
                     Box(
                         modifier = Modifier
                             .padding(horizontal = 8.dp)

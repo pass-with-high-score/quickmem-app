@@ -34,7 +34,7 @@ import com.pwhs.quickmem.core.data.enums.TextFieldType
 import com.pwhs.quickmem.presentation.auth.component.AuthButton
 import com.pwhs.quickmem.presentation.auth.component.AuthTextField
 import com.pwhs.quickmem.presentation.auth.component.AuthTopAppBar
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.utils.gradientBackground
 import com.pwhs.quickmem.utils.rememberImeState

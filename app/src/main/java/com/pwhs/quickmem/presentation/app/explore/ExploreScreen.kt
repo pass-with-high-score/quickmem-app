@@ -3,22 +3,24 @@ package com.pwhs.quickmem.presentation.app.explore
 import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -28,6 +30,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -40,7 +43,7 @@ import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.DifficultyLevel
 import com.pwhs.quickmem.core.data.enums.QuestionType
 import com.pwhs.quickmem.presentation.app.explore.create_study_set_ai.CreateStudySetAITab
-import com.pwhs.quickmem.presentation.component.LoadingOverlay
+import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.utils.ads.AdsUtil
 import com.ramcosta.composedestinations.annotation.Destination
@@ -148,17 +151,16 @@ fun Explore(
     Scaffold(
         modifier = modifier,
         topBar = {
-            CenterAlignedTopAppBar(
+            TopAppBar(
                 title = {
                     Text(
                         text = stringResource(R.string.txt_explore),
-                        style = typography.titleMedium.copy(
+                        style = typography.titleLarge.copy(
                             fontWeight = FontWeight.Bold
                         )
                     )
                 },
                 actions = {
-
                     Row(
                         verticalAlignment = Alignment.CenterVertically,
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -170,7 +172,7 @@ fun Explore(
                                 false -> coins.toString()
                                 else -> "0"
                             },
-                            style = typography.titleMedium.copy(
+                            style = typography.titleLarge.copy(
                                 fontWeight = FontWeight.Bold
                             )
                         )
@@ -181,12 +183,15 @@ fun Explore(
                             contentScale = ContentScale.Crop
                         )
                         if (customerInfo?.activeSubscriptions?.isNotEmpty() == false) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                contentDescription = stringResource(R.string.txt_add),
-                                tint = colorScheme.primary,
+                            Box(
                                 modifier = Modifier
-                                    .size(24.dp)
+                                    .padding(horizontal = 8.dp)
+                                    .background(color = Color.White, shape = CircleShape)
+                                    .border(
+                                        width = 2.dp,
+                                        color = colorScheme.primary,
+                                        shape = CircleShape
+                                    )
                                     .clickable {
                                         isGettingAds = true
                                         AdsUtil.rewardedInterstitialAd(
@@ -199,8 +204,17 @@ fun Explore(
                                                 isGettingAds = false
                                             }
                                         )
-                                    },
-                            )
+                                    }
+                                    .padding(8.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Add,
+                                    contentDescription = stringResource(R.string.txt_add),
+                                    tint = colorScheme.primary,
+                                    modifier = Modifier
+                                        .size(30.dp),
+                                )
+                            }
                         }
                     }
                 }

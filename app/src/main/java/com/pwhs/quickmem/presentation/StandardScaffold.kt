@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.presentation.component.BottomSheetItem
+import com.pwhs.quickmem.presentation.components.BottomSheetItem
 import com.ramcosta.composedestinations.generated.destinations.CreateClassScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.CreateFolderScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.CreateStudySetScreenDestination

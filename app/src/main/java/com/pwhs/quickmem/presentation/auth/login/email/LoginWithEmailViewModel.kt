@@ -147,9 +147,7 @@ class LoginWithEmailViewModel @Inject constructor(
 
                                     is Resources.Success -> {
                                         if (login.data?.isVerified == false) {
-                                            checkAccountVerification().also {
-                                                _uiEvent.send(LoginWithEmailUiEvent.NavigateToVerifyEmail)
-                                            }
+                                            resendVerificationEmail()
                                         } else if (login.data?.userStatus == UserStatus.BLOCKED.status) {
                                             _uiState.update {
                                                 it.copy(
@@ -218,7 +216,7 @@ class LoginWithEmailViewModel @Inject constructor(
     }
 
 
-    private fun checkAccountVerification() {
+    private fun resendVerificationEmail() {
         viewModelScope.launch {
             val email = uiState.value.email
             authRepository.resendOtp(
@@ -233,7 +231,7 @@ class LoginWithEmailViewModel @Inject constructor(
 
                     is Resources.Success -> {
                         _uiState.update { it.copy(isLoading = false) }
-                        _uiEvent.send(LoginWithEmailUiEvent.NavigateToVerifyEmail)
+                        _uiEvent.send(LoginWithEmailUiEvent.NavigateToVerifyEmail(email))
                     }
 
                     is Resources.Error -> {

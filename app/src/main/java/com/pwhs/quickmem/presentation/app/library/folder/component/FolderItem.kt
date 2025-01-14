@@ -38,7 +38,7 @@ import coil.compose.AsyncImage
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 import com.pwhs.quickmem.domain.model.users.UserResponseModel
-import com.pwhs.quickmem.presentation.component.RoleUserText
+import com.pwhs.quickmem.presentation.components.RoleUserText
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 
 @Composable
