@@ -64,7 +64,7 @@ class FolderDetailViewModel @Inject constructor(
                 }
             }
 
-            FolderDetailUiAction.DeleteFolder -> {
+            is FolderDetailUiAction.DeleteFolder -> {
                 if (_uiState.value.isOwner) {
                     _uiState.update { it.copy(isLoading = true) }
                     deleteFolder()
@@ -73,7 +73,7 @@ class FolderDetailViewModel @Inject constructor(
                 }
             }
 
-            FolderDetailUiAction.EditFolder -> {
+            is FolderDetailUiAction.EditFolder -> {
                 if (_uiState.value.isOwner) {
                     _uiEvent.trySend(NavigateToEditFolder)
                 } else {
