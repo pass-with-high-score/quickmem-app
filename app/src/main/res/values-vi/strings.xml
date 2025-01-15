@@ -646,7 +646,6 @@
     <string name="txt_study_set_copied">Tạo bản sao mới thành công!</string>
     <string name="txt_title_must_be_at_least_1_characters">Tiêu đề phải có ít nhất 1 ký tự</string>
     <string name="txt_failed_to_update_folder">Cập nhật thư mục thất bại</string>
-    <string name="txt_sets">%1$s bộ</string>
     <string name="txt_please_enter_a_search_query">Vui lòng nhập truy vấn tìm kiếm</string>
     <string name="txt_error_create_folder">Lỗi khi tạo thư mục</string>
     <string name="txt_search_recent_query_not_found">Không tìm thấy truy vấn tìm kiếm gần đây</string>
@@ -680,6 +679,9 @@
     <string name="txt_flashcards_help_you_study_efficiently_try_adding_one_now">Flashcard sẽ giúp bạn học hiệu quả hơn. Thử thêm một cái ngay bây giờ nhé!</string>
     <string name="txt_flashcard">Flashcard</string>
     <string name="txt_organize_your_study_sets_save_time_and_share_with_others">Sắp xếp các bộ học tập của bạn, tiết kiệm thời gian và chia sẻ với mọi người!</string>
+    <string name="txt_account_created_at">Tham gia từ %1$s</string>
+    <string name="txt_study_sets_count">%1$s bộ học</string>
+    <string name="txt_flashcard_deleted">Đã xoá thẻ</string>
     <plurals name="hours">
         <item quantity="other">%d giờ</item>
     </plurals>

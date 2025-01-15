@@ -3,6 +3,8 @@ package com.pwhs.quickmem.presentation.app.flashcard.component
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
@@ -22,6 +24,8 @@ fun FlashcardBottomSheet(
     sheetState: SheetState,
     onShowHintClicked: (Boolean) -> Unit,
     onShowExplanationClicked: (Boolean) -> Unit,
+    isEdit: Boolean = false,
+    onDeleteFlashcardClicked: () -> Unit = {}
 ) {
     ModalBottomSheet(
         onDismissRequest = onDismissRequest,
@@ -50,6 +54,16 @@ fun FlashcardBottomSheet(
                     onDismissRequest()
                 },
             )
+            if (isEdit) {
+                BottomSheetItem(
+                    title = stringResource(R.string.txt_delete_flashcard),
+                    imageVector = Icons.Default.Delete,
+                    onClick = {
+                        onDeleteFlashcardClicked()
+                        onDismissRequest()
+                    },
+                )
+            }
         }
     }
 }

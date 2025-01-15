@@ -20,4 +20,5 @@ sealed class EditFlashCardUiAction {
     data class RemoveImage(val imageURL: String) : EditFlashCardUiAction()
     data class OnQueryImageChanged(val query: String) : EditFlashCardUiAction()
     data class OnDefinitionImageChanged(val definitionImageUrl: String): EditFlashCardUiAction()
+    data object OnDeleteFlashCard : EditFlashCardUiAction()
 }

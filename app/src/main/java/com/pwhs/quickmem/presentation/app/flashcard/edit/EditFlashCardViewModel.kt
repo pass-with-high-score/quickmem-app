@@ -214,6 +214,10 @@ class EditFlashCardViewModel @Inject constructor(
                     )
                 }
             }
+
+            is EditFlashCardUiAction.OnDeleteFlashCard -> {
+                deleteFlashCard()
+            }
         }
     }
 
@@ -251,6 +255,39 @@ class EditFlashCardViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun deleteFlashCard() {
+        viewModelScope.launch {
+            val token = tokenManager.accessToken.firstOrNull() ?: ""
+            flashCardRepository.deleteFlashCard(token, _uiState.value.flashcardId)
+                .collect { resource ->
+                    when (resource) {
+                        is Resources.Error -> {
+                            _uiState.update { it.copy(isLoading = false) }
+                        }
+
+                        is Resources.Loading -> {
+                            _uiState.update { it.copy(isLoading = true) }
+                        }
+
+                        is Resources.Success -> {
+                            _uiState.update {
+                                it.copy(
+                                    term = "",
+                                    definition = "",
+                                    definitionImageURL = null,
+                                    definitionImageUri = null,
+                                    hint = null,
+                                    explanation = null,
+                                    isLoading = false
+                                )
+                            }
+                            _uiEvent.send(EditFlashCardUiEvent.FlashCardDeleted)
+                        }
+                    }
+                }
         }
     }
 }

@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -25,8 +26,9 @@ import androidx.compose.ui.unit.dp
 fun BottomSheetItem(
     modifier: Modifier = Modifier,
     title: String,
-    @DrawableRes icon: Int,
-    onClick: () -> Unit
+    @DrawableRes icon: Int? = null,
+    imageVector: ImageVector? = null,
+    onClick: () -> Unit,
 ) {
     Card(
         modifier = modifier
@@ -44,12 +46,22 @@ fun BottomSheetItem(
                 .padding(horizontal = 16.dp)
                 .padding(vertical = 16.dp)
         ) {
-            Image(
-                painter = painterResource(id = icon),
-                contentDescription = title,
-                modifier = Modifier.size(20.dp),
-                colorFilter = ColorFilter.tint(colorScheme.onSurface),
-            )
+            icon?.let {
+                Image(
+                    painter = painterResource(id = icon),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(colorScheme.onSurface),
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+            imageVector?.let {
+                Image(
+                    imageVector = imageVector,
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(colorScheme.onSurface),
+                    modifier = Modifier.size(24.dp)
+                )
+            }
             Text(
                 text = title,
                 style = typography.bodyLarge.copy(

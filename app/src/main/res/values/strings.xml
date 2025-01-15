@@ -650,7 +650,6 @@
     <string name="txt_study_set_copied">Study set copied</string>
     <string name="txt_title_must_be_at_least_1_characters">Title must be at least 1 characters</string>
     <string name="txt_failed_to_update_folder">Failed to update folder</string>
-    <string name="txt_sets">%1$s sets</string>
     <string name="txt_please_enter_a_search_query">Please enter a search query</string>
     <string name="txt_error_create_folder">An error when create folder</string>
     <string name="txt_search_recent_query_not_found">Search recent query not found.</string>
@@ -684,6 +683,9 @@
     <string name="txt_flashcards_help_you_study_efficiently_try_adding_one_now">Flashcards help you study efficiently. Try adding one now!</string>
     <string name="txt_flashcard">Flashcard</string>
     <string name="txt_organize_your_study_sets_save_time_and_share_with_others">Organize your study sets save time and share with others</string>
+    <string name="txt_account_created_at">Created at %1$s</string>
+    <string name="txt_study_sets_count">%1$s study sets</string>
+    <string name="txt_flashcard_deleted">Flashcard deleted</string>
     <plurals name="hours">
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>

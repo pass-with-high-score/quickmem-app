@@ -77,23 +77,27 @@ fun EditFlashCardScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                EditFlashCardUiEvent.FlashCardSaved -> {
+                is EditFlashCardUiEvent.FlashCardSaved -> {
                     Toast.makeText(
                         context,
                         context.getString(R.string.txt_flashcard_saved), Toast.LENGTH_SHORT
                     ).show()
-                    resultNavigator.setResult(true)
-                    navigator.navigateUp()
+                    resultNavigator.navigateBack(true)
                 }
 
-                EditFlashCardUiEvent.FlashCardSaveError -> {
+                is EditFlashCardUiEvent.FlashCardSaveError -> {
                     Toast.makeText(
                         context,
                         context.getString(R.string.txt_flashcard_save_error), Toast.LENGTH_SHORT
                     ).show()
                 }
 
-                EditFlashCardUiEvent.LoadImage -> {
+                is EditFlashCardUiEvent.FlashCardDeleted -> {
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.txt_flashcard_deleted), Toast.LENGTH_SHORT
+                    ).show()
+                    resultNavigator.navigateBack(true)
                 }
             }
         }
@@ -178,7 +182,10 @@ fun EditFlashCardScreen(
             viewModel.onEvent(EditFlashCardUiAction.OnDefinitionImageChanged(it))
         },
         isSearchImageLoading = uiState.isSearchImageLoading,
-        studySetColor = uiState.studyColorModel?.hexValue?.toColor() ?: colorScheme.primary
+        studySetColor = uiState.studyColorModel?.hexValue?.toColor() ?: colorScheme.primary,
+        onDeleteFlashCard = {
+            viewModel.onEvent(EditFlashCardUiAction.OnDeleteFlashCard)
+        }
     )
 }
 
@@ -214,6 +221,7 @@ fun CreateFlashCard(
     onDefinitionImageUrlChanged: (String) -> Unit = {},
     isSearchImageLoading: Boolean = false,
     studySetColor: Color = colorScheme.primary,
+    onDeleteFlashCard: () -> Unit = {},
 ) {
 
     val bottomSheetSetting = rememberModalBottomSheetState()
@@ -359,7 +367,9 @@ fun CreateFlashCard(
                     },
                     sheetState = bottomSheetSetting,
                     onShowHintClicked = onShowHintClicked,
-                    onShowExplanationClicked = onShowExplanationClicked
+                    onShowExplanationClicked = onShowExplanationClicked,
+                    isEdit = true,
+                    onDeleteFlashcardClicked = onDeleteFlashCard
                 )
             }
             if (showSearchImageBottomSheet) {

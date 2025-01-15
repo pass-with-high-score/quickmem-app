@@ -282,7 +282,10 @@ fun Profile(
 
                         if (createdAt != null) {
                             Text(
-                                text = createdAt.formatDate(),
+                                text = stringResource(
+                                    R.string.txt_account_created_at,
+                                    createdAt.formatDate()
+                                ),
                                 style = typography.bodyMedium.copy(
                                     color = colorScheme.secondary
                                 )

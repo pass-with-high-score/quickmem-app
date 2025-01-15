@@ -44,7 +44,6 @@ import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.presentation.ads.BannerAds
 import com.pwhs.quickmem.presentation.app.home.subject.component.SearchStudySetBySubjectTopAppBar
-import com.pwhs.quickmem.presentation.app.library.component.SearchTextField
 import com.pwhs.quickmem.presentation.app.library.study_set.component.StudySetItem
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
@@ -140,7 +139,9 @@ fun SearchStudySetBySubject(
                 icon = icon,
                 studySetCount = studySetCount,
                 description = descriptionSubject?.let { stringResource(it) },
-                onAddStudySet = onAddStudySet
+                onAddStudySet = onAddStudySet,
+                searchQuery = searchQuery,
+                onSearchQueryChange = { searchQuery = it }
             )
         }
     ) { innerPadding ->
@@ -153,13 +154,6 @@ fun SearchStudySetBySubject(
                     .padding(horizontal = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                item {
-                    SearchTextField(
-                        searchQuery = searchQuery,
-                        onSearchQueryChange = { searchQuery = it },
-                        placeholder = stringResource(R.string.txt_search_study_sets),
-                    )
-                }
                 items(studySets?.itemCount ?: 0, key = { it }) { index ->
                     val studySet = studySets?.get(index)
                     if (studySet != null && studySet.title.contains(
