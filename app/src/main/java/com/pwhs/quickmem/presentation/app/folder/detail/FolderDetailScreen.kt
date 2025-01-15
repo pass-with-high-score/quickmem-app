@@ -43,7 +43,7 @@ import com.pwhs.quickmem.presentation.app.folder.detail.component.FolderDetailSt
 import com.pwhs.quickmem.presentation.app.folder.detail.component.FolderDetailTopAppBar
 import com.pwhs.quickmem.presentation.app.folder.detail.component.FolderMenuBottomSheet
 import com.pwhs.quickmem.presentation.app.report.ReportTypeEnum
-import com.pwhs.quickmem.presentation.app.study_set.detail.material.LearnModeCard
+import com.pwhs.quickmem.presentation.app.study_set.detail.flashcard.LearnModeButtonCard
 import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.presentation.components.QuickMemAlertDialog
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
@@ -429,7 +429,7 @@ fun FolderDetail(
                     .padding(vertical = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                LearnModeCard(
+                LearnModeButtonCard(
                     title = stringResource(R.string.txt_flip_flashcards),
                     icon = R.drawable.ic_flipcard,
                     containerColor = colorScheme.surface,
@@ -440,7 +440,7 @@ fun FolderDetail(
                         showStudyFolderBottomSheet = false
                     },
                 )
-                LearnModeCard(
+                LearnModeButtonCard(
                     title = stringResource(R.string.txt_quiz),
                     icon = R.drawable.ic_quiz,
                     containerColor = colorScheme.surface,
@@ -451,7 +451,7 @@ fun FolderDetail(
                         showStudyFolderBottomSheet = false
                     }
                 )
-                LearnModeCard(
+                LearnModeButtonCard(
                     title = stringResource(R.string.txt_true_false),
                     icon = R.drawable.ic_tf,
                     containerColor = colorScheme.surface,
@@ -462,7 +462,7 @@ fun FolderDetail(
                         showStudyFolderBottomSheet = false
                     }
                 )
-                LearnModeCard(
+                LearnModeButtonCard(
                     title = stringResource(R.string.txt_write),
                     icon = R.drawable.ic_write,
                     containerColor = Color.Transparent,

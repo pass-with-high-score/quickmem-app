@@ -109,7 +109,6 @@
     <string name="txt_no_members">Không có thành viên</string>
     <string name="txt_one_member">1 thành viên</string>
     <string name="txt_nums_members">%1$s thành viên</string>
-    <string name="txt_group_study_materials_to_save_time_and_share_with_other_quickmem_members">Nhóm tài liệu học để tiết kiệm thời gian và chia sẻ với các thành viên QuickMem khác</string>
     <string name="txt_create_a_class">Tạo lớp học</string>
     <string name="txt_no_classes_found">Không tìm thấy lớp học</string>
     <string name="txt_search_classes">Tìm lớp học</string>
@@ -161,7 +160,6 @@
     <string name="txt_study_sets_folder_classes">Bộ học, thư mục, lớp học,..</string>
     <string name="txt_enter_a_topic_or_keywords">Nhập một chủ đề hoặc từ khóa</string>
     <string name="txt_tip_the_more_specific_the_better">Mẹo: Càng cụ thể càng tốt!</string>
-    <string name="txt_material">Tài liệu</string>b
     <string name="txt_progress">Tiến trình học</string>
     <string name="txt_check_out_this_study_set">Xem bộ học này: %1$s\n%2$s</string>
     <string name="txt_check_out_this_folder">Xem folder này: %1$s\n%2$s</string>
@@ -178,10 +176,7 @@
     <string name="txt_learn">Học</string>
     <string name="txt_mastered">Đã thành thạo</string>
     <string name="txt_flip_card">Lật thẻ</string>
-    <string name="txt_add_your_material_to_get_started">Thêm tài liệu của bạn để bắt đầu</string>
-    <string name="txt_this_study_set_can_contain_flashcards_notes_and_files_on_certain_topic">Bộ học này có thể chứa thẻ học, ghi chú và tệp về một chủ đề cụ thể</string>
     <string name="txt_add">Thêm</string>
-    <string name="txt_add_material">Thêm tài liệu</string>
     <string name="txt_choose_your_way_to_study">Chọn cách học của bạn</string>
     <string name="txt_flip_flashcards">Lật thẻ học</string>
     <string name="txt_quiz">Trắc nghiệm</string>
@@ -679,6 +674,12 @@
     <string name="txt_statistics">Thống kê</string>
     <string name="txt_failed_to_clear_all_notifications">Lỗi khi xoá tất cả thông báo</string>
     <string name="txt_ai_generative"> AI sinh sáng</string>
+    <string name="txt_this_study_set_does_not_have_any_flashcards_yet">This study set does not have any flashcards yet</string>
+    <string name="txt_you_can_add_flashcards_to_your_study_set">You can add flashcards_to_your_study_set</string>
+    <string name="txt_get_started_by_adding_your_first_flashcards">Bắt đầu ngay bằng cách thêm flashcard đầu tiên của bạn!</string>
+    <string name="txt_flashcards_help_you_study_efficiently_try_adding_one_now">Flashcard sẽ giúp bạn học hiệu quả hơn. Thử thêm một cái ngay bây giờ nhé!</string>
+    <string name="txt_flashcard">Flashcard</string>
+    <string name="txt_organize_your_study_sets_save_time_and_share_with_others">Sắp xếp các bộ học tập của bạn, tiết kiệm thời gian và chia sẻ với mọi người!</string>
     <plurals name="hours">
         <item quantity="other">%d giờ</item>
     </plurals>
@@ -688,5 +689,4 @@
     <plurals name="seconds">
         <item quantity="other">%d giây</item>
     </plurals>
-
 </resources>

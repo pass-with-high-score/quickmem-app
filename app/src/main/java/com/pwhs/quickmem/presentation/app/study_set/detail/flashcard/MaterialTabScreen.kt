@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.presentation.app.study_set.detail.material
+package com.pwhs.quickmem.presentation.app.study_set.detail.flashcard
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Arrangement.SpaceBetween
@@ -100,26 +100,29 @@ fun MaterialTabScreen(
                     horizontalAlignment = CenterHorizontally,
                     modifier = Modifier.padding(16.dp)
                 ) {
-                    Text(
-                        text = stringResource(R.string.txt_add_your_material_to_get_started),
-                        style = typography.titleLarge.copy(
-                            fontWeight = Bold,
-                            color = colorScheme.onSurface
-                        ),
-                        modifier = Modifier.padding(16.dp),
-                        textAlign = TextAlign.Center
-                    )
-                    Text(
-                        text = stringResource(R.string.txt_this_study_set_can_contain_flashcards_notes_and_files_on_certain_topic),
-                        textAlign = TextAlign.Center,
-                        style = typography.bodyMedium.copy(
-                            color = colorScheme.onSurface,
-                        ),
-                    )
                     if (isOwner) {
+                        Text(
+                            text = stringResource(R.string.txt_get_started_by_adding_your_first_flashcards),
+                            style = typography.titleMedium.copy(
+                                fontWeight = Bold,
+                                color = colorScheme.onSurface
+                            ),
+                            modifier = Modifier
+                                .padding(bottom = 8.dp)
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
+                        Text(
+                            text = stringResource(R.string.txt_flashcards_help_you_study_efficiently_try_adding_one_now),
+                            style = typography.bodyMedium.copy(
+                                color = colorScheme.onSurface,
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            textAlign = TextAlign.Center
+                        )
                         Button(
                             onClick = onAddFlashCardClick,
-                            modifier = Modifier.padding(16.dp)
                         ) {
                             Row(
                                 verticalAlignment = CenterVertically
@@ -131,13 +134,23 @@ fun MaterialTabScreen(
                                     modifier = Modifier.padding(end = 8.dp)
                                 )
                                 Text(
-                                    text = stringResource(R.string.txt_add_material),
+                                    text = stringResource(R.string.txt_add_flashcard),
                                     style = typography.titleMedium.copy(
                                         color = colorScheme.background
                                     )
                                 )
                             }
                         }
+                    } else {
+                        Text(
+                            text = stringResource(R.string.txt_this_study_set_does_not_have_any_flashcards_yet),
+                            style = typography.titleLarge.copy(
+                                fontWeight = Bold,
+                                color = colorScheme.onSurface
+                            ),
+                            modifier = Modifier.padding(16.dp),
+                            textAlign = TextAlign.Center
+                        )
                     }
                 }
             }
@@ -209,7 +222,7 @@ fun MaterialTabScreen(
                         }
 
                         item {
-                            LearnModeCard(
+                            LearnModeButtonCard(
                                 title = stringResource(R.string.txt_flip_flashcards),
                                 icon = R.drawable.ic_flipcard,
                                 onClick = {
@@ -221,7 +234,7 @@ fun MaterialTabScreen(
                             )
                         }
                         item {
-                            LearnModeCard(
+                            LearnModeButtonCard(
                                 title = stringResource(R.string.txt_quiz),
                                 icon = R.drawable.ic_quiz,
                                 onClick = {
@@ -233,7 +246,7 @@ fun MaterialTabScreen(
                             )
                         }
                         item {
-                            LearnModeCard(
+                            LearnModeButtonCard(
                                 title = stringResource(R.string.txt_true_false),
                                 icon = R.drawable.ic_tf,
                                 onClick = {
@@ -245,7 +258,7 @@ fun MaterialTabScreen(
                             )
                         }
                         item {
-                            LearnModeCard(
+                            LearnModeButtonCard(
                                 title = stringResource(R.string.txt_write),
                                 icon = R.drawable.ic_write,
                                 onClick = {
@@ -462,39 +475,7 @@ fun MaterialTabScreen(
 fun MaterialTabScreenPreview() {
     QuickMemTheme {
         MaterialTabScreen(
-            isOwner = false,
-            flashCards = listOf(
-                StudySetFlashCardResponseModel(
-                    id = "1",
-                    term = "Term 1",
-                    definition = "Definition 1",
-                    definitionImageURL = "https://www.example.com/image1.jpg"
-                ),
-                StudySetFlashCardResponseModel(
-                    id = "2",
-                    term = "Term 2",
-                    definition = "Definition 2",
-                    definitionImageURL = "https://www.example.com/image2.jpg"
-                ),
-                StudySetFlashCardResponseModel(
-                    id = "3",
-                    term = "Term 3",
-                    definition = "Definition 3",
-                    definitionImageURL = "https://www.example.com/image3.jpg"
-                ),
-                StudySetFlashCardResponseModel(
-                    id = "4",
-                    term = "Term 4",
-                    definition = "Definition 4",
-                    definitionImageURL = "https://www.example.com/image4.jpg"
-                ),
-                StudySetFlashCardResponseModel(
-                    id = "5",
-                    term = "Term 5",
-                    definition = "Definition 5",
-                    definitionImageURL = "https://www.example.com/image5.jpg"
-                ),
-            )
+            isOwner = true,
         )
     }
 }

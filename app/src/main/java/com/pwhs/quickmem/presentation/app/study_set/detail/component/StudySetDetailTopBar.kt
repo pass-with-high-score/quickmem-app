@@ -54,7 +54,7 @@ fun StudySetDetailTopAppBar(
     onAddFlashcard: () -> Unit,
     onShareClicked: () -> Unit,
     onMoreClicked: () -> Unit,
-    onNavigateToUserDetail: () -> Unit = {}
+    onNavigateToUserDetail: () -> Unit = {},
 ) {
     LargeTopAppBar(
         title = {

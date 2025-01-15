@@ -86,12 +86,12 @@ fun AddStudySetToClassesList(
                         if (isOwner) {
                             Icon(
                                 imageVector = Icons.Outlined.GroupAdd,
-                                contentDescription = stringResource(R.string.txt_group_study_materials_to_save_time_and_share_with_other_quickmem_members),
+                                contentDescription = null,
                                 modifier = Modifier.size(60.dp),
                                 tint = colorScheme.primary
                             )
                             Text(
-                                text = stringResource(R.string.txt_group_study_materials_to_save_time_and_share_with_other_quickmem_members),
+                                text = stringResource(R.string.txt_organize_your_study_sets_save_time_and_share_with_others),
                                 style = typography.bodyLarge.copy(
                                     fontWeight = FontWeight.Medium,
                                     textAlign = TextAlign.Center

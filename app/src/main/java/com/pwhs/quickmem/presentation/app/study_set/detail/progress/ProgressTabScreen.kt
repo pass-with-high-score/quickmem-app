@@ -21,7 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.data.mapper.study_time.toStudyTimeModel
 import com.pwhs.quickmem.domain.model.study_time.GetStudyTimeByStudySetResponseModel
@@ -63,48 +62,35 @@ fun ProgressTabScreen(
                         .padding(16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    when {
-                        totalStudySet == 0 -> {
-                            Text(
-                                text = stringResource(R.string.txt_you_have_not_started_any_study_set_yet),
-                                style = typography.bodyMedium.copy(
-                                    fontSize = 16.sp
-                                )
-                            )
-                        }
+                    StudySetDonutChart(
+                        color = color,
+                        studySetsNotLearn = studySetsNotLearnCount,
+                        studySetsStillLearn = studySetsStillLearningCount,
+                        studySetsMastered = studySetsKnowCount
+                    )
+                    ProgressRow(
+                        label = stringResource(R.string.txt_not_learned),
+                        percentage = studySetsNotLearnCount * 100 / totalStudySet.coerceAtLeast(1),
+                        color = color.copy(alpha = 0.3f)
+                    )
 
-                        else -> {
-                            StudySetDonutChart(
-                                color = color,
-                                studySetsNotLearn = studySetsNotLearnCount,
-                                studySetsStillLearn = studySetsStillLearningCount,
-                                studySetsMastered = studySetsKnowCount
-                            )
-                            ProgressRow(
-                                label = stringResource(R.string.txt_not_learned),
-                                percentage = studySetsNotLearnCount * 100 / totalStudySet,
-                                color = color.copy(alpha = 0.3f)
-                            )
+                    ProgressRow(
+                        label = stringResource(R.string.txt_still_learning),
+                        percentage = studySetsStillLearningCount * 100 / totalStudySet.coerceAtLeast(1),
+                        color = color.copy(alpha = 0.6f)
+                    )
 
-                            ProgressRow(
-                                label = stringResource(R.string.txt_still_learning),
-                                percentage = studySetsStillLearningCount * 100 / totalStudySet,
-                                color = color.copy(alpha = 0.6f)
-                            )
-
-                            ProgressRow(
-                                label = stringResource(R.string.txt_learn),
-                                percentage = studySetsKnowCount * 100 / totalStudySet,
-                                color = color
-                            )
-                            Text(
-                                text = stringResource(R.string.txt_current_flip_status),
-                                style = typography.titleMedium.copy(
-                                    fontWeight = FontWeight.Bold,
-                                )
-                            )
-                        }
-                    }
+                    ProgressRow(
+                        label = stringResource(R.string.txt_learn),
+                        percentage = studySetsKnowCount * 100 / totalStudySet.coerceAtLeast(1),
+                        color = color
+                    )
+                    Text(
+                        text = stringResource(R.string.txt_current_flip_status),
+                        style = typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                        )
+                    )
                 }
             }
             item {

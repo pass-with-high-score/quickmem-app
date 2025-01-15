@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.presentation.app.study_set.detail.material
+package com.pwhs.quickmem.presentation.app.study_set.detail.flashcard
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween

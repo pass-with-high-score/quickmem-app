@@ -90,7 +90,7 @@ fun ListClassesScreen(
                                 tint = colorScheme.primary
                             )
                             Text(
-                                text = stringResource(R.string.txt_group_study_materials_to_save_time_and_share_with_other_quickmem_members),
+                                text = stringResource(R.string.txt_organize_your_study_sets_save_time_and_share_with_others),
                                 style = typography.bodyLarge.copy(
                                     fontWeight = FontWeight.Medium,
                                     textAlign = TextAlign.Center

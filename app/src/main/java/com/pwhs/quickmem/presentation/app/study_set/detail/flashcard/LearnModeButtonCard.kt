@@ -1,4 +1,4 @@
-package com.pwhs.quickmem.presentation.app.study_set.detail.material
+package com.pwhs.quickmem.presentation.app.study_set.detail.flashcard
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.BorderStroke
@@ -30,7 +30,7 @@ import com.pwhs.quickmem.R
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 
 @Composable
-fun LearnModeCard(
+fun LearnModeButtonCard(
     modifier: Modifier = Modifier,
     title: String = "",
     @DrawableRes icon: Int,
@@ -40,7 +40,7 @@ fun LearnModeCard(
     learningPercentage: Int? = null,
     containerColor: Color = Color.White,
     contentColor: Color = colorScheme.onSurface,
-    elevation: Dp = 5.dp
+    elevation: Dp = 5.dp,
 ) {
     Card(
         colors = CardDefaults.cardColors(
@@ -115,9 +115,10 @@ fun LearnModeCard(
 
 @Preview(showBackground = true)
 @Composable
-private fun LearnModeCardPreview() {
+private fun LearnModeButtonCardPreview() {
     QuickMemTheme {
-        LearnModeCard(
+        LearnModeButtonCard(
+            modifier = Modifier.padding(16.dp),
             title = "Flip Flashcards",
             icon = R.drawable.ic_flipcard,
             leadingText = "Completed",

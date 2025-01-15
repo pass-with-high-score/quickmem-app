@@ -112,7 +112,6 @@
     <string name="txt_no_members">No members</string>
     <string name="txt_one_member">1 member</string>
     <string name="txt_nums_members">%1$s members</string>
-    <string name="txt_group_study_materials_to_save_time_and_share_with_other_quickmem_members">Group study materials to save time and share with other QuickMem members</string>
     <string name="txt_create_a_class">Create a class</string>
     <string name="txt_no_classes_found">No classes found</string>
     <string name="txt_search_classes">Search classes</string>
@@ -164,7 +163,6 @@
     <string name="txt_study_sets_folder_classes">Study sets, folder, classes,..</string>
     <string name="txt_enter_a_topic_or_keywords">Enter a topic or keywords</string>
     <string name="txt_tip_the_more_specific_the_better">Tip: The more specific, the better!</string>
-    <string name="txt_material">Material</string>
     <string name="txt_progress">Progress</string>
     <string name="txt_check_out_this_study_set">Check out this study set: %1$s\n%2$s</string>
     <string name="txt_check_out_this_folder">Check out this folder: %1$s\n%2$s</string>
@@ -181,10 +179,7 @@
     <string name="txt_learn">Learn</string>
     <string name="txt_mastered">Mastered</string>
     <string name="txt_flip_card">Flip Card</string>
-    <string name="txt_add_your_material_to_get_started">Add your material to get started</string>
-    <string name="txt_this_study_set_can_contain_flashcards_notes_and_files_on_certain_topic">This Study Set can contain flashcards, notes, and files on certain topic</string>
     <string name="txt_add">Add</string>
-    <string name="txt_add_material">Add Material</string>
     <string name="txt_choose_your_way_to_study">Choose your way to study</string>
     <string name="txt_flip_flashcards">Flip Flashcards</string>
     <string name="txt_quiz">Quiz</string>
@@ -683,6 +678,12 @@
     <string name="txt_statistics">Statistics</string>
     <string name="txt_failed_to_clear_all_notifications">Fail to clear all notifications</string>
     <string name="txt_ai_generative">AI Generative</string>
+    <string name="txt_this_study_set_does_not_have_any_flashcards_yet">This study set does not have any flashcards yet</string>
+    <string name="txt_you_can_add_flashcards_to_your_study_set">You can add flashcards_to_your_study_set</string>
+    <string name="txt_get_started_by_adding_your_first_flashcards">Get started by adding your first flashcards</string>
+    <string name="txt_flashcards_help_you_study_efficiently_try_adding_one_now">Flashcards help you study efficiently. Try adding one now!</string>
+    <string name="txt_flashcard">Flashcard</string>
+    <string name="txt_organize_your_study_sets_save_time_and_share_with_others">Organize your study sets save time and share with others</string>
     <plurals name="hours">
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
@@ -695,5 +696,4 @@
         <item quantity="one">%d second</item>
         <item quantity="other">%d seconds</item>
     </plurals>
-
 </resources>

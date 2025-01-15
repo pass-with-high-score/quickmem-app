@@ -52,10 +52,11 @@ import com.pwhs.quickmem.presentation.ads.BannerAds
 import com.pwhs.quickmem.presentation.app.report.ReportTypeEnum
 import com.pwhs.quickmem.presentation.app.study_set.detail.component.StudySetDetailTopAppBar
 import com.pwhs.quickmem.presentation.app.study_set.detail.component.StudySetMoreOptionsBottomSheet
-import com.pwhs.quickmem.presentation.app.study_set.detail.material.MaterialTabScreen
+import com.pwhs.quickmem.presentation.app.study_set.detail.flashcard.MaterialTabScreen
 import com.pwhs.quickmem.presentation.app.study_set.detail.progress.ProgressTabScreen
 import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.presentation.components.QuickMemAlertDialog
+import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.NavGraphs
@@ -458,14 +459,14 @@ fun StudySetDetail(
 ) {
     val context = LocalContext.current
     var tabIndex by rememberSaveable { mutableIntStateOf(0) }
-    val tabTitles = if (isOwner) {
+    val tabTitles = if (isOwner && flashCardCount > 0) {
         listOf(
-            stringResource(R.string.txt_material),
+            stringResource(R.string.txt_flashcard),
             stringResource(R.string.txt_progress)
         )
     } else {
         listOf(
-            stringResource(R.string.txt_material)
+            stringResource(R.string.txt_flashcard)
         )
     }
     var showMoreBottomSheet by remember { mutableStateOf(false) }
@@ -512,7 +513,7 @@ fun StudySetDetail(
                 state = refreshState
             ) {
                 Column {
-                    if (isOwner) {
+                    if (isOwner && flashCardCount > 0) {
                         TabRow(
                             selectedTabIndex = tabIndex,
                             indicator = { tabPositions ->
@@ -540,8 +541,8 @@ fun StudySetDetail(
                         }
                     }
                     if (isOwner) {
-                        when (tabIndex) {
-                            StudySetDetailEnum.MATERIAL.index -> MaterialTabScreen(
+                        when {
+                            tabIndex == StudySetDetailEnum.FLASHCARD.index -> MaterialTabScreen(
                                 flashCards = flashCards,
                                 onFlashcardClick = onFlashCardClick,
                                 onDeleteFlashCardClick = onDeleteFlashCard,
@@ -558,7 +559,7 @@ fun StudySetDetail(
                                 onMakeCopyClick = onCopyStudySet,
                             )
 
-                            StudySetDetailEnum.PROGRESS.index -> ProgressTabScreen(
+                            tabIndex == StudySetDetailEnum.PROGRESS.index && flashCardCount > 0 -> ProgressTabScreen(
                                 modifier = Modifier.fillMaxSize(),
                                 totalStudySet = flashCardCount,
                                 color = color,
@@ -569,20 +570,18 @@ fun StudySetDetail(
                             )
                         }
                     } else {
-                        when (tabIndex) {
-                            StudySetDetailEnum.MATERIAL.index -> MaterialTabScreen(
-                                flashCards = flashCards,
-                                onFlashcardClick = onFlashCardClick,
-                                onDeleteFlashCardClick = onDeleteFlashCard,
-                                onToggleStarClick = onToggleStarredFlashCard,
-                                onEditFlashCardClick = onEditFlashCard,
-                                onAddFlashCardClick = onAddFlashcard,
-                                onNavigateToLearn = onNavigateToLearn,
-                                isOwner = false,
-                                onMakeCopyClick = onCopyStudySet,
-                                studySetColor = color,
-                            )
-                        }
+                        MaterialTabScreen(
+                            flashCards = flashCards,
+                            onFlashcardClick = onFlashCardClick,
+                            onDeleteFlashCardClick = onDeleteFlashCard,
+                            onToggleStarClick = onToggleStarredFlashCard,
+                            onEditFlashCardClick = onEditFlashCard,
+                            onAddFlashCardClick = onAddFlashcard,
+                            onNavigateToLearn = onNavigateToLearn,
+                            isOwner = false,
+                            onMakeCopyClick = onCopyStudySet,
+                            studySetColor = color,
+                        )
                     }
 
                 }
@@ -654,7 +653,10 @@ fun StudySetDetail(
 }
 
 @Preview(showSystemUi = true)
+@Preview(showSystemUi = true, locale = "vi")
 @Composable
 fun StudySetDetailScreenPreview() {
-    StudySetDetail(isOwner = false)
+    QuickMemTheme {
+        StudySetDetail(isOwner = true)
+    }
 }
