@@ -1,5 +1,6 @@
 package com.pwhs.quickmem.presentation.auth.signup.email
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
@@ -91,6 +92,7 @@ class SignupWithEmailViewModel @Inject constructor(
     private fun signUp() {
         viewModelScope.launch {
             authRepository.checkEmailValidity(_uiState.value.email).collect { resource ->
+                Log.d(TAG, "Step 1: Checking email validity: ${_uiState.value.email}")
                 when (resource) {
                     is Resources.Error -> {
                         Timber.e(resource.message)
@@ -100,15 +102,19 @@ class SignupWithEmailViewModel @Inject constructor(
                                 isLoading = false
                             )
                         }
+                        Log.e(TAG, "Error check email: ${resource.message}")
                         _uiEvent.send(SignUpWithEmailUiEvent.SignUpFailure(R.string.txt_invalid_email_address))
                     }
 
                     is Resources.Loading -> {
+                        Log.d(TAG, "Loading: Checking email validity")
                         _uiState.update { it.copy(isLoading = true) }
                     }
 
                     is Resources.Success -> {
+                        Log.d(TAG, "Success: Checking email validity")
                         if (resource.data == true) {
+                            Log.d(TAG, "Email is valid")
                             val avatarUrl = Random().nextInt(126).toString()
                             val username = uiState.value.email.getUsernameFromEmail()
                             val fullName = uiState.value.email.getNameFromEmail()
@@ -125,8 +131,10 @@ class SignupWithEmailViewModel @Inject constructor(
                                     authProvider = AuthProvider.EMAIL.name
                                 )
                             ).collectLatest { signup ->
+                                Log.d(TAG, "Step 2: Signing up")
                                 when (signup) {
                                     is Resources.Error -> {
+                                        Log.e(TAG, "Error sign up: ${signup.message}")
                                         if (signup.status == 409 || signup.status == 412) {
                                             _uiState.update {
                                                 it.copy(
@@ -148,9 +156,11 @@ class SignupWithEmailViewModel @Inject constructor(
 
                                     is Resources.Loading -> {
                                         // Do nothing
+                                        Log.d(TAG, "Loading: Signing up")
                                     }
 
                                     is Resources.Success -> {
+                                        Log.d(TAG, "Success: Signing up")
                                         _uiState.update { it.copy(isLoading = false) }
                                         _uiEvent.send(SignUpWithEmailUiEvent.SignUpSuccess)
                                     }
@@ -158,6 +168,7 @@ class SignupWithEmailViewModel @Inject constructor(
 
                             }
                         } else {
+                            Log.d(TAG, "Email is invalid")
                             _uiState.update {
                                 it.copy(
                                     emailError = R.string.txt_invalid_email_address,
@@ -200,5 +211,9 @@ class SignupWithEmailViewModel @Inject constructor(
     override fun onCleared() {
         super.onCleared()
         _uiEvent.close()
+    }
+
+    companion object {
+        private const val TAG = "SignupWithEmailViewModel"
     }
 }
