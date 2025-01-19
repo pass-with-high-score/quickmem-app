@@ -14,7 +14,9 @@ import com.pwhs.quickmem.data.remote.ApiService
 import com.pwhs.quickmem.domain.model.flashcard.CreateFlashCardModel
 import com.pwhs.quickmem.domain.model.flashcard.EditFlashCardModel
 import com.pwhs.quickmem.domain.model.flashcard.FlashCardResponseModel
+import com.pwhs.quickmem.domain.model.flashcard.LanguageModel
 import com.pwhs.quickmem.domain.model.flashcard.UpdateFlashCardResponseModel
+import com.pwhs.quickmem.domain.model.flashcard.VoiceModel
 import com.pwhs.quickmem.domain.repository.FlashCardRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -312,6 +314,47 @@ class FlashCardRepositoryImpl @Inject constructor(
                     isSwapped = isSwapped,
                     isRandom = isRandom
                 )
+                emit(Resources.Success(response.map { it.toModel() }))
+            } catch (e: HttpException) {
+                Timber.e(e)
+                emit(Resources.Error(e.toString()))
+            } catch (e: IOException) {
+                Timber.e(e)
+                emit(Resources.Error(e.toString()))
+            }
+        }
+    }
+
+    override suspend fun getLanguages(token: String): Flow<Resources<List<LanguageModel>>> {
+        return flow {
+            if (token.isEmpty()) {
+                return@flow
+            }
+            emit(Resources.Loading())
+            try {
+                val response = apiService.getLanguages(token = token)
+                emit(Resources.Success(response.map { it.toModel() }))
+            } catch (e: HttpException) {
+                Timber.e(e)
+                emit(Resources.Error(e.toString()))
+            } catch (e: IOException) {
+                Timber.e(e)
+                emit(Resources.Error(e.toString()))
+            }
+        }
+    }
+
+    override suspend fun getVoices(
+        token: String,
+        languageCode: String,
+    ): Flow<Resources<List<VoiceModel>>> {
+        return flow {
+            if (token.isEmpty()) {
+                return@flow
+            }
+            emit(Resources.Loading())
+            try {
+                val response = apiService.getVoices(token = token, languageCode = languageCode)
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: HttpException) {
                 Timber.e(e)

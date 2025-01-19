@@ -326,8 +326,6 @@
     <string name="txt_class_detail">Chi tiết lớp</string>
     <string name="txt_title">Tiêu đề</string>
     <string name="txt_class_image">Hình ảnh lớp</string>
-    <string name="txt_image_for_definition">Hình ảnh cho định nghĩa</string>
-    <string name="txt_add_image_to_definition">Thêm hình ảnh vào định nghĩa</string>
     <string name="txt_full_image">Hình ảnh đầy đủ</string>
     <string name="txt_delete_image">Xóa hình ảnh</string>
     <string name="txt_save">Lưu</string>
@@ -682,6 +680,7 @@
     <string name="txt_account_created_at">Tham gia từ %1$s</string>
     <string name="txt_study_sets_count">%1$s bộ học</string>
     <string name="txt_flashcard_deleted">Đã xoá thẻ</string>
+    <string name="txt_voice">Custom voice</string>
     <plurals name="hours">
         <item quantity="other">%d giờ</item>
     </plurals>

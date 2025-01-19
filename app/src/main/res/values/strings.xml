@@ -329,8 +329,6 @@
     <string name="txt_class_detail">Class Detail</string>
     <string name="txt_title">Title</string>
     <string name="txt_class_image">Class Image</string>
-    <string name="txt_image_for_definition">Image for definition</string>
-    <string name="txt_add_image_to_definition">Add Image to Definition</string>
     <string name="txt_full_image">Full Image</string>
     <string name="txt_delete_image">Delete Image</string>
     <string name="txt_save">Save</string>
@@ -686,6 +684,7 @@
     <string name="txt_account_created_at">Created at %1$s</string>
     <string name="txt_study_sets_count">%1$s study sets</string>
     <string name="txt_flashcard_deleted">Flashcard deleted</string>
+    <string name="txt_voice">Custom voice</string>
     <plurals name="hours">
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>

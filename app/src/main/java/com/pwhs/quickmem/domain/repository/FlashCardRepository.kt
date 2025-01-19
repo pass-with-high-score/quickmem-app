@@ -5,7 +5,9 @@ import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.flashcard.CreateFlashCardModel
 import com.pwhs.quickmem.domain.model.flashcard.EditFlashCardModel
 import com.pwhs.quickmem.domain.model.flashcard.FlashCardResponseModel
+import com.pwhs.quickmem.domain.model.flashcard.LanguageModel
 import com.pwhs.quickmem.domain.model.flashcard.UpdateFlashCardResponseModel
+import com.pwhs.quickmem.domain.model.flashcard.VoiceModel
 import kotlinx.coroutines.flow.Flow
 
 interface FlashCardRepository {
@@ -78,4 +80,13 @@ interface FlashCardRepository {
         isSwapped: Boolean,
         isRandom: Boolean,
     ): Flow<Resources<List<FlashCardResponseModel>>>
+
+    suspend fun getLanguages(
+        token: String,
+    ): Flow<Resources<List<LanguageModel>>>
+
+    suspend fun getVoices(
+        token: String,
+        languageCode: String,
+    ): Flow<Resources<List<VoiceModel>>>
 }

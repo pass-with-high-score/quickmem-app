@@ -12,10 +12,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,6 +54,7 @@ fun SplashScreen(
     navigator: DestinationsNavigator,
 ) {
     val context = LocalContext.current
+    val isInternetAvailable by viewModel.isInternetAvailable.collectAsState()
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
@@ -117,6 +121,20 @@ fun SplashScreen(
             verticalArrangement = Arrangement.Center
         ) {
             AnimatedText(modifier = Modifier)
+            if (!isInternetAvailable) {
+                Button(
+                    onClick = {
+                        viewModel.retry()
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.White,
+                        contentColor = Color.Black
+                    ),
+                    modifier = Modifier.padding(top = 40.dp)
+                ) {
+                    Text(text = stringResource(id = R.string.txt_retry))
+                }
+            }
         }
     }
 }

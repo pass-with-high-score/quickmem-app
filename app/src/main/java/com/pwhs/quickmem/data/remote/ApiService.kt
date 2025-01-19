@@ -47,11 +47,13 @@ import com.pwhs.quickmem.data.dto.flashcard.CreateFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.EditFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.FlashCardResponseDto
 import com.pwhs.quickmem.data.dto.flashcard.FlipFlashCardDto
+import com.pwhs.quickmem.data.dto.flashcard.LanguageDto
 import com.pwhs.quickmem.data.dto.flashcard.QuizStatusFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.RatingFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.ToggleStarredFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.TrueFalseStatusFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.UpdateFlashCardResponseDto
+import com.pwhs.quickmem.data.dto.flashcard.VoiceDto
 import com.pwhs.quickmem.data.dto.folder.AddFolderToClassRequestDto
 import com.pwhs.quickmem.data.dto.folder.CreateFolderRequestDto
 import com.pwhs.quickmem.data.dto.folder.CreateFolderResponseDto
@@ -437,6 +439,17 @@ interface ApiService {
         @Query("isSwapped") isSwapped: Boolean? = null,
         @Query("isRandom") isRandom: Boolean? = null,
     ): List<FlashCardResponseDto>
+
+    @GET("flashcard/languages")
+    suspend fun getLanguages(
+        @Header("Authorization") token: String,
+    ): List<LanguageDto>
+
+    @GET("flashcard/voices/{languageCode}")
+    suspend fun getVoices(
+        @Header("Authorization") token: String,
+        @Path("languageCode") languageCode: String,
+    ): List<VoiceDto>
 
     // Folder
     @POST("folder")

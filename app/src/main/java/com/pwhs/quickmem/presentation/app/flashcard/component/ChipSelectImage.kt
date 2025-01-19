@@ -1,20 +1,23 @@
 package com.pwhs.quickmem.presentation.app.flashcard.component
 
 import android.net.Uri
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Photo
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -26,9 +29,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
@@ -36,81 +37,61 @@ import coil.compose.AsyncImage
 import com.pwhs.quickmem.R
 
 @Composable
-fun CardSelectImage(
+fun ChipSelectImage(
     modifier: Modifier = Modifier,
     onUploadImage: (Uri) -> Unit,
-    definitionImageUri: Uri?,
-    definitionImageUrl: String?,
+    imageUri: Uri?,
+    imageUrl: String?,
     onDeleteImage: () -> Unit,
     onChooseImage: () -> Unit,
+    color: Color = MaterialTheme.colorScheme.primary,
 ) {
-    // State for showing the image viewer dialog
     var isImageViewerOpen by remember { mutableStateOf(false) }
 
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        elevation = CardDefaults.elevatedCardElevation(
-            defaultElevation = 5.dp,
-            focusedElevation = 8.dp
-        ),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
-        ),
+    InputChip(
+        modifier = modifier,
         onClick = {
-            if (definitionImageUri != null || !definitionImageUrl.isNullOrEmpty()) {
+            if (imageUri != null || !imageUrl.isNullOrEmpty()) {
                 isImageViewerOpen = true // Open image viewer when clicked
             } else {
                 onChooseImage()
             }
-        }
-    ) {
-        Box(
-            contentAlignment = Alignment.Center,
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
+        },
+        selected = imageUri != null || !imageUrl.isNullOrEmpty(),
+        label = {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                if (definitionImageUri == null && !definitionImageUrl.isNullOrEmpty()) {
+                if (imageUri == null && !imageUrl.isNullOrEmpty()) {
                     AsyncImage(
-                        model = definitionImageUrl,
-                        contentDescription = stringResource(R.string.txt_image_for_definition),
-                        modifier = Modifier.size(120.dp),
+                        model = imageUrl,
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp),
                         contentScale = ContentScale.Crop
                     )
-                } else if (definitionImageUri != null) {
+                } else if (imageUri != null) {
                     AsyncImage(
-                        model = definitionImageUri,
-                        contentDescription = stringResource(R.string.txt_image_for_definition),
-                        modifier = Modifier.size(120.dp),
+                        model = imageUri,
+                        contentDescription = null,
+                        modifier = Modifier.size(24.dp),
                         contentScale = ContentScale.Crop,
-                        onSuccess = { onUploadImage(definitionImageUri) }
+                        onSuccess = { onUploadImage(imageUri) }
                     )
                 } else {
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_add_image),
-                        contentDescription = stringResource(R.string.txt_add_image_to_definition),
-                        modifier = Modifier.size(120.dp),
-                        colorFilter = ColorFilter.tint(
-                            MaterialTheme.colorScheme.onSurface.copy(
-                                alpha = 0.5f
-                            )
-                        ),
-                        contentScale = ContentScale.Crop
+                    Icon(
+                        imageVector = Icons.Default.Photo,
+                        contentDescription = null,
                     )
                 }
+
                 Text(
-                    stringResource(R.string.txt_image_for_definition),
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.5f),
-                    modifier = Modifier.padding(top = 8.dp)
+                    text = stringResource(R.string.txt_term_image),
+                    color = color,
                 )
             }
         }
-    }
+    )
 
     // Image Viewer Dialog
     if (isImageViewerOpen) {
@@ -127,7 +108,7 @@ fun CardSelectImage(
                 ) {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         AsyncImage(
-                            model = definitionImageUri ?: definitionImageUrl,
+                            model = imageUri ?: imageUrl,
                             contentDescription = stringResource(R.string.txt_full_image),
                             modifier = Modifier
                                 .fillMaxWidth()

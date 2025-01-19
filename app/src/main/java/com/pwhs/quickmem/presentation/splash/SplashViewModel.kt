@@ -8,6 +8,8 @@ import com.pwhs.quickmem.utils.isInternetAvailable
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
@@ -22,10 +24,14 @@ class SplashViewModel @Inject constructor(
     private val _uiEvent = Channel<SplashUiEvent>(Channel.BUFFERED)
     val uiEvent = _uiEvent.receiveAsFlow()
 
+    private val _isInternetAvailable = MutableStateFlow(true)
+    val isInternetAvailable get() = _isInternetAvailable.asStateFlow()
+
     init {
         if (isInternetAvailable(getApplication())) {
             checkAuth()
         } else {
+            _isInternetAvailable.value = false
             _uiEvent.trySend(SplashUiEvent.NoInternet)
         }
     }
@@ -45,13 +51,21 @@ class SplashViewModel @Inject constructor(
 
     private fun checkFirstRun() {
         viewModelScope.launch {
-            val isFirstRun = appManager.isFirstRun.firstOrNull() ?: true
+            val isFirstRun = appManager.isFirstRun.firstOrNull() != false
             if (isFirstRun) {
                 appManager.saveIsFirstRun(true)
                 _uiEvent.send(SplashUiEvent.FirstRun)
             } else {
                 _uiEvent.send(SplashUiEvent.NotFirstRun)
             }
+        }
+    }
+
+    fun retry() {
+        if (isInternetAvailable(getApplication())) {
+            checkAuth()
+        } else {
+            _uiEvent.trySend(SplashUiEvent.NoInternet)
         }
     }
 }

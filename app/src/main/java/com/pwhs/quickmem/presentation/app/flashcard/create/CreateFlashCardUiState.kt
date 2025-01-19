@@ -3,14 +3,24 @@ package com.pwhs.quickmem.presentation.app.flashcard.create
 import android.net.Uri
 import com.pwhs.quickmem.domain.model.color.ColorModel
 import com.pwhs.quickmem.domain.model.flashcard.CreateFlashCardModel
+import com.pwhs.quickmem.domain.model.flashcard.LanguageModel
+import com.pwhs.quickmem.domain.model.flashcard.VoiceModel
 import com.pwhs.quickmem.domain.model.pixabay.SearchImageResponseModel
 
 data class CreateFlashCardUiState(
     val studySetId: String = "",
     val term: String = "",
+    val termImageUri: Uri? = null,
+    val termImageURL: String? = null,
+    val termLanguageModel: LanguageModel? = null,
+    val termVoiceCode: VoiceModel? = null,
+    val termVoicesModel: List<VoiceModel> = emptyList(),
     val definition: String = "",
     val definitionImageUri: Uri? = null,
     val definitionImageURL: String? = null,
+    val definitionLanguageModel: LanguageModel? = null,
+    val definitionVoiceCode: VoiceModel? = null,
+    val definitionVoicesModel: List<VoiceModel> = emptyList(),
     val hint: String? = null,
     val showHint: Boolean = false,
     val explanation: String? = null,
@@ -21,6 +31,7 @@ data class CreateFlashCardUiState(
     val searchImageResponseModel: SearchImageResponseModel? = null,
     val isSearchImageLoading: Boolean = false,
     val studyColorModel: ColorModel? = null,
+    val languageModels: List<LanguageModel> = emptyList(),
 )
 
 fun CreateFlashCardUiState.toCreateFlashCardModel(): CreateFlashCardModel {

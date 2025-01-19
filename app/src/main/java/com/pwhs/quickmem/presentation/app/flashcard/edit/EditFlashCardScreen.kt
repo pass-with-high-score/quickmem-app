@@ -40,7 +40,7 @@ import com.mr0xf00.easycrop.ui.ImageCropperDialog
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.pixabay.SearchImageResponseModel
 import com.pwhs.quickmem.presentation.ads.BannerAds
-import com.pwhs.quickmem.presentation.app.flashcard.component.CardSelectImage
+import com.pwhs.quickmem.presentation.app.flashcard.component.ChipSelectImage
 import com.pwhs.quickmem.presentation.app.flashcard.component.ExplanationCard
 import com.pwhs.quickmem.presentation.app.flashcard.component.FlashCardTextFieldContainer
 import com.pwhs.quickmem.presentation.app.flashcard.component.FlashCardTopAppBar
@@ -284,13 +284,13 @@ fun CreateFlashCard(
                 ) {
 
                     item {
-                        CardSelectImage(
+                        ChipSelectImage(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(16.dp),
                             onUploadImage = onUploadImage,
-                            definitionImageUri = definitionImageUri,
-                            definitionImageUrl = definitionImageURL,
+                            imageUri = definitionImageUri,
+                            imageUrl = definitionImageURL,
                             onDeleteImage = onDeleteImage,
                             onChooseImage = {
                                 showSearchImageBottomSheet = true

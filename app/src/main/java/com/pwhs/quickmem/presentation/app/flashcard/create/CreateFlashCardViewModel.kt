@@ -47,6 +47,9 @@ class CreateFlashCardViewModel @Inject constructor(
                 studySetId = studySetId,
                 studyColorModel = ColorModel.defaultColors.first { it.id == studySetColorId })
         }
+        viewModelScope.launch {
+            getLanguages()
+        }
     }
 
     fun onEvent(event: CreateFlashCardUiAction) {
@@ -211,6 +214,39 @@ class CreateFlashCardViewModel @Inject constructor(
                     )
                 }
             }
+
+            is CreateFlashCardUiAction.OnSelectLanguageClicked -> {
+                if (event.isTerm) {
+                    _uiState.update {
+                        it.copy(
+                            termLanguageModel = event.languageModel
+                        )
+                    }
+                } else {
+                    _uiState.update {
+                        it.copy(
+                            definitionLanguageModel = event.languageModel
+                        )
+                    }
+                }
+                getVoices(isTerm = event.isTerm, languageCode = event.languageModel.code)
+            }
+
+            is CreateFlashCardUiAction.OnSelectVoiceClicked -> {
+                if (event.isTerm) {
+                    _uiState.update {
+                        it.copy(
+                            termVoiceCode = event.voiceModel
+                        )
+                    }
+                } else {
+                    _uiState.update {
+                        it.copy(
+                            definitionVoiceCode = event.voiceModel
+                        )
+                    }
+                }
+            }
         }
     }
 
@@ -250,6 +286,66 @@ class CreateFlashCardViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun getLanguages() {
+        viewModelScope.launch {
+            val token = tokenManager.accessToken.firstOrNull() ?: ""
+            flashCardRepository.getLanguages(token = token).collect { resource ->
+                when (resource) {
+                    is Resources.Success -> {
+                        _uiState.update {
+                            it.copy(
+                                languageModels = resource.data ?: emptyList(),
+                            )
+                        }
+
+                    }
+
+                    is Resources.Error -> {
+                        Timber.e("Error: ${resource.message}")
+                    }
+
+                    is Resources.Loading -> {
+                        Timber.d("Loading")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun getVoices(isTerm: Boolean, languageCode: String) {
+        viewModelScope.launch {
+            val token = tokenManager.accessToken.firstOrNull() ?: ""
+            flashCardRepository.getVoices(token = token, languageCode = languageCode)
+                .collect { resource ->
+                    when (resource) {
+                        is Resources.Success -> {
+                            if (isTerm) {
+                                _uiState.update {
+                                    it.copy(
+                                        termVoicesModel = resource.data ?: emptyList()
+                                    )
+                                }
+                            } else {
+                                _uiState.update {
+                                    it.copy(
+                                        definitionVoicesModel = resource.data ?: emptyList()
+                                    )
+                                }
+                            }
+                        }
+
+                        is Resources.Error -> {
+                            Timber.e("Error: ${resource.message}")
+                        }
+
+                        is Resources.Loading -> {
+                            Timber.d("Loading")
+                        }
+                    }
+                }
         }
     }
 }
