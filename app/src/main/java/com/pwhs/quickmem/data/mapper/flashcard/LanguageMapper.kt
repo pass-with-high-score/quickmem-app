@@ -6,11 +6,15 @@ import com.pwhs.quickmem.domain.model.flashcard.LanguageModel
 fun LanguageDto.toModel() = LanguageModel(
     code = code,
     name = name,
-    voiceAvailableCount = voiceAvailableCount
+    voiceAvailableCount = voiceAvailableCount,
+    flag = flag,
+    country = country,
 )
 
 fun LanguageModel.toDto() = LanguageDto(
     code = code,
     name = name,
-    voiceAvailableCount = voiceAvailableCount
+    voiceAvailableCount = voiceAvailableCount,
+    flag = flag,
+    country = country,
 )

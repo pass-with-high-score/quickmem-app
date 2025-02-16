@@ -95,7 +95,6 @@ import com.pwhs.quickmem.data.dto.user.SearchUserResponseDto
 import com.pwhs.quickmem.data.dto.user.UpdateCoinRequestDto
 import com.pwhs.quickmem.data.dto.user.UpdateCoinResponseDto
 import com.pwhs.quickmem.data.dto.user.UserDetailResponseDto
-import com.pwhs.quickmem.data.dto.verify_email.EmailRequestDto
 import com.pwhs.quickmem.data.dto.verify_email.EmailVerificationResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -110,16 +109,9 @@ import retrofit2.http.PUT
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
-import retrofit2.http.Url
 
 interface ApiService {
-    // Auth
-    @POST
-    suspend fun checkEmail(
-        @Url url: String,
-        @Body emailRequestDto: EmailRequestDto,
-    ): EmailVerificationResponse
-
+    // Aut
     @POST("auth/signup")
     suspend fun signUp(@Body signupRequestDto: SignupRequestDto): SignupResponseDto
 
@@ -257,10 +249,9 @@ interface ApiService {
         @Path("id") id: String,
     ): GetStudySetResponseDto
 
-    @GET("study-set/owner/{ownerId}")
+    @GET("study-set/owner/")
     suspend fun getStudySetsByOwnerId(
         @Header("Authorization") token: String,
-        @Path("ownerId") ownerId: String,
         @Query("classId") classId: String? = null,
         @Query("folderId") folderId: String? = null,
     ): List<GetStudySetResponseDto>

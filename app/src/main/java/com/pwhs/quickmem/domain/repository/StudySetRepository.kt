@@ -33,7 +33,6 @@ interface StudySetRepository {
 
     suspend fun getStudySetsByOwnerId(
         token: String,
-        ownerId: String,
         classId: String?,
         folderId: String?,
     ): Flow<Resources<List<GetStudySetResponseModel>>>

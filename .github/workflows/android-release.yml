@@ -30,7 +30,6 @@ jobs:
       - name: Create local.properties file
         env:
           BASE_URL: ${{ secrets.BASE_URL }}
-          EMAIL_VERIFICATION_URL: ${{ secrets.EMAIL_VERIFICATION_URL }}
           BANNER_ADS_ID: ${{ secrets.BANNER_ADS_ID }}
           INTERSTITIAL_ADS_ID: ${{ secrets.INTERSTITIAL_ADS_ID }}
           REWARD_ADS_ID: ${{ secrets.REWARD_ADS_ID }}
@@ -45,7 +44,6 @@ jobs:
           GOOOGLE_OAUTH_CLIENT_ID_PRODUCT: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID_PRODUCT }}
         run: |
           echo "BASE_URL=$BASE_URL" >> $GITHUB_WORKSPACE/local.properties
-          echo "EMAIL_VERIFICATION_URL=$EMAIL_VERIFICATION_URL" >> $GITHUB_WORKSPACE/local.properties
           echo "BANNER_ADS_ID=$BANNER_ADS_ID" >> $GITHUB_WORKSPACE/local.properties
           echo "INTERSTITIAL_ADS_ID=$INTERSTITIAL_ADS_ID" >> $GITHUB_WORKSPACE/local.properties
           echo "REWARD_ADS_ID=$REWARD_ADS_ID" >> $GITHUB_WORKSPACE/local.properties

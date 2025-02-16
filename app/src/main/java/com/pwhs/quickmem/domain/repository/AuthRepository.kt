@@ -39,7 +39,6 @@ import com.pwhs.quickmem.domain.model.users.UserDetailResponseModel
 import kotlinx.coroutines.flow.Flow
 
 interface AuthRepository {
-    suspend fun checkEmailValidity(email: String): Flow<Resources<Boolean>>
     suspend fun login(loginRequestModel: LoginRequestModel): Flow<Resources<AuthResponseModel>>
     suspend fun signup(
         signUpRequestModel: SignupRequestModel,

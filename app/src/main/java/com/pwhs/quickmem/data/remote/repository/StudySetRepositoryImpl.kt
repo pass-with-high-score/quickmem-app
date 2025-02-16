@@ -86,7 +86,6 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun getStudySetsByOwnerId(
         token: String,
-        ownerId: String,
         classId: String?,
         folderId: String?,
     ): Flow<Resources<List<GetStudySetResponseModel>>> {
@@ -98,7 +97,6 @@ class StudySetRepositoryImpl @Inject constructor(
             try {
                 val response = apiService.getStudySetsByOwnerId(
                     token = token,
-                    ownerId = ownerId,
                     classId = classId,
                     folderId = folderId
                 )

@@ -62,61 +62,21 @@ class UpdateEmailSettingViewModel @Inject constructor(
             val token = tokenManager.accessToken.firstOrNull() ?: ""
             val userId = _uiState.value.id
             val email = _uiState.value.email
-            authRepository.checkEmailValidity(email).collect { validateEmail ->
-                when (validateEmail) {
-                    is Resources.Success -> {
-                        if (validateEmail.data == true) {
-                            authRepository.updateEmail(
-                                token,
-                                UpdateEmailRequestModel(userId = userId, email = email)
-                            ).collect { resource ->
-                                when (resource) {
-                                    is Resources.Error -> {
-                                        _uiState.update {
-                                            it.copy(
-                                                errorMessage = "An error occurred",
-                                                isLoading = false
-                                            )
-                                        }
-                                        _uiEvent.send(
-                                            UpdateEmailSettingUiEvent.OnError(
-                                                resource.message ?: "An error occurred"
-                                            )
-                                        )
-                                    }
-
-                                    is Resources.Loading -> {
-                                        _uiState.update {
-                                            it.copy(isLoading = true)
-                                        }
-                                    }
-
-                                    is Resources.Success -> {
-                                        _uiEvent.send(UpdateEmailSettingUiEvent.OnEmailChanged)
-                                    }
-                                }
-                            }
-                        } else {
-                            _uiState.update {
-                                it.copy(
-                                    errorMessage = "Invalid email",
-                                    isLoading = false
-                                )
-                            }
-                            _uiEvent.send(UpdateEmailSettingUiEvent.OnError("Invalid email"))
-                        }
-                    }
-
+            authRepository.updateEmail(
+                token,
+                UpdateEmailRequestModel(userId = userId, email = email)
+            ).collect { resource ->
+                when (resource) {
                     is Resources.Error -> {
                         _uiState.update {
                             it.copy(
-                                errorMessage = "Email is valid",
+                                errorMessage = "An error occurred",
                                 isLoading = false
                             )
                         }
                         _uiEvent.send(
                             UpdateEmailSettingUiEvent.OnError(
-                                "Email is valid"
+                                resource.message ?: "An error occurred"
                             )
                         )
                     }
@@ -125,6 +85,10 @@ class UpdateEmailSettingViewModel @Inject constructor(
                         _uiState.update {
                             it.copy(isLoading = true)
                         }
+                    }
+
+                    is Resources.Success -> {
+                        _uiEvent.send(UpdateEmailSettingUiEvent.OnEmailChanged)
                     }
                 }
             }

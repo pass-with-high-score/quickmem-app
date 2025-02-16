@@ -6,5 +6,5 @@ data class EmailVerificationResponse(
     @SerializedName("input")
     val input: String,
     @SerializedName("is_reachable")
-    val isReachable: String,
+    val isReachable: Boolean,
 )

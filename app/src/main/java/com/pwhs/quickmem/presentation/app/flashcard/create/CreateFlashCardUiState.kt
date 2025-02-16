@@ -32,6 +32,7 @@ data class CreateFlashCardUiState(
     val isSearchImageLoading: Boolean = false,
     val studyColorModel: ColorModel? = null,
     val languageModels: List<LanguageModel> = emptyList(),
+    val languageLocale: String = "",
 )
 
 fun CreateFlashCardUiState.toCreateFlashCardModel(): CreateFlashCardModel {

@@ -2,6 +2,7 @@ package com.pwhs.quickmem.presentation.app.flashcard.create
 
 import android.net.Uri
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,7 +18,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardVoice
 import androidx.compose.material.icons.filled.Language
 import androidx.compose.material.icons.filled.Lightbulb
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -65,6 +65,7 @@ import com.pwhs.quickmem.presentation.app.flashcard.component.FlashcardBottomShe
 import com.pwhs.quickmem.presentation.app.flashcard.component.FlashcardSelectImageBottomSheet
 import com.pwhs.quickmem.presentation.app.flashcard.component.HintCard
 import com.pwhs.quickmem.presentation.app.flashcard.component.LanguageBottomSheet
+import com.pwhs.quickmem.presentation.app.flashcard.component.VoiceBottomSheet
 import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.utils.ImageCompressor
@@ -118,6 +119,10 @@ fun CreateFlashCardScreen(
     CreateFlashCard(
         modifier = modifier,
         term = uiState.term,
+        termImageUri = uiState.termImageUri,
+        termImageURL = uiState.termImageURL ?: "",
+        onTermImageChanged = { viewModel.onEvent(CreateFlashCardUiAction.FlashCardTermImageChanged(it)) },
+        onTermImageUrlChanged = { viewModel.onEvent(CreateFlashCardUiAction.OnTermImageChanged(it)) },
         definition = uiState.definition,
         definitionImageUri = uiState.definitionImageUri,
         definitionImageURL = uiState.definitionImageURL ?: "",
@@ -219,9 +224,12 @@ fun CreateFlashCardScreen(
 fun CreateFlashCard(
     modifier: Modifier = Modifier,
     term: String = "",
+    termImageUri: Uri? = null,
+    termImageURL: String = "",
     definition: String = "",
     definitionImageUri: Uri? = null,
     definitionImageURL: String = "",
+    onTermImageChanged: (Uri) -> Unit = {},
     isLoading: Boolean = false,
     hint: String = "",
     showHint: Boolean = false,
@@ -242,6 +250,7 @@ fun CreateFlashCard(
     searchImageResponseModel: SearchImageResponseModel? = null,
     onQueryImageChanged: (String) -> Unit = {},
     onDefinitionImageUrlChanged: (String) -> Unit = {},
+    onTermImageUrlChanged: (String) -> Unit = {},
     isSearchImageLoading: Boolean = false,
     studySetColor: Color = colorScheme.primary,
     termLanguageModel: LanguageModel? = null,
@@ -287,12 +296,16 @@ fun CreateFlashCard(
 
     val searchImageBottomSheet = rememberModalBottomSheetState()
 
-    var showTermLanguageBottomSheet by remember {
+    var showSelectLanguageBottomSheet by remember {
         mutableStateOf(false)
     }
 
-    var showDefinitionLanguageBottomSheet by remember {
+    var showSelectVoiceBottomSheet by remember {
         mutableStateOf(false)
+    }
+
+    var isTermSelect by remember {
+        mutableStateOf(true)
     }
 
     Box(
@@ -348,9 +361,17 @@ fun CreateFlashCard(
                                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                                 ) {
                                     InputChip(
-                                        selected = showTermLanguageBottomSheet,
+                                        selected = showSelectLanguageBottomSheet,
+                                        border = BorderStroke(
+                                            width = 1.dp,
+                                            color = when {
+                                                showSelectLanguageBottomSheet -> studySetColor
+                                                else -> Color.Gray
+                                            }
+                                        ),
                                         onClick = {
-                                            showTermLanguageBottomSheet = true
+                                            isTermSelect = true
+                                            showSelectLanguageBottomSheet = true
                                         },
                                         label = {
                                             Row(
@@ -360,11 +381,18 @@ fun CreateFlashCard(
                                                 Icon(
                                                     imageVector = Icons.Default.Language,
                                                     contentDescription = null,
+                                                    tint = when {
+                                                        showSelectLanguageBottomSheet -> studySetColor
+                                                        else -> Color.Gray
+                                                    }
                                                 )
                                                 Text(
                                                     text = termLanguageModel?.name
                                                         ?: stringResource(R.string.txt_english_us),
-                                                    color = studySetColor
+                                                    color = when {
+                                                        showSelectLanguageBottomSheet -> studySetColor
+                                                        else -> Color.Gray
+                                                    }
                                                 )
                                             }
                                         }
@@ -372,8 +400,16 @@ fun CreateFlashCard(
 
                                     InputChip(
                                         selected = false,
+                                        border = BorderStroke(
+                                            width = 1.dp,
+                                            color = when {
+                                                false -> studySetColor
+                                                else -> Color.Gray
+                                            }
+                                        ),
                                         onClick = {
-                                            // showTermVoiceBottomSheet = true
+                                            isTermSelect = true
+                                            showSelectVoiceBottomSheet = true
                                         },
                                         label = {
                                             Row(
@@ -383,29 +419,32 @@ fun CreateFlashCard(
                                                 Icon(
                                                     imageVector = Icons.Default.KeyboardVoice,
                                                     contentDescription = null,
+                                                    tint = when {
+                                                        showSelectVoiceBottomSheet -> studySetColor
+                                                        else -> Color.Gray
+                                                    }
                                                 )
                                                 Text(
                                                     text = termVoiceModel?.name
                                                         ?: stringResource(R.string.txt_voice),
-                                                    color = studySetColor
+                                                    color = when {
+                                                        showSelectVoiceBottomSheet -> studySetColor
+                                                        else -> Color.Gray
+                                                    }
                                                 )
                                             }
                                         }
                                     )
 
-                                    ChipSelectImage(
-                                        onUploadImage = onUploadImage,
-                                        imageUri = definitionImageUri,
-                                        imageUrl = definitionImageURL,
-                                        onDeleteImage = onDeleteImage,
-                                        color = studySetColor,
-                                        onChooseImage = {
-                                            showSearchImageBottomSheet = true
-                                        }
-                                    )
-
                                     InputChip(
                                         selected = showHint,
+                                        border = BorderStroke(
+                                            width = 1.dp,
+                                            color = when {
+                                                showHint -> studySetColor
+                                                else -> Color.Gray
+                                            }
+                                        ),
                                         onClick = {
                                             onShowHintClicked(!showHint)
                                         },
@@ -417,12 +456,33 @@ fun CreateFlashCard(
                                                 Icon(
                                                     imageVector = Icons.Default.Lightbulb,
                                                     contentDescription = null,
+                                                    tint = when {
+                                                        showHint -> studySetColor
+                                                        else -> Color.Gray
+                                                    }
                                                 )
                                                 Text(
                                                     text = stringResource(R.string.txt_hint),
-                                                    color = studySetColor
+                                                    color = when {
+                                                        showHint -> studySetColor
+                                                        else -> Color.Gray
+                                                    }
                                                 )
                                             }
+                                        }
+                                    )
+
+                                    ChipSelectImage(
+                                        onUploadImage = onUploadImage,
+                                        imageUri = termImageUri,
+                                        imageUrl = termImageURL,
+                                        onDeleteImage = onDeleteImage,
+                                        color = when {
+                                            termImageUri != null || termImageURL.isNotEmpty() -> studySetColor
+                                            else -> Color.Gray
+                                        },
+                                        onChooseImage = {
+                                            showSearchImageBottomSheet = true
                                         }
                                     )
                                 }
@@ -481,30 +541,6 @@ fun CreateFlashCard(
                         )
                     }
 
-                    item {
-                        Row {
-                            Button(
-                                onClick = {
-                                    showTermLanguageBottomSheet = true
-                                },
-                            ) {
-                                Row {
-                                    Text(text = termLanguageModel?.name ?: "")
-                                }
-                            }
-
-                            Button(
-                                onClick = {
-                                    showDefinitionLanguageBottomSheet = true
-                                },
-                            ) {
-                                Row {
-                                    Text(text = definitionLanguageModel?.name ?: "")
-                                }
-                            }
-                        }
-                    }
-
                 }
                 BannerAds(
                     modifier = Modifier
@@ -551,39 +587,30 @@ fun CreateFlashCard(
             )
         }
     }
-    if (showTermLanguageBottomSheet) {
+    if (showSelectLanguageBottomSheet) {
         LanguageBottomSheet(
             onDismissRequest = {
-                showTermLanguageBottomSheet = false
+                showSelectLanguageBottomSheet = false
             },
-            languageModel = termLanguageModel,
-            voiceModel = termVoiceModel,
             languageList = languageModels,
-            voiceList = termVoicesModel,
-            onLanguageSelected = {
-                onSelectLanguageClicked(it, true)
+            onLanguageSelected = { language, isTerm ->
+                onSelectLanguageClicked(language, isTerm)
+                showSelectVoiceBottomSheet = true
             },
-            onVoiceSelected = {
-                onVoiceSelected(it, true)
-            },
+            languageModel = if (isTermSelect) termLanguageModel else definitionLanguageModel,
         )
     }
 
-    if (showDefinitionLanguageBottomSheet) {
-        LanguageBottomSheet(
+    if (showSelectVoiceBottomSheet) {
+        VoiceBottomSheet(
             onDismissRequest = {
-                showDefinitionLanguageBottomSheet = false
+                showSelectVoiceBottomSheet = false
             },
-            languageModel = definitionLanguageModel,
-            voiceModel = definitionVoiceModel,
-            languageList = languageModels,
-            voiceList = definitionVoicesModel,
-            onLanguageSelected = {
-                onSelectLanguageClicked(it, false)
+            voiceList = if (isTermSelect) termVoicesModel else definitionVoicesModel,
+            onVoiceSelected = { voice, isTerm ->
+                onVoiceSelected(voice, isTerm)
             },
-            onVoiceSelected = {
-                onVoiceSelected(it, false)
-            },
+            voiceModel = if (isTermSelect) termVoiceModel else definitionVoiceModel,
         )
     }
 }

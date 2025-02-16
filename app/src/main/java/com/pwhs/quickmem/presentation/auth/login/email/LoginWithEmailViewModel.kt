@@ -91,123 +91,93 @@ class LoginWithEmailViewModel @Inject constructor(
     private fun login() {
         viewModelScope.launch {
             val email = uiState.value.email
-            authRepository.checkEmailValidity(email).collect { resource ->
-                when (resource) {
+            val password = uiState.value.password
+            val provider = AuthProvider.EMAIL.name
+            val loginRequestModel =
+                LoginRequestModel(email, password, provider, null)
+            authRepository.login(loginRequestModel).collectLatest { login ->
+                when (login) {
                     is Resources.Error -> {
-                        _uiState.update {
-                            it.copy(
-                                emailError = R.string.txt_invalid_email_address,
-                                isLoading = false
-                            )
-                        }
-                        _uiEvent.send(LoginWithEmailUiEvent.LoginFailure(R.string.txt_invalid_email_address))
-                    }
-
-                    is Resources.Loading -> {
-                        _uiState.update { it.copy(isLoading = true) }
-                    }
-
-                    is Resources.Success -> {
-                        if (resource.data == true) {
-                            val password = uiState.value.password
-                            val provider = AuthProvider.EMAIL.name
-                            val loginRequestModel =
-                                LoginRequestModel(email, password, provider, null)
-                            authRepository.login(loginRequestModel).collectLatest { login ->
-                                when (login) {
-                                    is Resources.Error -> {
-                                        if (login.status == 401) {
-                                            _uiState.update {
-                                                it.copy(
-                                                    emailError = R.string.txt_invalid_email_or_password,
-                                                    passwordError = R.string.txt_invalid_email_or_password,
-                                                    isLoading = false
-                                                )
-                                            }
-                                        } else if (login.status == 404) {
-                                            _uiState.update {
-                                                it.copy(
-                                                    emailError = R.string.txt_email_is_not_registered,
-                                                    isLoading = false
-                                                )
-                                            }
-                                        } else {
-                                            _uiState.update {
-                                                it.copy(
-                                                    emailError = R.string.txt_error_occurred,
-                                                    isLoading = false
-                                                )
-                                            }
-                                        }
-                                    }
-
-                                    is Resources.Loading -> {
-                                        // Show loading
-                                    }
-
-                                    is Resources.Success -> {
-                                        if (login.data?.isVerified == false) {
-                                            resendVerificationEmail()
-                                        } else if (login.data?.userStatus == UserStatus.BLOCKED.status) {
-                                            _uiState.update {
-                                                it.copy(
-                                                    emailError = R.string.txt_your_account_has_been_blocked,
-                                                    isLoading = false
-                                                )
-                                            }
-                                        } else {
-                                            tokenManager.saveAccessToken(
-                                                login.data?.accessToken ?: ""
-                                            )
-                                            tokenManager.saveRefreshToken(
-                                                login.data?.refreshToken ?: ""
-                                            )
-                                            appManager.saveIsLoggedIn(true)
-                                            appManager.saveUserId(login.data?.id ?: "")
-                                            appManager.saveUserAvatar(login.data?.avatarUrl ?: "")
-                                            appManager.saveUserFullName(login.data?.fullName ?: "")
-                                            appManager.saveUserEmail(login.data?.email ?: "")
-                                            appManager.saveUserBirthday(login.data?.birthday ?: "")
-                                            appManager.saveUserName(login.data?.username ?: "")
-                                            appManager.saveUserRole(login.data?.role ?: "")
-                                            appManager.saveUserCoins(login.data?.coin ?: 0)
-                                            appManager.saveUserLoginProviders(
-                                                login.data?.provider ?: emptyList()
-                                            )
-                                            Purchases.sharedInstance.apply {
-                                                setEmail(login.data?.email)
-                                                setDisplayName(login.data?.fullName)
-                                                logIn(
-                                                    newAppUserID = login.data?.id ?: "",
-                                                    callback = object : LogInCallback {
-                                                        override fun onError(error: PurchasesError) {
-                                                            Timber.e(error.message)
-                                                        }
-
-                                                        override fun onReceived(
-                                                            customerInfo: CustomerInfo,
-                                                            created: Boolean,
-                                                        ) {
-                                                            Timber.d("Customer info: $customerInfo")
-                                                        }
-
-                                                    }
-                                                )
-                                            }
-                                            _uiState.update { it.copy(isLoading = false) }
-                                            _uiEvent.trySend(LoginWithEmailUiEvent.LoginSuccess)
-                                        }
-                                    }
-                                }
+                        if (login.status == 401) {
+                            _uiState.update {
+                                it.copy(
+                                    emailError = R.string.txt_invalid_email_or_password,
+                                    passwordError = R.string.txt_invalid_email_or_password,
+                                    isLoading = false
+                                )
+                            }
+                        } else if (login.status == 404) {
+                            _uiState.update {
+                                it.copy(
+                                    emailError = R.string.txt_email_is_not_registered,
+                                    isLoading = false
+                                )
                             }
                         } else {
                             _uiState.update {
                                 it.copy(
-                                    emailError = R.string.txt_invalid_email_address,
+                                    emailError = R.string.txt_error_occurred,
                                     isLoading = false
                                 )
                             }
-                            _uiEvent.send(LoginWithEmailUiEvent.LoginFailure(R.string.txt_invalid_email_address))
+                        }
+                    }
+
+                    is Resources.Loading -> {
+                        // Show loading
+                    }
+
+                    is Resources.Success -> {
+                        if (login.data?.isVerified == false) {
+                            resendVerificationEmail()
+                        } else if (login.data?.userStatus == UserStatus.BLOCKED.status) {
+                            _uiState.update {
+                                it.copy(
+                                    emailError = R.string.txt_your_account_has_been_blocked,
+                                    isLoading = false
+                                )
+                            }
+                        } else {
+                            tokenManager.saveAccessToken(
+                                login.data?.accessToken ?: ""
+                            )
+                            tokenManager.saveRefreshToken(
+                                login.data?.refreshToken ?: ""
+                            )
+                            appManager.saveIsLoggedIn(true)
+                            appManager.saveUserId(login.data?.id ?: "")
+                            appManager.saveUserAvatar(login.data?.avatarUrl ?: "")
+                            appManager.saveUserFullName(login.data?.fullName ?: "")
+                            appManager.saveUserEmail(login.data?.email ?: "")
+                            appManager.saveUserBirthday(login.data?.birthday ?: "")
+                            appManager.saveUserName(login.data?.username ?: "")
+                            appManager.saveUserRole(login.data?.role ?: "")
+                            appManager.saveUserCoins(login.data?.coin ?: 0)
+                            appManager.saveUserLoginProviders(
+                                login.data?.provider ?: emptyList()
+                            )
+                            Purchases.sharedInstance.apply {
+                                setEmail(login.data?.email)
+                                setDisplayName(login.data?.fullName)
+                                logIn(
+                                    newAppUserID = login.data?.id ?: "",
+                                    callback = object : LogInCallback {
+                                        override fun onError(error: PurchasesError) {
+                                            Timber.e(error.message)
+                                        }
+
+                                        override fun onReceived(
+                                            customerInfo: CustomerInfo,
+                                            created: Boolean,
+                                        ) {
+                                            Timber.d("Customer info: $customerInfo")
+                                        }
+
+                                    }
+                                )
+                            }
+                            _uiState.update { it.copy(isLoading = false) }
+                            _uiEvent.trySend(LoginWithEmailUiEvent.LoginSuccess)
                         }
                     }
                 }

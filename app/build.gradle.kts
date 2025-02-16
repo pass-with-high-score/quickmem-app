@@ -31,7 +31,6 @@ android {
         }
 
         val baseUrl: String = localProperties.getProperty("BASE_URL")
-        val emailVerificationUrl: String = localProperties.getProperty("EMAIL_VERIFICATION_URL")
         val bannerAdsId: String =
             localProperties.getProperty("BANNER_ADS_ID")
         val interstitialAdsId: String = localProperties.getProperty("INTERSTITIAL_ADS_ID")
@@ -47,7 +46,6 @@ android {
             localProperties.getProperty("GOOOGLE_OAUTH_CLIENT_ID_PRODUCT")
 
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
-        buildConfigField("String", "EMAIL_VERIFICATION_URL", "\"$emailVerificationUrl\"")
         buildConfigField("String", "BANNER_ADS_ID", "\"$bannerAdsId\"")
         buildConfigField("String", "INTERSTITIAL_ADS_ID", "\"$interstitialAdsId\"")
         buildConfigField("String", "REWARD_ADS_ID", "\"$rewardAdsId\"")

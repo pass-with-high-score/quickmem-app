@@ -73,7 +73,6 @@ class AddStudySetToClassViewModel @Inject constructor(
         viewModelScope.launch {
             studySetRepository.getStudySetsByOwnerId(
                 _uiState.value.token,
-                _uiState.value.userId,
                 _uiState.value.classId,
                 null
             )

@@ -73,7 +73,6 @@ class AddStudySetToFolderViewModel @Inject constructor(
         viewModelScope.launch {
             studySetRepository.getStudySetsByOwnerId(
                 _uiState.value.token,
-                _uiState.value.userId,
                 null,
                 _uiState.value.folderId
             )

@@ -3,10 +3,8 @@ package com.pwhs.quickmem.data.remote.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.pwhs.quickmem.BuildConfig
 import com.pwhs.quickmem.core.data.enums.AuthProvider
 import com.pwhs.quickmem.core.utils.Resources
-import com.pwhs.quickmem.data.dto.verify_email.EmailRequestDto
 import com.pwhs.quickmem.data.mapper.auth.toDto
 import com.pwhs.quickmem.data.mapper.auth.toModel
 import com.pwhs.quickmem.data.mapper.user.toDto
@@ -60,23 +58,6 @@ class AuthRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val userRemoteDataResource: UserRemoteDataResource,
 ) : AuthRepository {
-    override suspend fun checkEmailValidity(email: String): Flow<Resources<Boolean>> {
-        return flow {
-            emit(Resources.Loading())
-            try {
-                val emailDto = EmailRequestDto(email.lowercase())
-                val response = apiService.checkEmail(BuildConfig.EMAIL_VERIFICATION_URL, emailDto)
-                if (response.isReachable == "safe" || response.isReachable == "risky") {
-                    emit(Resources.Success(true))
-                } else {
-                    emit(Resources.Success(false))
-                }
-            } catch (e: Exception) {
-                Timber.e(e.toString())
-                emit(Resources.Error(e.toString()))
-            }
-        }
-    }
 
     override suspend fun login(loginRequestModel: LoginRequestModel): Flow<Resources<AuthResponseModel>> {
         return flow {

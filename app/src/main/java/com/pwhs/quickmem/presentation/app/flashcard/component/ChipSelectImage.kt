@@ -1,6 +1,7 @@
 package com.pwhs.quickmem.presentation.app.flashcard.component
 
 import android.net.Uri
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -50,6 +51,10 @@ fun ChipSelectImage(
 
     InputChip(
         modifier = modifier,
+        border = BorderStroke(
+            width = 1.dp,
+            color = color
+        ),
         onClick = {
             if (imageUri != null || !imageUrl.isNullOrEmpty()) {
                 isImageViewerOpen = true // Open image viewer when clicked
@@ -82,6 +87,7 @@ fun ChipSelectImage(
                     Icon(
                         imageVector = Icons.Default.Photo,
                         contentDescription = null,
+                        tint = color
                     )
                 }
 
