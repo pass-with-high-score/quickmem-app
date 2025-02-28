@@ -27,6 +27,10 @@ data class FlashCardResponseDto(
     val quizStatus: String,
     @SerializedName("isStarred")
     val isStarred: Boolean,
+    @SerializedName("termVoiceCode")
+    val termVoiceCode: String?,
+    @SerializedName("definitionVoiceCode")
+    val definitionVoiceCode: String?,
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("updatedAt")

@@ -74,6 +74,16 @@ fun MaterialTabScreen(
     learningPercentTrueFalse: Int = 0,
     learningPercentWrite: Int = 0,
     onNavigateToLearn: (LearnMode, Boolean) -> Unit = { _, _ -> },
+    onGetSpeech: (
+        term: String,
+        definition: String,
+        termVoiceCode: String,
+        definitionVoiceCode: String,
+        onTermSpeakStart: () -> Unit,
+        onTermSpeakEnd: () -> Unit,
+        onDefinitionSpeakStart: () -> Unit,
+        onDefinitionSpeakEnd: () -> Unit
+    ) -> Unit = { _, _, _, _, _, _, _, _ -> }
 ) {
     val menuBottomSheetState = rememberModalBottomSheetState()
     var showMenu by remember { mutableStateOf(false) }
@@ -314,7 +324,10 @@ fun MaterialTabScreen(
                                 showMenu = true
                                 flashCardSelectedId = flashCard.id
                                 onFlashcardClick(flashCard.id)
-                            }
+                            },
+                            onGetSpeech = onGetSpeech,
+                            termVoiceCode = flashCard.termVoiceCode ?: "",
+                            definitionVoiceCode = flashCard.definitionVoiceCode ?: ""
                         )
                     }
                     item {

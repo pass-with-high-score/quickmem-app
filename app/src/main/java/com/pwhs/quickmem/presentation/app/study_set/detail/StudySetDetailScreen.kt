@@ -422,6 +422,20 @@ fun StudySetDetailScreen(
         onNavigateToLearn = { learnMode, isGetAll ->
             viewModel.onEvent(StudySetDetailUiAction.NavigateToLearn(learnMode, isGetAll))
         },
+        onGetSpeech = { term, definition, termVoiceCode, definitionVoiceCode, onTermSpeakStart, onTermSpeakEnd, onDefinitionSpeakStart, onDefinitionSpeakEnd ->
+            viewModel.onEvent(
+                StudySetDetailUiAction.OnGetSpeech(
+                    term,
+                    definition,
+                    termVoiceCode,
+                    definitionVoiceCode,
+                    onTermSpeakStart,
+                    onTermSpeakEnd,
+                    onDefinitionSpeakStart,
+                    onDefinitionSpeakEnd
+                )
+            )
+        }
     )
 }
 
@@ -456,6 +470,16 @@ fun StudySetDetail(
     onCopyStudySet: () -> Unit = {},
     onReportClick: () -> Unit = {},
     onNavigateToLearn: (LearnMode, Boolean) -> Unit = { _, _ -> },
+    onGetSpeech: (
+        term: String,
+        definition: String,
+        termVoiceCode: String,
+        definitionVoiceCode: String,
+        onTermSpeakStart: () -> Unit,
+        onTermSpeakEnd: () -> Unit,
+        onDefinitionSpeakStart: () -> Unit,
+        onDefinitionSpeakEnd: () -> Unit
+    ) -> Unit = { _, _, _, _, _, _, _, _ -> }
 ) {
     val context = LocalContext.current
     var tabIndex by rememberSaveable { mutableIntStateOf(0) }
@@ -557,6 +581,7 @@ fun StudySetDetail(
                                 learningPercentWrite = if (flashCardCount > 0) (flashCards.count { it.writeStatus == WriteStatus.CORRECT.status } * 100 / flashCardCount) else 0,
                                 learningPercentTrueFalse = if (flashCardCount > 0) (flashCards.count { it.trueFalseStatus == TrueFalseStatus.CORRECT.status } * 100 / flashCardCount) else 0,
                                 onMakeCopyClick = onCopyStudySet,
+                                onGetSpeech = onGetSpeech,
                             )
 
                             tabIndex == StudySetDetailEnum.PROGRESS.index && flashCardCount > 0 -> ProgressTabScreen(
@@ -581,6 +606,7 @@ fun StudySetDetail(
                             isOwner = false,
                             onMakeCopyClick = onCopyStudySet,
                             studySetColor = color,
+                            onGetSpeech = onGetSpeech
                         )
                     }
 

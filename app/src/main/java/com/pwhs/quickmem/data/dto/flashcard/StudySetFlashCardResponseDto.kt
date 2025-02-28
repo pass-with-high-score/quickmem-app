@@ -34,6 +34,10 @@ data class StudySetFlashCardResponseDto(
     val isStarred: Boolean,
     @SerializedName("isAIGenerated")
     val isAIGenerated: Boolean,
+    @SerializedName("termVoiceCode")
+    val termVoiceCode: String?,
+    @SerializedName("definitionVoiceCode")
+    val definitionVoiceCode: String?,
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("updatedAt")

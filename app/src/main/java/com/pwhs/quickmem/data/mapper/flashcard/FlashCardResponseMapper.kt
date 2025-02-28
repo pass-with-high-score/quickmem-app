@@ -16,6 +16,8 @@ fun FlashCardResponseDto.toModel() = FlashCardResponseModel(
     isStarred = isStarred,
     flipStatus = flipStatus,
     quizStatus = quizStatus,
+    termVoiceCode = termVoiceCode,
+    definitionVoiceCode = definitionVoiceCode,
     createdAt = createdAt,
     updatedAt = updatedAt,
 )
@@ -33,6 +35,8 @@ fun FlashCardResponseModel.toDto() = FlashCardResponseDto(
     isStarred = isStarred,
     flipStatus = flipStatus,
     quizStatus = quizStatus,
+    termVoiceCode = termVoiceCode,
+    definitionVoiceCode = definitionVoiceCode,
     createdAt = createdAt,
     updatedAt = updatedAt,
 )

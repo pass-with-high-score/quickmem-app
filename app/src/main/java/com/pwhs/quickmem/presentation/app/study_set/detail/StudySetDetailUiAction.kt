@@ -16,4 +16,15 @@ sealed class StudySetDetailUiAction {
     data object OnMakeCopyClicked : StudySetDetailUiAction()
     data class NavigateToLearn(val learnMode: LearnMode, val isGetAll: Boolean) :
         StudySetDetailUiAction()
+
+    data class OnGetSpeech(
+        val term: String,
+        val definition: String,
+        val termVoiceCode: String,
+        val definitionVoiceCode: String,
+        val onTermSpeakStart: () -> Unit,
+        val onTermSpeakEnd: () -> Unit,
+        val onDefinitionSpeakStart: () -> Unit,
+        val onDefinitionSpeakEnd: () -> Unit
+    ) : StudySetDetailUiAction()
 }

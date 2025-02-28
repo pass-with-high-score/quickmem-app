@@ -11,6 +11,7 @@ import com.pwhs.quickmem.data.dto.flashcard.WriteStatusFlashCardDto
 import com.pwhs.quickmem.data.mapper.flashcard.toDto
 import com.pwhs.quickmem.data.mapper.flashcard.toModel
 import com.pwhs.quickmem.data.remote.ApiService
+import com.pwhs.quickmem.domain.model.flashcard.BufferResponseModel
 import com.pwhs.quickmem.domain.model.flashcard.CreateFlashCardModel
 import com.pwhs.quickmem.domain.model.flashcard.EditFlashCardModel
 import com.pwhs.quickmem.domain.model.flashcard.FlashCardResponseModel
@@ -356,6 +357,30 @@ class FlashCardRepositoryImpl @Inject constructor(
             try {
                 val response = apiService.getVoices(token = token, languageCode = languageCode)
                 emit(Resources.Success(response.map { it.toModel() }))
+            } catch (e: HttpException) {
+                Timber.e(e)
+                emit(Resources.Error(e.toString()))
+            } catch (e: IOException) {
+                Timber.e(e)
+                emit(Resources.Error(e.toString()))
+            }
+        }
+    }
+
+    override suspend fun getSpeech(
+        token: String,
+        input: String,
+        voiceCode: String
+    ): Flow<Resources<BufferResponseModel>> {
+        return flow {
+            if (token.isEmpty()) {
+                return@flow
+            }
+            emit(Resources.Loading())
+            try {
+                val response =
+                    apiService.getSpeech(token = token, input = input, voiceCode = voiceCode)
+                emit(Resources.Success(response.toModel()))
             } catch (e: HttpException) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))

@@ -22,4 +22,6 @@ data class StudySetFlashCardResponseModel(
     val isStarred: Boolean = false,
     val createdAt: String = "",
     val updatedAt: String = "",
+    val termVoiceCode: String?,
+    val definitionVoiceCode: String?,
 )

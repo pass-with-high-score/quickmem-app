@@ -14,6 +14,8 @@ data class FlashCardResponseModel(
     val isStarred: Boolean,
     val quizStatus: String,
     var isAnswered: Boolean = false,
+    val termVoiceCode: String?,
+    val definitionVoiceCode: String?,
     val createdAt: String,
     val updatedAt: String,
 )

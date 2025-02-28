@@ -32,7 +32,12 @@
     kotlinx.serialization.KSerializer serializer(...);
 }
 
+# Keep CredentialManager
 -if class androidx.credentials.CredentialManager
 -keep class androidx.credentials.playservices.** {
   *;
 }
+
+# Keep dataStore
+-keep class androidx.datastore.** { *; }
+-keep class com.pwhs.quickmem.core.datastore.** { *; }

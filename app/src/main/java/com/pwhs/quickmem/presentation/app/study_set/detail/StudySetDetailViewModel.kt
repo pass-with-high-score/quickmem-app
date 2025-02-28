@@ -1,7 +1,8 @@
 package com.pwhs.quickmem.presentation.app.study_set.detail
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.firebase.analytics.FirebaseAnalytics
 import com.google.firebase.analytics.logEvent
@@ -10,12 +11,27 @@ import com.pwhs.quickmem.core.data.enums.ResetType
 import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
+import com.pwhs.quickmem.data.mapper.flashcard.toByteArray
 import com.pwhs.quickmem.domain.model.study_set.SaveRecentAccessStudySetRequestModel
 import com.pwhs.quickmem.domain.repository.FlashCardRepository
 import com.pwhs.quickmem.domain.repository.StudySetRepository
 import com.pwhs.quickmem.domain.repository.StudyTimeRepository
+import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.FlashCardDeleted
+import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.NavigateToEditFlashCard
+import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.NavigateToEditStudySet
+import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.NotFound
+import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.OnNavigateToFlipFlashcard
+import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.OnNavigateToQuiz
+import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.OnNavigateToTrueFalse
+import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.OnNavigateToWrite
+import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.StudySetCopied
+import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.StudySetDeleted
+import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.StudySetProgressReset
+import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.UnAuthorized
+import com.pwhs.quickmem.utils.AudioExtension
 import com.pwhs.quickmem.utils.toColor
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +41,7 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -37,7 +54,8 @@ class StudySetDetailViewModel @Inject constructor(
     private val appManager: AppManager,
     private val firebaseAnalytics: FirebaseAnalytics,
     savedStateHandle: SavedStateHandle,
-) : ViewModel() {
+    application: Application
+) : AndroidViewModel(application) {
     private val _uiState = MutableStateFlow(StudySetDetailUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -84,11 +102,11 @@ class StudySetDetailViewModel @Inject constructor(
             }
 
             is StudySetDetailUiAction.OnEditStudySetClicked -> {
-                _uiEvent.trySend(StudySetDetailUiEvent.NavigateToEditStudySet)
+                _uiEvent.trySend(NavigateToEditStudySet)
             }
 
             is StudySetDetailUiAction.OnEditFlashCardClicked -> {
-                _uiEvent.trySend(StudySetDetailUiEvent.NavigateToEditFlashCard)
+                _uiEvent.trySend(NavigateToEditFlashCard)
             }
 
             is StudySetDetailUiAction.OnDeleteStudySetClicked -> {
@@ -111,25 +129,38 @@ class StudySetDetailViewModel @Inject constructor(
                 }
                 when (event.learnMode) {
                     LearnMode.FLIP -> {
-                        _uiEvent.trySend(StudySetDetailUiEvent.OnNavigateToFlipFlashcard(event.isGetAll))
+                        _uiEvent.trySend(OnNavigateToFlipFlashcard(event.isGetAll))
                     }
 
                     LearnMode.QUIZ -> {
-                        _uiEvent.trySend(StudySetDetailUiEvent.OnNavigateToQuiz(event.isGetAll))
+                        _uiEvent.trySend(OnNavigateToQuiz(event.isGetAll))
                     }
 
                     LearnMode.TRUE_FALSE -> {
-                        _uiEvent.trySend(StudySetDetailUiEvent.OnNavigateToTrueFalse(event.isGetAll))
+                        _uiEvent.trySend(OnNavigateToTrueFalse(event.isGetAll))
                     }
 
                     LearnMode.WRITE -> {
-                        _uiEvent.trySend(StudySetDetailUiEvent.OnNavigateToWrite(event.isGetAll))
+                        _uiEvent.trySend(OnNavigateToWrite(event.isGetAll))
                     }
 
                     else -> {
                         // Do nothing
                     }
                 }
+            }
+
+            is StudySetDetailUiAction.OnGetSpeech -> {
+                getSpeech(
+                    event.term,
+                    event.definition,
+                    event.termVoiceCode,
+                    event.definitionVoiceCode,
+                    event.onTermSpeakStart,
+                    event.onTermSpeakEnd,
+                    event.onDefinitionSpeakStart,
+                    event.onDefinitionSpeakEnd
+                )
             }
         }
     }
@@ -140,7 +171,7 @@ class StudySetDetailViewModel @Inject constructor(
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
             if (token.isEmpty()) {
-                _uiEvent.send(StudySetDetailUiEvent.UnAuthorized)
+                _uiEvent.send(UnAuthorized)
                 return@launch
             }
             if (code.isNotEmpty()) {
@@ -152,7 +183,7 @@ class StudySetDetailViewModel @Inject constructor(
                                     isLoading = false
                                 )
                             }
-                            _uiEvent.send(StudySetDetailUiEvent.NotFound)
+                            _uiEvent.send(NotFound)
                         }
 
                         is Resources.Loading -> {
@@ -260,7 +291,7 @@ class StudySetDetailViewModel @Inject constructor(
                         }
 
                         is Resources.Success -> {
-                            _uiEvent.send(StudySetDetailUiEvent.FlashCardDeleted)
+                            _uiEvent.send(FlashCardDeleted)
                         }
 
                         is Resources.Error -> {
@@ -308,7 +339,7 @@ class StudySetDetailViewModel @Inject constructor(
                         }
 
                         is Resources.Success -> {
-                            _uiEvent.send(StudySetDetailUiEvent.StudySetDeleted)
+                            _uiEvent.send(StudySetDeleted)
                         }
 
                         is Resources.Error -> {
@@ -332,7 +363,7 @@ class StudySetDetailViewModel @Inject constructor(
 
                         is Resources.Success -> {
                             _uiState.update { it.copy(isLoading = false) }
-                            _uiEvent.send(StudySetDetailUiEvent.StudySetProgressReset)
+                            _uiEvent.send(StudySetProgressReset)
                         }
 
                         is Resources.Error -> {
@@ -358,7 +389,7 @@ class StudySetDetailViewModel @Inject constructor(
                     is Resources.Success -> {
                         _uiState.update { it.copy(isLoading = false) }
                         _uiEvent.send(
-                            StudySetDetailUiEvent.StudySetCopied(
+                            StudySetCopied(
                                 resource.data?.id ?: ""
                             )
                         )
@@ -394,4 +425,76 @@ class StudySetDetailViewModel @Inject constructor(
             }
         }
     }
+
+    private fun getSpeech(
+        term: String,
+        definition: String,
+        termVoiceCode: String,
+        definitionVoiceCode: String,
+        onTermSpeakStart: () -> Unit,
+        onTermSpeakEnd: () -> Unit,
+        onDefinitionSpeakStart: () -> Unit,
+        onDefinitionSpeakEnd: () -> Unit
+    ) {
+        job?.cancel()
+        job = viewModelScope.launch {
+            val token = tokenManager.accessToken.firstOrNull() ?: ""
+
+            val termByteArray = fetchSpeech(token, term, termVoiceCode)
+            if (termByteArray != null) {
+                onTermSpeakStart()
+                playAudioAndWait(termByteArray)
+                onTermSpeakEnd()
+            } else {
+                Timber.d("Không lấy được dữ liệu âm thanh cho term")
+            }
+
+            val definitionByteArray = fetchSpeech(token, definition, definitionVoiceCode)
+            if (definitionByteArray != null) {
+                onDefinitionSpeakStart()
+                playAudioAndWait(definitionByteArray)
+                onDefinitionSpeakEnd()
+            } else {
+                Timber.d("Không lấy được dữ liệu âm thanh cho definition")
+            }
+        }
+    }
+
+    private suspend fun fetchSpeech(token: String, input: String, voiceCode: String): ByteArray? {
+        var byteArray: ByteArray? = null
+        flashCardRepository.getSpeech(token = token, input = input, voiceCode = voiceCode)
+            .collect { resource ->
+                when (resource) {
+                    is Resources.Loading -> {
+                        Timber.d("Loading")
+                    }
+
+                    is Resources.Success -> {
+                        byteArray = resource.data?.toByteArray()
+                    }
+
+                    is Resources.Error -> {
+                        Timber.d("Error")
+                    }
+                }
+            }
+        return byteArray
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private suspend fun playAudioAndWait(audioData: ByteArray) =
+        suspendCancellableCoroutine<Unit> { cont ->
+            val audioFile = AudioExtension.convertByteArrayToAudio(
+                getApplication<Application>().applicationContext,
+                audioData,
+                "audio.wav"
+            ) ?: return@suspendCancellableCoroutine
+            AudioExtension.playAudio(
+                context = getApplication<Application>().applicationContext,
+                audioFile = audioFile,
+                onCompletion = {
+                    cont.resume(Unit) {}
+                }
+            )
+        }
 }
