@@ -12,6 +12,8 @@ data class StudySetFlashCardResponseDto(
     val id: String,
     @SerializedName("term")
     val term: String,
+    @SerializedName("termImageURL")
+    val termImageURL: String?,
     @SerializedName("definition")
     val definition: String,
     @SerializedName("definitionImageURL")

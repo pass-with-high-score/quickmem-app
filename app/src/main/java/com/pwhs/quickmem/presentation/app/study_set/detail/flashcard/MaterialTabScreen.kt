@@ -307,7 +307,8 @@ fun MaterialTabScreen(
                             color = studySetColor,
                             front = flashCard.term,
                             back = flashCard.definition,
-                            imageURL = flashCard.definitionImageURL,
+                            definitionImageURL = flashCard.definitionImageURL,
+                            termImageURL = flashCard.termImageURL,
                             isAIGenerated = flashCard.isAIGenerated,
                             onMenuClick = {
                                 (flashCard.hint

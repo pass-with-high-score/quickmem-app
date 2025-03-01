@@ -15,12 +15,19 @@ import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.flashcard.VoiceModel
+import com.pwhs.quickmem.presentation.app.library.component.SearchTextField
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -33,22 +40,45 @@ fun VoiceBottomSheet(
 ) {
     val bottomSheetState = rememberModalBottomSheetState()
 
+    var query by remember { mutableStateOf("") }
+
+    val filteredVoiceList = voiceList.filter {
+        it.name.contains(query, ignoreCase = true) || it.code.contains(query, ignoreCase = true)
+    }
+
     ModalBottomSheet(
-        modifier = modifier.fillMaxHeight(0.9f),
+        modifier = modifier,
         onDismissRequest = onDismissRequest,
         sheetState = bottomSheetState,
+        containerColor = Color.White,
     ) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxWidth()
+                .fillMaxHeight(0.95f)
         ) {
             Text(
                 text = stringResource(R.string.txt_select_voice),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Bold
+                )
             )
             LazyColumn {
-                items(voiceList) { voice ->
+                item {
+                    SearchTextField(
+                        searchQuery = query,
+                        onSearchQueryChange = { query = it },
+                    )
+                }
+                item {
+                    if (filteredVoiceList.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.txt_no_voice_found),
+                            modifier = Modifier.padding(8.dp)
+                        )
+                    }
+                }
+                items(filteredVoiceList) { voice ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()

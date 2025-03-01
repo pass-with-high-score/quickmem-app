@@ -40,7 +40,8 @@ fun CardDetail(
     termVoiceCode: String = "",
     definitionVoiceCode: String = "",
     onMenuClick: () -> Unit = {},
-    imageURL: String? = null,
+    definitionImageURL: String? = null,
+    termImageURL: String? = null,
     isAIGenerated: Boolean = false,
     color: Color = colorScheme.primary,
     onGetSpeech: (
@@ -129,15 +130,15 @@ fun CardDetail(
                     else -> Color.Black
                 }
             )
-            if (!imageURL.isNullOrEmpty()) {
+            if (!definitionImageURL.isNullOrEmpty()) {
                 AsyncImage(
-                    model = imageURL,
+                    model = definitionImageURL,
                     contentDescription = null,
                     modifier = Modifier
                         .size(100.dp)
                         .clickable {
                             isImageViewerOpen = true
-                            definitionImageUri = imageURL
+                            definitionImageUri = definitionImageURL
                         },
                     contentScale = ContentScale.Crop
                 )

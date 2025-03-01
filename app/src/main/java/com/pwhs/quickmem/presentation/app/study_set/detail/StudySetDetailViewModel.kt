@@ -16,7 +16,6 @@ import com.pwhs.quickmem.domain.model.study_set.SaveRecentAccessStudySetRequestM
 import com.pwhs.quickmem.domain.repository.FlashCardRepository
 import com.pwhs.quickmem.domain.repository.StudySetRepository
 import com.pwhs.quickmem.domain.repository.StudyTimeRepository
-import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.FlashCardDeleted
 import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.NavigateToEditFlashCard
 import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.NavigateToEditStudySet
 import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent.NotFound
@@ -212,8 +211,10 @@ class StudySetDetailViewModel @Inject constructor(
                                     isLoading = false,
                                     isAIGenerated = resource.data.isAIGenerated == true,
                                     isOwner = isOwner,
-                                    previousTermVoiceCode = resource.data.previousTermVoiceCode ?: "",
-                                    previousDefinitionVoiceCode = resource.data.previousDefinitionVoiceCode ?: ""
+                                    previousTermVoiceCode = resource.data.previousTermVoiceCode
+                                        ?: "",
+                                    previousDefinitionVoiceCode = resource.data.previousDefinitionVoiceCode
+                                        ?: ""
                                 )
                             }
                             if (!isRefresh && resource.data.id.isNotEmpty()) {
@@ -249,8 +250,10 @@ class StudySetDetailViewModel @Inject constructor(
                                     isLoading = false,
                                     isAIGenerated = resource.data.isAIGenerated == true,
                                     isOwner = isOwner,
-                                    previousTermVoiceCode = resource.data.previousTermVoiceCode ?: "",
-                                    previousDefinitionVoiceCode = resource.data.previousDefinitionVoiceCode ?: ""
+                                    previousTermVoiceCode = resource.data.previousTermVoiceCode
+                                        ?: "",
+                                    previousDefinitionVoiceCode = resource.data.previousDefinitionVoiceCode
+                                        ?: ""
                                 )
                             }
                             if (!isRefresh) {
@@ -283,6 +286,8 @@ class StudySetDetailViewModel @Inject constructor(
     }
 
     private fun deleteFlashCard() {
+        job?.cancel()
+        currentAudioJob?.cancel()
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
             flashCardRepository.deleteFlashCard(token, _uiState.value.idOfFlashCardSelected)
@@ -293,7 +298,15 @@ class StudySetDetailViewModel @Inject constructor(
                         }
 
                         is Resources.Success -> {
-                            _uiEvent.send(FlashCardDeleted)
+                            _uiState.update {
+                                it.copy(
+                                    flashCards = it.flashCards.filter { flashCard ->
+                                        flashCard.id != _uiState.value.idOfFlashCardSelected
+                                    },
+                                    idOfFlashCardSelected = "",
+                                    flashCardCount = it.flashCardCount - 1
+                                )
+                            }
                         }
 
                         is Resources.Error -> {
@@ -428,7 +441,7 @@ class StudySetDetailViewModel @Inject constructor(
                 playAudioAndWait(termByteArray)
                 onTermSpeakEnd()
             } else {
-                Timber.d("Không lấy được dữ liệu âm thanh cho term")
+                Timber.d("Cannot get audio data for term")
             }
 
             val definitionByteArray = fetchSpeech(token, definition, definitionVoiceCode)
@@ -442,7 +455,7 @@ class StudySetDetailViewModel @Inject constructor(
                     )
                 }
             } else {
-                Timber.d("Không lấy được dữ liệu âm thanh cho definition")
+                Timber.d("Cannot get audio data for definition")
             }
         }
     }

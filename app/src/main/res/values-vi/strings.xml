@@ -680,11 +680,12 @@
     <string name="txt_account_created_at">Tham gia từ %1$s</string>
     <string name="txt_study_sets_count">%1$s bộ học</string>
     <string name="txt_flashcard_deleted">Đã xoá thẻ</string>
-    <string name="txt_voice">Custom voice</string>
-    <string name="txt_select_voice">Select Voice</string>
-    <string name="txt_select_language">Select Language</string>
-    <string name="txt_no_language_found">No language found</string>
-    <string name="txt_voice_name">Voice: %1$s</string>
+    <string name="txt_voice">Tuỳ chỉnh giọng</string>
+    <string name="txt_select_voice">Chọn giọng nói</string>
+    <string name="txt_select_language">Chọn ngôn ngữ</string>
+    <string name="txt_no_language_found">Không tìm thấy ngôn ngữ</string>
+    <string name="txt_voice_name">Giọng nói: %1$s</string>
+    <string name="txt_no_voice_found">Không tìm thấy giọng</string>
     <plurals name="hours">
         <item quantity="other">%d giờ</item>
     </plurals>

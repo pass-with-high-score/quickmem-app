@@ -689,6 +689,7 @@
     <string name="txt_select_language">Select Language</string>
     <string name="txt_no_language_found">No language found</string>
     <string name="txt_voice_name">Voice: %1$s</string>
+    <string name="txt_no_voice_found">No voice found</string>
     <plurals name="hours">
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>

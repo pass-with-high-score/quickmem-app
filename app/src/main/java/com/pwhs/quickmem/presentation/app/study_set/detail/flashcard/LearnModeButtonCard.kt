@@ -80,7 +80,7 @@ fun LearnModeButtonCard(
                 contentDescription = stringResource(R.string.txt_flip_card),
                 modifier = Modifier
                     .size(30.dp),
-                contentScale = ContentScale.Crop,
+                contentScale = ContentScale.Fit,
                 colorFilter = ColorFilter.tint(color)
             )
             Text(

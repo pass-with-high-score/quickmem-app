@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -49,14 +50,15 @@ fun LanguageBottomSheet(
     }
 
     ModalBottomSheet(
-        modifier = modifier.fillMaxHeight(0.9f),
+        modifier = modifier,
         onDismissRequest = onDismissRequest,
         sheetState = bottomSheetState,
+        containerColor = Color.White,
     ) {
         Column(
             modifier = Modifier
                 .padding(16.dp)
-                .fillMaxWidth()
+                .fillMaxHeight(0.95f)
         ) {
             Text(
                 text = stringResource(R.string.txt_select_language),

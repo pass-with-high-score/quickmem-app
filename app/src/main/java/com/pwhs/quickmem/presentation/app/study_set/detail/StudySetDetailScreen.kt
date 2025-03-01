@@ -178,9 +178,6 @@ fun StudySetDetailScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is StudySetDetailUiEvent.FlashCardDeleted -> {
-                    viewModel.onEvent(StudySetDetailUiAction.Refresh)
-                }
 
                 is StudySetDetailUiEvent.FlashCardStarred -> {
                     viewModel.onEvent(StudySetDetailUiAction.Refresh)
