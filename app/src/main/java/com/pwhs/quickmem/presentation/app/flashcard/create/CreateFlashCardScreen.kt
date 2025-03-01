@@ -185,10 +185,12 @@ fun CreateFlashCardScreen(
         onUploadImage = { imageUri, isTerm ->
             viewModel.onEvent(CreateFlashCardUiAction.UploadImage(imageUri, isTerm))
         },
-        onDeleteImage = {
+        onDeleteImage = { isTerm ->
             viewModel.onEvent(
                 CreateFlashCardUiAction.RemoveImage(
-                    uiState.definitionImageURL ?: ""
+                    imageURL = if (isTerm) uiState.termImageURL
+                        ?: "" else uiState.definitionImageURL ?: "",
+                    isTerm = isTerm
                 )
             )
         },
@@ -271,7 +273,7 @@ fun CreateFlashCard(
     onExplanationChanged: (String) -> Unit = {},
     onShowExplanationClicked: (Boolean) -> Unit = {},
     onUploadImage: (Uri, Boolean) -> Unit = { _, _ -> },
-    onDeleteImage: () -> Unit = {},
+    onDeleteImage: (Boolean) -> Unit = {},
     onNavigationBack: () -> Unit = {},
     onSaveFlashCardClicked: () -> Unit = {},
     termQueryImage: String = "",
@@ -531,7 +533,9 @@ fun CreateFlashCard(
                                         },
                                         imageUri = termImageUri,
                                         imageUrl = termImageURL,
-                                        onDeleteImage = onDeleteImage,
+                                        onDeleteImage = {
+                                            onDeleteImage(true)
+                                        },
                                         color = when {
                                             termImageUri != null || termImageURL.isNotEmpty() -> studySetColor
                                             else -> Color.Gray
@@ -698,7 +702,9 @@ fun CreateFlashCard(
                                         },
                                         imageUri = definitionImageUri,
                                         imageUrl = definitionImageURL,
-                                        onDeleteImage = onDeleteImage,
+                                        onDeleteImage = {
+                                            onDeleteImage(false)
+                                        },
                                         color = when {
                                             definitionImageUri != null || definitionImageURL.isNotEmpty() -> studySetColor
                                             else -> Color.Gray

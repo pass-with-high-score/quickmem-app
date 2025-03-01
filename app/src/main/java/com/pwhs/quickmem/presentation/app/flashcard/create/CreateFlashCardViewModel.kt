@@ -107,7 +107,7 @@ class CreateFlashCardViewModel @Inject constructor(
             }
 
             is CreateFlashCardUiAction.RemoveImage -> {
-                uploadImage(event.imageURL)
+                removeImage(event.imageURL)
             }
 
             is CreateFlashCardUiAction.OnQueryTermImageChanged -> {
@@ -320,7 +320,7 @@ class CreateFlashCardViewModel @Inject constructor(
         }
     }
 
-    private fun uploadImage(imageURL: String) {
+    private fun removeImage(imageURL: String, isTerm: Boolean = true) {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
             uploadImageRepository.removeImage(token, imageURL)
@@ -329,8 +329,10 @@ class CreateFlashCardViewModel @Inject constructor(
                         is Resources.Success -> {
                             _uiState.update {
                                 it.copy(
-                                    definitionImageURL = "",
-                                    definitionImageUri = null,
+                                    definitionImageURL = if (!isTerm) null else it.definitionImageURL,
+                                    definitionImageUri = if (!isTerm) null else it.definitionImageUri,
+                                    termImageURL = if (isTerm) null else it.termImageURL,
+                                    termImageUri = if (isTerm) null else it.termImageUri,
                                     isLoading = false
                                 )
                             }
@@ -367,7 +369,7 @@ class CreateFlashCardViewModel @Inject constructor(
                 )
             }
         }
-        if (query.length < 3) {
+        if (query.isEmpty()) {
             return
         }
 

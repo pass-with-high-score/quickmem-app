@@ -213,6 +213,7 @@ fun MaterialTabScreen(
                                 items(items = flashCards, key = { it.id }) { flashCard ->
                                     StudySetFlipCard(
                                         frontText = flashCard.term,
+                                        frontImage = flashCard.termImageURL,
                                         backText = flashCard.definition,
                                         backgroundColor = colorScheme.background,
                                         backImage = flashCard.definitionImageURL,
@@ -303,6 +304,7 @@ fun MaterialTabScreen(
 
                     items(items = flashCards, key = { it.id }) { flashCard ->
                         CardDetail(
+                            index = flashCards.indexOf(flashCard),
                             flashcardId = flashCard.id,
                             color = studySetColor,
                             front = flashCard.term,

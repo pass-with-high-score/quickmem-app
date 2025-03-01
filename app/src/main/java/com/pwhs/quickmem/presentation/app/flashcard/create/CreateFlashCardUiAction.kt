@@ -20,7 +20,7 @@ sealed class CreateFlashCardUiAction {
     data class ShowHintClicked(val showHint: Boolean) : CreateFlashCardUiAction()
     data class ShowExplanationClicked(val showExplanation: Boolean) : CreateFlashCardUiAction()
     data class UploadImage(val imageUri: Uri, val isTerm: Boolean) : CreateFlashCardUiAction()
-    data class RemoveImage(val imageURL: String) : CreateFlashCardUiAction()
+    data class RemoveImage(val imageURL: String, val isTerm: Boolean) : CreateFlashCardUiAction()
     data class OnQueryTermImageChanged(val query: String) : CreateFlashCardUiAction()
     data class OnQueryDefinitionImageChanged(val query: String) : CreateFlashCardUiAction()
     data class OnDefinitionImageChanged(val definitionImageUrl: String) :

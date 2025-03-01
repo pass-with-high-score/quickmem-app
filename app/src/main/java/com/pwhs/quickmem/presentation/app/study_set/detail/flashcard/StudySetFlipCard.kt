@@ -4,7 +4,6 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -53,6 +52,7 @@ fun calculateDynamicFontSize(text: String): TextUnit {
 @Composable
 fun StudySetFlipCard(
     frontText: String,
+    frontImage: String? = null,
     backText: String,
     backImage: String? = null,
     backgroundColor: Color
@@ -103,30 +103,57 @@ fun StudySetFlipCard(
         ),
     ) {
         if (rotation <= 90f) {
-            Column(
+            Row(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp)
                     .graphicsLayer {
                         rotationX = 0f
                     },
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = frontText,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        fontWeight = when {
-                            frontText.length <= 50 -> FontWeight.Bold
-                            else -> FontWeight.Normal
-                        },
-                        fontSize = frontTextSize,
-                        color = colorScheme.onBackground,
-                        textAlign = TextAlign.Center,
-                    ),
-                    maxLines = 10,
-                    overflow = TextOverflow.Ellipsis
-                )
+                if (frontText.isNotEmpty()) {
+                    Text(
+                        text = frontText,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            fontSize = frontTextSize,
+                            color = colorScheme.onBackground,
+                            fontWeight = when {
+                                frontText.length <= 50 -> FontWeight.Bold
+                                else -> FontWeight.Normal
+                            },
+                            textAlign = when {
+                                frontImage != null -> TextAlign.Start
+                                else -> TextAlign.Center
+                            }
+                        ),
+                        maxLines = 10,
+                        overflow = TextOverflow.Ellipsis,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
+                frontImage?.let {
+                    if (it.isNotEmpty()) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(it)
+                                .placeholder(R.drawable.ic_image_default)
+                                .error(R.drawable.ic_image_error)
+                                .build(),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .width(100.dp)
+                                .height(100.dp)
+                                .padding(8.dp)
+                                .clickable {
+                                    isImageViewerOpen = true
+                                    questionImageUri = it
+                                },
+                            contentScale = ContentScale.Crop
+                        )
+                    }
+                }
             }
         } else {
             Row(
