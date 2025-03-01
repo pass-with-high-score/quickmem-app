@@ -27,4 +27,8 @@ data class StudySetDetailUiState(
     val isLoading: Boolean = false,
     val shouldLoad: Boolean = false,
     val isOwner: Boolean = false,
+    val isSpeaking: Boolean = false,
+    val flashcardCurrentPlayId: String = "",
+    val previousDefinitionVoiceCode: String = "",
+    val previousTermVoiceCode: String = "",
 )

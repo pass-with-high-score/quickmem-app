@@ -31,6 +31,10 @@ data class GetStudySetResponseDto(
     val linkShareCode: String? = null,
     @SerializedName("isImported")
     val isImported: Boolean? = null,
+    @SerializedName("previousDefinitionVoiceCode")
+    val previousDefinitionVoiceCode: String? = null,
+    @SerializedName("previousTermVoiceCode")
+    val previousTermVoiceCode: String? = null,
     @SerializedName("createdAt")
     val createdAt: String,
     @SerializedName("updatedAt")

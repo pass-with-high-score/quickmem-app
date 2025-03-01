@@ -65,7 +65,6 @@ fun MaterialTabScreen(
     onFlashcardClick: (String) -> Unit = {},
     onDeleteFlashCardClick: () -> Unit = {},
     onEditFlashCardClick: () -> Unit = {},
-    onToggleStarClick: (String, Boolean) -> Unit = { _, _ -> },
     onAddFlashCardClick: () -> Unit = {},
     onMakeCopyClick: () -> Unit = {},
     studySetColor: Color = ColorModel.defaultColors.first().hexValue.toColor(),
@@ -75,6 +74,7 @@ fun MaterialTabScreen(
     learningPercentWrite: Int = 0,
     onNavigateToLearn: (LearnMode, Boolean) -> Unit = { _, _ -> },
     onGetSpeech: (
+        flashcardId: String,
         term: String,
         definition: String,
         termVoiceCode: String,
@@ -83,7 +83,8 @@ fun MaterialTabScreen(
         onTermSpeakEnd: () -> Unit,
         onDefinitionSpeakStart: () -> Unit,
         onDefinitionSpeakEnd: () -> Unit
-    ) -> Unit = { _, _, _, _, _, _, _, _ -> }
+    ) -> Unit = { _, _, _, _, _, _, _, _, _ -> },
+    flashcardCurrentPlayId: String = "",
 ) {
     val menuBottomSheetState = rememberModalBottomSheetState()
     var showMenu by remember { mutableStateOf(false) }
@@ -302,16 +303,12 @@ fun MaterialTabScreen(
 
                     items(items = flashCards, key = { it.id }) { flashCard ->
                         CardDetail(
-                            isOwner = isOwner,
+                            flashcardId = flashCard.id,
                             color = studySetColor,
                             front = flashCard.term,
                             back = flashCard.definition,
-                            isStarred = flashCard.isStarred,
                             imageURL = flashCard.definitionImageURL,
                             isAIGenerated = flashCard.isAIGenerated,
-                            onToggleStarClick = { isStarred ->
-                                onToggleStarClick(flashCard.id, isStarred)
-                            },
                             onMenuClick = {
                                 (flashCard.hint
                                     ?: context.getString(R.string.txt_there_is_no_hint_for_this_flashcard)).also {
@@ -327,7 +324,8 @@ fun MaterialTabScreen(
                             },
                             onGetSpeech = onGetSpeech,
                             termVoiceCode = flashCard.termVoiceCode ?: "",
-                            definitionVoiceCode = flashCard.definitionVoiceCode ?: ""
+                            definitionVoiceCode = flashCard.definitionVoiceCode ?: "",
+                            isSpeaking = flashCard.id == flashcardCurrentPlayId
                         )
                     }
                     item {

@@ -6,9 +6,6 @@ sealed class StudySetDetailUiAction {
     data object Refresh : StudySetDetailUiAction()
     data class OnIdOfFlashCardSelectedChanged(val id: String) : StudySetDetailUiAction()
     data object OnDeleteFlashCardClicked : StudySetDetailUiAction()
-    data class OnStarFlashCardClicked(val id: String, val isStarred: Boolean) :
-        StudySetDetailUiAction()
-
     data object OnEditStudySetClicked : StudySetDetailUiAction()
     data object OnEditFlashCardClicked : StudySetDetailUiAction()
     data object OnDeleteStudySetClicked : StudySetDetailUiAction()
@@ -18,6 +15,7 @@ sealed class StudySetDetailUiAction {
         StudySetDetailUiAction()
 
     data class OnGetSpeech(
+        val flashcardId: String,
         val term: String,
         val definition: String,
         val termVoiceCode: String,

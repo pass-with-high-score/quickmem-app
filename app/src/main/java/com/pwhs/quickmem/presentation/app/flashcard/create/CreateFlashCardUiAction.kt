@@ -26,9 +26,15 @@ sealed class CreateFlashCardUiAction {
     data class OnDefinitionImageChanged(val definitionImageUrl: String) :
         CreateFlashCardUiAction()
 
-    data class OnSelectLanguageClicked(val languageModel: LanguageModel, val isTerm: Boolean) :
+    data class OnSelectTermLanguageClicked(val languageModel: LanguageModel) :
         CreateFlashCardUiAction()
 
-    data class OnSelectVoiceClicked(val voiceModel: VoiceModel, val isTerm: Boolean) :
+    data class OnSelectTermVoiceClicked(val voiceModel: VoiceModel) :
+        CreateFlashCardUiAction()
+
+    data class OnSelectDefinitionLanguageClicked(val languageModel: LanguageModel) :
+        CreateFlashCardUiAction()
+
+    data class OnSelectDefinitionVoiceClicked(val voiceModel: VoiceModel) :
         CreateFlashCardUiAction()
 }

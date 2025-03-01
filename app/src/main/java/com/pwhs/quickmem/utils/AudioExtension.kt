@@ -20,16 +20,26 @@ object AudioExtension {
     }
 
 
+    private var currentMediaPlayer: MediaPlayer? = null
+
     fun playAudio(context: Context, audioFile: File, onCompletion: () -> Unit) {
         try {
+            currentMediaPlayer?.apply {
+                if (isPlaying) stop()
+                release()
+            }
+
             val mediaPlayer = MediaPlayer().apply {
                 setDataSource(context, Uri.fromFile(audioFile))
                 prepare()
                 start()
             }
 
+            currentMediaPlayer = mediaPlayer
+
             mediaPlayer.setOnCompletionListener {
                 mediaPlayer.release()
+                currentMediaPlayer = null
                 onCompletion()
             }
         } catch (e: Exception) {

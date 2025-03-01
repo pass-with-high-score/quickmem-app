@@ -5,7 +5,6 @@ import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.data.dto.flashcard.FlipFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.QuizStatusFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.RatingFlashCardDto
-import com.pwhs.quickmem.data.dto.flashcard.ToggleStarredFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.TrueFalseStatusFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.WriteStatusFlashCardDto
 import com.pwhs.quickmem.data.mapper.flashcard.toDto
@@ -63,33 +62,6 @@ class FlashCardRepositoryImpl @Inject constructor(
             try {
                 val response = apiService.deleteFlashCard(token = token, id = id)
                 emit(Resources.Success(response))
-            } catch (e: HttpException) {
-                Timber.e(e)
-                emit(Resources.Error(e.toString()))
-            } catch (e: IOException) {
-                Timber.e(e)
-                emit(Resources.Error(e.toString()))
-            }
-        }
-    }
-
-    override suspend fun toggleStarredFlashCard(
-        token: String,
-        id: String,
-        isStarred: Boolean,
-    ): Flow<Resources<UpdateFlashCardResponseModel>> {
-        return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
-            emit(Resources.Loading())
-            try {
-                val response = apiService.toggleStarredFlashCard(
-                    token = token,
-                    id = id,
-                    toggleStarredFlashCardDto = ToggleStarredFlashCardDto(isStarred)
-                )
-                emit(Resources.Success(response.toModel()))
             } catch (e: HttpException) {
                 Timber.e(e)
                 emit(Resources.Error(e.toString()))

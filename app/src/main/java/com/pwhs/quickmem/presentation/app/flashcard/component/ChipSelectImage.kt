@@ -46,6 +46,7 @@ fun ChipSelectImage(
     onDeleteImage: () -> Unit,
     onChooseImage: () -> Unit,
     color: Color = MaterialTheme.colorScheme.primary,
+    label: String,
 ) {
     var isImageViewerOpen by remember { mutableStateOf(false) }
 
@@ -92,7 +93,7 @@ fun ChipSelectImage(
                 }
 
                 Text(
-                    text = stringResource(R.string.txt_term_image),
+                    text = label,
                     color = color,
                 )
             }

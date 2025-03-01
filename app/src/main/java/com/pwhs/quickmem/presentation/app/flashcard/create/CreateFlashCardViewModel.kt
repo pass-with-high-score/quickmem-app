@@ -10,7 +10,6 @@ import com.pwhs.quickmem.domain.model.color.ColorModel
 import com.pwhs.quickmem.domain.repository.FlashCardRepository
 import com.pwhs.quickmem.domain.repository.PixaBayRepository
 import com.pwhs.quickmem.domain.repository.UploadImageRepository
-import com.pwhs.quickmem.utils.getLanguageCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
@@ -43,16 +42,19 @@ class CreateFlashCardViewModel @Inject constructor(
     init {
         val studySetId: String = savedStateHandle.get<String>("studySetId") ?: ""
         val studySetColorId: Int = savedStateHandle.get<Int>("studySetColorId") ?: 1
+        val previousDefinitionVoiceCode: String =
+            savedStateHandle.get<String>("previousDefinitionVoiceCode") ?: ""
+        val previousTermVoiceCode: String =
+            savedStateHandle.get<String>("previousTermVoiceCode") ?: ""
         _uiState.update {
             it.copy(
                 studySetId = studySetId,
-                studyColorModel = ColorModel.defaultColors.first { it.id == studySetColorId })
+                studyColorModel = ColorModel.defaultColors.first { it.id == studySetColorId },
+                previousDefinitionVoiceCode = previousDefinitionVoiceCode,
+                previousTermVoiceCode = previousTermVoiceCode
+            )
         }
-        viewModelScope.launch {
-            val languageLocale = getApplication<Application>().getLanguageCode()
-            _uiState.update { it.copy(languageLocale = languageLocale) }
-            getLanguages(isInit = true, languageCode = languageLocale)
-        }
+        getLanguages()
     }
 
     fun onEvent(event: CreateFlashCardUiAction) {
@@ -218,45 +220,50 @@ class CreateFlashCardViewModel @Inject constructor(
                 }
             }
 
-            is CreateFlashCardUiAction.OnSelectLanguageClicked -> {
-                if (event.isTerm) {
-                    _uiState.update {
-                        it.copy(
-                            termLanguageModel = event.languageModel
-                        )
-                    }
-                } else {
-                    _uiState.update {
-                        it.copy(
-                            definitionLanguageModel = event.languageModel
-                        )
-                    }
+            is CreateFlashCardUiAction.OnSelectTermLanguageClicked -> {
+                _uiState.update {
+                    it.copy(
+                        termLanguageModel = event.languageModel
+                    )
                 }
                 getVoices(
-                    isTerm = event.isTerm,
+                    isTerm = true,
                     languageCode = event.languageModel.code,
                     isInit = false
                 )
             }
 
-            is CreateFlashCardUiAction.OnSelectVoiceClicked -> {
-                if (event.isTerm) {
-                    _uiState.update {
-                        it.copy(
-                            termVoiceCode = event.voiceModel
-                        )
-                    }
-                } else {
-                    _uiState.update {
-                        it.copy(
-                            definitionVoiceCode = event.voiceModel
-                        )
-                    }
+            is CreateFlashCardUiAction.OnSelectTermVoiceClicked -> {
+                _uiState.update {
+                    it.copy(
+                        termVoiceCode = event.voiceModel
+                    )
                 }
             }
 
             is CreateFlashCardUiAction.FlashCardTermImageChanged -> TODO()
             is CreateFlashCardUiAction.OnTermImageChanged -> TODO()
+            is CreateFlashCardUiAction.OnSelectDefinitionLanguageClicked -> {
+                _uiState.update {
+                    it.copy(
+                        definitionLanguageModel = event.languageModel
+                    )
+                }
+
+                getVoices(
+                    isTerm = false,
+                    languageCode = event.languageModel.code,
+                    isInit = false
+                )
+            }
+
+            is CreateFlashCardUiAction.OnSelectDefinitionVoiceClicked -> {
+                _uiState.update {
+                    it.copy(
+                        definitionVoiceCode = event.voiceModel
+                    )
+                }
+            }
         }
     }
 
@@ -269,17 +276,14 @@ class CreateFlashCardViewModel @Inject constructor(
             ).collect { resource ->
                 when (resource) {
                     is Resources.Error -> {
-                        Timber.e("Error: ${resource.message}")
                         _uiState.update { it.copy(isLoading = false) }
                     }
 
                     is Resources.Loading -> {
-                        Timber.d("Loading")
                         _uiState.update { it.copy(isLoading = true) }
                     }
 
                     is Resources.Success -> {
-                        Timber.d("FlashCard saved: ${resource.data}")
                         _uiState.update {
                             it.copy(
                                 term = "",
@@ -299,20 +303,27 @@ class CreateFlashCardViewModel @Inject constructor(
         }
     }
 
-    private fun getLanguages(isInit: Boolean, languageCode: String = "") {
+    private fun getLanguages(isInit: Boolean = true) {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
+            val termLanguageCode =
+                _uiState.value.previousTermVoiceCode.split("-").take(2).joinToString("-")
+            val definitionLanguageCode =
+                _uiState.value.previousDefinitionVoiceCode.split("-").take(2).joinToString("-")
             flashCardRepository.getLanguages(token = token).collect { resource ->
                 when (resource) {
                     is Resources.Success -> {
                         _uiState.update {
-                            val selectLanguage =
-                                resource.data?.firstOrNull { it.code.contains(languageCode) }
+                            val termSelectLanguage =
+                                resource.data?.firstOrNull { it.code.contains(termLanguageCode) }
+                            val definitionLanguage =
+                                resource.data?.firstOrNull { it.code.contains(definitionLanguageCode) }
 
                             it.copy(
                                 languageModels = resource.data ?: emptyList(),
-                                termLanguageModel = selectLanguage ?: resource.data?.firstOrNull(),
-                                definitionLanguageModel = selectLanguage
+                                termLanguageModel = termSelectLanguage
+                                    ?: resource.data?.firstOrNull(),
+                                definitionLanguageModel = definitionLanguage
                                     ?: resource.data?.firstOrNull()
                             )
                         }.also {
@@ -354,14 +365,22 @@ class CreateFlashCardViewModel @Inject constructor(
                                 _uiState.update {
                                     it.copy(
                                         termVoicesModel = resource.data ?: emptyList(),
-                                        termVoiceCode = if (isInit) resource.data?.firstOrNull() else null
+                                        termVoiceCode = if (isInit) {
+                                            resource.data?.firstOrNull { it.code == _uiState.value.previousTermVoiceCode }
+                                        } else {
+                                            null
+                                        }
                                     )
                                 }
                             } else {
                                 _uiState.update {
                                     it.copy(
                                         definitionVoicesModel = resource.data ?: emptyList(),
-                                        definitionVoiceCode = if (isInit) resource.data?.firstOrNull() else null
+                                        definitionVoiceCode = if (isInit) {
+                                            resource.data?.firstOrNull { it.code == _uiState.value.previousDefinitionVoiceCode }
+                                        } else {
+                                            null
+                                        }
                                     )
                                 }
                             }

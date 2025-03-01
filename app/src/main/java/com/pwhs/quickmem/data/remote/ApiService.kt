@@ -51,7 +51,6 @@ import com.pwhs.quickmem.data.dto.flashcard.FlipFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.LanguageDto
 import com.pwhs.quickmem.data.dto.flashcard.QuizStatusFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.RatingFlashCardDto
-import com.pwhs.quickmem.data.dto.flashcard.ToggleStarredFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.TrueFalseStatusFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.UpdateFlashCardResponseDto
 import com.pwhs.quickmem.data.dto.flashcard.VoiceDto
@@ -378,13 +377,6 @@ interface ApiService {
         @Header("Authorization") token: String,
         @Path("id") id: String,
     )
-
-    @PATCH("flashcard/{id}/starred")
-    suspend fun toggleStarredFlashCard(
-        @Header("Authorization") token: String,
-        @Path("id") id: String,
-        @Body toggleStarredFlashCardDto: ToggleStarredFlashCardDto,
-    ): UpdateFlashCardResponseDto
 
     @PATCH("flashcard/{id}/flip-status")
     suspend fun updateFlipFlashCard(

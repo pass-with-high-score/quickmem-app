@@ -63,6 +63,7 @@ class StudySetDetailViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     private var job: Job? = null
+    private var currentAudioJob: Job? = null
 
     init {
         val id: String = savedStateHandle.get<String>("id") ?: ""
@@ -95,10 +96,6 @@ class StudySetDetailViewModel @Inject constructor(
 
             is StudySetDetailUiAction.OnDeleteFlashCardClicked -> {
                 deleteFlashCard()
-            }
-
-            is StudySetDetailUiAction.OnStarFlashCardClicked -> {
-                toggleStarredFlashCard(event.id, event.isStarred)
             }
 
             is StudySetDetailUiAction.OnEditStudySetClicked -> {
@@ -152,6 +149,7 @@ class StudySetDetailViewModel @Inject constructor(
 
             is StudySetDetailUiAction.OnGetSpeech -> {
                 getSpeech(
+                    event.flashcardId,
                     event.term,
                     event.definition,
                     event.termVoiceCode,
@@ -214,6 +212,8 @@ class StudySetDetailViewModel @Inject constructor(
                                     isLoading = false,
                                     isAIGenerated = resource.data.isAIGenerated == true,
                                     isOwner = isOwner,
+                                    previousTermVoiceCode = resource.data.previousTermVoiceCode ?: "",
+                                    previousDefinitionVoiceCode = resource.data.previousDefinitionVoiceCode ?: ""
                                 )
                             }
                             if (!isRefresh && resource.data.id.isNotEmpty()) {
@@ -249,6 +249,8 @@ class StudySetDetailViewModel @Inject constructor(
                                     isLoading = false,
                                     isAIGenerated = resource.data.isAIGenerated == true,
                                     isOwner = isOwner,
+                                    previousTermVoiceCode = resource.data.previousTermVoiceCode ?: "",
+                                    previousDefinitionVoiceCode = resource.data.previousDefinitionVoiceCode ?: ""
                                 )
                             }
                             if (!isRefresh) {
@@ -299,32 +301,6 @@ class StudySetDetailViewModel @Inject constructor(
                         }
                     }
                 }
-        }
-    }
-
-    private fun toggleStarredFlashCard(id: String, isStarred: Boolean) {
-        viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            flashCardRepository.toggleStarredFlashCard(
-                token,
-                id,
-                isStarred
-            ).collect { resource ->
-                when (resource) {
-                    is Resources.Loading -> {
-                        Timber.d("Loading")
-                    }
-
-                    is Resources.Success -> {
-                        Timber.d(resource.data?.message)
-                        _uiEvent.send(StudySetDetailUiEvent.FlashCardStarred)
-                    }
-
-                    is Resources.Error -> {
-                        Timber.d("Error")
-                    }
-                }
-            }
         }
     }
 
@@ -427,6 +403,7 @@ class StudySetDetailViewModel @Inject constructor(
     }
 
     private fun getSpeech(
+        flashcardId: String,
         term: String,
         definition: String,
         termVoiceCode: String,
@@ -438,6 +415,11 @@ class StudySetDetailViewModel @Inject constructor(
     ) {
         job?.cancel()
         job = viewModelScope.launch {
+            _uiState.update {
+                it.copy(
+                    flashcardCurrentPlayId = flashcardId
+                )
+            }
             val token = tokenManager.accessToken.firstOrNull() ?: ""
 
             val termByteArray = fetchSpeech(token, term, termVoiceCode)
@@ -454,6 +436,11 @@ class StudySetDetailViewModel @Inject constructor(
                 onDefinitionSpeakStart()
                 playAudioAndWait(definitionByteArray)
                 onDefinitionSpeakEnd()
+                _uiState.update {
+                    it.copy(
+                        flashcardCurrentPlayId = ""
+                    )
+                }
             } else {
                 Timber.d("Không lấy được dữ liệu âm thanh cho definition")
             }
@@ -484,17 +471,21 @@ class StudySetDetailViewModel @Inject constructor(
     @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun playAudioAndWait(audioData: ByteArray) =
         suspendCancellableCoroutine<Unit> { cont ->
-            val audioFile = AudioExtension.convertByteArrayToAudio(
-                getApplication<Application>().applicationContext,
-                audioData,
-                "audio.wav"
-            ) ?: return@suspendCancellableCoroutine
-            AudioExtension.playAudio(
-                context = getApplication<Application>().applicationContext,
-                audioFile = audioFile,
-                onCompletion = {
-                    cont.resume(Unit) {}
-                }
-            )
+            currentAudioJob?.cancel()
+
+            currentAudioJob = viewModelScope.launch {
+                val audioFile = AudioExtension.convertByteArrayToAudio(
+                    getApplication<Application>().applicationContext,
+                    audioData,
+                    "audio.wav"
+                ) ?: return@launch
+                AudioExtension.playAudio(
+                    context = getApplication<Application>().applicationContext,
+                    audioFile = audioFile,
+                    onCompletion = {
+                        cont.resume(Unit) {}
+                    }
+                )
+            }
         }
 }

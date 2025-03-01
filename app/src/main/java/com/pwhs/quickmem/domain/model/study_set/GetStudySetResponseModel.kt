@@ -20,4 +20,6 @@ data class GetStudySetResponseModel(
     val isImported: Boolean? = null,
     val createdAt: String,
     val updatedAt: String,
+    val previousDefinitionVoiceCode: String? = null,
+    val previousTermVoiceCode: String? = null,
 )

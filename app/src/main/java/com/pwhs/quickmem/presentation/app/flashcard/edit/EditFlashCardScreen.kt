@@ -44,7 +44,6 @@ import com.pwhs.quickmem.presentation.app.flashcard.component.ChipSelectImage
 import com.pwhs.quickmem.presentation.app.flashcard.component.ExplanationCard
 import com.pwhs.quickmem.presentation.app.flashcard.component.FlashCardTextFieldContainer
 import com.pwhs.quickmem.presentation.app.flashcard.component.FlashCardTopAppBar
-import com.pwhs.quickmem.presentation.app.flashcard.component.FlashcardBottomSheet
 import com.pwhs.quickmem.presentation.app.flashcard.component.FlashcardSelectImageBottomSheet
 import com.pwhs.quickmem.presentation.app.flashcard.component.HintCard
 import com.pwhs.quickmem.presentation.components.LoadingOverlay
@@ -224,11 +223,6 @@ fun CreateFlashCard(
     onDeleteFlashCard: () -> Unit = {},
 ) {
 
-    val bottomSheetSetting = rememberModalBottomSheetState()
-    var showBottomSheetSetting by remember {
-        mutableStateOf(false)
-    }
-
     val imageCropper = rememberImageCropper()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -265,9 +259,6 @@ fun CreateFlashCard(
                     onNavigationBack = onNavigationBack,
                     onSaveFlashCardClicked = onSaveFlashCardClicked,
                     enableSaveButton = term.isNotEmpty() && definition.isNotEmpty(),
-                    onSettingsClicked = {
-                        showBottomSheetSetting = true
-                    },
                     title = stringResource(R.string.txt_edit_flashcard),
                     color = studySetColor,
                 )
@@ -294,7 +285,8 @@ fun CreateFlashCard(
                             onDeleteImage = onDeleteImage,
                             onChooseImage = {
                                 showSearchImageBottomSheet = true
-                            }
+                            },
+                            label = stringResource(R.string.txt_definition_image),
                         )
                     }
                     item {
@@ -358,19 +350,6 @@ fun CreateFlashCard(
                         .padding(16.dp)
                 )
                 LoadingOverlay(isLoading = isLoading)
-            }
-
-            if (showBottomSheetSetting) {
-                FlashcardBottomSheet(
-                    onDismissRequest = {
-                        showBottomSheetSetting = false
-                    },
-                    sheetState = bottomSheetSetting,
-                    onShowHintClicked = onShowHintClicked,
-                    onShowExplanationClicked = onShowExplanationClicked,
-                    isEdit = true,
-                    onDeleteFlashcardClicked = onDeleteFlashCard
-                )
             }
             if (showSearchImageBottomSheet) {
                 FlashcardSelectImageBottomSheet(

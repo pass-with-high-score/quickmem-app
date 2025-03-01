@@ -21,11 +21,13 @@ fun GetStudySetResponseDto.toModel() = GetStudySetResponseModel(
     createdAt = createdAt,
     updatedAt = updatedAt,
     flashcardCount = flashcardCount,
-    flashcards = flashcards?.map { it.toModel() } ?: emptyList(),
+    flashcards = flashcards?.map { it.toModel() }?.sortedByDescending { it.createdAt } ?: emptyList(),
     owner = owner.toModel(),
     linkShareCode = linkShareCode,
     isImported = isImported,
     isAIGenerated = isAIGenerated,
+    previousDefinitionVoiceCode = previousDefinitionVoiceCode,
+    previousTermVoiceCode = previousTermVoiceCode,
 )
 
 fun GetStudySetResponseModel.toDto() = GetStudySetResponseDto(
@@ -43,4 +45,6 @@ fun GetStudySetResponseModel.toDto() = GetStudySetResponseDto(
     linkShareCode = linkShareCode,
     isImported = isImported,
     isAIGenerated = isAIGenerated,
+    previousDefinitionVoiceCode = previousDefinitionVoiceCode,
+    previousTermVoiceCode = previousTermVoiceCode,
 )

@@ -685,6 +685,10 @@
     <string name="txt_study_sets_count">%1$s study sets</string>
     <string name="txt_flashcard_deleted">Flashcard deleted</string>
     <string name="txt_voice">Custom voice</string>
+    <string name="txt_select_voice">Select Voice</string>
+    <string name="txt_select_language">Select Language</string>
+    <string name="txt_no_language_found">No language found</string>
+    <string name="txt_voice_name">Voice: %1$s</string>
     <plurals name="hours">
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>

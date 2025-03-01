@@ -22,12 +22,6 @@ interface FlashCardRepository {
         id: String,
     ): Flow<Resources<Unit>>
 
-    suspend fun toggleStarredFlashCard(
-        token: String,
-        id: String,
-        isStarred: Boolean,
-    ): Flow<Resources<UpdateFlashCardResponseModel>>
-
     suspend fun updateFlashCard(
         token: String,
         id: String,

@@ -3,7 +3,6 @@ package com.pwhs.quickmem.presentation.app.flashcard.component
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -26,7 +25,6 @@ fun FlashCardTopAppBar(
     onNavigationBack: () -> Unit,
     onSaveFlashCardClicked: () -> Unit,
     enableSaveButton: Boolean,
-    onSettingsClicked: () -> Unit,
     color: Color,
 ) {
     CenterAlignedTopAppBar(
@@ -48,12 +46,6 @@ fun FlashCardTopAppBar(
             }
         },
         actions = {
-            IconButton(onClick = onSettingsClicked) {
-                Icon(
-                    imageVector = Icons.Default.MoreVert,
-                    contentDescription = stringResource(R.string.txt_settings)
-                )
-            }
             IconButton(
                 onClick = onSaveFlashCardClicked,
                 enabled = enableSaveButton

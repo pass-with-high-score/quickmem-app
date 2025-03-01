@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,8 +22,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.flashcard.LanguageModel
 import com.pwhs.quickmem.presentation.app.library.component.SearchTextField
 
@@ -30,13 +34,13 @@ import com.pwhs.quickmem.presentation.app.library.component.SearchTextField
 @Composable
 fun LanguageBottomSheet(
     modifier: Modifier = Modifier,
-    isTerm: Boolean = true,
     languageModel: LanguageModel?,
     languageList: List<LanguageModel> = emptyList(),
     onDismissRequest: () -> Unit,
-    onLanguageSelected: (LanguageModel, Boolean) -> Unit,
+    onLanguageSelected: (LanguageModel) -> Unit,
 ) {
     val bottomSheetState = rememberModalBottomSheetState()
+    val context = LocalContext.current
 
     var query by remember { mutableStateOf("") }
 
@@ -45,7 +49,7 @@ fun LanguageBottomSheet(
     }
 
     ModalBottomSheet(
-        modifier = modifier,
+        modifier = modifier.fillMaxHeight(0.9f),
         onDismissRequest = onDismissRequest,
         sheetState = bottomSheetState,
     ) {
@@ -55,7 +59,7 @@ fun LanguageBottomSheet(
                 .fillMaxWidth()
         ) {
             Text(
-                text = "Select Language",
+                text = stringResource(R.string.txt_select_language),
                 style = MaterialTheme.typography.titleMedium.copy(
                     fontWeight = FontWeight.Bold
                 )
@@ -72,7 +76,7 @@ fun LanguageBottomSheet(
                 item {
                     if (filteredLanguageList.isEmpty()) {
                         Text(
-                            text = "No language found",
+                            text = stringResource(R.string.txt_no_language_found),
                             modifier = Modifier.padding(8.dp)
                         )
                     }
@@ -83,7 +87,7 @@ fun LanguageBottomSheet(
                             .fillMaxWidth()
                             .padding(8.dp)
                             .clickable {
-                                onLanguageSelected(language, isTerm)
+                                onLanguageSelected(language)
                                 onDismissRequest()
                             },
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -92,7 +96,7 @@ fun LanguageBottomSheet(
                         RadioButton(
                             selected = language.code == languageModel?.code,
                             onClick = {
-                                onLanguageSelected(language, isTerm)
+                                onLanguageSelected(language)
                                 onDismissRequest()
                             }
                         )
@@ -119,7 +123,10 @@ fun LanguageBottomSheet(
                         }
 
                         Text(
-                            text = "Voice: ${language.voiceAvailableCount}",
+                            text = context.getString(
+                                R.string.txt_voice_name,
+                                language.voiceAvailableCount.toString()
+                            ),
                         )
                     }
                 }
