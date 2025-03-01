@@ -1,6 +1,7 @@
 package com.pwhs.quickmem.presentation.app.flashcard.create
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
@@ -102,114 +103,15 @@ class CreateFlashCardViewModel @Inject constructor(
             }
 
             is CreateFlashCardUiAction.UploadImage -> {
-
-                viewModelScope.launch {
-                    val token = tokenManager.accessToken.firstOrNull() ?: ""
-                    uploadImageRepository.uploadImage(token, event.imageUri)
-                        .collect { resource ->
-                            when (resource) {
-                                is Resources.Success -> {
-                                    _uiState.update {
-                                        it.copy(
-                                            definitionImageURL = resource.data!!.url,
-                                            isLoading = false
-                                        )
-                                    }
-                                }
-
-                                is Resources.Error -> {
-                                    Timber.e("Error: ${resource.message}")
-                                    _uiState.update { it.copy(isLoading = false) }
-                                }
-
-                                is Resources.Loading -> {
-                                    _uiState.update {
-                                        it.copy(isLoading = true)
-                                    }
-                                }
-                            }
-                        }
-                }
+                onUploadImage(event.imageUri, event.isTerm)
             }
 
             is CreateFlashCardUiAction.RemoveImage -> {
-                viewModelScope.launch {
-                    val token = tokenManager.accessToken.firstOrNull() ?: ""
-                    uploadImageRepository.removeImage(token, event.imageURL)
-                        .collect { resource ->
-                            when (resource) {
-                                is Resources.Success -> {
-                                    _uiState.update {
-                                        it.copy(
-                                            definitionImageURL = "",
-                                            definitionImageUri = null,
-                                            isLoading = false
-                                        )
-                                    }
-                                }
-
-                                is Resources.Error -> {
-                                    Timber.e("Error: ${resource.message}")
-                                    _uiState.update { it.copy(isLoading = false) }
-                                }
-
-                                is Resources.Loading -> {
-                                    _uiState.update {
-                                        it.copy(isLoading = true)
-                                    }
-                                }
-                            }
-                        }
-                }
+                uploadImage(event.imageURL)
             }
 
-            is CreateFlashCardUiAction.OnQueryImageChanged -> {
-                _uiState.update {
-                    it.copy(
-                        queryImage = event.query,
-                        isSearchImageLoading = true
-                    )
-                }
-                if (event.query.length < 3) {
-                    return
-                }
-
-                job?.cancel()
-                job = viewModelScope.launch {
-                    pixaBayRepository.searchImages(
-                        token = tokenManager.accessToken.firstOrNull() ?: "",
-                        query = event.query
-                    ).collect { resource ->
-                        when (resource) {
-                            is Resources.Success -> {
-                                _uiState.update {
-                                    it.copy(
-                                        searchImageResponseModel = resource.data,
-                                        isSearchImageLoading = false
-                                    )
-                                }
-                            }
-
-                            is Resources.Error -> {
-                                Timber.e("Error: ${resource.message}")
-                                _uiState.update {
-                                    it.copy(
-                                        searchImageResponseModel = null,
-                                        isSearchImageLoading = false
-                                    )
-                                }
-                            }
-
-                            is Resources.Loading -> {
-                                _uiState.update {
-                                    it.copy(
-                                        isSearchImageLoading = true
-                                    )
-                                }
-                            }
-                        }
-                    }
-                }
+            is CreateFlashCardUiAction.OnQueryTermImageChanged -> {
+                onSearchImage(event.query)
             }
 
             is CreateFlashCardUiAction.OnDefinitionImageChanged -> {
@@ -241,8 +143,22 @@ class CreateFlashCardViewModel @Inject constructor(
                 }
             }
 
-            is CreateFlashCardUiAction.FlashCardTermImageChanged -> TODO()
-            is CreateFlashCardUiAction.OnTermImageChanged -> TODO()
+            is CreateFlashCardUiAction.FlashCardTermImageChanged -> {
+                _uiState.update {
+                    it.copy(
+                        termImageUri = event.termImageUri,
+                    )
+                }
+            }
+
+            is CreateFlashCardUiAction.OnTermImageChanged -> {
+                _uiState.update {
+                    it.copy(
+                        termImageURL = event.termImageURL,
+                    )
+                }
+            }
+
             is CreateFlashCardUiAction.OnSelectDefinitionLanguageClicked -> {
                 _uiState.update {
                     it.copy(
@@ -263,6 +179,10 @@ class CreateFlashCardViewModel @Inject constructor(
                         definitionVoiceCode = event.voiceModel
                     )
                 }
+            }
+
+            is CreateFlashCardUiAction.OnQueryDefinitionImageChanged -> {
+                onSearchImage(event.query, isTerm = false)
             }
         }
     }
@@ -287,6 +207,8 @@ class CreateFlashCardViewModel @Inject constructor(
                         _uiState.update {
                             it.copy(
                                 term = "",
+                                termImageURL = null,
+                                termImageUri = null,
                                 definition = "",
                                 definitionImageURL = null,
                                 definitionImageUri = null,
@@ -392,6 +314,153 @@ class CreateFlashCardViewModel @Inject constructor(
 
                         is Resources.Loading -> {
                             Timber.d("Loading")
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun uploadImage(imageURL: String) {
+        viewModelScope.launch {
+            val token = tokenManager.accessToken.firstOrNull() ?: ""
+            uploadImageRepository.removeImage(token, imageURL)
+                .collect { resource ->
+                    when (resource) {
+                        is Resources.Success -> {
+                            _uiState.update {
+                                it.copy(
+                                    definitionImageURL = "",
+                                    definitionImageUri = null,
+                                    isLoading = false
+                                )
+                            }
+                        }
+
+                        is Resources.Error -> {
+                            Timber.e("Error: ${resource.message}")
+                            _uiState.update { it.copy(isLoading = false) }
+                        }
+
+                        is Resources.Loading -> {
+                            _uiState.update {
+                                it.copy(isLoading = true)
+                            }
+                        }
+                    }
+                }
+        }
+    }
+
+    private fun onSearchImage(query: String, isTerm: Boolean = true) {
+        if (isTerm) {
+            _uiState.update {
+                it.copy(
+                    termQueryImage = query,
+                    isSearchTermImageLoading = true
+                )
+            }
+        } else {
+            _uiState.update {
+                it.copy(
+                    definitionQueryImage = query,
+                    isSearchDefinitionImageLoading = true
+                )
+            }
+        }
+        if (query.length < 3) {
+            return
+        }
+
+        job?.cancel()
+        job = viewModelScope.launch {
+            pixaBayRepository.searchImages(
+                token = tokenManager.accessToken.firstOrNull() ?: "",
+                query = query
+            ).collect { resource ->
+                when (resource) {
+                    is Resources.Success -> {
+                        if (isTerm) {
+                            _uiState.update {
+                                it.copy(
+                                    termSearchImageResponseModel = resource.data,
+                                    isSearchTermImageLoading = false
+                                )
+                            }
+                        } else {
+                            _uiState.update {
+                                it.copy(
+                                    definitionSearchImageResponseModel = resource.data,
+                                    isSearchDefinitionImageLoading = false
+                                )
+                            }
+                        }
+                    }
+
+                    is Resources.Error -> {
+                        Timber.e("Error: ${resource.message}")
+                        if (isTerm) {
+                            _uiState.update {
+                                it.copy(
+                                    termSearchImageResponseModel = null,
+                                    isSearchTermImageLoading = false
+                                )
+                            }
+                        } else {
+                            _uiState.update {
+                                it.copy(
+                                    definitionSearchImageResponseModel = null,
+                                    isSearchDefinitionImageLoading = false
+                                )
+                            }
+                        }
+                    }
+
+                    is Resources.Loading -> {
+                        if (isTerm) {
+                            _uiState.update {
+                                it.copy(
+                                    isSearchTermImageLoading = true
+                                )
+                            }
+                        } else {
+                            _uiState.update {
+                                it.copy(
+                                    isSearchDefinitionImageLoading = true
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onUploadImage(imageUri: Uri, isTerm: Boolean = true) {
+        viewModelScope.launch {
+            val token = tokenManager.accessToken.firstOrNull() ?: ""
+            uploadImageRepository
+                .uploadImage(token, imageUri)
+                .collect { resource ->
+                    when (resource) {
+                        is Resources.Success -> {
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    termImageUri = if (isTerm) imageUri else it.termImageUri,
+                                    definitionImageUri = if (!isTerm) imageUri else it.definitionImageUri,
+                                )
+                            }
+                        }
+
+                        is Resources.Error -> {
+                            Timber.e("Error: ${resource.message}")
+                            _uiState.update { it.copy(isLoading = false) }
+                        }
+
+                        is Resources.Loading -> {
+                            _uiState.update {
+                                it.copy(isLoading = true)
+                            }
                         }
                     }
                 }

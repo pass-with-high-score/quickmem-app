@@ -182,7 +182,9 @@ fun CreateFlashCardScreen(
                 )
             )
         },
-        onUploadImage = { viewModel.onEvent(CreateFlashCardUiAction.UploadImage(it)) },
+        onUploadImage = { imageUri, isTerm ->
+            viewModel.onEvent(CreateFlashCardUiAction.UploadImage(imageUri, isTerm))
+        },
         onDeleteImage = {
             viewModel.onEvent(
                 CreateFlashCardUiAction.RemoveImage(
@@ -197,13 +199,29 @@ fun CreateFlashCardScreen(
         onSaveFlashCardClicked = {
             viewModel.onEvent(CreateFlashCardUiAction.SaveFlashCard)
         },
-        queryImage = uiState.queryImage,
-        searchImageResponseModel = uiState.searchImageResponseModel,
-        onQueryImageChanged = { viewModel.onEvent(CreateFlashCardUiAction.OnQueryImageChanged(it)) },
+        termQueryImage = uiState.termQueryImage,
+        termSearchImageResponseModel = uiState.termSearchImageResponseModel,
+        onQueryTermImageChanged = {
+            viewModel.onEvent(
+                CreateFlashCardUiAction.OnQueryTermImageChanged(
+                    it
+                )
+            )
+        },
         onDefinitionImageUrlChanged = {
             viewModel.onEvent(CreateFlashCardUiAction.OnDefinitionImageChanged(it))
         },
-        isSearchImageLoading = uiState.isSearchImageLoading,
+        isSearchDefinitionImageLoading = uiState.isSearchDefinitionImageLoading,
+        definitionQueryImage = uiState.definitionQueryImage,
+        definitionSearchImageResponseModel = uiState.definitionSearchImageResponseModel,
+        onQueryDefinitionImageChanged = {
+            viewModel.onEvent(
+                CreateFlashCardUiAction.OnQueryDefinitionImageChanged(
+                    it
+                )
+            )
+        },
+        isSearchTermImageLoading = uiState.isSearchTermImageLoading,
         studySetColor = uiState.studyColorModel?.hexValue?.toColor() ?: colorScheme.primary,
         termLanguageModel = uiState.termLanguageModel,
         termVoiceModel = uiState.termVoiceCode,
@@ -239,7 +257,7 @@ fun CreateFlashCard(
     definition: String = "",
     definitionImageUri: Uri? = null,
     definitionImageURL: String = "",
-    onTermImageChanged: (Uri) -> Unit = {},
+    onTermImageChanged: (Uri?) -> Unit = {},
     isLoading: Boolean = false,
     hint: String = "",
     showHint: Boolean = false,
@@ -252,16 +270,20 @@ fun CreateFlashCard(
     onShowHintClicked: (Boolean) -> Unit = {},
     onExplanationChanged: (String) -> Unit = {},
     onShowExplanationClicked: (Boolean) -> Unit = {},
-    onUploadImage: (Uri) -> Unit = {},
+    onUploadImage: (Uri, Boolean) -> Unit = { _, _ -> },
     onDeleteImage: () -> Unit = {},
     onNavigationBack: () -> Unit = {},
     onSaveFlashCardClicked: () -> Unit = {},
-    queryImage: String = "",
-    searchImageResponseModel: SearchImageResponseModel? = null,
-    onQueryImageChanged: (String) -> Unit = {},
+    termQueryImage: String = "",
+    termSearchImageResponseModel: SearchImageResponseModel? = null,
+    onQueryTermImageChanged: (String) -> Unit = {},
+    definitionQueryImage: String = "",
+    definitionSearchImageResponseModel: SearchImageResponseModel? = null,
+    onQueryDefinitionImageChanged: (String) -> Unit = {},
     onDefinitionImageUrlChanged: (String) -> Unit = {},
     onTermImageUrlChanged: (String) -> Unit = {},
-    isSearchImageLoading: Boolean = false,
+    isSearchTermImageLoading: Boolean = false,
+    isSearchDefinitionImageLoading: Boolean = false,
     studySetColor: Color = colorScheme.primary,
     termLanguageModel: LanguageModel? = null,
     termVoiceModel: VoiceModel? = null,
@@ -275,12 +297,13 @@ fun CreateFlashCard(
     onSelectDefinitionLanguageClicked: (LanguageModel) -> Unit = { _ -> },
     onDefinitionVoiceSelected: (VoiceModel) -> Unit = { _ -> },
 ) {
-    val imageCropper = rememberImageCropper()
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val imagePicker = rememberImagePicker(onImage = { uri ->
+
+    val definitionImageCropper = rememberImageCropper()
+    val definitionImagePicker = rememberImagePicker(onImage = { uri ->
         scope.launch {
-            when (val result = imageCropper.crop(uri, context)) {
+            when (val result = definitionImageCropper.crop(uri, context)) {
                 CropResult.Cancelled -> { /* Handle cancellation */
                 }
 
@@ -294,13 +317,38 @@ fun CreateFlashCard(
         }
     })
 
-    val cropState = imageCropper.cropState
+    val definitionCropState = definitionImageCropper.cropState
 
-    var showSearchImageBottomSheet by remember {
+    var showDefinitionSearchImageBottomSheet by remember {
         mutableStateOf(false)
     }
 
-    val searchImageBottomSheet = rememberModalBottomSheetState()
+    val searchDefinitionImageBottomSheet = rememberModalBottomSheetState()
+
+    val termImageCropper = rememberImageCropper()
+    val termImagePicker = rememberImagePicker(onImage = { uri ->
+        scope.launch {
+            when (val result = termImageCropper.crop(uri, context)) {
+                CropResult.Cancelled -> { /* Handle cancellation */
+                }
+
+                is CropError -> { /* Handle error */
+                }
+
+                is CropResult.Success -> {
+                    onTermImageChanged(context.bitmapToUri(result.bitmap))
+                }
+            }
+        }
+    })
+
+    val termCropState = termImageCropper.cropState
+
+    var showTermSearchImageBottomSheet by remember {
+        mutableStateOf(false)
+    }
+
+    val searchTermImageBottomSheet = rememberModalBottomSheetState()
 
     var showTermSelectLanguageBottomSheet by remember {
         mutableStateOf(false)
@@ -478,7 +526,9 @@ fun CreateFlashCard(
                                     )
 
                                     ChipSelectImage(
-                                        onUploadImage = onUploadImage,
+                                        onUploadImage = {
+                                            onUploadImage(it, true)
+                                        },
                                         imageUri = termImageUri,
                                         imageUrl = termImageURL,
                                         onDeleteImage = onDeleteImage,
@@ -487,7 +537,7 @@ fun CreateFlashCard(
                                             else -> Color.Gray
                                         },
                                         onChooseImage = {
-                                            showSearchImageBottomSheet = true
+                                            showTermSearchImageBottomSheet = true
                                         },
                                         label = stringResource(R.string.txt_term_image)
                                     )
@@ -643,7 +693,9 @@ fun CreateFlashCard(
                                     )
 
                                     ChipSelectImage(
-                                        onUploadImage = onUploadImage,
+                                        onUploadImage = {
+                                            onUploadImage(it, false)
+                                        },
                                         imageUri = definitionImageUri,
                                         imageUrl = definitionImageURL,
                                         onDeleteImage = onDeleteImage,
@@ -652,7 +704,7 @@ fun CreateFlashCard(
                                             else -> Color.Gray
                                         },
                                         onChooseImage = {
-                                            showSearchImageBottomSheet = true
+                                            showDefinitionSearchImageBottomSheet = true
                                         },
                                         label = stringResource(R.string.txt_definition_image)
                                     )
@@ -701,32 +753,58 @@ fun CreateFlashCard(
                 )
                 LoadingOverlay(isLoading = isLoading)
             }
-
-            if (showSearchImageBottomSheet) {
-                FlashcardSelectImageBottomSheet(
-                    modifier = Modifier,
-                    searchImageBottomSheet = searchImageBottomSheet,
-                    onDismissRequest = {
-                        showSearchImageBottomSheet = false
-                    },
-                    queryImage = queryImage,
-                    searchImageResponseModel = searchImageResponseModel,
-                    onQueryImageChanged = onQueryImageChanged,
-                    isSearchImageLoading = isSearchImageLoading,
-                    onDefinitionImageUrlChanged = {
-                        onDefinitionImageUrlChanged(it)
-                        onDefinitionImageChanged(null)
-                    },
-                    imagePicker = imagePicker
-                )
-            }
-        }
-        if (cropState != null) {
-            ImageCropperDialog(
-                state = cropState,
-            )
         }
     }
+    if (showDefinitionSearchImageBottomSheet) {
+        FlashcardSelectImageBottomSheet(
+            modifier = Modifier,
+            searchImageBottomSheet = searchDefinitionImageBottomSheet,
+            onDismissRequest = {
+                showDefinitionSearchImageBottomSheet = false
+            },
+            queryImage = definitionQueryImage,
+            searchImageResponseModel = definitionSearchImageResponseModel,
+            onQueryImageChanged = onQueryDefinitionImageChanged,
+            isSearchImageLoading = isSearchDefinitionImageLoading,
+            onImageUrlChanged = {
+                onDefinitionImageUrlChanged(it)
+                onDefinitionImageChanged(null)
+            },
+            imagePicker = definitionImagePicker
+        )
+    }
+
+    if (definitionCropState != null) {
+        ImageCropperDialog(
+            state = definitionCropState,
+        )
+    }
+
+    if (showTermSearchImageBottomSheet) {
+        FlashcardSelectImageBottomSheet(
+            modifier = Modifier,
+            searchImageBottomSheet = searchTermImageBottomSheet,
+            onDismissRequest = {
+                showTermSearchImageBottomSheet = false
+            },
+            queryImage = termQueryImage,
+            searchImageResponseModel = termSearchImageResponseModel,
+            onQueryImageChanged = onQueryTermImageChanged,
+            isSearchImageLoading = isSearchTermImageLoading,
+            onImageUrlChanged = {
+                onTermImageUrlChanged(it)
+                onTermImageChanged(null)
+            },
+            imagePicker = termImagePicker
+        )
+    }
+
+    if (termCropState != null) {
+        ImageCropperDialog(
+            state = termCropState,
+        )
+    }
+
     if (showTermSelectLanguageBottomSheet) {
         LanguageBottomSheet(
             onDismissRequest = {

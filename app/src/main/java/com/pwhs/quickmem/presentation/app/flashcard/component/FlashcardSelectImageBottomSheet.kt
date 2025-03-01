@@ -25,6 +25,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -42,7 +43,7 @@ fun FlashcardSelectImageBottomSheet(
     modifier: Modifier = Modifier,
     searchImageBottomSheet: SheetState,
     onQueryImageChanged: (String) -> Unit,
-    onDefinitionImageUrlChanged: (String) -> Unit,
+    onImageUrlChanged: (String) -> Unit,
     queryImage: String,
     isSearchImageLoading: Boolean,
     searchImageResponseModel: SearchImageResponseModel?,
@@ -54,11 +55,11 @@ fun FlashcardSelectImageBottomSheet(
         modifier = modifier,
         sheetState = searchImageBottomSheet,
         onDismissRequest = onDismissRequest,
+        contentColor = Color.White,
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight(0.9f)
+                .fillMaxHeight(0.95f)
                 .padding(16.dp)
         ) {
             Text(
@@ -128,7 +129,7 @@ fun FlashcardSelectImageBottomSheet(
                             .size(100.dp)
                             .padding(4.dp)
                             .clickable {
-                                onDefinitionImageUrlChanged(image.imageUrl)
+                                onImageUrlChanged(image.imageUrl)
                                 onDismissRequest()
                             }
                     )

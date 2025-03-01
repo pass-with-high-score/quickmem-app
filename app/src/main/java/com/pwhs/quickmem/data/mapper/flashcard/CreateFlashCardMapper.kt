@@ -5,8 +5,11 @@ import com.pwhs.quickmem.domain.model.flashcard.CreateFlashCardModel
 
 fun CreateFlashCardDto.toModel() = CreateFlashCardModel(
     term = term.trim(),
+    termImageURL = termImageURL,
+    termVoiceCode = termVoiceCode,
     definition = definition.trim(),
     definitionImageURL = definitionImageURL,
+    definitionVoiceCode = definitionVoiceCode,
     hint = hint?.trim(),
     explanation = explanation?.trim(),
     studySetId = studySetId,
@@ -14,8 +17,11 @@ fun CreateFlashCardDto.toModel() = CreateFlashCardModel(
 
 fun CreateFlashCardModel.toDto() = CreateFlashCardDto(
     term = term.trim(),
+    termImageURL = termImageURL,
+    termVoiceCode = termVoiceCode,
     definition = definition.trim(),
     definitionImageURL = definitionImageURL,
+    definitionVoiceCode = definitionVoiceCode,
     hint = hint?.trim(),
     explanation = explanation?.trim(),
     studySetId = studySetId,

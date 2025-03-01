@@ -362,7 +362,7 @@ fun CreateFlashCard(
                     searchImageResponseModel = searchImageResponseModel,
                     onQueryImageChanged = onQueryImageChanged,
                     isSearchImageLoading = isSearchImageLoading,
-                    onDefinitionImageUrlChanged = {
+                    onImageUrlChanged = {
                         onDefinitionImageUrlChanged(it)
                         onDefinitionImageChanged(null)
                     },
