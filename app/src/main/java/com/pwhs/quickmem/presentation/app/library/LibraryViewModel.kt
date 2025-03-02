@@ -48,7 +48,7 @@ class LibraryViewModel @Inject constructor(
             if (token.isNotEmpty() && userId.isNotEmpty()) {
                 getUserInfo()
                 getStudySets(token = token)
-                getClasses(token = token, userId = userId)
+                getClasses(token = token)
                 getFolders(token = token, userId = userId)
             }
         }
@@ -74,8 +74,7 @@ class LibraryViewModel @Inject constructor(
                 job = viewModelScope.launch {
                     delay(500)
                     val token = tokenManager.accessToken.firstOrNull() ?: ""
-                    val userId = appManager.userId.firstOrNull() ?: ""
-                    getClasses(token = token, userId = userId)
+                    getClasses(token = token)
                 }
             }
 
@@ -139,9 +138,9 @@ class LibraryViewModel @Inject constructor(
         }
     }
 
-    private fun getClasses(token: String, userId: String) {
+    private fun getClasses(token: String) {
         viewModelScope.launch {
-            classRepository.getClassByOwnerId(token, userId, null, null)
+            classRepository.getClassByOwnerId(token, null, null)
                 .collectLatest { resource ->
                     when (resource) {
                         is Resources.Error -> {

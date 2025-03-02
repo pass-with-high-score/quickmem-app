@@ -23,7 +23,7 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 
-@Destination<RootGraph>(navArgs = ChangePasswordSettingArgs::class)
+@Destination<RootGraph>
 @Composable
 fun ChangePasswordSettingScreen(
     modifier: Modifier = Modifier,

@@ -4,6 +4,5 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UpdateEmailSettingArgs(
-    val userId: String,
     val email: String
 )

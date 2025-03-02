@@ -33,12 +33,10 @@ class UpdateUsernameSettingViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val userId: String = savedStateHandle.get<String>("userId") ?: ""
         val username: String = savedStateHandle.get<String>("username") ?: ""
         _uiState.update {
             it.copy(
-                id = userId,
-                username = username,
+                currentUsername = username,
                 newUsername = username
             )
         }
@@ -64,9 +62,8 @@ class UpdateUsernameSettingViewModel @Inject constructor(
     private fun saveUsername() {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = _uiState.value.id
             val newUsername = _uiState.value.newUsername
-            val username = _uiState.value.username
+            val username = _uiState.value.currentUsername
             if (newUsername.isEmpty()) {
                 _uiState.update {
                     it.copy(
@@ -95,7 +92,7 @@ class UpdateUsernameSettingViewModel @Inject constructor(
 
             authRepository.updateUsername(
                 token,
-                UpdateUsernameRequestModel(userId = userId, newUsername = newUsername)
+                UpdateUsernameRequestModel(newUsername = newUsername)
             )
                 .collect { resource ->
                     when (resource) {

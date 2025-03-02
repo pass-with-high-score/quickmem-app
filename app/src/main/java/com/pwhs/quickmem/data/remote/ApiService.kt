@@ -40,7 +40,6 @@ import com.pwhs.quickmem.data.dto.classes.InviteToClassRequestDto
 import com.pwhs.quickmem.data.dto.classes.InviteToClassResponseDto
 import com.pwhs.quickmem.data.dto.classes.JoinClassRequestDto
 import com.pwhs.quickmem.data.dto.classes.RemoveMembersRequestDto
-import com.pwhs.quickmem.data.dto.classes.SaveRecentAccessClassRequestDto
 import com.pwhs.quickmem.data.dto.classes.UpdateClassRequestDto
 import com.pwhs.quickmem.data.dto.classes.UpdateClassResponseDto
 import com.pwhs.quickmem.data.dto.flashcard.BufferResponseDto
@@ -167,19 +166,16 @@ interface ApiService {
     suspend fun getUserDetail(
         @Header("Authorization") token: String,
         @Path("id") userId: String,
-        @Query("isOwner") isOwner: Boolean,
     ): UserDetailResponseDto
 
-    @GET("auth/profile/{id}")
+    @GET("auth/profile")
     suspend fun getUserProfile(
         @Header("Authorization") token: String,
-        @Path("id") userId: String,
     ): GetUserProfileResponseDto
 
     @PATCH("auth/user/avatar/{id}")
     suspend fun updateAvatar(
-        @Header("Authorization") authorization: String,
-        @Path("id") userId: String,
+        @Header("Authorization") token: String,
         @Body updateAvatarRequestDto: UpdateAvatarRequestDto,
     ): UpdateAvatarResponseDto
 
@@ -228,11 +224,10 @@ interface ApiService {
     ): List<AvatarResponseDto>
 
     @Multipart
-    @POST("upload/avatar/{userId}")
+    @POST("upload/avatar")
     suspend fun uploadUserAvatar(
         @Header("Authorization") token: String,
         @Part avatar: MultipartBody.Part,
-        @Path("userId") userId: String,
     ): UploadImageResponseDto
 
     // Study Set
@@ -526,10 +521,9 @@ interface ApiService {
         @Path("id") id: String,
     ): GetClassDetailResponseDto
 
-    @GET("class/user/{userId}")
+    @GET("class/user")
     suspend fun getClassByOwnerID(
         @Header("Authorization") token: String,
-        @Path("userId") userId: String,
         @Query("folderId") folderId: String?,
         @Query("studySetId") studySetId: String?,
     ): List<GetClassByOwnerResponseDto>
@@ -570,7 +564,6 @@ interface ApiService {
     suspend fun getClassByJoinToken(
         @Header("Authorization") token: String,
         @Path("joinToken") joinToken: String,
-        @Query("userId") userId: String,
     ): GetClassDetailResponseDto
 
     @POST("class/join")
@@ -603,16 +596,15 @@ interface ApiService {
         @Body deleteFolderRequestDto: DeleteFolderRequestDto,
     )
 
-    @POST("class/recent")
+    @POST("class/recent/{id}")
     suspend fun saveRecentClass(
         @Header("Authorization") token: String,
-        @Body saveRecentAccessClassRequestDto: SaveRecentAccessClassRequestDto,
+        @Path("id") id: String,
     )
 
-    @GET("class/recent/{userId}")
+    @GET("class/recent")
     suspend fun getRecentClass(
         @Header("Authorization") token: String,
-        @Path("userId") userId: String,
     ): List<GetClassByOwnerResponseDto>
 
     @POST("class/invite")

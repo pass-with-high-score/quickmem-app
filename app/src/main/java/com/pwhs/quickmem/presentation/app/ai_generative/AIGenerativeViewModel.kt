@@ -174,10 +174,8 @@ class AIGenerativeViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = appManager.userId.firstOrNull() ?: ""
             authRepository.updateCoin(
                 token, UpdateCoinRequestModel(
-                    userId = userId,
                     action = coinAction.action,
                     coin = coin
                 )

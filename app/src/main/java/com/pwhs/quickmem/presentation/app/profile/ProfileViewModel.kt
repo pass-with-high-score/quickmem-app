@@ -55,7 +55,7 @@ class ProfileViewModel @Inject constructor(
             val userId = appManager.userId.firstOrNull() ?: ""
             if (token.isNotEmpty() && userId.isNotEmpty()) {
                 loadProfile()
-                getUserProfile(token = token, userId = userId)
+                getUserProfile(token = token)
                 getCustomerInfo()
                 getStudyTime(token = token, userId = userId)
             }
@@ -99,10 +99,10 @@ class ProfileViewModel @Inject constructor(
         })
     }
 
-    private fun getUserProfile(token: String, userId: String) {
+    private fun getUserProfile(token: String) {
         viewModelScope.launch {
 
-            authRepository.getUserProfile(token, userId).collectLatest { resource ->
+            authRepository.getUserProfile(token).collectLatest { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.update { it.copy(isLoading = true) }

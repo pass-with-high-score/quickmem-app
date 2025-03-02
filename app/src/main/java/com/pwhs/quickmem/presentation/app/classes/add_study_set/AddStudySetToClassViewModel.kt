@@ -38,13 +38,11 @@ class AddStudySetToClassViewModel @Inject constructor(
         _uiState.update { it.copy(classId = classId) }
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: return@launch
-            val ownerId = appManager.userId.firstOrNull() ?: return@launch
             val userAvatar = appManager.userAvatarUrl.firstOrNull() ?: return@launch
             val username = appManager.username.firstOrNull() ?: return@launch
             _uiState.update {
                 it.copy(
                     token = token,
-                    userId = ownerId,
                     userAvatar = userAvatar,
                     username = username
                 )
@@ -113,7 +111,6 @@ class AddStudySetToClassViewModel @Inject constructor(
     private fun doneClick() {
         viewModelScope.launch {
             val addStudySetToClassRequestModel = AddStudySetToClassRequestModel(
-                userId = _uiState.value.userId,
                 classId = _uiState.value.classId,
                 studySetIds = _uiState.value.studySetImportedIds
             )

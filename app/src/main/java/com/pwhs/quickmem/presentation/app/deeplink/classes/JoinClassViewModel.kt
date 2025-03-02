@@ -63,7 +63,6 @@ class JoinClassViewModel @Inject constructor(
 
             classRepository.getClassByCode(
                 token = token,
-                userId = userId,
                 classCode = classCode
             ).collectLatest { resource ->
                 when (resource) {
@@ -122,7 +121,6 @@ class JoinClassViewModel @Inject constructor(
 
             val joinClassRequestModel = JoinClassRequestModel(
                 joinToken = classCode,
-                userId = uiState.value.userId ?: "",
                 classId = uiState.value.classId ?: "",
             )
 

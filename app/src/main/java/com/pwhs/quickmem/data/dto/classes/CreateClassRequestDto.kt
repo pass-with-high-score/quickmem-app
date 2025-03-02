@@ -3,8 +3,6 @@ package com.pwhs.quickmem.data.dto.classes
 import com.google.gson.annotations.SerializedName
 
 data class CreateClassRequestDto(
-    @SerializedName("ownerId")
-    val ownerId: String,
     @SerializedName("title")
     val title: String,
     @SerializedName("description")

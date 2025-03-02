@@ -5,6 +5,4 @@ import com.google.gson.annotations.SerializedName
 data class UpdateUsernameRequestDto(
     @SerializedName("newUsername")
     val newUsername: String,
-    @SerializedName("userId")
-    val userId: String
 )

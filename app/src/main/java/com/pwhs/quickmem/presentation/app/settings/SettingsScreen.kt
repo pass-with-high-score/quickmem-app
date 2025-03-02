@@ -82,6 +82,7 @@ import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
 import com.revenuecat.purchases.CustomerInfo
 import java.util.Date
+import androidx.core.net.toUri
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Destination<RootGraph>
@@ -183,7 +184,6 @@ fun SettingsScreen(
                 SettingUiEvent.NavigateToChangeEmail -> {
                     navigator.navigate(
                         UpdateEmailSettingScreenDestination(
-                            userId = uiState.userId,
                             email = uiState.email
                         )
                     )
@@ -192,7 +192,6 @@ fun SettingsScreen(
                 SettingUiEvent.NavigateToChangeFullName -> {
                     navigator.navigate(
                         UpdateFullNameSettingScreenDestination(
-                            userId = uiState.userId,
                             fullName = uiState.fullName
                         )
                     )
@@ -201,7 +200,6 @@ fun SettingsScreen(
                 SettingUiEvent.NavigateToChangeUsername -> {
                     navigator.navigate(
                         UpdateUsernameSettingScreenDestination(
-                            userId = uiState.userId,
                             username = uiState.username
                         )
                     )
@@ -210,7 +208,6 @@ fun SettingsScreen(
                 SettingUiEvent.NavigateToChangeRole -> {
                     navigator.navigate(
                         ChangeRoleScreenDestination(
-                            userId = uiState.userId,
                             role = uiState.role.uppercase()
                         )
                     )
@@ -251,7 +248,7 @@ fun SettingsScreen(
         onNavigateToHelpCenter = {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://github.com/pass-with-high-score/quickmem-app/issues")
+                "https://github.com/pass-with-high-score/quickmem-app/issues".toUri()
             )
             try {
                 context.startActivity(intent)
@@ -266,7 +263,7 @@ fun SettingsScreen(
             viewModel.onEvent(SettingUiAction.Logout)
         },
         onNavigateToChangePassword = {
-            navigator.navigate(ChangePasswordSettingScreenDestination(email = uiState.email))
+            navigator.navigate(ChangePasswordSettingScreenDestination())
         },
         onEnablePushNotifications = {
             viewModel.onEvent(SettingUiAction.OnChangePushNotifications(!uiState.isPushNotificationsEnabled))
@@ -280,7 +277,7 @@ fun SettingsScreen(
         onNavigateToPrivacyPolicy = {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://pass-with-high-score.github.io/quickmem-term-policy/policy")
+                "https://pass-with-high-score.github.io/quickmem-term-policy/policy".toUri()
             )
             try {
                 context.startActivity(intent)
@@ -291,7 +288,7 @@ fun SettingsScreen(
         onNavigateToTermsOfService = {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://pass-with-high-score.github.io/quickmem-term-policy/services")
+                "https://pass-with-high-score.github.io/quickmem-term-policy/services".toUri()
             )
             try {
                 context.startActivity(intent)

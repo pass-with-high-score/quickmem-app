@@ -69,12 +69,9 @@ class CreateClassViewModel @Inject constructor(
             val description = _uiState.value.description
             val allowMemberManagement = _uiState.value.allowMemberManagement
             val allowSetManagement = _uiState.value.allowSetManagement
-            val ownerId = appManager.userId.firstOrNull() ?: ""
-
 
             classRepository.createClass(
                 token, CreateClassRequestModel(
-                    ownerId = ownerId,
                     description = description,
                     title = title,
                     allowSetManagement = allowSetManagement,

@@ -3,7 +3,6 @@ package com.pwhs.quickmem.presentation.app.settings.user_info.change_password
 import androidx.annotation.StringRes
 
 data class ChangePasswordSettingUiState(
-    val email: String = "",
     val currentPassword: String = "",
     val newPassword: String = "",
     val confirmPassword: String = "",

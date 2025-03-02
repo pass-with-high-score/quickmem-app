@@ -59,9 +59,7 @@ class UserDetailViewModel @Inject constructor(
         viewModelScope.launch {
             val token: String = tokenManager.accessToken.firstOrNull() ?: ""
             val userId: String = uiState.value.userId
-            val isOwner: Boolean = uiState.value.isOwner
-
-            authRepository.getUserDetail(token = token, userId = userId, isOwner = isOwner)
+            authRepository.getUserDetail(token = token, userId = userId)
                 .collect { resource ->
                     when (resource) {
                         is Resources.Loading -> {

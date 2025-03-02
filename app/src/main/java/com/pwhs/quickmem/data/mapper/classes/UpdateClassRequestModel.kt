@@ -8,7 +8,6 @@ fun UpdateClassRequestDto.toModel() = UpdateClassRequestModel(
     description = description,
     allowSetManagement = allowSetManagement,
     allowMemberManagement = allowMemberManagement,
-    ownerId = ownerId
 )
 
 fun UpdateClassRequestModel.toDto() = UpdateClassRequestDto(
@@ -16,5 +15,4 @@ fun UpdateClassRequestModel.toDto() = UpdateClassRequestDto(
     description = description,
     allowSetManagement = allowSetManagement,
     allowMemberManagement = allowMemberManagement,
-    ownerId = ownerId
 )

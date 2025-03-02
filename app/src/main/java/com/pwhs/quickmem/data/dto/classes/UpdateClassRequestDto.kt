@@ -7,8 +7,6 @@ data class UpdateClassRequestDto(
     val title: String,
     @SerializedName("description")
     val description: String,
-    @SerializedName("ownerId")
-    val ownerId: String,
     @SerializedName("allowMemberManagement")
     val allowMemberManagement: Boolean,
     @SerializedName("allowSetManagement")

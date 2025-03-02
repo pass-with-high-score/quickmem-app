@@ -60,13 +60,11 @@ class UpdateFullNameViewModel @Inject constructor(
     private fun updateFullName() {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = appManager.userId.firstOrNull() ?: ""
 
             _uiState.update { it.copy(isLoading = true) }
 
             authRepository.updateFullName(
                 token, UpdateFullNameRequestModel(
-                    userId = userId,
                     fullname = _uiState.value.fullName
                 )
             ).collect { resource ->

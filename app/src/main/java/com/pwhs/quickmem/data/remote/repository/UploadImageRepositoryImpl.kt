@@ -74,7 +74,6 @@ class UploadImageRepositoryImpl @Inject constructor(
     override suspend fun uploadUserAvatar(
         token: String,
         imageUri: Uri,
-        userId: String,
     ): Flow<Resources<UploadImageResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -94,7 +93,6 @@ class UploadImageRepositoryImpl @Inject constructor(
                     val response = apiService.uploadUserAvatar(
                         token = token,
                         avatar = requestUploadImageFile,
-                        userId = userId
                     )
                     emit(Resources.Success(response.toUploadImageResponseModel()))
                 }

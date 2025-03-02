@@ -6,6 +6,5 @@ data class ChangeRoleUiState(
     val isLoading: Boolean = false,
     val role: UserRole = UserRole.STUDENT,
     val errorMessage: String? = null,
-    val userId: String = "",
     val birthday: String = ""
 )

@@ -40,12 +40,9 @@ class ChangeRoleViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val userId = savedStateHandle.get<String>("userId") ?: ""
         val role = savedStateHandle.get<String>("role") ?: ""
-        Timber.d("userId: $userId, role: $role")
         _uiState.update {
             it.copy(
-                userId = userId,
                 role = when (role) {
                     "STUDENT" -> UserRole.STUDENT
                     "TEACHER" -> UserRole.TEACHER
@@ -72,24 +69,22 @@ class ChangeRoleViewModel @Inject constructor(
             val birthday = appManager.userBirthday.firstOrNull() ?: ""
             Timber.d("Birthday: $birthday")
             val dateLong = birthday.toTimestamp()
-            val isUserUnderAge = dateLong?.isDateSmallerThan() ?: false
+            val isUserUnderAge = dateLong?.isDateSmallerThan() == true
             if (isUserUnderAge) {
                 _uiEvent.send(
                     ChangeRoleUiEvent.ShowUnderageDialog(
                         SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(
-                            Date(dateLong!!)
+                            Date(dateLong)
                         )
                     )
                 )
                 return@launch
             }
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = _uiState.value.userId
             val role = _uiState.value.role
             authRepository.changeRole(
                 token = token,
                 changeRoleRequestModel = ChangeRoleRequestModel(
-                    userId = userId,
                     role = role.name
                 )
             ).collect { resource ->

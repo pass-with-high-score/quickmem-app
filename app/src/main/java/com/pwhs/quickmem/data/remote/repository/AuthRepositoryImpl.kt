@@ -336,7 +336,6 @@ class AuthRepositoryImpl @Inject constructor(
     override suspend fun getUserDetail(
         userId: String,
         token: String,
-        isOwner: Boolean,
     ): Flow<Resources<UserDetailResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -347,7 +346,6 @@ class AuthRepositoryImpl @Inject constructor(
                 val response = apiService.getUserDetail(
                     token,
                     userId,
-                    isOwner
                 )
                 emit(Resources.Success(response.toModel()))
             } catch (e: HttpException) {
@@ -386,7 +384,6 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun updateAvatar(
         token: String,
-        avatarId: String,
         updateAvatarRequestModel: UpdateAvatarRequestModel,
     ): Flow<Resources<UpdateAvatarResponseModel>> {
         return flow {
@@ -396,7 +393,7 @@ class AuthRepositoryImpl @Inject constructor(
             emit(Resources.Loading())
             try {
                 val response = apiService.updateAvatar(
-                    token, avatarId, updateAvatarRequestModel.toDto()
+                    token = token, updateAvatarRequestDto = updateAvatarRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
             } catch (e: HttpException) {
@@ -439,7 +436,6 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun getUserProfile(
         token: String,
-        userId: String,
     ): Flow<Resources<GetUserProfileResponseModel>> {
         return flow {
             if (token.isEmpty()) {
@@ -447,7 +443,7 @@ class AuthRepositoryImpl @Inject constructor(
             }
             emit(Resources.Loading())
             try {
-                val response = apiService.getUserProfile(token, userId)
+                val response = apiService.getUserProfile(token = token)
                 emit(Resources.Success(response.toModel()))
             } catch (e: HttpException) {
                 val apiError = e.parseApiError()

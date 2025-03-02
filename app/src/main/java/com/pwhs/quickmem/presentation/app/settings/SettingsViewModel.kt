@@ -220,8 +220,8 @@ class SettingsViewModel @Inject constructor(
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
             authRepository.verifyPassword(
-                token, VerifyPasswordRequestModel(
-                    userId = _uiState.value.userId,
+                token = token,
+                verifyPasswordRequestModel = VerifyPasswordRequestModel(
                     password = _uiState.value.password
                 )
             ).collect { resource ->

@@ -13,7 +13,6 @@ import com.pwhs.quickmem.domain.model.classes.ExitClassRequestModel
 import com.pwhs.quickmem.domain.model.classes.InviteToClassRequestModel
 import com.pwhs.quickmem.domain.model.classes.JoinClassRequestModel
 import com.pwhs.quickmem.domain.model.classes.RemoveMembersRequestModel
-import com.pwhs.quickmem.domain.model.classes.SaveRecentAccessClassRequestModel
 import com.pwhs.quickmem.domain.repository.ClassRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -222,9 +221,8 @@ class ClassDetailViewModel @Inject constructor(
     private fun exitClass() {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = appManager.userId.firstOrNull() ?: ""
             val classId = _uiState.value.id
-            classRepository.exitClass(token, ExitClassRequestModel(userId, classId))
+            classRepository.exitClass(token, ExitClassRequestModel(classId = classId))
                 .collectLatest { resource ->
                     when (resource) {
                         is Resources.Error -> {
@@ -258,10 +256,8 @@ class ClassDetailViewModel @Inject constructor(
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
             val classId = _uiState.value.id
-            val userId = appManager.userId.firstOrNull() ?: ""
             classRepository.removeMembers(
                 token, RemoveMembersRequestModel(
-                    userId = userId,
                     classId = classId,
                     memberIds = listOf(memberId)
                 )
@@ -301,10 +297,14 @@ class ClassDetailViewModel @Inject constructor(
     private fun joinClassByToken() {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = appManager.userId.firstOrNull() ?: ""
             val classId = _uiState.value.id
             val joinClassCode = _uiState.value.joinClassCode
-            classRepository.joinClass(token, JoinClassRequestModel(joinClassCode, userId, classId))
+            classRepository.joinClass(
+                token, JoinClassRequestModel(
+                    joinToken = joinClassCode,
+                    classId = classId
+                )
+            )
                 .collectLatest { resource ->
                     when (resource) {
                         is Resources.Error -> {
@@ -339,11 +339,13 @@ class ClassDetailViewModel @Inject constructor(
     private fun deleteStudySetInClass(studySetId: String) {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = appManager.userId.firstOrNull() ?: ""
             val classId = _uiState.value.id
             classRepository.deleteStudySetInClass(
-                token,
-                DeleteStudySetsRequestModel(userId, classId, studySetId)
+                token = token,
+                deleteStudySetsRequestModel = DeleteStudySetsRequestModel(
+                    classId = classId,
+                    studySetId = studySetId
+                )
             ).collectLatest { resource ->
                 when (resource) {
                     is Resources.Error -> {
@@ -378,11 +380,10 @@ class ClassDetailViewModel @Inject constructor(
     private fun deleteFolderInClass(folderId: String) {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = appManager.userId.firstOrNull() ?: ""
             val classId = _uiState.value.id
             classRepository.deleteFolderInClass(
                 token,
-                DeleteFolderRequestModel(userId, classId, folderId)
+                DeleteFolderRequestModel(classId = classId, folderId = folderId)
             ).collectLatest { resource ->
                 when (resource) {
                     is Resources.Error -> {
@@ -417,11 +418,7 @@ class ClassDetailViewModel @Inject constructor(
     private fun saveRecentAccessClass(classId: String) {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = appManager.userId.firstOrNull() ?: ""
-            val saveRecentAccessClassRequestModel =
-                SaveRecentAccessClassRequestModel(userId, classId)
-            classRepository.saveRecentAccessClass(token, saveRecentAccessClassRequestModel)
-                .collect()
+            classRepository.saveRecentAccessClass(token = token, id = classId).collect()
         }
     }
 

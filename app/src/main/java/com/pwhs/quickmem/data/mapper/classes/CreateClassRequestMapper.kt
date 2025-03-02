@@ -4,7 +4,6 @@ import com.pwhs.quickmem.data.dto.classes.CreateClassRequestDto
 import com.pwhs.quickmem.domain.model.classes.CreateClassRequestModel
 
 fun CreateClassRequestDto.toModel() = CreateClassRequestModel(
-    ownerId = ownerId,
     title = title,
     description = description,
     allowSetManagement = allowSetManagement,
@@ -12,7 +11,6 @@ fun CreateClassRequestDto.toModel() = CreateClassRequestModel(
 )
 
 fun CreateClassRequestModel.toDto() = CreateClassRequestDto(
-    ownerId = ownerId,
     title = title,
     description = description,
     allowSetManagement = allowSetManagement,

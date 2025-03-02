@@ -13,7 +13,6 @@ import com.pwhs.quickmem.domain.model.classes.InviteToClassRequestModel
 import com.pwhs.quickmem.domain.model.classes.InviteToClassResponseModel
 import com.pwhs.quickmem.domain.model.classes.JoinClassRequestModel
 import com.pwhs.quickmem.domain.model.classes.RemoveMembersRequestModel
-import com.pwhs.quickmem.domain.model.classes.SaveRecentAccessClassRequestModel
 import com.pwhs.quickmem.domain.model.classes.UpdateClassRequestModel
 import com.pwhs.quickmem.domain.model.classes.UpdateClassResponseModel
 import kotlinx.coroutines.flow.Flow
@@ -31,7 +30,6 @@ interface ClassRepository {
 
     suspend fun getClassByOwnerId(
         token: String,
-        userId: String,
         folderId: String?,
         studySetId: String?,
     ): Flow<Resources<List<GetClassByOwnerResponseModel>>>
@@ -55,7 +53,6 @@ interface ClassRepository {
 
     suspend fun getClassByCode(
         token: String,
-        userId: String,
         classCode: String,
     ): Flow<Resources<GetClassDetailResponseModel>>
 
@@ -86,12 +83,11 @@ interface ClassRepository {
 
     suspend fun saveRecentAccessClass(
         token: String,
-        saveRecentAccessClassRequestModel: SaveRecentAccessClassRequestModel,
+        id: String
     ): Flow<Resources<Unit>>
 
     suspend fun getRecentAccessClass(
         token: String,
-        userId: String,
     ): Flow<Resources<List<GetClassByOwnerResponseModel>>>
 
     suspend fun inviteToClass(

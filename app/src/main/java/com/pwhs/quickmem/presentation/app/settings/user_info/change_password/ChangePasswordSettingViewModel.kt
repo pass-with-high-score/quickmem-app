@@ -30,13 +30,6 @@ class ChangePasswordSettingViewModel @Inject constructor(
     private val _uiEvent = Channel<ChangePasswordSettingUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    init {
-        val email = savedStateHandle.get<String>("email") ?: ""
-        _uiState.update {
-            it.copy(email = email)
-        }
-    }
-
     fun onEvent(event: ChangePasswordSettingUiAction) {
         when (event) {
             is ChangePasswordSettingUiAction.OnCurrentPasswordChanged -> {
@@ -84,14 +77,12 @@ class ChangePasswordSettingViewModel @Inject constructor(
     private fun changePassword() {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val email = _uiState.value.email
             val currentPassword = _uiState.value.currentPassword
             val newPassword = _uiState.value.newPassword
 
             authRepository.changePassword(
                 token,
                 ChangePasswordRequestModel(
-                    email = email,
                     oldPassword = currentPassword,
                     newPassword = newPassword
                 )

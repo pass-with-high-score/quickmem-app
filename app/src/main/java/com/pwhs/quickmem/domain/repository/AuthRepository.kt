@@ -88,14 +88,12 @@ interface AuthRepository {
     suspend fun getUserDetail(
         userId: String,
         token: String,
-        isOwner: Boolean,
     ): Flow<Resources<UserDetailResponseModel>>
 
     suspend fun getAvatar(token: String): Flow<Resources<List<AvatarResponseModel>>>
 
     suspend fun updateAvatar(
         token: String,
-        avatarId: String,
         updateAvatarRequestModel: UpdateAvatarRequestModel,
     ): Flow<Resources<UpdateAvatarResponseModel>>
 
@@ -107,7 +105,6 @@ interface AuthRepository {
 
     suspend fun getUserProfile(
         token: String,
-        userId: String,
     ): Flow<Resources<GetUserProfileResponseModel>>
 
     suspend fun changeRole(

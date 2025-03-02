@@ -9,7 +9,6 @@ data class AddStudySetToClassUiState(
     val userAvatar: String = "",
     val username: String = "",
     val token: String = "",
-    val userId: String = "",
     val studySetImportedIds: List<String> = emptyList(),
     val studySets: List<GetStudySetResponseModel> = emptyList(),
 )

@@ -20,7 +20,6 @@ import com.pwhs.quickmem.domain.model.classes.InviteToClassRequestModel
 import com.pwhs.quickmem.domain.model.classes.InviteToClassResponseModel
 import com.pwhs.quickmem.domain.model.classes.JoinClassRequestModel
 import com.pwhs.quickmem.domain.model.classes.RemoveMembersRequestModel
-import com.pwhs.quickmem.domain.model.classes.SaveRecentAccessClassRequestModel
 import com.pwhs.quickmem.domain.model.classes.UpdateClassRequestModel
 import com.pwhs.quickmem.domain.model.classes.UpdateClassResponseModel
 import com.pwhs.quickmem.domain.repository.ClassRepository
@@ -82,7 +81,6 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun getClassByOwnerId(
         token: String,
-        userId: String,
         folderId: String?,
         studySetId: String?,
     ): Flow<Resources<List<GetClassByOwnerResponseModel>>> {
@@ -92,8 +90,11 @@ class ClassRepositoryImpl @Inject constructor(
             }
             emit(Resources.Loading())
             try {
-                val response = apiService.getClassByOwnerID(token, userId, folderId, studySetId)
-                Timber.d("listClass: $response")
+                val response = apiService.getClassByOwnerID(
+                    token = token,
+                    folderId = folderId,
+                    studySetId = studySetId
+                )
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -168,7 +169,6 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun getClassByCode(
         token: String,
-        userId: String,
         classCode: String,
     ): Flow<Resources<GetClassDetailResponseModel>> {
         return flow {
@@ -179,7 +179,6 @@ class ClassRepositoryImpl @Inject constructor(
             try {
                 val response = apiService.getClassByJoinToken(
                     token = token,
-                    userId = userId,
                     joinToken = classCode
                 )
                 emit(Resources.Success(response.toModel()))
@@ -287,7 +286,7 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun saveRecentAccessClass(
         token: String,
-        saveRecentAccessClassRequestModel: SaveRecentAccessClassRequestModel,
+        id: String
     ): Flow<Resources<Unit>> {
         return flow {
             if (token.isEmpty()) {
@@ -295,7 +294,7 @@ class ClassRepositoryImpl @Inject constructor(
             }
             emit(Resources.Loading())
             try {
-                apiService.saveRecentClass(token, saveRecentAccessClassRequestModel.toDto())
+                apiService.saveRecentClass(token = token, id = id)
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -306,7 +305,6 @@ class ClassRepositoryImpl @Inject constructor(
 
     override suspend fun getRecentAccessClass(
         token: String,
-        userId: String,
     ): Flow<Resources<List<GetClassByOwnerResponseModel>>> {
         return flow {
             if (token.isEmpty()) {
@@ -314,7 +312,7 @@ class ClassRepositoryImpl @Inject constructor(
             }
             emit(Resources.Loading())
             try {
-                val response = apiService.getRecentClass(token, userId)
+                val response = apiService.getRecentClass(token = token)
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: Exception) {
                 Timber.e(e)

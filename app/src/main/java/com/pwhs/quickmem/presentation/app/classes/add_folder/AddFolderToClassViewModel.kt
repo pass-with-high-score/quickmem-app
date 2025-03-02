@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -78,7 +77,6 @@ class AddFolderToClassViewModel @Inject constructor(
     private fun doneClick() {
         viewModelScope.launch {
             val addFolderToClassRequestModel = AddFolderToClassRequestModel(
-                userId = _uiState.value.userId,
                 classId = _uiState.value.classId,
                 folderIds = _uiState.value.folderImportedIds
             )

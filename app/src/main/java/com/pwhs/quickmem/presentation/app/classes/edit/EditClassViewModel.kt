@@ -3,7 +3,6 @@ package com.pwhs.quickmem.presentation.app.classes.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.classes.UpdateClassRequestModel
@@ -23,7 +22,6 @@ import javax.inject.Inject
 class EditClassViewModel @Inject constructor(
     private val classRepository: ClassRepository,
     private val tokenManager: TokenManager,
-    private val appManager: AppManager,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(EditClassUiState())
@@ -85,13 +83,11 @@ class EditClassViewModel @Inject constructor(
     private fun updateClass(id: String) {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = appManager.userId.firstOrNull() ?: ""
             val uiState = _uiState.value
             classRepository.updateClass(
                 token = token,
                 classId = id,
                 updateClassRequestModel = UpdateClassRequestModel(
-                    ownerId = userId,
                     allowMemberManagement = uiState.allowMemberManagement,
                     allowSetManagement = uiState.allowSetManagement,
                     description = uiState.description,

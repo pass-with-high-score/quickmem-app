@@ -5,12 +5,10 @@ import com.pwhs.quickmem.domain.model.classes.JoinClassRequestModel
 
 fun JoinClassRequestDto.toModel() = JoinClassRequestModel(
     joinToken = joinToken,
-    userId = userId,
     classId = classId
 )
 
 fun JoinClassRequestModel.toDto() = JoinClassRequestDto(
     joinToken = joinToken,
-    userId = userId,
     classId = classId
 )

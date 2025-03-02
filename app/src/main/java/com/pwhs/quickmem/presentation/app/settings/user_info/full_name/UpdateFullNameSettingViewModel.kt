@@ -32,11 +32,9 @@ class UpdateFullNameSettingViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val userId: String = savedStateHandle.get<String>("userId") ?: ""
         val fullName: String = savedStateHandle.get<String>("fullName") ?: ""
         _uiState.update {
             it.copy(
-                id = userId,
                 fullName = fullName
             )
         }
@@ -62,11 +60,10 @@ class UpdateFullNameSettingViewModel @Inject constructor(
     private fun saveFullName() {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = _uiState.value.id
             val fullname = _uiState.value.fullName
             authRepository.updateFullName(
                 token,
-                UpdateFullNameRequestModel(userId = userId, fullname = fullname)
+                UpdateFullNameRequestModel(fullname = fullname)
             )
                 .collect { resource ->
                     when (resource) {

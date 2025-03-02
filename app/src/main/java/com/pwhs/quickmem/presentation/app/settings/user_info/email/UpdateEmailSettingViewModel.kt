@@ -30,11 +30,9 @@ class UpdateEmailSettingViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        val userId = savedStateHandle.get<String>("userId") ?: ""
         val email = savedStateHandle.get<String>("email") ?: ""
         _uiState.update {
             it.copy(
-                id = userId,
                 email = email
             )
         }
@@ -60,11 +58,10 @@ class UpdateEmailSettingViewModel @Inject constructor(
     private fun saveEmail() {
         viewModelScope.launch {
             val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = _uiState.value.id
             val email = _uiState.value.email
             authRepository.updateEmail(
                 token,
-                UpdateEmailRequestModel(userId = userId, email = email)
+                UpdateEmailRequestModel( email = email)
             ).collect { resource ->
                 when (resource) {
                     is Resources.Error -> {

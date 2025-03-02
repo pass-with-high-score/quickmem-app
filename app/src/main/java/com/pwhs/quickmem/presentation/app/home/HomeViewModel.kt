@@ -74,7 +74,7 @@ class HomeViewModel @Inject constructor(
             if (token.isNotEmpty() && userId.isNotEmpty()) {
                 getRecentAccessStudySets(token = token, userId = userId)
                 getRecentAccessFolders(token = token, userId = userId)
-                getRecentAccessClasses(token = token, userId = userId)
+                getRecentAccessClasses(token = token)
                 getTop5Subjects(token = token)
                 getCustomerInfo()
                 loadNotifications(token = token, userId = userId)
@@ -242,9 +242,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getRecentAccessClasses(token: String, userId: String) {
+    private fun getRecentAccessClasses(token: String) {
         viewModelScope.launch {
-            classRepository.getRecentAccessClass(token, userId).collect { resource ->
+            classRepository.getRecentAccessClass(token = token).collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.value = _uiState.value.copy(isLoading = true)
