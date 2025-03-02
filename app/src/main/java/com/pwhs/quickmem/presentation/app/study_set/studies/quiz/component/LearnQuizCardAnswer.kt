@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Done
@@ -22,8 +23,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import coil.request.ImageRequest
+import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.states.RandomAnswer
 import com.pwhs.quickmem.presentation.components.ShowImageDialog
 
@@ -89,7 +94,7 @@ fun LearnQuizCardAnswer(
                 modifier = Modifier
                     .weight(1f)
                     .padding(16.dp),
-                style = MaterialTheme.typography.bodyMedium.copy(),
+                style = MaterialTheme.typography.bodyMedium,
                 color = when {
                     isCorrect -> correctColor
                     isIncorrect -> incorrectColor
@@ -98,12 +103,19 @@ fun LearnQuizCardAnswer(
             )
             if (randomAnswer.answerImage.isNotEmpty()) {
                 AsyncImage(
-                    model = randomAnswer.answerImage,
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data(randomAnswer.answerImage)
+                        .error(R.drawable.ic_image_error)
+                        .build(),
                     contentDescription = null,
-                    modifier = Modifier.clickable {
-                        isImageViewerOpen = true
-                        definitionImageUri = randomAnswer.answerImage
-                    }
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .size(100.dp)
+                        .padding(16.dp)
+                        .clickable {
+                            isImageViewerOpen = true
+                            definitionImageUri = randomAnswer.answerImage
+                        },
                 )
             }
         }

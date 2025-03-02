@@ -1,9 +1,8 @@
 package com.pwhs.quickmem.presentation.app.flashcard.create
 
-import android.app.Application
 import android.net.Uri
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.SavedStateHandle
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
@@ -30,8 +29,7 @@ class CreateFlashCardViewModel @Inject constructor(
     private val uploadImageRepository: UploadImageRepository,
     private val pixaBayRepository: PixaBayRepository,
     private val tokenManager: TokenManager,
-    application: Application,
-) : AndroidViewModel(application) {
+) : ViewModel() {
     private val _uiState = MutableStateFlow(CreateFlashCardUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -448,8 +446,10 @@ class CreateFlashCardViewModel @Inject constructor(
                             _uiState.update {
                                 it.copy(
                                     isLoading = false,
-                                    termImageUri = if (isTerm) imageUri else it.termImageUri,
-                                    definitionImageUri = if (!isTerm) imageUri else it.definitionImageUri,
+                                    termImageURL = if (isTerm) resource.data?.url else it.termImageURL,
+                                    termImageUri = if (isTerm) null else it.termImageUri,
+                                    definitionImageURL = if (!isTerm) resource.data?.url else it.definitionImageURL,
+                                    definitionImageUri = if (!isTerm) null else it.definitionImageUri
                                 )
                             }
                         }
