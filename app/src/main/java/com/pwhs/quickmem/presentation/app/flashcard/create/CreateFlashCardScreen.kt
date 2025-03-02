@@ -2,6 +2,9 @@ package com.pwhs.quickmem.presentation.app.flashcard.create
 
 import android.net.Uri
 import android.widget.Toast
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -71,7 +74,6 @@ import com.pwhs.quickmem.utils.bitmapToUri
 import com.pwhs.quickmem.utils.toColor
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -84,7 +86,6 @@ import java.io.File
 fun CreateFlashCardScreen(
     modifier: Modifier = Modifier,
     viewModel: CreateFlashCardViewModel = hiltViewModel(),
-    navigator: DestinationsNavigator,
     resultNavigator: ResultBackNavigator<Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -195,8 +196,7 @@ fun CreateFlashCardScreen(
             )
         },
         onNavigationBack = {
-            resultNavigator.setResult(uiState.isCreated)
-            navigator.navigateUp()
+            resultNavigator.navigateBack(uiState.isCreated)
         },
         onSaveFlashCardClicked = {
             viewModel.onEvent(CreateFlashCardUiAction.SaveFlashCard)
@@ -550,7 +550,11 @@ fun CreateFlashCard(
                         }
                     }
                     item {
-                        if (showHint) {
+                        AnimatedVisibility(
+                            visible = showHint,
+                            enter = slideInVertically(initialOffsetY = { it }),
+                            exit = slideOutVertically(targetOffsetY = { it })
+                        ) {
                             HintCard(
                                 hint = hint,
                                 onHintChanged = onHintChanged,
@@ -719,7 +723,11 @@ fun CreateFlashCard(
                         }
                     }
                     item {
-                        if (showExplanation) {
+                        AnimatedVisibility(
+                            visible = showExplanation,
+                            enter = slideInVertically(initialOffsetY = { it }),
+                            exit = slideOutVertically(targetOffsetY = { it })
+                        ) {
                             ExplanationCard(
                                 explanation = explanation,
                                 onExplanationChanged = onExplanationChanged,

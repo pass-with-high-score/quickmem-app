@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.review)
     implementation(libs.purchases)
     implementation(libs.purchases.ui)
     implementation(libs.accompanist.permissions)

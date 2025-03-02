@@ -355,7 +355,6 @@ private fun Home(
     var showBottomSheetCreate by remember {
         mutableStateOf(false)
     }
-
     Scaffold(
         modifier = modifier,
         topBar = {

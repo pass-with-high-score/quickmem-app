@@ -1,13 +1,16 @@
 package com.pwhs.quickmem.utils
 
+import android.app.Activity
 import android.app.LocaleManager
 import android.content.Context
+import android.content.ContextWrapper
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.os.LocaleList
+import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asAndroidBitmap
@@ -15,6 +18,7 @@ import androidx.core.os.LocaleListCompat
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
+import com.google.android.play.core.review.ReviewManagerFactory
 import com.pwhs.quickmem.R
 import timber.log.Timber
 import java.io.File
@@ -91,4 +95,42 @@ fun Context.createImageFile(): File {
         Timber.e(e)
         throw IOException(getString(R.string.txt_error_create_temp_file))
     }
+}
+
+fun Context.getActivity(): Activity? = when (this) {
+    is ComponentActivity -> this
+    is ContextWrapper -> baseContext.getActivity()
+    else -> null
+}
+
+fun Context.launchInAppReview(
+    onComplete: ((Boolean) -> Unit)? = null,
+) {
+    val activity = this.getActivity()
+    if (activity != null) {
+        val reviewManager = ReviewManagerFactory.create(activity)
+
+        val request = reviewManager.requestReviewFlow()
+        request.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val reviewInfo = task.result
+                val flow = reviewManager.launchReviewFlow(activity, reviewInfo)
+                flow.addOnCompleteListener {
+                    // The flow has finished. The API doesn't indicate whether the user
+                    // reviewed or not, or even whether the review dialog was shown.
+                    // Therefore, no matter the result, continue with your app's flow.
+                    Timber.tag("App Review process:").e("Finished")
+                    onComplete?.invoke(true)
+                }
+            } else {
+                // Log or handle error if you want to
+                Timber.tag("App Review process:").e(task.exception?.message ?: "Failed")
+                onComplete?.invoke(false)
+            }
+        }
+    } else {
+        Timber.tag("App Review process:").e("Failed: ActivityNotFound")
+        onComplete?.invoke(false)
+    }
+
 }

@@ -210,8 +210,11 @@ fun StudySetDetailScreen(
                         EditFlashCardScreenDestination(
                             flashcardId = flashCard.id,
                             term = flashCard.term,
+                            termImageUrl = flashCard.termImageURL ?: "",
+                            termVoiceCode = flashCard.termVoiceCode ?: "",
                             definition = flashCard.definition,
                             definitionImageUrl = flashCard.definitionImageURL ?: "",
+                            definitionVoiceCode = flashCard.definitionVoiceCode ?: "",
                             hint = flashCard.hint ?: "",
                             explanation = flashCard.explanation ?: "",
                             studySetColorId = uiState.colorModel.id

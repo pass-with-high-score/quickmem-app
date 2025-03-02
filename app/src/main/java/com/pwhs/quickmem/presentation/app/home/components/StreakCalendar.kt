@@ -2,8 +2,18 @@ package com.pwhs.quickmem.presentation.app.home.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,25 +27,26 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
+import com.pwhs.quickmem.ui.theme.streakTitleColor
+import com.pwhs.quickmem.utils.dashedBorder
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StreakCalendar(
     modifier: Modifier = Modifier,
     currentDate: LocalDate = LocalDate.now(),
-    streakDates: List<LocalDate>
+    streakDates: List<LocalDate>,
 ) {
     val startOfWeek = currentDate.minusDays(currentDate.dayOfWeek.value.toLong() - 1)
-
     val weekDays = (0..6).map { startOfWeek.plusDays(it.toLong()) }
 
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 32.dp, bottom = 32.dp)
-            .padding(horizontal = 16.dp),
+            .padding(vertical = 32.dp, horizontal = 16.dp),
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         weekDays.forEach { date ->
@@ -53,11 +64,16 @@ fun StreakCalendar(
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
                 )
+
                 Spacer(modifier = Modifier.height(8.dp))
 
                 Box(
                     modifier = Modifier
-                        .size(40.dp),
+                        .size(30.dp)
+                        .dashedBorder(
+                            width = if (isToday && !hasStreak) 2.dp else 0.dp,
+                            color = if (isToday) Color.Red else Color.Blue,
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
                     if (hasStreak) {
@@ -66,29 +82,22 @@ fun StreakCalendar(
                             contentDescription = stringResource(R.string.txt_streak_fire),
                             modifier = Modifier.fillMaxSize()
                         )
-                    } else {
-                        Box(
-                            modifier = Modifier
-                                .size(40.dp)
-                                .background(Color.Transparent, CircleShape)
-                        )
                     }
-
                     Text(
                         text = date.dayOfMonth.toString(),
                         color = if (hasStreak) Color.White else Color.Gray,
                         fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier.offset(y = 5.dp)
+                        fontWeight = FontWeight.Bold
                     )
                 }
+
                 Spacer(modifier = Modifier.height(4.dp))
 
                 if (isToday) {
                     Box(
                         modifier = Modifier
                             .size(5.dp)
-                            .background(Color.Gray, shape = CircleShape)
+                            .background(streakTitleColor, shape = CircleShape)
                     )
                 }
             }
@@ -96,7 +105,7 @@ fun StreakCalendar(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showSystemUi = true)
 @Composable
 fun StreakCalendarPreview() {
     QuickMemTheme {

@@ -60,6 +60,7 @@ loggingInterceptor = "4.12.0"
 playServicesAds = "24.0.0"
 googleServices = "4.4.2"
 firebaseCrashlytics = "3.0.3"
+review = "2.0.2"
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -128,6 +129,7 @@ play-services-ads = { module = "com.google.android.gms:play-services-ads", versi
 lottie-compose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
 purchases = { module = "com.revenuecat.purchases:purchases", version.ref = "revenuecat" }
 purchases-ui = { module = "com.revenuecat.purchases:purchases-ui", version.ref = "revenuecat" }
+review = { module = "com.google.android.play:review-ktx", version.ref = "review" }
 
 [bundles]
 compose = [
