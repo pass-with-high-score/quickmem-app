@@ -3,14 +3,12 @@ package com.pwhs.quickmem.presentation.app.home.notification
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.repository.NotificationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -19,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
-    private val appManager: AppManager,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(NotificationUiState())
     val uiState = _uiState.asStateFlow()
@@ -82,8 +79,7 @@ class NotificationViewModel @Inject constructor(
 
     private fun loadNotifications() {
         viewModelScope.launch {
-            val userId = appManager.userId.firstOrNull() ?: return@launch
-            notificationRepository.loadNotifications(userId = userId).collect { result ->
+            notificationRepository.loadNotifications().collect { result ->
                 when (result) {
                     is Resources.Loading -> {
                         _uiState.update {

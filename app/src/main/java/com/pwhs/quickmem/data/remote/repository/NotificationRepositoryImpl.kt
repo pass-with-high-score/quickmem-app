@@ -16,11 +16,11 @@ class NotificationRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
 ) : NotificationRepository {
 
-    override suspend fun loadNotifications(userId: String): Flow<Resources<List<GetNotificationResponseModel>>> {
+    override suspend fun loadNotifications(): Flow<Resources<List<GetNotificationResponseModel>>> {
         return flow {
             emit(Resources.Loading())
             try {
-                val notifications = apiService.getNotificationsByUserId(userId)
+                val notifications = apiService.getNotificationsByUserId()
                     .map { it.toModel() }
                 emit(Resources.Success(notifications))
             } catch (e: HttpException) {

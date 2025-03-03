@@ -70,11 +70,11 @@ class HomeViewModel @Inject constructor(
 
             if (userId.isNotEmpty()) {
                 getRecentAccessStudySets(userId = userId)
-                getRecentAccessFolders(userId = userId)
+                getRecentAccessFolders()
                 getRecentAccessClasses()
                 getTop5Subjects()
                 getCustomerInfo()
-                loadNotifications(userId = userId)
+                loadNotifications()
                 getStreaksByUserId(userId = userId)
             } else {
                 _uiEvent.send(HomeUiEvent.UnAuthorized)
@@ -127,9 +127,9 @@ class HomeViewModel @Inject constructor(
         })
     }
 
-    private fun loadNotifications(userId: String) {
+    private fun loadNotifications() {
         viewModelScope.launch {
-            notificationRepository.loadNotifications(userId = userId).collect { result ->
+            notificationRepository.loadNotifications().collect { result ->
                 when (result) {
                     is Resources.Loading -> {
                         // do nothing
@@ -215,9 +215,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getRecentAccessFolders(userId: String) {
+    private fun getRecentAccessFolders() {
         viewModelScope.launch {
-            folderRepository.getRecentAccessFolders(userId = userId).collect { resource ->
+            folderRepository.getRecentAccessFolders().collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.value = _uiState.value.copy(isLoading = true)
@@ -279,12 +279,9 @@ class HomeViewModel @Inject constructor(
 
     private fun sendTokenToServer(token: String) {
         viewModelScope.launch {
-            val userId = appManager.userId.firstOrNull() ?: return@launch
             val deviceTokenRequest = DeviceTokenRequestModel(
-                userId = userId,
                 deviceToken = token
             )
-
             firebaseRepository.sendDeviceToken(deviceTokenRequest = deviceTokenRequest).collect()
         }
     }

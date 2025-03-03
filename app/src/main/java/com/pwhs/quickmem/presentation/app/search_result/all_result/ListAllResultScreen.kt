@@ -76,7 +76,8 @@ fun ListAllResultScreen(
         false -> {
             LazyColumn(
                 modifier = modifier
-                    .padding(horizontal = 16.dp),
+                    .padding(horizontal = 16.dp)
+                    .fillMaxSize(),
             ) {
                 if (studySets?.itemCount != 0) {
                     item {

@@ -25,7 +25,7 @@ interface FolderRepository {
     ): Flow<Resources<UpdateFolderResponseModel>>
 
     suspend fun getFoldersByUserId(
-        userId: String, classId: String?, studySetId: String?,
+        classId: String?, studySetId: String?,
     ): Flow<Resources<List<GetFolderResponseModel>>>
 
     suspend fun deleteFolder(
@@ -48,9 +48,7 @@ interface FolderRepository {
         saveRecentAccessFolderRequestModel: SaveRecentAccessFolderRequestModel,
     ): Flow<Resources<Unit>>
 
-    suspend fun getRecentAccessFolders(
-        userId: String,
-    ): Flow<Resources<List<GetFolderResponseModel>>>
+    suspend fun getRecentAccessFolders(): Flow<Resources<List<GetFolderResponseModel>>>
 
     suspend fun resetProgress(
         folderId: String, resetType: String,

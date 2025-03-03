@@ -3,7 +3,6 @@ package com.pwhs.quickmem.presentation.app.folder.create
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.folder.CreateFolderRequestModel
 import com.pwhs.quickmem.domain.repository.FolderRepository
@@ -12,7 +11,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -21,7 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateFolderViewModel @Inject constructor(
     private val folderRepository: FolderRepository,
-    private val appManager: AppManager,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(CreateFolderUiState())
     val uiState = _uiState.asStateFlow()
@@ -62,12 +59,10 @@ class CreateFolderViewModel @Inject constructor(
                     }
                 }
                 viewModelScope.launch {
-                    val ownerId = appManager.userId.firstOrNull() ?: ""
                     val createFolderRequestModel = CreateFolderRequestModel(
                         title = uiState.title,
                         description = uiState.description,
                         isPublic = uiState.isPublic,
-                        ownerId = ownerId
                     )
                     folderRepository.createFolder(
                         createFolderRequestModel = createFolderRequestModel

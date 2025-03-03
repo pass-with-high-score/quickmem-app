@@ -45,9 +45,8 @@ class AppFirebaseMessagingService : FirebaseMessagingService() {
         CoroutineScope(Dispatchers.IO).launch {
             val isLogged = appManager.isLoggedIn.firstOrNull() == true
             if (isLogged) {
-                val userId = appManager.userId.firstOrNull() ?: ""
                 try {
-                    apiService.sendDeviceToken( DeviceTokenRequestDto(userId, token))
+                    apiService.sendDeviceToken( DeviceTokenRequestDto(token))
                     Timber.d("Token sent to server successfully.")
                 } catch (e: Exception) {
                     Timber.e(e, "Error sending token to server")

@@ -8,7 +8,6 @@ data class AddFolderToClassUiState(
     val isLoading: Boolean = false,
     val userAvatar: String = "",
     val username: String = "",
-    val userId: String = "",
     val folderImportedIds: List<String> = emptyList(),
     val folders: List<GetFolderResponseModel> = emptyList(),
 )

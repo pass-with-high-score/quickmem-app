@@ -395,10 +395,8 @@ interface ApiService {
         @Body updateFolderRequestDto: UpdateFolderRequestDto,
     ): UpdateFolderResponseDto
 
-    @GET("folder/owner/{ownerId}")
+    @GET("folder/owner")
     suspend fun getFoldersByOwnerId(
-
-        @Path("ownerId") ownerId: String,
         @Query("classId") classId: String? = null,
         @Query("studySetId") studySetId: String? = null,
     ): List<GetFolderResponseDto>
@@ -421,8 +419,8 @@ interface ApiService {
     @POST("folder/recent")
     suspend fun saveRecentFolder(@Body saveRecentAccessFolderRequestDto: SaveRecentAccessFolderRequestDto)
 
-    @GET("folder/recent/{userId}")
-    suspend fun getRecentFolder(@Path("userId") userId: String): List<GetFolderResponseDto>
+    @GET("folder/recent")
+    suspend fun getRecentFolder(): List<GetFolderResponseDto>
 
     @PATCH("folder/{id}/reset-progress")
     suspend fun resetProgressFolder(
@@ -509,8 +507,8 @@ interface ApiService {
     @POST("notifications/register")
     suspend fun sendDeviceToken(@Body tokenRequest: DeviceTokenRequestDto): Response<Unit>
 
-    @GET("notifications/user/{id}")
-    suspend fun getNotificationsByUserId(@Path("id") userId: String): List<GetNotificationResponseDto>
+    @GET("notifications/user")
+    suspend fun getNotificationsByUserId(): List<GetNotificationResponseDto>
 
     @PATCH("notifications/{id}/read")
     suspend fun markNotificationAsRead(

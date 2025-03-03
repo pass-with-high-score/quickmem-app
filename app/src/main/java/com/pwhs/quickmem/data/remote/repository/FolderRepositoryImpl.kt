@@ -86,8 +86,6 @@ class FolderRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFoldersByUserId(
-
-        userId: String,
         classId: String?,
         studySetId: String?,
     ): Flow<Resources<List<GetFolderResponseModel>>> {
@@ -96,8 +94,6 @@ class FolderRepositoryImpl @Inject constructor(
             emit(Resources.Loading())
             try {
                 val response = apiService.getFoldersByOwnerId(
-
-                    ownerId = userId,
                     classId = classId,
                     studySetId = studySetId
                 )
@@ -111,7 +107,6 @@ class FolderRepositoryImpl @Inject constructor(
 
     override suspend fun deleteFolder(folderId: String): Flow<Resources<Unit>> {
         return flow {
-
             emit(Resources.Loading())
             try {
                 apiService.deleteFolder(id = folderId)
@@ -124,15 +119,12 @@ class FolderRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addFolderToClass(
-
         addFolderToClassRequestModel: AddFolderToClassRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
-
             emit(Resources.Loading())
             try {
                 apiService.addFolderToClass(
-
                     addFolderToClassRequestDto = addFolderToClassRequestModel.toDto()
                 )
                 emit(Resources.Success(Unit))
@@ -200,15 +192,12 @@ class FolderRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getRecentAccessFolders(
-
-        userId: String,
-    ): Flow<Resources<List<GetFolderResponseModel>>> {
+    override suspend fun getRecentAccessFolders(): Flow<Resources<List<GetFolderResponseModel>>> {
         return flow {
 
             emit(Resources.Loading())
             try {
-                val response = apiService.getRecentFolder(userId = userId)
+                val response = apiService.getRecentFolder()
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: Exception) {
                 Timber.e(e)

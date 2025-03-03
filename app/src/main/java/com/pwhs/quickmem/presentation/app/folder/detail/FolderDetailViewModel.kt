@@ -240,10 +240,8 @@ class FolderDetailViewModel @Inject constructor(
 
     private fun saveRecentAccessFolder() {
         viewModelScope.launch {
-            val userId = appManager.userId.firstOrNull() ?: ""
             val folderId = _uiState.value.id
             val saveRecentAccessFolderRequestModel = SaveRecentAccessFolderRequestModel(
-                userId = userId,
                 folderId = folderId
             )
             folderRepository.saveRecentAccessFolder(saveRecentAccessFolderRequestModel = saveRecentAccessFolderRequestModel)

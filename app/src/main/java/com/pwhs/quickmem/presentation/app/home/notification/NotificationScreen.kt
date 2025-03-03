@@ -113,13 +113,15 @@ fun Notification(
                     )
                 },
                 actions = {
-                    Button(
-                        onClick = onClearAll,
-                    ) {
-                        Text(
-                            text = stringResource(R.string.txt_clear_all),
-                            style = typography.bodyMedium
-                        )
+                    if (notifications.isNotEmpty()) {
+                        Button(
+                            onClick = onClearAll,
+                        ) {
+                            Text(
+                                text = stringResource(R.string.txt_clear_all),
+                                style = typography.bodyMedium
+                            )
+                        }
                     }
                 }
 

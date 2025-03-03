@@ -46,7 +46,7 @@ class LibraryViewModel @Inject constructor(
                 getUserInfo()
                 getStudySets()
                 getClasses()
-                getFolders(userId = userId)
+                getFolders()
             }
         }
     }
@@ -77,8 +77,7 @@ class LibraryViewModel @Inject constructor(
                 job?.cancel()
                 job = viewModelScope.launch {
                     delay(500)
-                    val userId = appManager.userId.firstOrNull() ?: ""
-                    getFolders(userId = userId)
+                    getFolders()
                 }
             }
         }
@@ -167,9 +166,9 @@ class LibraryViewModel @Inject constructor(
         }
     }
 
-    private fun getFolders(userId: String) {
+    private fun getFolders() {
         viewModelScope.launch {
-            folderRepository.getFoldersByUserId(userId = userId, classId = null, studySetId = null)
+            folderRepository.getFoldersByUserId(classId = null, studySetId = null)
                 .collectLatest { resources ->
                     when (resources) {
                         is Resources.Success -> {

@@ -9,6 +9,4 @@ data class CreateFolderRequestDto(
     val description: String,
     @SerializedName("isPublic")
     val isPublic: Boolean,
-    @SerializedName("ownerId")
-    val ownerId: String
 )

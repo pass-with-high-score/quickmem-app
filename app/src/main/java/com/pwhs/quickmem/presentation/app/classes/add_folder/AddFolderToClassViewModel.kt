@@ -40,12 +40,10 @@ class AddFolderToClassViewModel @Inject constructor(
         val classId: String = savedStateHandle.get<String>("classId") ?: ""
         _uiState.update { it.copy(classId = classId) }
         viewModelScope.launch {
-            val ownerId = appManager.userId.firstOrNull() ?: return@launch
             val userAvatar = appManager.userAvatarUrl.firstOrNull() ?: return@launch
             val username = appManager.username.firstOrNull() ?: return@launch
             _uiState.update {
                 it.copy(
-                    userId = ownerId,
                     userAvatar = userAvatar,
                     username = username
                 )
@@ -110,7 +108,6 @@ class AddFolderToClassViewModel @Inject constructor(
     private fun getFolders() {
         viewModelScope.launch {
             folderRepository.getFoldersByUserId(
-                _uiState.value.userId,
                 _uiState.value.classId,
                 null
             ).collectLatest { resources ->
