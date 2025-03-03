@@ -2,8 +2,6 @@ package com.pwhs.quickmem.presentation.app.classes.create
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.classes.CreateClassRequestModel
 import com.pwhs.quickmem.domain.repository.ClassRepository
@@ -12,7 +10,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -21,8 +18,6 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateClassViewModel @Inject constructor(
     private val classRepository: ClassRepository,
-    private val tokenManager: TokenManager,
-    private val appManager: AppManager,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(CreateClassUiState())
     val uiState = _uiState.asStateFlow()
@@ -64,14 +59,13 @@ class CreateClassViewModel @Inject constructor(
 
     private fun createNewClass() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val title = _uiState.value.title
             val description = _uiState.value.description
             val allowMemberManagement = _uiState.value.allowMemberManagement
             val allowSetManagement = _uiState.value.allowSetManagement
 
             classRepository.createClass(
-                token, CreateClassRequestModel(
+                createClassRequestModel = CreateClassRequestModel(
                     description = description,
                     title = title,
                     allowSetManagement = allowSetManagement,

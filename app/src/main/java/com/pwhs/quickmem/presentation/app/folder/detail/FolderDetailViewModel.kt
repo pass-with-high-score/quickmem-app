@@ -117,7 +117,7 @@ class FolderDetailViewModel @Inject constructor(
                 return@launch
             }
             if (code.isNotEmpty()) {
-                folderRepository.getFolderByLinkCode(token = token, code = code)
+                folderRepository.getFolderByLinkCode(code = code)
                     .collect { resource ->
                         when (resource) {
                             is Resources.Error -> {
@@ -167,7 +167,6 @@ class FolderDetailViewModel @Inject constructor(
                     }
             } else {
                 folderRepository.getFolderById(
-                    token = token,
                     folderId = id
                 ).collectLatest { resource ->
                     when (resource) {
@@ -215,11 +214,7 @@ class FolderDetailViewModel @Inject constructor(
 
     private fun deleteFolder() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: run {
-                _uiEvent.send(ShowError(R.string.txt_please_login_again))
-                return@launch
-            }
-            folderRepository.deleteFolder(token, _uiState.value.id).collectLatest { resource ->
+            folderRepository.deleteFolder(folderId = _uiState.value.id).collectLatest { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.update { it.copy(isLoading = true) }
@@ -245,14 +240,13 @@ class FolderDetailViewModel @Inject constructor(
 
     private fun saveRecentAccessFolder() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val userId = appManager.userId.firstOrNull() ?: ""
             val folderId = _uiState.value.id
             val saveRecentAccessFolderRequestModel = SaveRecentAccessFolderRequestModel(
                 userId = userId,
                 folderId = folderId
             )
-            folderRepository.saveRecentAccessFolder(token, saveRecentAccessFolderRequestModel)
+            folderRepository.saveRecentAccessFolder(saveRecentAccessFolderRequestModel = saveRecentAccessFolderRequestModel)
                 .collect()
         }
     }

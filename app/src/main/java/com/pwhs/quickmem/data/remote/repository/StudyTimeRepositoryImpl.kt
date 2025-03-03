@@ -17,16 +17,12 @@ class StudyTimeRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
 ) : StudyTimeRepository {
     override suspend fun getStudyTimeByStudySet(
-        token: String,
         studySetId: String,
     ): Flow<Resources<GetStudyTimeByStudySetResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.getStudyTimeByStudySet(token, studySetId)
+                val response = apiService.getStudyTimeByStudySet(studySetId)
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -36,16 +32,12 @@ class StudyTimeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getStudyTimeByUser(
-        token: String,
         userId: String,
     ): Flow<Resources<GetStudyTimeByUserResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.getStudyTimeByUser(token, userId)
+                val response = apiService.getStudyTimeByUser(userId)
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -55,16 +47,12 @@ class StudyTimeRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createStudyTime(
-        token: String,
         createStudyTimeModel: CreateStudyTimeModel,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                apiService.createStudyTime(token, createStudyTimeModel.toDto())
+                apiService.createStudyTime(createStudyTimeModel.toDto())
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
                 Timber.e(e)

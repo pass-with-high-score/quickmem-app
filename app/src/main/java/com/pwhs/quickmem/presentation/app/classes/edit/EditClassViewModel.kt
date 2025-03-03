@@ -3,7 +3,6 @@ package com.pwhs.quickmem.presentation.app.classes.edit
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.classes.UpdateClassRequestModel
 import com.pwhs.quickmem.domain.repository.ClassRepository
@@ -12,7 +11,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -21,7 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class EditClassViewModel @Inject constructor(
     private val classRepository: ClassRepository,
-    private val tokenManager: TokenManager,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(EditClassUiState())
@@ -82,10 +79,8 @@ class EditClassViewModel @Inject constructor(
 
     private fun updateClass(id: String) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val uiState = _uiState.value
             classRepository.updateClass(
-                token = token,
                 classId = id,
                 updateClassRequestModel = UpdateClassRequestModel(
                     allowMemberManagement = uiState.allowMemberManagement,

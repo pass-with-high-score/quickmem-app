@@ -8,7 +8,6 @@ import com.pwhs.quickmem.core.data.enums.CoinAction
 import com.pwhs.quickmem.core.data.enums.DifficultyLevel
 import com.pwhs.quickmem.core.data.enums.QuestionType
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.study_set.CreateStudySetByAIRequestModel
 import com.pwhs.quickmem.domain.model.users.UpdateCoinRequestModel
@@ -32,7 +31,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AIGenerativeViewModel @Inject constructor(
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
     private val studySetRepository: StudySetRepository,
     private val authRepository: AuthRepository,
@@ -104,7 +102,6 @@ class AIGenerativeViewModel @Inject constructor(
 
     private fun createStudySet() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val userId = appManager.userId.firstOrNull() ?: ""
             val createStudySetByAIRequestModel = CreateStudySetByAIRequestModel(
                 title = uiState.value.title,
@@ -116,7 +113,6 @@ class AIGenerativeViewModel @Inject constructor(
                 userId = userId
             )
             studySetRepository.createStudySetByAI(
-                token = token,
                 createStudySetByAIRequestModel
             ).collect { resource ->
                 when (resource) {
@@ -173,9 +169,8 @@ class AIGenerativeViewModel @Inject constructor(
         coin: Int = 1,
     ) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             authRepository.updateCoin(
-                token, UpdateCoinRequestModel(
+                updateCoinRequestModel = UpdateCoinRequestModel(
                     action = coinAction.action,
                     coin = coin
                 )

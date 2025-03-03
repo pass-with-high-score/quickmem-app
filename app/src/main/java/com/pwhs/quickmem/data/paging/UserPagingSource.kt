@@ -7,7 +7,6 @@ import com.pwhs.quickmem.domain.model.users.SearchUserResponseModel
 
 class UserPagingSource(
     private val userRemoteDataResource: UserRemoteDataResource,
-    private val token: String,
     private val username: String,
 ) : PagingSource<Int, SearchUserResponseModel>() {
     override fun getRefreshKey(state: PagingState<Int, SearchUserResponseModel>): Int? {
@@ -18,7 +17,6 @@ class UserPagingSource(
         return try {
             val currentPage = params.key ?: 1
             val response = userRemoteDataResource.searchUser(
-                token = token,
                 username = username,
                 page = currentPage
             )

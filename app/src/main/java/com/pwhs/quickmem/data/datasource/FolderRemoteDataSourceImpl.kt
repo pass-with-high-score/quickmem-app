@@ -8,14 +8,13 @@ import timber.log.Timber
 
 class FolderRemoteDataSourceImpl(
     private val apiService: ApiService
-): FolderRemoteDataSource {
+) : FolderRemoteDataSource {
     override suspend fun getSearchResultFolders(
-        token: String,
         title: String,
         page: Int?
     ): List<GetFolderResponseModel> {
         try {
-            val response = apiService.searchFolder(token, title, page)
+            val response = apiService.searchFolder(title = title, page = page)
             return response.map { it.toModel() }
         } catch (e: Exception) {
             Timber.e(e.toString())

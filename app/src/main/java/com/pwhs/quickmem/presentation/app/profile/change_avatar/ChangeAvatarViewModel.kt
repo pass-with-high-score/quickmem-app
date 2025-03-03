@@ -4,7 +4,6 @@ import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.auth.UpdateAvatarRequestModel
 import com.pwhs.quickmem.domain.model.users.AvatarResponseModel
@@ -26,7 +25,6 @@ class ChangeAvatarViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val uploadImageRepository: UploadImageRepository,
     private val appManager: AppManager,
-    private val tokenManager: TokenManager,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ChangeAvatarUiState())
@@ -96,9 +94,8 @@ class ChangeAvatarViewModel @Inject constructor(
 
     private fun getListAvatar() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val userAvatarUrl = appManager.userAvatarUrl.firstOrNull() ?: ""
-            authRepository.getAvatar(token = token).collect { resource ->
+            authRepository.getAvatar().collect { resource ->
                 when (resource) {
                     is Resources.Error -> {
                         _uiState.update { it.copy(isLoading = false) }
@@ -128,7 +125,6 @@ class ChangeAvatarViewModel @Inject constructor(
 
     private fun updateAvatarUrl(selectAvatarUrl: String) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val userAvatarUrl = appManager.userAvatarUrl.firstOrNull() ?: ""
 
             if (userAvatarUrl == selectAvatarUrl) {
@@ -144,7 +140,6 @@ class ChangeAvatarViewModel @Inject constructor(
             }
 
             authRepository.updateAvatar(
-                token = token,
                 updateAvatarRequestModel = UpdateAvatarRequestModel(selectAvatarUrl)
             ).collect { resource ->
                 when (resource) {
@@ -179,10 +174,7 @@ class ChangeAvatarViewModel @Inject constructor(
 
     private fun uploadAvatar(imageUri: Uri) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-
             uploadImageRepository.uploadUserAvatar(
-                token = token,
                 imageUri = imageUri,
             ).collect { resource ->
                 when (resource) {

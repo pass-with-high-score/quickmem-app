@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.core.data.enums.UserRole
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.auth.ChangeRoleRequestModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
@@ -19,7 +18,6 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -28,7 +26,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ChangeRoleViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val tokenManager: TokenManager,
     private val authRepository: AuthRepository,
     private val appManager: AppManager
 ) : ViewModel() {
@@ -67,7 +64,6 @@ class ChangeRoleViewModel @Inject constructor(
     private fun changeRole() {
         viewModelScope.launch {
             val birthday = appManager.userBirthday.firstOrNull() ?: ""
-            Timber.d("Birthday: $birthday")
             val dateLong = birthday.toTimestamp()
             val isUserUnderAge = dateLong?.isDateSmallerThan() == true
             if (isUserUnderAge) {
@@ -80,10 +76,8 @@ class ChangeRoleViewModel @Inject constructor(
                 )
                 return@launch
             }
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val role = _uiState.value.role
             authRepository.changeRole(
-                token = token,
                 changeRoleRequestModel = ChangeRoleRequestModel(
                     role = role.name
                 )

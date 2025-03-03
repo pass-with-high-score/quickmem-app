@@ -7,7 +7,6 @@ import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 
 class FolderPagingSource(
     private val folderRemoteDataSource: FolderRemoteDataSource,
-    private val token: String,
     private val title: String,
 ) : PagingSource<Int, GetFolderResponseModel>() {
     override fun getRefreshKey(state: PagingState<Int, GetFolderResponseModel>): Int? {
@@ -18,7 +17,6 @@ class FolderPagingSource(
         return try {
             val currentPage = params.key ?: 1
             val response = folderRemoteDataSource.getSearchResultFolders(
-                token = token,
                 title = title,
                 page = currentPage
             )

@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.repository.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,14 +14,12 @@ import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class UserDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val authRepository: AuthRepository,
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
 ) : ViewModel() {
 
@@ -57,9 +54,8 @@ class UserDetailViewModel @Inject constructor(
 
     private fun loadUserDetails() {
         viewModelScope.launch {
-            val token: String = tokenManager.accessToken.firstOrNull() ?: ""
             val userId: String = uiState.value.userId
-            authRepository.getUserDetail(token = token, userId = userId)
+            authRepository.getUserDetail(userId = userId)
                 .collect { resource ->
                     when (resource) {
                         is Resources.Loading -> {

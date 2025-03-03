@@ -11,7 +11,6 @@ import java.io.IOException
 
 class StudySetPagingSource(
     private val studySetRemoteDataSource: StudySetRemoteDataSource,
-    private val token: String,
     private val title: String,
     private val size: SearchResultSizeEnum,
     private val creatorType: SearchResultCreatorEnum?,
@@ -27,7 +26,6 @@ class StudySetPagingSource(
         return try {
             val currentPage = params.key ?: 1
             val response = studySetRemoteDataSource.getSearchResultStudySets(
-                token = token,
                 title = title,
                 size = size,
                 creatorType = creatorType,

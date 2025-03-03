@@ -62,7 +62,6 @@ class JoinClassViewModel @Inject constructor(
             }
 
             classRepository.getClassByCode(
-                token = token,
                 classCode = classCode
             ).collectLatest { resource ->
                 when (resource) {
@@ -117,41 +116,41 @@ class JoinClassViewModel @Inject constructor(
     private fun joinClass() {
         viewModelScope.launch {
             val classCode = uiState.value.code ?: return@launch
-            val token = tokenManager.accessToken.firstOrNull() ?: return@launch
 
             val joinClassRequestModel = JoinClassRequestModel(
                 joinToken = classCode,
                 classId = uiState.value.classId ?: "",
             )
 
-            classRepository.joinClass(token, joinClassRequestModel).collectLatest { resource ->
-                when (resource) {
-                    is Resources.Error -> {
-                        Timber.e(resource.message)
-                        _uiState.update {
-                            it.copy(isLoading = false)
+            classRepository.joinClass(joinClassRequestModel = joinClassRequestModel)
+                .collectLatest { resource ->
+                    when (resource) {
+                        is Resources.Error -> {
+                            Timber.e(resource.message)
+                            _uiState.update {
+                                it.copy(isLoading = false)
+                            }
                         }
-                    }
 
-                    is Resources.Loading -> {
-                        _uiState.update {
-                            it.copy(isLoading = true)
+                        is Resources.Loading -> {
+                            _uiState.update {
+                                it.copy(isLoading = true)
+                            }
                         }
-                    }
 
-                    is Resources.Success -> {
-                        _uiEvent.send(
-                            JoinClassUiEvent.JoinedClass(
-                                id = _uiState.value.classId ?: "",
-                                classCode = _uiState.value.code ?: "",
-                                title = _uiState.value.classDetailResponseModel?.title ?: "",
-                                description = _uiState.value.classDetailResponseModel?.description
-                                    ?: ""
+                        is Resources.Success -> {
+                            _uiEvent.send(
+                                JoinClassUiEvent.JoinedClass(
+                                    id = _uiState.value.classId ?: "",
+                                    classCode = _uiState.value.code ?: "",
+                                    title = _uiState.value.classDetailResponseModel?.title ?: "",
+                                    description = _uiState.value.classDetailResponseModel?.description
+                                        ?: ""
+                                )
                             )
-                        )
+                        }
                     }
                 }
-            }
         }
     }
 }

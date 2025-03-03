@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.classes.DeleteFolderRequestModel
 import com.pwhs.quickmem.domain.model.classes.DeleteStudySetsRequestModel
@@ -30,7 +29,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ClassDetailViewModel @Inject constructor(
     private val classRepository: ClassRepository,
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -144,8 +142,7 @@ class ClassDetailViewModel @Inject constructor(
     private fun getClassById() {
         val id = _uiState.value.id
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            classRepository.getClassById(token, id).collectLatest { resource ->
+            classRepository.getClassById(classId = id).collectLatest { resource ->
                 when (resource) {
                     is Resources.Error -> {
                         _uiState.update { it.copy(isLoading = false) }
@@ -188,8 +185,7 @@ class ClassDetailViewModel @Inject constructor(
 
     private fun deleteClass(id: String) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            classRepository.deleteClass(token, id).collectLatest { resource ->
+            classRepository.deleteClass(classId = id).collectLatest { resource ->
                 when (resource) {
                     is Resources.Error -> {
                         Timber.e(resource.message)
@@ -206,7 +202,6 @@ class ClassDetailViewModel @Inject constructor(
 
                     is Resources.Success -> {
                         resource.data?.let {
-                            Timber.d("Folder deleted")
                             _uiState.update {
                                 it.copy(isLoading = false)
                             }
@@ -220,9 +215,8 @@ class ClassDetailViewModel @Inject constructor(
 
     private fun exitClass() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val classId = _uiState.value.id
-            classRepository.exitClass(token, ExitClassRequestModel(classId = classId))
+            classRepository.exitClass(exitClassRequestModel = ExitClassRequestModel(classId = classId))
                 .collectLatest { resource ->
                     when (resource) {
                         is Resources.Error -> {
@@ -254,10 +248,9 @@ class ClassDetailViewModel @Inject constructor(
 
     private fun removeMember(memberId: String) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val classId = _uiState.value.id
             classRepository.removeMembers(
-                token, RemoveMembersRequestModel(
+                removeMembersRequestModel = RemoveMembersRequestModel(
                     classId = classId,
                     memberIds = listOf(memberId)
                 )
@@ -296,52 +289,47 @@ class ClassDetailViewModel @Inject constructor(
 
     private fun joinClassByToken() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val classId = _uiState.value.id
             val joinClassCode = _uiState.value.joinClassCode
             classRepository.joinClass(
-                token, JoinClassRequestModel(
+                joinClassRequestModel = JoinClassRequestModel(
                     joinToken = joinClassCode,
                     classId = classId
                 )
-            )
-                .collectLatest { resource ->
-                    when (resource) {
-                        is Resources.Error -> {
-                            Timber.e(resource.message)
-                            _uiState.update {
-                                it.copy(isLoading = false)
-                            }
-                        }
-
-                        is Resources.Loading -> {
-                            _uiState.update {
-                                it.copy(isLoading = true)
-                            }
-                        }
-
-                        is Resources.Success -> {
-                            getClassById()
-                            _uiState.update {
-                                it.copy(
-                                    isLoading = false,
-                                    isMember = true
-                                )
-                            }
-                            _uiEvent.trySend(ClassDetailUiEvent.OnJoinClass)
+            ).collectLatest { resource ->
+                when (resource) {
+                    is Resources.Error -> {
+                        Timber.e(resource.message)
+                        _uiState.update {
+                            it.copy(isLoading = false)
                         }
                     }
+
+                    is Resources.Loading -> {
+                        _uiState.update {
+                            it.copy(isLoading = true)
+                        }
+                    }
+
+                    is Resources.Success -> {
+                        getClassById()
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                isMember = true
+                            )
+                        }
+                        _uiEvent.trySend(ClassDetailUiEvent.OnJoinClass)
+                    }
                 }
+            }
         }
     }
 
-
     private fun deleteStudySetInClass(studySetId: String) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val classId = _uiState.value.id
             classRepository.deleteStudySetInClass(
-                token = token,
                 deleteStudySetsRequestModel = DeleteStudySetsRequestModel(
                     classId = classId,
                     studySetId = studySetId
@@ -379,11 +367,12 @@ class ClassDetailViewModel @Inject constructor(
 
     private fun deleteFolderInClass(folderId: String) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val classId = _uiState.value.id
             classRepository.deleteFolderInClass(
-                token,
-                DeleteFolderRequestModel(classId = classId, folderId = folderId)
+                deleteFolderRequestModel = DeleteFolderRequestModel(
+                    classId = classId,
+                    folderId = folderId
+                )
             ).collectLatest { resource ->
                 when (resource) {
                     is Resources.Error -> {
@@ -417,14 +406,12 @@ class ClassDetailViewModel @Inject constructor(
 
     private fun saveRecentAccessClass(classId: String) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            classRepository.saveRecentAccessClass(token = token, id = classId).collect()
+            classRepository.saveRecentAccessClass(id = classId).collect()
         }
     }
 
     private fun inviteToClass() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val classId = _uiState.value.id
             val username = _uiState.value.username
             if (username.isEmpty()) {
@@ -445,8 +432,7 @@ class ClassDetailViewModel @Inject constructor(
             }
 
             classRepository.inviteToClass(
-                token,
-                InviteToClassRequestModel(classId, username)
+                inviteToClassRequestModel = InviteToClassRequestModel(classId, username)
             ).collectLatest { resource ->
                 when (resource) {
                     is Resources.Loading -> {

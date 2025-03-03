@@ -4,7 +4,6 @@ import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.color.ColorModel
 import com.pwhs.quickmem.domain.repository.FlashCardRepository
@@ -15,7 +14,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -28,7 +26,6 @@ class EditFlashCardViewModel @Inject constructor(
     private val flashCardRepository: FlashCardRepository,
     private val uploadImageRepository: UploadImageRepository,
     private val pixaBayRepository: PixaBayRepository,
-    private val tokenManager: TokenManager,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(EditFlashCardUiState())
     val uiState = _uiState.asStateFlow()
@@ -112,8 +109,7 @@ class EditFlashCardViewModel @Inject constructor(
 
             is EditFlashCardUiAction.RemoveImage -> {
                 viewModelScope.launch {
-                    val token = tokenManager.accessToken.firstOrNull() ?: ""
-                    uploadImageRepository.removeImage(token, event.imageURL)
+                    uploadImageRepository.removeImage(event.imageURL)
                         .collect { resource ->
                             when (resource) {
                                 is Resources.Success -> {
@@ -219,12 +215,10 @@ class EditFlashCardViewModel @Inject constructor(
 
     private fun saveFlashCard() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val editFlashCardModel = _uiState.value.toEditFlashCardModel()
             flashCardRepository.updateFlashCard(
-                token,
-                _uiState.value.flashcardId,
-                editFlashCardModel
+                id = _uiState.value.flashcardId,
+                editFlashCardModel = editFlashCardModel
             ).collect { resource ->
                 when (resource) {
                     is Resources.Error -> {
@@ -260,8 +254,7 @@ class EditFlashCardViewModel @Inject constructor(
 
     private fun deleteFlashCard() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            flashCardRepository.deleteFlashCard(token, _uiState.value.flashcardId)
+            flashCardRepository.deleteFlashCard(id = _uiState.value.flashcardId)
                 .collect { resource ->
                     when (resource) {
                         is Resources.Error -> {
@@ -294,12 +287,11 @@ class EditFlashCardViewModel @Inject constructor(
 
     private fun getLanguages(isInit: Boolean = true) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val termLanguageCode =
                 _uiState.value.currentTermVoiceCode.split("-").take(2).joinToString("-")
             val definitionLanguageCode =
                 _uiState.value.currentDefinitionVoiceCode.split("-").take(2).joinToString("-")
-            flashCardRepository.getLanguages(token = token).collect { resource ->
+            flashCardRepository.getLanguages().collect { resource ->
                 when (resource) {
                     is Resources.Success -> {
                         _uiState.update {
@@ -345,8 +337,7 @@ class EditFlashCardViewModel @Inject constructor(
 
     private fun getVoices(isTerm: Boolean, languageCode: String, isInit: Boolean) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            flashCardRepository.getVoices(token = token, languageCode = languageCode)
+            flashCardRepository.getVoices(languageCode = languageCode)
                 .collect { resource ->
                     when (resource) {
                         is Resources.Success -> {
@@ -410,7 +401,6 @@ class EditFlashCardViewModel @Inject constructor(
         job?.cancel()
         job = viewModelScope.launch {
             pixaBayRepository.searchImages(
-                token = tokenManager.accessToken.firstOrNull() ?: "",
                 query = query
             ).collect { resource ->
                 when (resource) {
@@ -473,9 +463,8 @@ class EditFlashCardViewModel @Inject constructor(
 
     private fun onUploadImage(imageUri: Uri, isTerm: Boolean = true) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             uploadImageRepository
-                .uploadImage(token, imageUri)
+                .uploadImage(imageUri = imageUri)
                 .collect { resource ->
                     when (resource) {
                         is Resources.Success -> {

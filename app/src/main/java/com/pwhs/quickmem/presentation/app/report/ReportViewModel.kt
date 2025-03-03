@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.report.CreateReportRequestModel
 import com.pwhs.quickmem.domain.repository.ReportRepository
@@ -22,7 +21,6 @@ import javax.inject.Inject
 class ReportViewModel @Inject constructor(
     private val reportRepository: ReportRepository,
     private val appManager: AppManager,
-    private val tokenManager: TokenManager,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(ReportUiState())
@@ -60,7 +58,6 @@ class ReportViewModel @Inject constructor(
 
     private fun sendReport() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val reporterId = appManager.userId.firstOrNull() ?: ""
             val reason = _uiState.value.reason
             val reportedEntityId = _uiState.value.reportedEntityId
@@ -76,7 +73,6 @@ class ReportViewModel @Inject constructor(
             )
 
             reportRepository.createReport(
-                token = token,
                 createReportRequestModel = reportRequestModel
             ).collect { resources ->
                 when (resources) {

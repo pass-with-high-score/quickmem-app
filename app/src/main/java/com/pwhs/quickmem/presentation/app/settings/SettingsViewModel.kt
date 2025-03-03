@@ -218,9 +218,7 @@ class SettingsViewModel @Inject constructor(
 
     private fun verifyPassword() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             authRepository.verifyPassword(
-                token = token,
                 verifyPasswordRequestModel = VerifyPasswordRequestModel(
                     password = _uiState.value.password
                 )

@@ -8,7 +8,6 @@ data class AddStudySetToFolderUiState (
     val isLoading : Boolean = false,
     val userAvatar: String = "",
     val username: String = "",
-    val token: String = "",
     val userId: String = "",
     val studySetImportedIds: List<String> = emptyList(),
     val studySets: List<GetStudySetResponseModel> = emptyList(),

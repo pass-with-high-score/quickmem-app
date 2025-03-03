@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.messaging.FirebaseMessaging
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.notification.DeviceTokenRequestModel
 import com.pwhs.quickmem.domain.model.streak.StreakModel
@@ -44,7 +43,6 @@ class HomeViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
     private val firebaseRepository: FirebaseRepository,
     private val streakRepository: StreakRepository,
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
@@ -68,17 +66,16 @@ class HomeViewModel @Inject constructor(
         job?.cancel()
         job = viewModelScope.launch {
 
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val userId = appManager.userId.firstOrNull() ?: ""
 
-            if (token.isNotEmpty() && userId.isNotEmpty()) {
-                getRecentAccessStudySets(token = token, userId = userId)
-                getRecentAccessFolders(token = token, userId = userId)
-                getRecentAccessClasses(token = token)
-                getTop5Subjects(token = token)
+            if (userId.isNotEmpty()) {
+                getRecentAccessStudySets(userId = userId)
+                getRecentAccessFolders(userId = userId)
+                getRecentAccessClasses()
+                getTop5Subjects()
                 getCustomerInfo()
-                loadNotifications(token = token, userId = userId)
-                getStreaksByUserId(token = token, userId = userId)
+                loadNotifications(userId = userId)
+                getStreaksByUserId(userId = userId)
             } else {
                 _uiEvent.send(HomeUiEvent.UnAuthorized)
             }
@@ -107,9 +104,8 @@ class HomeViewModel @Inject constructor(
 
             is HomeUiAction.UpdateStreak -> {
                 viewModelScope.launch {
-                    val token = tokenManager.accessToken.firstOrNull() ?: ""
                     val userId = appManager.userId.firstOrNull() ?: ""
-                    updateStreak(token, userId)
+                    updateStreak(userId)
                 }
             }
         }
@@ -131,9 +127,9 @@ class HomeViewModel @Inject constructor(
         })
     }
 
-    private fun loadNotifications(token: String, userId: String) {
+    private fun loadNotifications(userId: String) {
         viewModelScope.launch {
-            notificationRepository.loadNotifications(userId, token).collect { result ->
+            notificationRepository.loadNotifications(userId = userId).collect { result ->
                 when (result) {
                     is Resources.Loading -> {
                         // do nothing
@@ -159,9 +155,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getTop5Subjects(token: String) {
+    private fun getTop5Subjects() {
         viewModelScope.launch {
-            studySetRepository.getTop5Subject(token).collect { resource ->
+            studySetRepository.getTop5Subject().collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.value = _uiState.value.copy(isLoading = true)
@@ -196,9 +192,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getRecentAccessStudySets(token: String, userId: String) {
+    private fun getRecentAccessStudySets(userId: String) {
         viewModelScope.launch {
-            studySetRepository.getRecentAccessStudySet(token, userId).collect { resource ->
+            studySetRepository.getRecentAccessStudySet(userId = userId).collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.value = _uiState.value.copy(isLoading = true)
@@ -219,9 +215,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getRecentAccessFolders(token: String, userId: String) {
+    private fun getRecentAccessFolders(userId: String) {
         viewModelScope.launch {
-            folderRepository.getRecentAccessFolders(token, userId).collect { resource ->
+            folderRepository.getRecentAccessFolders(userId = userId).collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.value = _uiState.value.copy(isLoading = true)
@@ -242,9 +238,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getRecentAccessClasses(token: String) {
+    private fun getRecentAccessClasses() {
         viewModelScope.launch {
-            classRepository.getRecentAccessClass(token = token).collect { resource ->
+            classRepository.getRecentAccessClass().collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.value = _uiState.value.copy(isLoading = true)
@@ -289,17 +285,13 @@ class HomeViewModel @Inject constructor(
                 deviceToken = token
             )
 
-            val accessToken = tokenManager.accessToken.firstOrNull() ?: return@launch
-            firebaseRepository.sendDeviceToken(
-                accessToken = accessToken,
-                deviceTokenRequest = deviceTokenRequest
-            ).collect()
+            firebaseRepository.sendDeviceToken(deviceTokenRequest = deviceTokenRequest).collect()
         }
     }
 
-    private fun getStreaksByUserId(token: String, userId: String) {
+    private fun getStreaksByUserId(userId: String) {
         viewModelScope.launch {
-            streakRepository.getStreaksByUserId(token, userId).collect { resource ->
+            streakRepository.getStreaksByUserId(userId = userId).collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.value = _uiState.value.copy(isLoading = true)
@@ -325,9 +317,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun updateStreak(token: String, userId: String) {
+    private fun updateStreak(userId: String) {
         viewModelScope.launch {
-            streakRepository.updateStreak(token, userId).collect { resource ->
+            streakRepository.updateStreak(userId = userId).collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.update {

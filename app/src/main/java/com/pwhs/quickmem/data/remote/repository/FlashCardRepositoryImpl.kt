@@ -29,17 +29,12 @@ class FlashCardRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
 ) : FlashCardRepository {
     override suspend fun createFlashCard(
-        token: String,
         createFlashCardModel: CreateFlashCardModel,
     ): Flow<Resources<FlashCardResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.createFlashCard(
-                    token = token,
                     createFlashCardDto = createFlashCardModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
@@ -51,16 +46,12 @@ class FlashCardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteFlashCard(
-        token: String,
         id: String,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.deleteFlashCard(token = token, id = id)
+                val response = apiService.deleteFlashCard(id = id)
                 emit(Resources.Success(response))
             } catch (e: HttpException) {
                 Timber.e(e)
@@ -73,18 +64,13 @@ class FlashCardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateFlashCard(
-        token: String,
         id: String,
         editFlashCardModel: EditFlashCardModel,
     ): Flow<Resources<FlashCardResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.updateFlashCard(
-                    token = token,
                     id = id,
                     editFlashCardDto = editFlashCardModel.toDto()
                 )
@@ -100,18 +86,13 @@ class FlashCardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateFlipFlashCard(
-        token: String,
         id: String,
         flipStatus: String,
     ): Flow<Resources<UpdateFlashCardResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             try {
                 val response =
                     apiService.updateFlipFlashCard(
-                        token = token,
                         id = id,
                         flipFlashCardDto = FlipFlashCardDto(flipStatus)
                     )
@@ -127,18 +108,13 @@ class FlashCardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateFlashCardRating(
-        token: String,
         id: String,
         rating: String,
     ): Flow<Resources<UpdateFlashCardResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             try {
                 val response =
                     apiService.updateRatingFlashCard(
-                        token = token,
                         id = id,
                         ratingFlashCardDto = RatingFlashCardDto(rating)
                     )
@@ -154,21 +130,15 @@ class FlashCardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateQuizStatus(
-        token: String,
         id: String,
         quizStatus: String,
     ): Flow<Resources<UpdateFlashCardResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             try {
-                val response =
-                    apiService.updateQuizStatus(
-                        token = token,
-                        id = id,
-                        quizStatusDto = QuizStatusFlashCardDto(quizStatus)
-                    )
+                val response = apiService.updateQuizStatus(
+                    id = id,
+                    quizStatusDto = QuizStatusFlashCardDto(quizStatus)
+                )
                 emit(Resources.Success(response.toModel()))
             } catch (e: HttpException) {
                 Timber.e(e)
@@ -181,17 +151,12 @@ class FlashCardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateTrueFalseStatus(
-        token: String,
         id: String,
         trueFalseStatus: String,
     ): Flow<Resources<UpdateFlashCardResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             try {
                 val response = apiService.updateTrueFalseStatus(
-                    token = token,
                     id = id,
                     trueFalseStatusDto = TrueFalseStatusFlashCardDto(trueFalseStatus)
                 )
@@ -207,17 +172,12 @@ class FlashCardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateWriteStatus(
-        token: String,
         id: String,
         writeStatus: String,
     ): Flow<Resources<UpdateFlashCardResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             try {
                 val response = apiService.updateWriteStatus(
-                    token = token,
                     id = id,
                     writeStatusDto = WriteStatusFlashCardDto(writeStatus)
                 )
@@ -233,7 +193,6 @@ class FlashCardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFlashCardsByStudySetId(
-        token: String,
         studySetId: String,
         learnMode: LearnMode,
         isGetAll: Boolean,
@@ -241,13 +200,9 @@ class FlashCardRepositoryImpl @Inject constructor(
         isRandom: Boolean,
     ): Flow<Resources<List<FlashCardResponseModel>>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.getFlashCardsByStudySetId(
-                    token = token,
                     id = studySetId,
                     learnMode = learnMode.mode,
                     isGetAll = isGetAll,
@@ -266,7 +221,6 @@ class FlashCardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getFlashCardsByFolderId(
-        token: String,
         folderId: String,
         learnMode: LearnMode,
         isGetAll: Boolean,
@@ -274,13 +228,9 @@ class FlashCardRepositoryImpl @Inject constructor(
         isRandom: Boolean,
     ): Flow<Resources<List<FlashCardResponseModel>>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.getFlashCardsByFolderId(
-                    token = token,
                     id = folderId,
                     learnMode = learnMode.mode,
                     isGetAll = isGetAll,
@@ -298,14 +248,11 @@ class FlashCardRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getLanguages(token: String): Flow<Resources<List<LanguageModel>>> {
+    override suspend fun getLanguages(): Flow<Resources<List<LanguageModel>>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.getLanguages(token = token)
+                val response = apiService.getLanguages()
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: HttpException) {
                 Timber.e(e)
@@ -318,16 +265,12 @@ class FlashCardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getVoices(
-        token: String,
         languageCode: String,
     ): Flow<Resources<List<VoiceModel>>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.getVoices(token = token, languageCode = languageCode)
+                val response = apiService.getVoices(languageCode = languageCode)
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: HttpException) {
                 Timber.e(e)
@@ -340,18 +283,14 @@ class FlashCardRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSpeech(
-        token: String,
         input: String,
         voiceCode: String
     ): Flow<Resources<BufferResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response =
-                    apiService.getSpeech(token = token, input = input, voiceCode = voiceCode)
+                    apiService.getSpeech(input = input, voiceCode = voiceCode)
                 emit(Resources.Success(response.toModel()))
             } catch (e: HttpException) {
                 Timber.e(e)

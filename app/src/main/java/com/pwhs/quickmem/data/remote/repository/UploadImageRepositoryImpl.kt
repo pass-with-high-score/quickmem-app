@@ -22,14 +22,15 @@ class UploadImageRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val context: Context,
 ) : UploadImageRepository {
+    companion object {
+        const val UPLOAD_FILE_NAME: String = "flashcard"
+        const val UPLOAD_AVATAR_NAME: String = "avatar"
+    }
+
     override suspend fun uploadImage(
-        token: String,
         imageUri: Uri,
     ): Flow<Resources<UploadImageResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val realPath = RealPathUtil.getRealPath(context = context, imageUri)
@@ -37,11 +38,11 @@ class UploadImageRepositoryImpl @Inject constructor(
 
                 if (imageFile != null) {
                     val requestUploadImageFile = MultipartBody.Part.createFormData(
-                        name = "flashcard",
+                        name = UPLOAD_FILE_NAME,
                         filename = imageFile.name,
                         body = imageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                     )
-                    val response = apiService.uploadImage(token, requestUploadImageFile)
+                    val response = apiService.uploadImage(requestUploadImageFile)
                     emit(Resources.Success(response.toUploadImageResponseModel()))
                 }
 
@@ -53,16 +54,12 @@ class UploadImageRepositoryImpl @Inject constructor(
     }
 
     override suspend fun removeImage(
-        token: String,
         imageURL: String,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                apiService.deleteImage(token, DeleteImageDto(imageURL))
+                apiService.deleteImage(DeleteImageDto(imageURL))
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -72,13 +69,9 @@ class UploadImageRepositoryImpl @Inject constructor(
     }
 
     override suspend fun uploadUserAvatar(
-        token: String,
         imageUri: Uri,
     ): Flow<Resources<UploadImageResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val realPath = RealPathUtil.getRealPath(context = context, imageUri)
@@ -86,12 +79,11 @@ class UploadImageRepositoryImpl @Inject constructor(
 
                 if (imageFile != null) {
                     val requestUploadImageFile = MultipartBody.Part.createFormData(
-                        name = "avatar",
+                        name = UPLOAD_AVATAR_NAME,
                         filename = imageFile.name,
                         body = imageFile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
                     )
                     val response = apiService.uploadUserAvatar(
-                        token = token,
                         avatar = requestUploadImageFile,
                     )
                     emit(Resources.Success(response.toUploadImageResponseModel()))

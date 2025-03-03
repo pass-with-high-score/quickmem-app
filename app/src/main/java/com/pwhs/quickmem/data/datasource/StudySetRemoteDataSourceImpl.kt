@@ -12,7 +12,6 @@ class StudySetRemoteDataSourceImpl(
     private val apiService: ApiService
 ) : StudySetRemoteDataSource {
     override suspend fun getSearchResultStudySets(
-        token: String,
         title: String,
         size: SearchResultSizeEnum,
         creatorType: SearchResultCreatorEnum?,
@@ -24,14 +23,13 @@ class StudySetRemoteDataSourceImpl(
         try {
             val response =
                 apiService.searchStudySet(
-                    token,
-                    title,
-                    size.query,
-                    creatorType?.query,
-                    page,
-                    colorId,
-                    subjectId,
-                    isAIGenerated
+                    title = title,
+                    size = size.query,
+                    creatorType = creatorType?.query,
+                    page = page,
+                    colorId = colorId,
+                    subjectId = subjectId,
+                    isAIGenerated = isAIGenerated
                 )
             return response.map { it.toModel() }
         } catch (e: Exception) {

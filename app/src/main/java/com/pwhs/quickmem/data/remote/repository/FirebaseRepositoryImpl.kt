@@ -14,17 +14,12 @@ class FirebaseRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
 ) : FirebaseRepository {
     override suspend fun sendDeviceToken(
-        accessToken: String,
         deviceTokenRequest: DeviceTokenRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
             emit(Resources.Loading())
-            if (accessToken.isEmpty()) {
-                return@flow
-            }
             try {
                 apiService.sendDeviceToken(
-                    authorization = accessToken,
                     tokenRequest = deviceTokenRequest.toDto()
                 )
                 emit(Resources.Success(Unit))

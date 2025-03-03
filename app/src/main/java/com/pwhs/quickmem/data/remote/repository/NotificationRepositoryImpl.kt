@@ -16,17 +16,11 @@ class NotificationRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
 ) : NotificationRepository {
 
-    override suspend fun loadNotifications(
-        userId: String,
-        token: String,
-    ): Flow<Resources<List<GetNotificationResponseModel>>> {
+    override suspend fun loadNotifications(userId: String): Flow<Resources<List<GetNotificationResponseModel>>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val notifications = apiService.getNotificationsByUserId(token, userId)
+                val notifications = apiService.getNotificationsByUserId(userId)
                     .map { it.toModel() }
                 emit(Resources.Success(notifications))
             } catch (e: HttpException) {
@@ -40,16 +34,12 @@ class NotificationRepositoryImpl @Inject constructor(
 
     override suspend fun markNotificationAsRead(
         notificationId: String,
-        token: String,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val requestDto = MarkNotificationReadRequestDto(notificationId, true)
-                apiService.markNotificationAsRead(token, notificationId, requestDto)
+                apiService.markNotificationAsRead(notificationId, requestDto)
                 emit(Resources.Success(Unit))
             } catch (e: HttpException) {
                 emit(Resources.Error(e.localizedMessage ?: "Failed to mark notification as read"))
@@ -61,15 +51,11 @@ class NotificationRepositoryImpl @Inject constructor(
 
     override suspend fun deleteNotification(
         notificationId: String,
-        token: String,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                apiService.deleteNotification(token, notificationId)
+                apiService.deleteNotification(notificationId)
                 emit(Resources.Success(Unit))
             } catch (e: HttpException) {
                 emit(Resources.Error(e.localizedMessage ?: "Failed to delete notification"))
@@ -79,14 +65,11 @@ class NotificationRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun clearAllNotifications(token: String): Flow<Resources<Unit>> {
+    override suspend fun clearAllNotifications(): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                apiService.clearAllNotifications(token)
+                apiService.clearAllNotifications()
                 emit(Resources.Success(Unit))
             } catch (e: HttpException) {
                 emit(Resources.Error(e.localizedMessage ?: "Failed to clear all notifications"))

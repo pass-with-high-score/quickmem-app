@@ -24,7 +24,6 @@ import com.pwhs.quickmem.domain.model.classes.UpdateClassRequestModel
 import com.pwhs.quickmem.domain.model.classes.UpdateClassResponseModel
 import com.pwhs.quickmem.domain.repository.ClassRepository
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 import javax.inject.Inject
@@ -34,19 +33,14 @@ class ClassRepositoryImpl @Inject constructor(
     private val classRemoteDataSource: ClassRemoteDataSource,
 ) : ClassRepository {
     override suspend fun createClass(
-        token: String,
         createClassRequestModel: CreateClassRequestModel,
     ): Flow<Resources<CreateClassResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.createClass(
-                    token, createClassRequestModel.toDto()
+                    createClassRequestModel.toDto()
                 )
-                Timber.d("createClass: $response")
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -56,20 +50,12 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getClassById(
-        token: String,
         classId: String,
     ): Flow<Resources<GetClassDetailResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.getClassByID(
-                    token,
-                    classId
-                )
-                Timber.d("getClassByIddddd: ${response.studySets?.firstOrNull()?.flashcardCount}")
+                val response = apiService.getClassByID(classId)
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -80,18 +66,13 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getClassByOwnerId(
-        token: String,
         folderId: String?,
         studySetId: String?,
     ): Flow<Resources<List<GetClassByOwnerResponseModel>>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.getClassByOwnerID(
-                    token = token,
                     folderId = folderId,
                     studySetId = studySetId
                 )
@@ -104,18 +85,14 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateClass(
-        token: String,
         classId: String,
         updateClassRequestModel: UpdateClassRequestModel,
     ): Flow<Resources<UpdateClassResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.updateClass(
-                    token, classId, updateClassRequestModel.toDto()
+                    classId, updateClassRequestModel.toDto()
                 )
                 Timber.d("updateClass: $response")
                 emit(Resources.Success(response.toModel()))
@@ -126,16 +103,11 @@ class ClassRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteClass(token: String, classId: String): Flow<Resources<Unit>> {
+    override suspend fun deleteClass(classId: String): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                apiService.deleteClass(
-                    token, classId
-                )
+                apiService.deleteClass(classId)
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -145,13 +117,9 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSearchResultClasses(
-        token: String,
         title: String,
         page: Int?,
     ): Flow<PagingData<GetClassByOwnerResponseModel>> {
-        if (token.isEmpty()) {
-            return emptyFlow()
-        }
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
@@ -160,7 +128,6 @@ class ClassRepositoryImpl @Inject constructor(
             pagingSourceFactory = {
                 ClassPagingSource(
                     classRemoteDataSource,
-                    token,
                     title
                 )
             }
@@ -168,19 +135,12 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getClassByCode(
-        token: String,
         classCode: String,
     ): Flow<Resources<GetClassDetailResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.getClassByJoinToken(
-                    token = token,
-                    joinToken = classCode
-                )
+                val response = apiService.getClassByJoinToken(joinToken = classCode)
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -190,16 +150,12 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun joinClass(
-        token: String,
         joinClassRequestModel: JoinClassRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                apiService.joinClass(token, joinClassRequestModel.toDto())
+                apiService.joinClass(joinClassRequestModel.toDto())
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -209,16 +165,12 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun exitClass(
-        token: String,
         exitClassRequestModel: ExitClassRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                apiService.exitClass(token, exitClassRequestModel.toDto())
+                apiService.exitClass(exitClassRequestModel.toDto())
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -228,16 +180,12 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun removeMembers(
-        token: String,
         removeMembersRequestModel: RemoveMembersRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                apiService.removeMembers(token, removeMembersRequestModel.toDto())
+                apiService.removeMembers(removeMembersRequestModel.toDto())
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -247,16 +195,12 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteStudySetInClass(
-        token: String,
         deleteStudySetsRequestModel: DeleteStudySetsRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                apiService.deleteStudySetInClass(token, deleteStudySetsRequestModel.toDto())
+                apiService.deleteStudySetInClass(deleteStudySetsRequestModel.toDto())
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -266,16 +210,12 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteFolderInClass(
-        token: String,
         deleteFolderRequestModel: DeleteFolderRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                apiService.deleteFolderInClass(token, deleteFolderRequestModel.toDto())
+                apiService.deleteFolderInClass(deleteFolderRequestModel.toDto())
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -285,16 +225,12 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveRecentAccessClass(
-        token: String,
         id: String
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                apiService.saveRecentClass(token = token, id = id)
+                apiService.saveRecentClass(id = id)
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -304,15 +240,11 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getRecentAccessClass(
-        token: String,
     ): Flow<Resources<List<GetClassByOwnerResponseModel>>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.getRecentClass(token = token)
+                val response = apiService.getRecentClass()
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -322,17 +254,13 @@ class ClassRepositoryImpl @Inject constructor(
     }
 
     override suspend fun inviteToClass(
-        token: String,
         inviteToClassRequestModel: InviteToClassRequestModel,
     ): Flow<Resources<InviteToClassResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.inviteUserToClass(
-                    token, inviteToClassRequestModel.toDto()
+                    inviteToClassRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {

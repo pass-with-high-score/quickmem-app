@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.study_set.AddStudySetToFolderRequestModel
 import com.pwhs.quickmem.domain.repository.StudySetRepository
@@ -22,7 +21,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddStudySetToFolderViewModel @Inject constructor(
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
     private val studySetRepository: StudySetRepository,
     savedStateHandle: SavedStateHandle,
@@ -37,13 +35,11 @@ class AddStudySetToFolderViewModel @Inject constructor(
         val folderId: String = savedStateHandle.get<String>("folderId") ?: ""
         _uiState.update { it.copy(folderId = folderId) }
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: return@launch
             val ownerId = appManager.userId.firstOrNull() ?: return@launch
             val userAvatar = appManager.userAvatarUrl.firstOrNull() ?: return@launch
             val username = appManager.username.firstOrNull() ?: return@launch
             _uiState.update {
                 it.copy(
-                    token = token,
                     userId = ownerId,
                     userAvatar = userAvatar,
                     username = username
@@ -72,42 +68,40 @@ class AddStudySetToFolderViewModel @Inject constructor(
     private fun getStudySets() {
         viewModelScope.launch {
             studySetRepository.getStudySetsByOwnerId(
-                _uiState.value.token,
-                null,
-                _uiState.value.folderId
-            )
-                .collectLatest { resources ->
-                    when (resources) {
-                        is Resources.Success -> {
-                            _uiState.update {
-                                it.copy(
-                                    isLoading = false,
-                                    studySets = resources.data ?: emptyList(),
-                                    studySetImportedIds = resources.data?.filter { studySetResponseModel -> studySetResponseModel.isImported == true }
-                                        ?.map { setResponseModel -> setResponseModel.id }
-                                        ?: emptyList()
-                                )
-                            }
-                        }
-
-                        is Resources.Error -> {
-                            _uiState.update {
-                                it.copy(isLoading = false)
-                            }
-                            _uiEvent.send(
-                                AddStudySetToFolderUiEvent.Error(
-                                    R.string.txt_error_occurred
-                                )
+                classId = null,
+                folderId = _uiState.value.folderId
+            ).collectLatest { resources ->
+                when (resources) {
+                    is Resources.Success -> {
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                studySets = resources.data ?: emptyList(),
+                                studySetImportedIds = resources.data?.filter { studySetResponseModel -> studySetResponseModel.isImported == true }
+                                    ?.map { setResponseModel -> setResponseModel.id }
+                                    ?: emptyList()
                             )
                         }
+                    }
 
-                        is Resources.Loading -> {
-                            _uiState.update {
-                                it.copy(isLoading = true)
-                            }
+                    is Resources.Error -> {
+                        _uiState.update {
+                            it.copy(isLoading = false)
+                        }
+                        _uiEvent.send(
+                            AddStudySetToFolderUiEvent.Error(
+                                R.string.txt_error_occurred
+                            )
+                        )
+                    }
+
+                    is Resources.Loading -> {
+                        _uiState.update {
+                            it.copy(isLoading = true)
                         }
                     }
                 }
+            }
         }
     }
 
@@ -118,8 +112,7 @@ class AddStudySetToFolderViewModel @Inject constructor(
                 studySetIds = _uiState.value.studySetImportedIds
             )
             studySetRepository.addStudySetToFolder(
-                token = tokenManager.accessToken.firstOrNull() ?: "",
-                addStudySetToFolderRequestModel
+                addStudySetToFolderRequestModel = addStudySetToFolderRequestModel
             ).collectLatest { resources ->
                 when (resources) {
                     is Resources.Success -> {

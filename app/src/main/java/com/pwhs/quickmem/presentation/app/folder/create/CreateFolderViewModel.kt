@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.folder.CreateFolderRequestModel
 import com.pwhs.quickmem.domain.repository.FolderRepository
@@ -22,7 +21,6 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateFolderViewModel @Inject constructor(
     private val folderRepository: FolderRepository,
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(CreateFolderUiState())
@@ -72,8 +70,7 @@ class CreateFolderViewModel @Inject constructor(
                         ownerId = ownerId
                     )
                     folderRepository.createFolder(
-                        token = tokenManager.accessToken.firstOrNull() ?: "",
-                        createFolderRequestModel
+                        createFolderRequestModel = createFolderRequestModel
                     ).collectLatest { resources ->
                         when (resources) {
                             is Resources.Loading -> {

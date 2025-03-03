@@ -9,6 +9,8 @@ import com.pwhs.quickmem.data.dto.auth.ChangeRoleResponseDto
 import com.pwhs.quickmem.data.dto.auth.GetUserProfileResponseDto
 import com.pwhs.quickmem.data.dto.auth.LoginRequestDto
 import com.pwhs.quickmem.data.dto.auth.OtpResponseDto
+import com.pwhs.quickmem.data.dto.auth.RefreshTokenRequestDto
+import com.pwhs.quickmem.data.dto.auth.RefreshTokenResponseDto
 import com.pwhs.quickmem.data.dto.auth.ResendEmailRequestDto
 import com.pwhs.quickmem.data.dto.auth.ResetPasswordRequestDto
 import com.pwhs.quickmem.data.dto.auth.ResetPasswordResponseDto
@@ -99,7 +101,6 @@ import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
-import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.PATCH
 import retrofit2.http.POST
@@ -109,7 +110,11 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
-    // Aut
+
+    // Auth
+    @POST("auth/refresh-token")
+    suspend fun refreshToken(@Body refreshTokenRequestDto: RefreshTokenRequestDto): Response<RefreshTokenResponseDto>
+
     @POST("auth/signup")
     suspend fun signUp(@Body signupRequestDto: SignupRequestDto): SignupResponseDto
 
@@ -124,25 +129,21 @@ interface ApiService {
 
     @PATCH("auth/user/fullname")
     suspend fun updateFullName(
-        @Header("Authorization") token: String,
         @Body updateFullNameRequestDto: UpdateFullNameRequestDto,
     ): UpdateFullNameResponseDto
 
     @PATCH("auth/user/username")
     suspend fun updateUsername(
-        @Header("Authorization") token: String,
         @Body updateUsernameRequestDto: UpdateUsernameRequestDto,
     ): UpdateUsernameResponseDto
 
     @PATCH("auth/user/email")
     suspend fun updateEmail(
-        @Header("Authorization") token: String,
         @Body updateEmailRequestDto: UpdateEmailRequestDto,
     ): UpdateEmailResponseDto
 
     @PATCH("/auth/user/password")
     suspend fun changePassword(
-        @Header("Authorization") token: String,
         @Body changePasswordRequestDto: ChangePasswordRequestDto,
     ): ChangePasswordResponseDto
 
@@ -158,133 +159,107 @@ interface ApiService {
 
     @POST("auth/verify-password")
     suspend fun verifyPassword(
-        @Header("Authorization") token: String,
         @Body verifyPasswordRequestDto: VerifyPasswordRequestDto,
     ): VerifyPasswordResponseDto
 
     @GET("auth/me/{id}")
     suspend fun getUserDetail(
-        @Header("Authorization") token: String,
         @Path("id") userId: String,
     ): UserDetailResponseDto
 
     @GET("auth/profile")
-    suspend fun getUserProfile(
-        @Header("Authorization") token: String,
-    ): GetUserProfileResponseDto
+    suspend fun getUserProfile(): GetUserProfileResponseDto
 
     @PATCH("auth/user/avatar/{id}")
     suspend fun updateAvatar(
-        @Header("Authorization") token: String,
         @Body updateAvatarRequestDto: UpdateAvatarRequestDto,
     ): UpdateAvatarResponseDto
 
     @PATCH("auth/user/role")
     suspend fun changeRole(
-        @Header("Authorization") token: String,
         @Body request: ChangeRoleRequestDto,
     ): ChangeRoleResponseDto
 
     @GET("auth/user/search")
     suspend fun searchUser(
-        @Header("Authorization") token: String,
         @Query("username") username: String,
         @Query("page") page: Int?,
     ): List<SearchUserResponseDto>
 
     @POST("auth/coin")
     suspend fun updateCoin(
-        @Header("Authorization") token: String,
         @Body request: UpdateCoinRequestDto,
     ): UpdateCoinResponseDto
 
     @POST("auth/signup/google")
-    suspend fun signupWithGoogle(@Body socialCredentialRequestDto: SignupSocialCredentialRequestDto): AuthResponseDto
+    suspend fun signupWithGoogle(
+        @Body socialCredentialRequestDto: SignupSocialCredentialRequestDto
+    ): AuthResponseDto
 
     @POST("auth/login/google")
-    suspend fun loginWithGoogle(@Body authSocialGoogleRequestDto: AuthSocialGoogleRequestDto): AuthResponseDto
+    suspend fun loginWithGoogle(
+        @Body authSocialGoogleRequestDto: AuthSocialGoogleRequestDto
+    ): AuthResponseDto
 
     // Upload
     @Multipart
     @POST("upload")
     suspend fun uploadImage(
-        @Header("Authorization") authToken: String,
         @Part flashcard: MultipartBody.Part,
     ): UploadImageResponseDto
 
     @POST("upload/delete")
     suspend fun deleteImage(
-        @Header("Authorization") authToken: String,
         @Body deleteImageDto: DeleteImageDto,
     )
 
     @GET("auth/avatars")
-    suspend fun getAvatars(
-        @Header("Authorization") token: String,
-    ): List<AvatarResponseDto>
+    suspend fun getAvatars(): List<AvatarResponseDto>
 
     @Multipart
     @POST("upload/avatar")
-    suspend fun uploadUserAvatar(
-        @Header("Authorization") token: String,
-        @Part avatar: MultipartBody.Part,
-    ): UploadImageResponseDto
+    suspend fun uploadUserAvatar(@Part avatar: MultipartBody.Part): UploadImageResponseDto
 
     // Study Set
     @POST("study-set")
     suspend fun createStudySet(
-        @Header("Authorization") token: String,
         @Body createStudySetRequestDto: CreateStudySetRequestDto,
     ): CreateStudySetResponseDto
 
     @GET("study-set/{id}")
-    suspend fun getStudySetById(
-        @Header("Authorization") token: String,
-        @Path("id") id: String,
-    ): GetStudySetResponseDto
+    suspend fun getStudySetById(@Path("id") id: String): GetStudySetResponseDto
 
     @GET("study-set/owner/")
     suspend fun getStudySetsByOwnerId(
-        @Header("Authorization") token: String,
         @Query("classId") classId: String? = null,
         @Query("folderId") folderId: String? = null,
     ): List<GetStudySetResponseDto>
 
     @PATCH("study-set/{id}")
     suspend fun updateStudySet(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Body updateStudySetRequestDto: UpdateStudySetRequestDto,
     ): UpdateStudySetResponseDto
 
     @PATCH("study-set/{id}/reset-progress")
     suspend fun resetStudySetProgress(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Query("resetType") resetType: String,
     )
 
     @DELETE("study-set/{id}")
-    suspend fun deleteStudySet(
-        @Header("Authorization") token: String,
-        @Path("id") id: String,
-    )
+    suspend fun deleteStudySet(@Path("id") id: String)
 
     @POST("study-set/folders")
     suspend fun addStudySetToFolders(
-        @Header("Authorization") token: String,
         @Body addStudySetToFoldersRequestDto: AddStudySetToFoldersRequestDto,
     )
 
     @POST("study-set/classes")
-    suspend fun addStudySetToClasses(
-        @Header("Authorization") token: String,
-        @Body addStudySetToClassesRequestDto: AddStudySetToClassesRequestDto,
-    )
+    suspend fun addStudySetToClasses(@Body addStudySetToClassesRequestDto: AddStudySetToClassesRequestDto)
 
     @GET("study-set/search")
     suspend fun searchStudySet(
-        @Header("Authorization") token: String,
         @Query("title") title: String,
         @Query("size") size: String,
         @Query("creatorType") creatorType: String?,
@@ -296,57 +271,45 @@ interface ApiService {
 
     @GET("study-set/link/{code}")
     suspend fun getStudySetByLinkCode(
-        @Header("Authorization") token: String,
         @Path("code") code: String,
     ): GetStudySetResponseDto
 
     @POST("study-set/recent")
     suspend fun saveRecentStudySet(
-        @Header("Authorization") token: String,
         @Body saveRecentAccessStudySetRequestDto: SaveRecentAccessStudySetRequestDto,
     )
 
     @GET("study-set/recent/{userId}")
     suspend fun getRecentStudySet(
-        @Header("Authorization") token: String,
         @Path("userId") userId: String,
     ): List<GetStudySetResponseDto>
 
     @POST("study-set/ai")
     suspend fun createStudySetByAI(
-        @Header("Authorization") token: String,
         @Body createStudySetRequestDto: CreateStudySetByAIRequestDto,
     ): CreateStudySetResponseDto
 
     @POST("study-set/ai/write-hint")
     suspend fun createWriteHintAI(
-        @Header("Authorization") token: String,
         @Body createWriteHintAIModel: CreateWriteHintAIRequestDto,
     ): CreateWriteHintAIResponseDto
 
     // subject
     @GET("study-set/top-subject")
-    suspend fun getTop5Subject(
-        @Header("Authorization") token: String,
-    ): List<GetTop5SubjectResponseDto>
+    suspend fun getTop5Subject(): List<GetTop5SubjectResponseDto>
 
     @GET("study-set/subject/{subjectId}")
     suspend fun getStudySetBySubjectId(
-        @Header("Authorization") token: String,
         @Path("subjectId") subjectId: Int,
         @Query("page") page: Int,
     ): List<GetStudySetResponseDto>
 
     // Flashcard
     @POST("study-set/duplicate")
-    suspend fun duplicateStudySet(
-        @Header("Authorization") token: String,
-        @Body request: MakeACopyStudySetRequestDto,
-    ): CreateStudySetResponseDto
+    suspend fun duplicateStudySet(@Body request: MakeACopyStudySetRequestDto): CreateStudySetResponseDto
 
     @GET("/flashcard/study-set/{id}")
     suspend fun getFlashCardsByStudySetId(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Query("learnMode") learnMode: String,
         @Query("isGetAll") isGetAll: Boolean,
@@ -355,62 +318,49 @@ interface ApiService {
     ): List<FlashCardResponseDto>
 
     @POST("flashcard")
-    suspend fun createFlashCard(
-        @Header("Authorization") token: String,
-        @Body createFlashCardDto: CreateFlashCardDto,
-    ): FlashCardResponseDto
+    suspend fun createFlashCard(@Body createFlashCardDto: CreateFlashCardDto): FlashCardResponseDto
 
     @PUT("flashcard/{id}")
     suspend fun updateFlashCard(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Body editFlashCardDto: EditFlashCardDto,
     ): FlashCardResponseDto
 
     @DELETE("flashcard/{id}")
-    suspend fun deleteFlashCard(
-        @Header("Authorization") token: String,
-        @Path("id") id: String,
-    )
+    suspend fun deleteFlashCard(@Path("id") id: String)
 
     @PATCH("flashcard/{id}/flip-status")
     suspend fun updateFlipFlashCard(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Body flipFlashCardDto: FlipFlashCardDto,
     ): UpdateFlashCardResponseDto
 
     @PATCH("flashcard/{id}/rating")
     suspend fun updateRatingFlashCard(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Body ratingFlashCardDto: RatingFlashCardDto,
     ): UpdateFlashCardResponseDto
 
     @PATCH("flashcard/{id}/quiz-status")
     suspend fun updateQuizStatus(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Body quizStatusDto: QuizStatusFlashCardDto,
     ): UpdateFlashCardResponseDto
 
     @PATCH("flashcard/{id}/true-false-status")
     suspend fun updateTrueFalseStatus(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Body trueFalseStatusDto: TrueFalseStatusFlashCardDto,
     ): UpdateFlashCardResponseDto
 
     @PATCH("flashcard/{id}/write-status")
     suspend fun updateWriteStatus(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Body writeStatusDto: WriteStatusFlashCardDto,
     ): UpdateFlashCardResponseDto
 
     @GET("flashcard/folder/{id}")
     suspend fun getFlashCardsByFolderId(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Query("learnMode") learnMode: String,
         @Query("isGetAll") isGetAll: Boolean,
@@ -419,19 +369,13 @@ interface ApiService {
     ): List<FlashCardResponseDto>
 
     @GET("flashcard/languages")
-    suspend fun getLanguages(
-        @Header("Authorization") token: String,
-    ): List<LanguageDto>
+    suspend fun getLanguages(): List<LanguageDto>
 
     @GET("flashcard/voices/{languageCode}")
-    suspend fun getVoices(
-        @Header("Authorization") token: String,
-        @Path("languageCode") languageCode: String,
-    ): List<VoiceDto>
+    suspend fun getVoices(@Path("languageCode") languageCode: String): List<VoiceDto>
 
     @GET("flashcard/speech")
     suspend fun getSpeech(
-        @Header("Authorization") token: String,
         @Query("input") input: String,
         @Query("voiceCode") voiceCode: String,
     ): BufferResponseDto
@@ -439,261 +383,163 @@ interface ApiService {
     // Folder
     @POST("folder")
     suspend fun createFolder(
-        @Header("Authorization") token: String,
         @Body createFolderRequestDto: CreateFolderRequestDto,
     ): CreateFolderResponseDto
 
     @GET("folder/{id}")
-    suspend fun getFolderById(
-        @Header("Authorization") token: String,
-        @Path("id") id: String,
-    ): GetFolderResponseDto
+    suspend fun getFolderById(@Path("id") id: String): GetFolderResponseDto
 
     @PUT("folder/{id}")
     suspend fun updateFolder(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Body updateFolderRequestDto: UpdateFolderRequestDto,
     ): UpdateFolderResponseDto
 
     @GET("folder/owner/{ownerId}")
     suspend fun getFoldersByOwnerId(
-        @Header("Authorization") token: String,
+
         @Path("ownerId") ownerId: String,
         @Query("classId") classId: String? = null,
         @Query("studySetId") studySetId: String? = null,
     ): List<GetFolderResponseDto>
 
     @DELETE("folder/{id}")
-    suspend fun deleteFolder(
-        @Header("Authorization") token: String,
-        @Path("id") id: String,
-    )
+    suspend fun deleteFolder(@Path("id") id: String)
 
     @POST("folder/study-sets")
-    suspend fun addStudySetToFolder(
-        @Header("Authorization") token: String,
-        @Body addStudySetToFolderRequestDto: AddStudySetToFolderRequestDto,
-    )
+    suspend fun addStudySetToFolder(@Body addStudySetToFolderRequestDto: AddStudySetToFolderRequestDto)
 
     @GET("folder/search")
     suspend fun searchFolder(
-        @Header("Authorization") token: String,
         @Query("title") title: String,
         @Query("page") page: Int?,
     ): List<GetFolderResponseDto>
 
     @GET("folder/link/{code}")
-    suspend fun getFolderByLinkCode(
-        @Header("Authorization") token: String,
-        @Path("code") code: String,
-    ): GetFolderResponseDto
+    suspend fun getFolderByLinkCode(@Path("code") code: String): GetFolderResponseDto
 
     @POST("folder/recent")
-    suspend fun saveRecentFolder(
-        @Header("Authorization") token: String,
-        @Body saveRecentAccessFolderRequestDto: SaveRecentAccessFolderRequestDto,
-    )
+    suspend fun saveRecentFolder(@Body saveRecentAccessFolderRequestDto: SaveRecentAccessFolderRequestDto)
 
     @GET("folder/recent/{userId}")
-    suspend fun getRecentFolder(
-        @Header("Authorization") token: String,
-        @Path("userId") userId: String,
-    ): List<GetFolderResponseDto>
+    suspend fun getRecentFolder(@Path("userId") userId: String): List<GetFolderResponseDto>
 
     @PATCH("folder/{id}/reset-progress")
     suspend fun resetProgressFolder(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Query("resetType") resetType: String,
     )
 
     // Class
     @POST("class")
-    suspend fun createClass(
-        @Header("Authorization") token: String,
-        @Body createClassRequestDto: CreateClassRequestDto,
-    ): CreateClassResponseDto
+    suspend fun createClass(@Body createClassRequestDto: CreateClassRequestDto): CreateClassResponseDto
 
     @GET("class/{id}")
-    suspend fun getClassByID(
-        @Header("Authorization") token: String,
-        @Path("id") id: String,
-    ): GetClassDetailResponseDto
+    suspend fun getClassByID(@Path("id") id: String): GetClassDetailResponseDto
 
     @GET("class/user")
     suspend fun getClassByOwnerID(
-        @Header("Authorization") token: String,
         @Query("folderId") folderId: String?,
         @Query("studySetId") studySetId: String?,
     ): List<GetClassByOwnerResponseDto>
 
     @DELETE("class/{id}")
-    suspend fun deleteClass(
-        @Header("Authorization") token: String,
-        @Path("id") id: String,
-    )
+    suspend fun deleteClass(@Path("id") id: String)
 
     @PUT("class/{id}")
     suspend fun updateClass(
-        @Header("Authorization") token: String,
         @Path("id") id: String,
         @Body updateClassRequestDto: UpdateClassRequestDto,
     ): UpdateClassResponseDto
 
     @POST("class/study-sets")
-    suspend fun addStudySetToClass(
-        @Header("Authorization") token: String,
-        @Body addStudySetToClassRequestDto: AddStudySetToClassRequestDto,
-    )
+    suspend fun addStudySetToClass(@Body addStudySetToClassRequestDto: AddStudySetToClassRequestDto)
 
     @POST("class/folders")
-    suspend fun addFolderToClass(
-        @Header("Authorization") token: String,
-        @Body addFolderToClassRequestDto: AddFolderToClassRequestDto,
-    )
+    suspend fun addFolderToClass(@Body addFolderToClassRequestDto: AddFolderToClassRequestDto)
 
     @GET("class/search")
     suspend fun searchClass(
-        @Header("Authorization") token: String,
         @Query("title") title: String,
         @Query("page") page: Int?,
     ): List<GetClassByOwnerResponseDto>
 
     @GET("class/token/{joinToken}")
-    suspend fun getClassByJoinToken(
-        @Header("Authorization") token: String,
-        @Path("joinToken") joinToken: String,
-    ): GetClassDetailResponseDto
+    suspend fun getClassByJoinToken(@Path("joinToken") joinToken: String): GetClassDetailResponseDto
 
     @POST("class/join")
-    suspend fun joinClass(
-        @Header("Authorization") token: String,
-        @Body joinClassRequestDto: JoinClassRequestDto,
-    )
+    suspend fun joinClass(@Body joinClassRequestDto: JoinClassRequestDto)
 
     @POST("class/exit")
-    suspend fun exitClass(
-        @Header("Authorization") token: String,
-        @Body exitClassRequestDto: ExitClassRequestDto,
-    )
+    suspend fun exitClass(@Body exitClassRequestDto: ExitClassRequestDto)
 
     @POST("class/members")
-    suspend fun removeMembers(
-        @Header("Authorization") token: String,
-        @Body removeMembersRequestDto: RemoveMembersRequestDto,
-    )
+    suspend fun removeMembers(@Body removeMembersRequestDto: RemoveMembersRequestDto)
 
     @POST("class/remove-study-set")
-    suspend fun deleteStudySetInClass(
-        @Header("Authorization") token: String,
-        @Body deleteStudySetsRequestDto: DeleteStudySetsRequestDto,
-    )
+    suspend fun deleteStudySetInClass(@Body deleteStudySetsRequestDto: DeleteStudySetsRequestDto)
 
     @POST("class/remove-folder")
-    suspend fun deleteFolderInClass(
-        @Header("Authorization") token: String,
-        @Body deleteFolderRequestDto: DeleteFolderRequestDto,
-    )
+    suspend fun deleteFolderInClass(@Body deleteFolderRequestDto: DeleteFolderRequestDto)
 
     @POST("class/recent/{id}")
-    suspend fun saveRecentClass(
-        @Header("Authorization") token: String,
-        @Path("id") id: String,
-    )
+    suspend fun saveRecentClass(@Path("id") id: String)
 
     @GET("class/recent")
-    suspend fun getRecentClass(
-        @Header("Authorization") token: String,
-    ): List<GetClassByOwnerResponseDto>
+    suspend fun getRecentClass(): List<GetClassByOwnerResponseDto>
 
     @POST("class/invite")
     suspend fun inviteUserToClass(
-        @Header("Authorization") token: String,
         @Body inviteToClassRequestDto: InviteToClassRequestDto,
     ): InviteToClassResponseDto
 
     // Streak
     @GET("streak/{userId}")
-    suspend fun getStreaksByUserId(
-        @Header("Authorization") token: String,
-        @Path("userId") userId: String,
-    ): GetStreakDto
+    suspend fun getStreaksByUserId(@Path("userId") userId: String): GetStreakDto
 
     @POST("streak")
     suspend fun updateStreak(
-        @Header("Authorization") token: String,
         @Body increaseStreakDto: IncreaseStreakDto,
     ): StreakDto
 
     @GET("streak/top")
-    suspend fun getTopStreaks(
-        @Header("Authorization") token: String,
-        @Query("limit") limit: Int?,
-    ): List<GetTopStreakResponseDto>
+    suspend fun getTopStreaks(@Query("limit") limit: Int?): List<GetTopStreakResponseDto>
 
     // Notification
     @POST("notifications/register")
-    suspend fun sendDeviceToken(
-        @Header("Authorization") authorization: String,
-        @Body tokenRequest: DeviceTokenRequestDto,
-    ): Response<Unit>
+    suspend fun sendDeviceToken(@Body tokenRequest: DeviceTokenRequestDto): Response<Unit>
 
     @GET("notifications/user/{id}")
-    suspend fun getNotificationsByUserId(
-        @Header("Authorization") token: String,
-        @Path("id") userId: String,
-    ): List<GetNotificationResponseDto>
+    suspend fun getNotificationsByUserId(@Path("id") userId: String): List<GetNotificationResponseDto>
 
     @PATCH("notifications/{id}/read")
     suspend fun markNotificationAsRead(
-        @Header("Authorization") token: String,
         @Path("id") notificationId: String,
         @Body requestDto: MarkNotificationReadRequestDto,
     )
 
     @DELETE("notifications/{id}")
-    suspend fun deleteNotification(
-        @Header("Authorization") token: String,
-        @Path("id") notificationId: String,
-    )
+    suspend fun deleteNotification(@Path("id") notificationId: String)
 
     @POST("notifications/clear")
-    suspend fun clearAllNotifications(
-        @Header("Authorization") token: String,
-    )
+    suspend fun clearAllNotifications()
 
     // Study Time
     @GET("study-time/study-set/{studySetId}")
-    suspend fun getStudyTimeByStudySet(
-        @Header("Authorization") token: String,
-        @Path("studySetId") studySetId: String,
-    ): GetStudyTimeByStudySetResponseDto
+    suspend fun getStudyTimeByStudySet(@Path("studySetId") studySetId: String): GetStudyTimeByStudySetResponseDto
 
     @GET("study-time/user/{userId}")
-    suspend fun getStudyTimeByUser(
-        @Header("Authorization") token: String,
-        @Path("userId") userId: String,
-    ): GetStudyTimeByUserResponseDto
+    suspend fun getStudyTimeByUser(@Path("userId") userId: String): GetStudyTimeByUserResponseDto
 
     @POST("study-time")
-    suspend fun createStudyTime(
-        @Header("Authorization") token: String,
-        @Body createStudyTimeDto: CreateStudyTimeDto,
-    )
+    suspend fun createStudyTime(@Body createStudyTimeDto: CreateStudyTimeDto)
 
     // Report
     @POST("report")
-    suspend fun createReport(
-        @Header("Authorization") token: String,
-        @Body createReportRequestDto: CreateReportRequestDto,
-    )
+    suspend fun createReport(@Body createReportRequestDto: CreateReportRequestDto)
 
     // PixaBay
     @GET("pixabay/search")
-    suspend fun searchImage(
-        @Header("Authorization") token: String,
-        @Query("query") query: String,
-    ): SearchImageResponseDto
+    suspend fun searchImage(@Query("query") query: String): SearchImageResponseDto
 
 }

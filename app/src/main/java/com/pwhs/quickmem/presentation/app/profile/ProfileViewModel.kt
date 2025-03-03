@@ -3,7 +3,6 @@ package com.pwhs.quickmem.presentation.app.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.repository.AuthRepository
 import com.pwhs.quickmem.domain.repository.StreakRepository
@@ -32,7 +31,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val appManager: AppManager,
-    private val tokenManager: TokenManager,
     private val authRepository: AuthRepository,
     private val studyTimeRepository: StudyTimeRepository,
     private val streakRepository: StreakRepository,
@@ -51,13 +49,12 @@ class ProfileViewModel @Inject constructor(
 
     private fun initData() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val userId = appManager.userId.firstOrNull() ?: ""
-            if (token.isNotEmpty() && userId.isNotEmpty()) {
+            if (userId.isNotEmpty()) {
                 loadProfile()
-                getUserProfile(token = token)
+                getUserProfile()
                 getCustomerInfo()
-                getStudyTime(token = token, userId = userId)
+                getStudyTime(userId = userId)
             }
         }
         getStreaksByUserId()
@@ -99,10 +96,10 @@ class ProfileViewModel @Inject constructor(
         })
     }
 
-    private fun getUserProfile(token: String) {
+    private fun getUserProfile() {
         viewModelScope.launch {
 
-            authRepository.getUserProfile(token).collectLatest { resource ->
+            authRepository.getUserProfile().collectLatest { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.update { it.copy(isLoading = true) }
@@ -173,10 +170,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getStudyTime(token: String, userId: String) {
+    private fun getStudyTime(userId: String) {
         viewModelScope.launch {
 
-            studyTimeRepository.getStudyTimeByUser(token, userId).collectLatest { resource ->
+            studyTimeRepository.getStudyTimeByUser(userId = userId).collectLatest { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.update { it.copy(isLoading = true) }
@@ -204,9 +201,8 @@ class ProfileViewModel @Inject constructor(
 
     private fun getStreaksByUserId() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: return@launch
             val userId = appManager.userId.firstOrNull() ?: return@launch
-            streakRepository.getStreaksByUserId(token, userId).collect { resource ->
+            streakRepository.getStreaksByUserId(userId = userId).collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         // Do nothing

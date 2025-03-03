@@ -3,7 +3,6 @@ package com.pwhs.quickmem.presentation.app.library
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.repository.ClassRepository
 import com.pwhs.quickmem.domain.repository.FolderRepository
@@ -26,7 +25,6 @@ class LibraryViewModel @Inject constructor(
     private val studySetRepository: StudySetRepository,
     private val classRepository: ClassRepository,
     private val folderRepository: FolderRepository,
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(LibraryUiState())
@@ -43,13 +41,12 @@ class LibraryViewModel @Inject constructor(
 
     private fun initData() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val userId = appManager.userId.firstOrNull() ?: ""
-            if (token.isNotEmpty() && userId.isNotEmpty()) {
+            if (userId.isNotEmpty()) {
                 getUserInfo()
-                getStudySets(token = token)
-                getClasses(token = token)
-                getFolders(token = token, userId = userId)
+                getStudySets()
+                getClasses()
+                getFolders(userId = userId)
             }
         }
     }
@@ -64,8 +61,7 @@ class LibraryViewModel @Inject constructor(
                 job?.cancel()
                 job = viewModelScope.launch {
                     delay(500)
-                    val token = tokenManager.accessToken.firstOrNull() ?: ""
-                    getStudySets(token = token)
+                    getStudySets()
                 }
             }
 
@@ -73,8 +69,7 @@ class LibraryViewModel @Inject constructor(
                 job?.cancel()
                 job = viewModelScope.launch {
                     delay(500)
-                    val token = tokenManager.accessToken.firstOrNull() ?: ""
-                    getClasses(token = token)
+                    getClasses()
                 }
             }
 
@@ -82,9 +77,8 @@ class LibraryViewModel @Inject constructor(
                 job?.cancel()
                 job = viewModelScope.launch {
                     delay(500)
-                    val token = tokenManager.accessToken.firstOrNull() ?: ""
                     val userId = appManager.userId.firstOrNull() ?: ""
-                    getFolders(token = token, userId = userId)
+                    getFolders(userId = userId)
                 }
             }
         }
@@ -103,9 +97,9 @@ class LibraryViewModel @Inject constructor(
         }
     }
 
-    private fun getStudySets(token: String) {
+    private fun getStudySets() {
         viewModelScope.launch {
-            studySetRepository.getStudySetsByOwnerId(token, null, null)
+            studySetRepository.getStudySetsByOwnerId(classId = null, folderId = null)
                 .collectLatest { resources ->
                     when (resources) {
                         is Resources.Success -> {
@@ -138,9 +132,9 @@ class LibraryViewModel @Inject constructor(
         }
     }
 
-    private fun getClasses(token: String) {
+    private fun getClasses() {
         viewModelScope.launch {
-            classRepository.getClassByOwnerId(token, null, null)
+            classRepository.getClassByOwnerId(folderId = null, studySetId = null)
                 .collectLatest { resource ->
                     when (resource) {
                         is Resources.Error -> {
@@ -173,9 +167,9 @@ class LibraryViewModel @Inject constructor(
         }
     }
 
-    private fun getFolders(token: String, userId: String) {
+    private fun getFolders(userId: String) {
         viewModelScope.launch {
-            folderRepository.getFoldersByUserId(token, userId, null, null)
+            folderRepository.getFoldersByUserId(userId = userId, classId = null, studySetId = null)
                 .collectLatest { resources ->
                     when (resources) {
                         is Resources.Success -> {

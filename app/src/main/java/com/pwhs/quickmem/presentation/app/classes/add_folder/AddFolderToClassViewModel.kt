@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.folder.AddFolderToClassRequestModel
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
@@ -25,7 +24,6 @@ import javax.inject.Inject
 @HiltViewModel
 class AddFolderToClassViewModel @Inject constructor(
     private val folderRepository: FolderRepository,
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -42,13 +40,11 @@ class AddFolderToClassViewModel @Inject constructor(
         val classId: String = savedStateHandle.get<String>("classId") ?: ""
         _uiState.update { it.copy(classId = classId) }
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: return@launch
             val ownerId = appManager.userId.firstOrNull() ?: return@launch
             val userAvatar = appManager.userAvatarUrl.firstOrNull() ?: return@launch
             val username = appManager.username.firstOrNull() ?: return@launch
             _uiState.update {
                 it.copy(
-                    token = token,
                     userId = ownerId,
                     userAvatar = userAvatar,
                     username = username
@@ -80,7 +76,7 @@ class AddFolderToClassViewModel @Inject constructor(
                 classId = _uiState.value.classId,
                 folderIds = _uiState.value.folderImportedIds
             )
-            folderRepository.addFolderToClass(_uiState.value.token, addFolderToClassRequestModel)
+            folderRepository.addFolderToClass(addFolderToClassRequestModel = addFolderToClassRequestModel)
                 .collectLatest { resources ->
                     when (resources) {
                         is Resources.Success -> {
@@ -114,7 +110,6 @@ class AddFolderToClassViewModel @Inject constructor(
     private fun getFolders() {
         viewModelScope.launch {
             folderRepository.getFoldersByUserId(
-                _uiState.value.token,
                 _uiState.value.userId,
                 _uiState.value.classId,
                 null

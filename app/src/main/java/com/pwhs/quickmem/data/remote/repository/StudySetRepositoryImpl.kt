@@ -32,7 +32,6 @@ import com.pwhs.quickmem.domain.repository.StudySetRepository
 import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultCreatorEnum
 import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultSizeEnum
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 import java.io.IOException
@@ -44,17 +43,12 @@ class StudySetRepositoryImpl @Inject constructor(
     private val searchStudySetBySubjectRemoteDataSource: SearchStudySetBySubjectRemoteDataSource,
 ) : StudySetRepository {
     override suspend fun createStudySet(
-        token: String,
         createStudySetRequestModel: CreateStudySetRequestModel,
     ): Flow<Resources<CreateStudySetResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.createStudySet(
-                    token = token,
                     createStudySetRequestDto = createStudySetRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
@@ -65,16 +59,12 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getStudySetById(
-        token: String,
         studySetId: String,
     ): Flow<Resources<GetStudySetResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.getStudySetById(token = token, id = studySetId)
+                val response = apiService.getStudySetById(id = studySetId)
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -84,20 +74,14 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getStudySetsByOwnerId(
-        token: String,
         classId: String?,
         folderId: String?,
     ): Flow<Resources<List<GetStudySetResponseModel>>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.getStudySetsByOwnerId(
-                    token = token,
-                    classId = classId,
-                    folderId = folderId
+                    classId = classId, folderId = folderId
                 )
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: Exception) {
@@ -108,22 +92,16 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateStudySet(
-        token: String,
         studySetId: String,
         updateStudySetRequestModel: UpdateStudySetRequestModel,
     ): Flow<Resources<UpdateStudySetResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response =
-                    apiService.updateStudySet(
-                        token = token,
-                        id = studySetId,
-                        updateStudySetRequestDto = updateStudySetRequestModel.toDto()
-                    )
+                val response = apiService.updateStudySet(
+                    id = studySetId,
+                    updateStudySetRequestDto = updateStudySetRequestModel.toDto()
+                )
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -133,16 +111,12 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteStudySet(
-        token: String,
         studySetId: String,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                apiService.deleteStudySet(token = token, id = studySetId)
+                apiService.deleteStudySet(id = studySetId)
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -152,20 +126,14 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun resetProgress(
-        token: String,
         studySetId: String,
         resetType: String,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 apiService.resetStudySetProgress(
-                    token = token,
-                    id = studySetId,
-                    resetType = resetType
+                    id = studySetId, resetType = resetType
                 )
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
@@ -176,17 +144,12 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addStudySetToFolder(
-        token: String,
         addStudySetToFolderRequestModel: AddStudySetToFolderRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 apiService.addStudySetToFolder(
-                    token = token,
                     addStudySetToFolderRequestDto = addStudySetToFolderRequestModel.toDto()
                 )
                 emit(Resources.Success(Unit))
@@ -198,17 +161,12 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addStudySetToClass(
-        token: String,
         addStudySetToClassRequestModel: AddStudySetToClassRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 apiService.addStudySetToClass(
-                    token = token,
                     addStudySetToClassRequestDto = addStudySetToClassRequestModel.toDto()
                 )
                 emit(Resources.Success(Unit))
@@ -220,17 +178,12 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addStudySetToFolders(
-        token: String,
         addStudySetToFoldersRequestModel: AddStudySetToFoldersRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 apiService.addStudySetToFolders(
-                    token = token,
                     addStudySetToFoldersRequestDto = addStudySetToFoldersRequestModel.toDto()
                 )
                 emit(Resources.Success(Unit))
@@ -242,17 +195,12 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun addStudySetToClasses(
-        token: String,
         addStudySetToClassesRequestModel: AddStudySetToClassesRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 apiService.addStudySetToClasses(
-                    token = token,
                     addStudySetToClassesRequestDto = addStudySetToClassesRequestModel.toDto()
                 )
                 emit(Resources.Success(Unit))
@@ -264,7 +212,6 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getSearchResultStudySets(
-        token: String,
         title: String,
         size: SearchResultSizeEnum,
         creatorType: SearchResultCreatorEnum?,
@@ -273,9 +220,6 @@ class StudySetRepositoryImpl @Inject constructor(
         subjectId: Int?,
         isAIGenerated: Boolean?,
     ): Flow<PagingData<GetStudySetResponseModel>> {
-        if (token.isEmpty()) {
-            return emptyFlow()
-        }
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -284,7 +228,6 @@ class StudySetRepositoryImpl @Inject constructor(
             pagingSourceFactory = {
                 StudySetPagingSource(
                     studySetRemoteDataSource = studySetRemoteDataSource,
-                    token = token,
                     title = title,
                     size = size,
                     creatorType = creatorType,
@@ -298,16 +241,12 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getStudySetByCode(
-        token: String,
         code: String,
     ): Flow<Resources<GetStudySetResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.getStudySetByLinkCode(token = token, code = code)
+                val response = apiService.getStudySetByLinkCode(code = code)
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -317,19 +256,15 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun makeCopyStudySet(
-        token: String,
         studySetId: String,
         newOwnerId: String,
     ): Flow<Resources<CreateStudySetResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val request =
                     MakeACopyStudySetRequestDto(studySetId = studySetId, newOwnerId = newOwnerId)
-                val response = apiService.duplicateStudySet(token = token, request = request)
+                val response = apiService.duplicateStudySet(request = request)
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -339,15 +274,11 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getTop5Subject(
-        token: String,
     ): Flow<Resources<List<GetTop5SubjectResponseModel>>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.getTop5Subject(token = token)
+                val response = apiService.getTop5Subject()
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -357,13 +288,9 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getStudySetBySubjectId(
-        token: String,
         subjectId: Int,
         page: Int,
     ): Flow<PagingData<GetStudySetResponseModel>> {
-        if (token.isEmpty()) {
-            return emptyFlow()
-        }
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
@@ -372,7 +299,6 @@ class StudySetRepositoryImpl @Inject constructor(
             pagingSourceFactory = {
                 StudySetBySubjectPagingSource(
                     searchStudySetBySubjectRemoteDataSource = searchStudySetBySubjectRemoteDataSource,
-                    token = token,
                     subjectId = subjectId,
                 )
             }
@@ -381,17 +307,12 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun saveRecentAccessStudySet(
-        token: String,
         saveRecentAccessStudySetRequestModel: SaveRecentAccessStudySetRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 apiService.saveRecentStudySet(
-                    token = token,
                     saveRecentAccessStudySetRequestDto = saveRecentAccessStudySetRequestModel.toDto()
                 )
                 emit(Resources.Success(Unit))
@@ -403,16 +324,12 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getRecentAccessStudySet(
-        token: String,
         userId: String,
     ): Flow<Resources<List<GetStudySetResponseModel>>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.getRecentStudySet(token = token, userId = userId)
+                val response = apiService.getRecentStudySet(userId = userId)
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -422,17 +339,12 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createStudySetByAI(
-        token: String,
         createStudySetByAIRequestModel: CreateStudySetByAIRequestModel,
     ): Flow<Resources<CreateStudySetResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.createStudySetByAI(
-                    token = token,
                     createStudySetRequestDto = createStudySetByAIRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
@@ -447,20 +359,13 @@ class StudySetRepositoryImpl @Inject constructor(
     }
 
     override suspend fun createWriteHintAI(
-        token: String,
         createWriteHintAIRequestModel: CreateWriteHintAIRequestModel,
     ): Flow<Resources<CreateWriteHintAIResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response =
-                    apiService.createWriteHintAI(
-                        token = token,
-                        createWriteHintAIModel = createWriteHintAIRequestModel.toDto()
-                    )
+                    apiService.createWriteHintAI(createWriteHintAIModel = createWriteHintAIRequestModel.toDto())
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)

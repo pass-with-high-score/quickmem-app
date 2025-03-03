@@ -11,7 +11,6 @@ import com.pwhs.quickmem.core.data.enums.LearnFrom
 import com.pwhs.quickmem.core.data.enums.LearnMode
 import com.pwhs.quickmem.core.data.enums.ResetType
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.color.ColorModel
 import com.pwhs.quickmem.domain.model.study_time.CreateStudyTimeModel
@@ -38,7 +37,6 @@ class FlipFlashCardViewModel @Inject constructor(
     private val studySetRepository: StudySetRepository,
     private val studyTimeRepository: StudyTimeRepository,
     private val folderRepository: FolderRepository,
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
     savedStateHandle: SavedStateHandle,
     application: Application,
@@ -228,7 +226,6 @@ class FlipFlashCardViewModel @Inject constructor(
 
     private fun getFlashCard() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val studySetId = _uiState.value.studySetId
             val folderId = _uiState.value.folderId
             val learnFrom = _uiState.value.learnFrom
@@ -238,7 +235,6 @@ class FlipFlashCardViewModel @Inject constructor(
             when (learnFrom) {
                 LearnFrom.STUDY_SET -> {
                     flashCardRepository.getFlashCardsByStudySetId(
-                        token = token,
                         studySetId = studySetId,
                         learnMode = LearnMode.FLIP,
                         isGetAll = isGetAll,
@@ -279,7 +275,6 @@ class FlipFlashCardViewModel @Inject constructor(
 
                 LearnFrom.FOLDER -> {
                     flashCardRepository.getFlashCardsByFolderId(
-                        token = token,
                         folderId = folderId,
                         learnMode = LearnMode.FLIP,
                         isGetAll = isGetAll,
@@ -330,10 +325,9 @@ class FlipFlashCardViewModel @Inject constructor(
         flashCardId: String,
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val flipStatus =
                 if (isRight) FlipCardStatus.KNOW.name else FlipCardStatus.STILL_LEARNING.name
-            flashCardRepository.updateFlipFlashCard(token, flashCardId, flipStatus)
+            flashCardRepository.updateFlipFlashCard(id = flashCardId, flipStatus = flipStatus)
                 .collect()
         }
     }
@@ -344,9 +338,7 @@ class FlipFlashCardViewModel @Inject constructor(
             LearnFrom.STUDY_SET -> {
 
                 viewModelScope.launch {
-                    val token = tokenManager.accessToken.firstOrNull() ?: ""
                     studySetRepository.resetProgress(
-                        token = token,
                         studySetId = _uiState.value.studySetId,
                         resetType = ResetType.FLIP_STATUS.type
                     ).collect { resource ->
@@ -387,9 +379,7 @@ class FlipFlashCardViewModel @Inject constructor(
             LearnFrom.FOLDER -> {
 
                 viewModelScope.launch {
-                    val token = tokenManager.accessToken.firstOrNull() ?: ""
                     folderRepository.resetProgress(
-                        token = token,
                         folderId = _uiState.value.folderId,
                         resetType = ResetType.FLIP_STATUS.type
                     ).collect { resource ->
@@ -447,7 +437,6 @@ class FlipFlashCardViewModel @Inject constructor(
         when (learnFrom) {
             LearnFrom.STUDY_SET -> {
                 viewModelScope.launch {
-                    val token = tokenManager.accessToken.firstOrNull() ?: ""
                     val userId = appManager.userId.firstOrNull() ?: ""
                     val createStudyTimeModel = CreateStudyTimeModel(
                         learnMode = LearnMode.FLIP.mode,
@@ -455,7 +444,7 @@ class FlipFlashCardViewModel @Inject constructor(
                         timeSpent = _uiState.value.learningTime.toInt(),
                         userId = userId
                     )
-                    studyTimeRepository.createStudyTime(token, createStudyTimeModel)
+                    studyTimeRepository.createStudyTime(createStudyTimeModel = createStudyTimeModel)
                         .collect()
                 }
             }

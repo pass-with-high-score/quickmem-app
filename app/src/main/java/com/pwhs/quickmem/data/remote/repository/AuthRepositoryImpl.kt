@@ -48,7 +48,6 @@ import com.pwhs.quickmem.domain.model.users.UserDetailResponseModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
 import com.pwhs.quickmem.utils.parseApiError
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import timber.log.Timber
@@ -144,17 +143,12 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateFullName(
-        token: String,
         updateFullNameRequestModel: UpdateFullNameRequestModel,
     ): Flow<Resources<UpdateFullNameResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.updateFullName(
-                    token,
                     updateFullNameRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
@@ -173,17 +167,12 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateUsername(
-        token: String,
         updateUsernameRequestModel: UpdateUsernameRequestModel,
     ): Flow<Resources<UpdateUsernameResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.updateUsername(
-                    token,
                     updateUsernameRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
@@ -203,17 +192,12 @@ class AuthRepositoryImpl @Inject constructor(
 
 
     override suspend fun updateEmail(
-        token: String,
         updateEmailRequestModel: UpdateEmailRequestModel,
     ): Flow<Resources<UpdateEmailResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.updateEmail(
-                    token,
                     updateEmailRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
@@ -232,17 +216,12 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun changePassword(
-        token: String,
         changePasswordRequestModel: ChangePasswordRequestModel,
     ): Flow<Resources<ChangePasswordResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.changePassword(
-                    token,
                     changePasswordRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
@@ -305,17 +284,12 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun verifyPassword(
-        token: String,
         verifyPasswordRequestModel: VerifyPasswordRequestModel,
     ): Flow<Resources<VerifyPasswordResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.verifyPassword(
-                    token,
                     verifyPasswordRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
@@ -335,16 +309,11 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun getUserDetail(
         userId: String,
-        token: String,
     ): Flow<Resources<UserDetailResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.getUserDetail(
-                    token,
                     userId,
                 )
                 emit(Resources.Success(response.toModel()))
@@ -362,11 +331,11 @@ class AuthRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getAvatar(token: String): Flow<Resources<List<AvatarResponseModel>>> {
+    override suspend fun getAvatar(): Flow<Resources<List<AvatarResponseModel>>> {
         return flow {
             emit(Resources.Loading())
             try {
-                val response = apiService.getAvatars(token = token)
+                val response = apiService.getAvatars()
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: HttpException) {
                 val apiError = e.parseApiError()
@@ -383,17 +352,13 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateAvatar(
-        token: String,
         updateAvatarRequestModel: UpdateAvatarRequestModel,
     ): Flow<Resources<UpdateAvatarResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.updateAvatar(
-                    token = token, updateAvatarRequestDto = updateAvatarRequestModel.toDto()
+                    updateAvatarRequestDto = updateAvatarRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
             } catch (e: HttpException) {
@@ -411,13 +376,9 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun searchUser(
-        token: String,
         username: String,
         page: Int?,
     ): Flow<PagingData<SearchUserResponseModel>> {
-        if (token.isEmpty()) {
-            return emptyFlow()
-        }
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
@@ -426,7 +387,6 @@ class AuthRepositoryImpl @Inject constructor(
             pagingSourceFactory = {
                 UserPagingSource(
                     userRemoteDataResource,
-                    token,
                     username
                 )
             }
@@ -435,15 +395,11 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun getUserProfile(
-        token: String,
     ): Flow<Resources<GetUserProfileResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
-                val response = apiService.getUserProfile(token = token)
+                val response = apiService.getUserProfile()
                 emit(Resources.Success(response.toModel()))
             } catch (e: HttpException) {
                 val apiError = e.parseApiError()
@@ -460,17 +416,12 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun changeRole(
-        token: String,
         changeRoleRequestModel: ChangeRoleRequestModel,
     ): Flow<Resources<ChangeRoleResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.changeRole(
-                    token,
                     changeRoleRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))
@@ -489,17 +440,12 @@ class AuthRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateCoin(
-        token: String,
         updateCoinRequestModel: UpdateCoinRequestModel,
     ): Flow<Resources<UpdateCoinResponseModel>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.updateCoin(
-                    token,
                     updateCoinRequestModel.toDto()
                 )
                 emit(Resources.Success(response.toModel()))

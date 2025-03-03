@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.study_set.AddStudySetToClassRequestModel
 import com.pwhs.quickmem.domain.repository.StudySetRepository
@@ -22,7 +21,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddStudySetToClassViewModel @Inject constructor(
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
     private val studySetRepository: StudySetRepository,
     savedStateHandle: SavedStateHandle,
@@ -37,12 +35,10 @@ class AddStudySetToClassViewModel @Inject constructor(
         val classId: String = savedStateHandle.get<String>("classId") ?: ""
         _uiState.update { it.copy(classId = classId) }
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: return@launch
             val userAvatar = appManager.userAvatarUrl.firstOrNull() ?: return@launch
             val username = appManager.username.firstOrNull() ?: return@launch
             _uiState.update {
                 it.copy(
-                    token = token,
                     userAvatar = userAvatar,
                     username = username
                 )
@@ -70,7 +66,6 @@ class AddStudySetToClassViewModel @Inject constructor(
     private fun getStudySets() {
         viewModelScope.launch {
             studySetRepository.getStudySetsByOwnerId(
-                _uiState.value.token,
                 _uiState.value.classId,
                 null
             )
@@ -115,8 +110,7 @@ class AddStudySetToClassViewModel @Inject constructor(
                 studySetIds = _uiState.value.studySetImportedIds
             )
             studySetRepository.addStudySetToClass(
-                token = tokenManager.accessToken.firstOrNull() ?: "",
-                addStudySetToClassRequestModel
+                addStudySetToClassRequestModel = addStudySetToClassRequestModel
             ).collectLatest { resources ->
                 when (resources) {
                     is Resources.Success -> {

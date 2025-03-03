@@ -55,6 +55,10 @@ class StudySetDetailViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     application: Application
 ) : AndroidViewModel(application) {
+    companion object {
+        const val AUDIO_NAME = "audio.wav"
+    }
+
     private val _uiState = MutableStateFlow(StudySetDetailUiState())
     val uiState = _uiState.asStateFlow()
 
@@ -172,7 +176,7 @@ class StudySetDetailViewModel @Inject constructor(
                 return@launch
             }
             if (code.isNotEmpty()) {
-                studySetRepository.getStudySetByCode(token, code).collect { resource ->
+                studySetRepository.getStudySetByCode(code = code).collect { resource ->
                     when (resource) {
                         is Resources.Error -> {
                             _uiState.update {
@@ -224,7 +228,7 @@ class StudySetDetailViewModel @Inject constructor(
                     }
                 }
             } else {
-                studySetRepository.getStudySetById(token, id).collect { resource ->
+                studySetRepository.getStudySetById(studySetId = id).collect { resource ->
                     when (resource) {
                         is Resources.Loading -> {
                             _uiState.update { it.copy(isLoading = true) }
@@ -272,15 +276,13 @@ class StudySetDetailViewModel @Inject constructor(
 
     private fun saveRecentAccessStudySet(studySetId: String) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val userId = appManager.userId.firstOrNull() ?: ""
             val saveRecentAccessStudySetRequestModel = SaveRecentAccessStudySetRequestModel(
                 userId = userId,
                 studySetId = studySetId
             )
             studySetRepository.saveRecentAccessStudySet(
-                token,
-                saveRecentAccessStudySetRequestModel
+                saveRecentAccessStudySetRequestModel = saveRecentAccessStudySetRequestModel
             ).collect()
         }
     }
@@ -289,8 +291,7 @@ class StudySetDetailViewModel @Inject constructor(
         job?.cancel()
         currentAudioJob?.cancel()
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            flashCardRepository.deleteFlashCard(token, _uiState.value.idOfFlashCardSelected)
+            flashCardRepository.deleteFlashCard(id = _uiState.value.idOfFlashCardSelected)
                 .collect { resource ->
                     when (resource) {
                         is Resources.Loading -> {
@@ -319,8 +320,7 @@ class StudySetDetailViewModel @Inject constructor(
 
     private fun deleteStudySet() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            studySetRepository.deleteStudySet(token, _uiState.value.id)
+            studySetRepository.deleteStudySet(studySetId = _uiState.value.id)
                 .collect { resource ->
                     when (resource) {
                         is Resources.Loading -> {
@@ -342,8 +342,7 @@ class StudySetDetailViewModel @Inject constructor(
 
     private fun resetProgress(id: String) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            studySetRepository.resetProgress(token, id, resetType = ResetType.RESET_ALL.type)
+            studySetRepository.resetProgress(studySetId = id, resetType = ResetType.RESET_ALL.type)
                 .collect { resource ->
                     when (resource) {
                         is Resources.Loading -> {
@@ -366,10 +365,12 @@ class StudySetDetailViewModel @Inject constructor(
 
     private fun makeCopyStudySet() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val userId = appManager.userId.firstOrNull() ?: ""
             val studySetId = _uiState.value.id
-            studySetRepository.makeCopyStudySet(token, studySetId, userId).collect { resource ->
+            studySetRepository.makeCopyStudySet(
+                studySetId = studySetId,
+                newOwnerId = userId
+            ).collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.update { it.copy(isLoading = true) }
@@ -394,24 +395,23 @@ class StudySetDetailViewModel @Inject constructor(
 
     private fun getStudyTimeByStudySetId() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val studySetId = _uiState.value.id
+            studyTimeRepository.getStudyTimeByStudySet(studySetId = studySetId)
+                .collect { resource ->
+                    when (resource) {
+                        is Resources.Loading -> {
+                            Timber.d("Loading")
+                        }
 
-            studyTimeRepository.getStudyTimeByStudySet(token, studySetId).collect { resource ->
-                when (resource) {
-                    is Resources.Loading -> {
-                        Timber.d("Loading")
-                    }
+                        is Resources.Success -> {
+                            _uiState.update { it.copy(studyTime = resource.data) }
+                        }
 
-                    is Resources.Success -> {
-                        _uiState.update { it.copy(studyTime = resource.data) }
-                    }
-
-                    is Resources.Error -> {
-                        Timber.d("Error")
+                        is Resources.Error -> {
+                            Timber.d("Error")
+                        }
                     }
                 }
-            }
         }
     }
 
@@ -433,9 +433,7 @@ class StudySetDetailViewModel @Inject constructor(
                     flashcardCurrentPlayId = flashcardId
                 )
             }
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-
-            val termByteArray = fetchSpeech(token, term, termVoiceCode)
+            val termByteArray = fetchSpeech(input = term, voiceCode = termVoiceCode)
             if (termByteArray != null) {
                 onTermSpeakStart()
                 playAudioAndWait(termByteArray)
@@ -444,7 +442,10 @@ class StudySetDetailViewModel @Inject constructor(
                 Timber.d("Cannot get audio data for term")
             }
 
-            val definitionByteArray = fetchSpeech(token, definition, definitionVoiceCode)
+            val definitionByteArray = fetchSpeech(
+                input = definition,
+                voiceCode = definitionVoiceCode
+            )
             if (definitionByteArray != null) {
                 onDefinitionSpeakStart()
                 playAudioAndWait(definitionByteArray)
@@ -460,9 +461,9 @@ class StudySetDetailViewModel @Inject constructor(
         }
     }
 
-    private suspend fun fetchSpeech(token: String, input: String, voiceCode: String): ByteArray? {
+    private suspend fun fetchSpeech(input: String, voiceCode: String): ByteArray? {
         var byteArray: ByteArray? = null
-        flashCardRepository.getSpeech(token = token, input = input, voiceCode = voiceCode)
+        flashCardRepository.getSpeech(input = input, voiceCode = voiceCode)
             .collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
@@ -488,9 +489,9 @@ class StudySetDetailViewModel @Inject constructor(
 
             currentAudioJob = viewModelScope.launch {
                 val audioFile = AudioExtension.convertByteArrayToAudio(
-                    getApplication<Application>().applicationContext,
-                    audioData,
-                    "audio.wav"
+                    context = getApplication<Application>().applicationContext,
+                    byteArray = audioData,
+                    fileName = AUDIO_NAME
                 ) ?: return@launch
                 AudioExtension.playAudio(
                     context = getApplication<Application>().applicationContext,

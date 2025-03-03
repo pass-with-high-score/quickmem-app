@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.study_set.AddStudySetToFoldersRequestModel
 import com.pwhs.quickmem.domain.repository.FolderRepository
@@ -23,7 +22,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AddStudySetToFoldersViewModel @Inject constructor(
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
     private val folderRepository: FolderRepository,
     private val studySetRepository: StudySetRepository,
@@ -39,13 +37,11 @@ class AddStudySetToFoldersViewModel @Inject constructor(
         val studySetId: String = savedStateHandle.get<String>("studySetId") ?: ""
         _uiState.update { it.copy(studySetId = studySetId) }
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: return@launch
             val ownerId = appManager.userId.firstOrNull() ?: return@launch
             val userAvatar = appManager.userAvatarUrl.firstOrNull() ?: return@launch
             val username = appManager.username.firstOrNull() ?: return@launch
             _uiState.update {
                 it.copy(
-                    token = token,
                     userId = ownerId,
                     userAvatar = userAvatar,
                     username = username
@@ -74,10 +70,9 @@ class AddStudySetToFoldersViewModel @Inject constructor(
     private fun getFolders() {
         viewModelScope.launch {
             folderRepository.getFoldersByUserId(
-                _uiState.value.token,
-                _uiState.value.userId,
-                null,
-                _uiState.value.studySetId,
+                userId = _uiState.value.userId,
+                classId = null,
+                studySetId = _uiState.value.studySetId,
             ).collectLatest { resources ->
                 when (resources) {
                     is Resources.Success -> {
@@ -118,10 +113,8 @@ class AddStudySetToFoldersViewModel @Inject constructor(
                 studySetId = _uiState.value.studySetId,
                 folderIds = _uiState.value.folderImportedIds,
             )
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             studySetRepository.addStudySetToFolders(
-                token = token,
-                addStudySetToFoldersRequestModel
+                addStudySetToFoldersRequestModel = addStudySetToFoldersRequestModel
             ).collectLatest { resources ->
                 when (resources) {
                     is Resources.Success -> {

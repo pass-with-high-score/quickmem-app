@@ -11,7 +11,6 @@ import com.pwhs.quickmem.core.data.enums.LearnMode
 import com.pwhs.quickmem.core.data.enums.ResetType
 import com.pwhs.quickmem.core.data.enums.TrueFalseStatus
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.color.ColorModel
 import com.pwhs.quickmem.domain.model.flashcard.FlashCardResponseModel
@@ -38,7 +37,6 @@ class LearnByTrueFalseViewModel @Inject constructor(
     private val flashCardRepository: FlashCardRepository,
     private val studySetRepository: StudySetRepository,
     private val studyTimeRepository: StudyTimeRepository,
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
     application: Application
 ) : AndroidViewModel(application) {
@@ -149,7 +147,6 @@ class LearnByTrueFalseViewModel @Inject constructor(
 
     private fun getFlashCard() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val studySetId = _uiState.value.studySetId
             val folderId = _uiState.value.folderId
             val learnFrom = _uiState.value.learnFrom
@@ -159,7 +156,6 @@ class LearnByTrueFalseViewModel @Inject constructor(
             when (learnFrom) {
                 LearnFrom.STUDY_SET -> {
                     flashCardRepository.getFlashCardsByStudySetId(
-                        token = token,
                         studySetId = studySetId,
                         learnMode = LearnMode.TRUE_FALSE,
                         isGetAll = isGetAll,
@@ -209,7 +205,6 @@ class LearnByTrueFalseViewModel @Inject constructor(
 
                 LearnFrom.FOLDER -> {
                     flashCardRepository.getFlashCardsByFolderId(
-                        token = token,
                         folderId = folderId,
                         learnMode = LearnMode.TRUE_FALSE,
                         isGetAll = isGetAll,
@@ -268,7 +263,6 @@ class LearnByTrueFalseViewModel @Inject constructor(
         isCorrect: Boolean,
     ) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val isPlaySound = _uiState.value.isPlaySound
             if (isPlaySound) {
                 when (isCorrect) {
@@ -278,7 +272,6 @@ class LearnByTrueFalseViewModel @Inject constructor(
             }
             try {
                 flashCardRepository.updateTrueFalseStatus(
-                    token = token,
                     id = flashCardId,
                     trueFalseStatus = when (isCorrect) {
                         true -> TrueFalseStatus.CORRECT.status
@@ -399,7 +392,6 @@ class LearnByTrueFalseViewModel @Inject constructor(
 
     private fun sendCompletedStudyTime() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val userId = appManager.userId.firstOrNull() ?: ""
             val createStudyTimeModel = CreateStudyTimeModel(
                 learnMode = LearnMode.TRUE_FALSE.mode,
@@ -407,19 +399,17 @@ class LearnByTrueFalseViewModel @Inject constructor(
                 timeSpent = _uiState.value.learningTime.toInt(),
                 userId = userId
             )
-            studyTimeRepository.createStudyTime(token, createStudyTimeModel)
+            studyTimeRepository.createStudyTime(createStudyTimeModel = createStudyTimeModel)
                 .collect()
         }
     }
 
     private fun onRestart() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             val studySetId = _uiState.value.studySetId
             studySetRepository.resetProgress(
-                token,
-                studySetId,
-                ResetType.TRUE_FALSE_STATUS.type
+                studySetId = studySetId,
+                resetType = ResetType.TRUE_FALSE_STATUS.type
             ).collect { resource ->
                 when (resource) {
                     is Resources.Error -> {

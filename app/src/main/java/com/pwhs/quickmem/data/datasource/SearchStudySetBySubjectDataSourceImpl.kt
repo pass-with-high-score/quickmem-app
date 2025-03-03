@@ -10,12 +10,11 @@ class SearchStudySetBySubjectDataSourceImpl(
     private val apiService: ApiService
 ) : SearchStudySetBySubjectRemoteDataSource {
     override suspend fun getStudySetBySubjectId(
-        token: String,
         subjectId: Int,
         page: Int
     ): List<GetStudySetResponseModel> {
         try {
-            val response = apiService.getStudySetBySubjectId(token, subjectId, page)
+            val response = apiService.getStudySetBySubjectId(subjectId = subjectId, page = page)
             return response.map { it.toModel() }
         } catch (e: Exception) {
             Timber.e(e.toString())

@@ -7,17 +7,14 @@ import kotlinx.coroutines.flow.Flow
 
 interface UploadImageRepository {
     suspend fun uploadImage(
-        token: String,
         imageUri: Uri,
     ): Flow<Resources<UploadImageResponseModel>>
 
     suspend fun removeImage(
-        token: String,
         imageURL: String,
     ): Flow<Resources<Unit>>
 
     suspend fun uploadUserAvatar(
-        token: String,
         imageUri: Uri,
     ): Flow<Resources<UploadImageResponseModel>>
 }

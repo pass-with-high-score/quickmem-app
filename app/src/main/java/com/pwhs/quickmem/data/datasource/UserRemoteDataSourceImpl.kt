@@ -8,14 +8,13 @@ import timber.log.Timber
 
 class UserRemoteDataSourceImpl(
     private val apiService: ApiService
-): UserRemoteDataResource {
+) : UserRemoteDataResource {
     override suspend fun searchUser(
-        token: String,
         username: String,
         page: Int?
-    ) : List<SearchUserResponseModel> {
+    ): List<SearchUserResponseModel> {
         try {
-            val response = apiService.searchUser(token, username, page)
+            val response = apiService.searchUser(username = username, page = page)
             return response.map { it.toModel() }
         } catch (e: Exception) {
             Timber.e(e.toString())

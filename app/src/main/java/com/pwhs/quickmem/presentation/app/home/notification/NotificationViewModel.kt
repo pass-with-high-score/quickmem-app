@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.repository.NotificationRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class NotificationViewModel @Inject constructor(
     private val notificationRepository: NotificationRepository,
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(NotificationUiState())
@@ -51,42 +49,41 @@ class NotificationViewModel @Inject constructor(
 
     private fun markNotificationAsRead(notificationId: String) {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            notificationRepository.markNotificationAsRead(notificationId, token).collect { result ->
-                when (result) {
-                    is Resources.Success -> _uiState.update { state ->
-                        state.copy(
-                            notifications = state.notifications.map { notification ->
-                                if (notification.id == notificationId) notification.copy(isRead = true) else notification
-                            },
-                            isLoading = false
-                        )
-                    }
-
-                    is Resources.Error -> {
-                        _uiState.update {
-                            it.copy(
-                                errorMessage = R.string.txt_failed_to_mark_notification_as_read,
+            notificationRepository.markNotificationAsRead(notificationId = notificationId)
+                .collect { result ->
+                    when (result) {
+                        is Resources.Success -> _uiState.update { state ->
+                            state.copy(
+                                notifications = state.notifications.map { notification ->
+                                    if (notification.id == notificationId) notification.copy(isRead = true) else notification
+                                },
                                 isLoading = false
                             )
                         }
-                    }
 
-                    is Resources.Loading -> {
-                        _uiState.update {
-                            it.copy(isLoading = true)
+                        is Resources.Error -> {
+                            _uiState.update {
+                                it.copy(
+                                    errorMessage = R.string.txt_failed_to_mark_notification_as_read,
+                                    isLoading = false
+                                )
+                            }
+                        }
+
+                        is Resources.Loading -> {
+                            _uiState.update {
+                                it.copy(isLoading = true)
+                            }
                         }
                     }
                 }
-            }
         }
     }
 
     private fun loadNotifications() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            val userId = appManager.userId.firstOrNull() ?: ""
-            notificationRepository.loadNotifications(userId, token).collect { result ->
+            val userId = appManager.userId.firstOrNull() ?: return@launch
+            notificationRepository.loadNotifications(userId = userId).collect { result ->
                 when (result) {
                     is Resources.Loading -> {
                         _uiState.update {
@@ -115,8 +112,7 @@ class NotificationViewModel @Inject constructor(
 
     private fun clearAllNotifications() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
-            notificationRepository.clearAllNotifications(token).collect { result ->
+            notificationRepository.clearAllNotifications().collect { result ->
                 when (result) {
                     is Resources.Success -> {
                         _uiState.update {

@@ -9,7 +9,6 @@ data class SearchResultUiState(
     val query: String = "",
     val isLoading: Boolean = false,
     val title: String = "",
-    val token: String = "",
     val isAIGenerated: Boolean = false,
     val subjectModel: SubjectModel = SubjectModel.defaultSubjects.first(),
     val colorModel: ColorModel = ColorModel.defaultColors.first(),

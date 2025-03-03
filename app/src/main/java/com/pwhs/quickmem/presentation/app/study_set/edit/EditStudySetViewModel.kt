@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.color.ColorModel
 import com.pwhs.quickmem.domain.model.study_set.UpdateStudySetRequestModel
@@ -25,7 +24,6 @@ import javax.inject.Inject
 @HiltViewModel
 class EditStudySetViewModel @Inject constructor(
     private val studySetRepository: StudySetRepository,
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -115,9 +113,8 @@ class EditStudySetViewModel @Inject constructor(
                 ownerId = ownerId
             )
             studySetRepository.updateStudySet(
-                token = tokenManager.accessToken.firstOrNull { true } ?: "",
                 studySetId = uiState.value.id,
-                updateStudySetRequestModel
+                updateStudySetRequestModel = updateStudySetRequestModel
             ).collectLatest { resource ->
                 when (resource) {
                     is Resources.Loading -> {

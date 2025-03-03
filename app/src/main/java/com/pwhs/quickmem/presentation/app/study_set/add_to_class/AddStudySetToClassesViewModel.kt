@@ -74,7 +74,6 @@ class AddStudySetToClassesViewModel @Inject constructor(
     private fun getClasses() {
         viewModelScope.launch {
             classRepository.getClassByOwnerId(
-                token = _uiState.value.token,
                 folderId = null,
                 studySetId = _uiState.value.studySetId
             ).collectLatest { resources ->
@@ -117,10 +116,8 @@ class AddStudySetToClassesViewModel @Inject constructor(
                 studySetId = _uiState.value.studySetId,
                 classIds = _uiState.value.classImportedIds
             )
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             studySetRepository.addStudySetToClasses(
-                token,
-                addStudySetToClassesRequestModel
+                addStudySetToClassesRequestModel = addStudySetToClassesRequestModel
             ).collectLatest { resources ->
                 when (resources) {
                     is Resources.Success -> {

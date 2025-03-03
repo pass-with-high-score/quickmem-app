@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.domain.model.subject.SubjectModel
 import com.pwhs.quickmem.domain.repository.StudySetRepository
@@ -16,7 +15,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -27,7 +25,6 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchStudySetBySubjectViewModel @Inject constructor(
     private val studySetRepository: StudySetRepository,
-    private val tokenManager: TokenManager,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(SearchStudySetBySubjectUiState())
@@ -73,10 +70,8 @@ class SearchStudySetBySubjectViewModel @Inject constructor(
 
     private fun searchStudySetBySubject() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
             try {
                 studySetRepository.getStudySetBySubjectId(
-                    token = token,
                     subjectId = _uiState.value.id,
                     page = 1
                 ).distinctUntilChanged()

@@ -6,7 +6,6 @@ import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchRe
 
 interface StudySetRemoteDataSource {
     suspend fun getSearchResultStudySets(
-        token: String,
         title: String,
         size: SearchResultSizeEnum,
         creatorType: SearchResultCreatorEnum?,

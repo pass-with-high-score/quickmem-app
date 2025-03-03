@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface ReportRepository {
     suspend fun createReport(
-        token: String,
         createReportRequestModel: CreateReportRequestModel,
     ): Flow<Resources<Unit>>
 }

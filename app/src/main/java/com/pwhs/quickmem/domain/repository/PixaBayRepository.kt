@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface PixaBayRepository {
     suspend fun searchImages(
-        token: String,
         query: String,
     ): Flow<Resources<SearchImageResponseModel>>
 }

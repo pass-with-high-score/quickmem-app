@@ -7,9 +7,8 @@ import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import retrofit2.HttpException
 import java.io.IOException
 
-class StudySetBySubjectPagingSource (
+class StudySetBySubjectPagingSource(
     private val searchStudySetBySubjectRemoteDataSource: SearchStudySetBySubjectRemoteDataSource,
-    private val token: String,
     private val subjectId: Int
 ) : PagingSource<Int, GetStudySetResponseModel>() {
     override fun getRefreshKey(state: PagingState<Int, GetStudySetResponseModel>): Int? {
@@ -20,7 +19,6 @@ class StudySetBySubjectPagingSource (
         return try {
             val currentPage = params.key ?: 1
             val response = searchStudySetBySubjectRemoteDataSource.getStudySetBySubjectId(
-                token = token,
                 subjectId = subjectId,
                 page = currentPage
             )

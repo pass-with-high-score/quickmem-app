@@ -19,79 +19,62 @@ import kotlinx.coroutines.flow.Flow
 
 interface ClassRepository {
     suspend fun createClass(
-        token: String,
         createClassRequestModel: CreateClassRequestModel,
     ): Flow<Resources<CreateClassResponseModel>>
 
     suspend fun getClassById(
-        token: String,
         classId: String,
     ): Flow<Resources<GetClassDetailResponseModel>>
 
     suspend fun getClassByOwnerId(
-        token: String,
-        folderId: String?,
-        studySetId: String?,
+        folderId: String?, studySetId: String?,
     ): Flow<Resources<List<GetClassByOwnerResponseModel>>>
 
     suspend fun updateClass(
-        token: String,
-        classId: String,
-        updateClassRequestModel: UpdateClassRequestModel,
+        classId: String, updateClassRequestModel: UpdateClassRequestModel,
     ): Flow<Resources<UpdateClassResponseModel>>
 
     suspend fun deleteClass(
-        token: String,
         classId: String,
     ): Flow<Resources<Unit>>
 
     suspend fun getSearchResultClasses(
-        token: String,
-        title: String,
-        page: Int?,
+        title: String, page: Int?,
     ): Flow<PagingData<GetClassByOwnerResponseModel>>
 
     suspend fun getClassByCode(
-        token: String,
         classCode: String,
     ): Flow<Resources<GetClassDetailResponseModel>>
 
     suspend fun joinClass(
-        token: String,
         joinClassRequestModel: JoinClassRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun exitClass(
-        token: String,
         exitClassRequestModel: ExitClassRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun removeMembers(
-        token: String,
         removeMembersRequestModel: RemoveMembersRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun deleteStudySetInClass(
-        token: String,
         deleteStudySetsRequestModel: DeleteStudySetsRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun deleteFolderInClass(
-        token: String,
         deleteFolderRequestModel: DeleteFolderRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun saveRecentAccessClass(
-        token: String,
         id: String
     ): Flow<Resources<Unit>>
 
     suspend fun getRecentAccessClass(
-        token: String,
+
     ): Flow<Resources<List<GetClassByOwnerResponseModel>>>
 
     suspend fun inviteToClass(
-        token: String,
         inviteToClassRequestModel: InviteToClassRequestModel,
     ): Flow<Resources<InviteToClassResponseModel>>
 }

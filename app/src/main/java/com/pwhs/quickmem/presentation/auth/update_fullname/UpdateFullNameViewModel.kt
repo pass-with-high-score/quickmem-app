@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.datastore.AppManager
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.auth.UpdateFullNameRequestModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
@@ -12,7 +11,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -21,7 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class UpdateFullNameViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val tokenManager: TokenManager,
     private val appManager: AppManager,
 ) : ViewModel() {
 
@@ -59,12 +56,12 @@ class UpdateFullNameViewModel @Inject constructor(
 
     private fun updateFullName() {
         viewModelScope.launch {
-            val token = tokenManager.accessToken.firstOrNull() ?: ""
+
 
             _uiState.update { it.copy(isLoading = true) }
 
             authRepository.updateFullName(
-                token, UpdateFullNameRequestModel(
+                UpdateFullNameRequestModel(
                     fullname = _uiState.value.fullName
                 )
             ).collect { resource ->

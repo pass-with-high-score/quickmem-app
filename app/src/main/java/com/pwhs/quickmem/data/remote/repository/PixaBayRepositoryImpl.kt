@@ -14,13 +14,12 @@ class PixaBayRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
 ) : PixaBayRepository {
     override suspend fun searchImages(
-        token: String,
         query: String,
     ): Flow<Resources<SearchImageResponseModel>> {
         return flow {
             emit(Resources.Loading())
             try {
-                val response = apiService.searchImage(token = token, query = query)
+                val response = apiService.searchImage(query = query)
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)

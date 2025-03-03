@@ -10,12 +10,11 @@ class ClassRemoteDataSourceImpl(
     private val apiService: ApiService
 ) : ClassRemoteDataSource {
     override suspend fun getSearchResultClasses(
-        token: String,
         title: String,
         page: Int?
     ) : List<GetClassByOwnerResponseModel> {
         try {
-            val response = apiService.searchClass(token, title, page)
+            val response = apiService.searchClass(title, page)
             return response.map { it.toModel() }
         } catch (e: Exception) {
             Timber.e(e.toString())

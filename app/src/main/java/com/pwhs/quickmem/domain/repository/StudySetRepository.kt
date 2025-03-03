@@ -22,60 +22,49 @@ import kotlinx.coroutines.flow.Flow
 
 interface StudySetRepository {
     suspend fun createStudySet(
-        token: String,
         createStudySetRequestModel: CreateStudySetRequestModel,
     ): Flow<Resources<CreateStudySetResponseModel>>
 
     suspend fun getStudySetById(
-        token: String,
         studySetId: String,
     ): Flow<Resources<GetStudySetResponseModel>>
 
     suspend fun getStudySetsByOwnerId(
-        token: String,
         classId: String?,
         folderId: String?,
     ): Flow<Resources<List<GetStudySetResponseModel>>>
 
     suspend fun updateStudySet(
-        token: String,
         studySetId: String,
         updateStudySetRequestModel: UpdateStudySetRequestModel,
     ): Flow<Resources<UpdateStudySetResponseModel>>
 
     suspend fun deleteStudySet(
-        token: String,
         studySetId: String,
     ): Flow<Resources<Unit>>
 
     suspend fun resetProgress(
-        token: String,
         studySetId: String,
         resetType: String,
     ): Flow<Resources<Unit>>
 
     suspend fun addStudySetToFolder(
-        token: String,
         addStudySetToFolderRequestModel: AddStudySetToFolderRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun addStudySetToClass(
-        token: String,
         addStudySetToClassRequestModel: AddStudySetToClassRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun addStudySetToFolders(
-        token: String,
         addStudySetToFoldersRequestModel: AddStudySetToFoldersRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun addStudySetToClasses(
-        token: String,
         addStudySetToClassesRequestModel: AddStudySetToClassesRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun getSearchResultStudySets(
-        token: String,
         title: String,
         size: SearchResultSizeEnum,
         creatorType: SearchResultCreatorEnum?,
@@ -86,43 +75,35 @@ interface StudySetRepository {
     ): Flow<PagingData<GetStudySetResponseModel>>
 
     suspend fun getStudySetByCode(
-        token: String,
         code: String,
     ): Flow<Resources<GetStudySetResponseModel>>
 
     suspend fun makeCopyStudySet(
-        token: String,
         studySetId: String,
         newOwnerId: String,
     ): Flow<Resources<CreateStudySetResponseModel>>
 
     suspend fun getTop5Subject(
-        token: String,
     ): Flow<Resources<List<GetTop5SubjectResponseModel>>>
 
     suspend fun getStudySetBySubjectId(
-        token: String,
         subjectId: Int,
         page: Int,
     ): Flow<PagingData<GetStudySetResponseModel>>
 
     suspend fun saveRecentAccessStudySet(
-        token: String,
         saveRecentAccessStudySetRequestModel: SaveRecentAccessStudySetRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun getRecentAccessStudySet(
-        token: String,
         userId: String,
     ): Flow<Resources<List<GetStudySetResponseModel>>>
 
     suspend fun createStudySetByAI(
-        token: String,
         createStudySetByAIRequestModel: CreateStudySetByAIRequestModel,
     ): Flow<Resources<CreateStudySetResponseModel>>
 
     suspend fun createWriteHintAI(
-        token: String,
         createWriteHintAIRequestModel: CreateWriteHintAIRequestModel,
     ): Flow<Resources<CreateWriteHintAIResponseModel>>
 }

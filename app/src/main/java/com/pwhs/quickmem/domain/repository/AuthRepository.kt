@@ -53,22 +53,18 @@ interface AuthRepository {
     ): Flow<Resources<OtpResponseModel>>
 
     suspend fun updateFullName(
-        token: String,
         updateFullNameRequestModel: UpdateFullNameRequestModel,
     ): Flow<Resources<UpdateFullNameResponseModel>>
 
     suspend fun updateUsername(
-        token: String,
         updateUsernameRequestModel: UpdateUsernameRequestModel,
     ): Flow<Resources<UpdateUsernameResponseModel>>
 
     suspend fun updateEmail(
-        token: String,
         updateEmailRequestModel: UpdateEmailRequestModel,
     ): Flow<Resources<UpdateEmailResponseModel>>
 
     suspend fun changePassword(
-        token: String,
         changePasswordRequestModel: ChangePasswordRequestModel,
     ): Flow<Resources<ChangePasswordResponseModel>>
 
@@ -81,39 +77,31 @@ interface AuthRepository {
     ): Flow<Resources<ResetPasswordResponseModel>>
 
     suspend fun verifyPassword(
-        token: String,
         verifyPasswordRequestModel: VerifyPasswordRequestModel,
     ): Flow<Resources<VerifyPasswordResponseModel>>
 
     suspend fun getUserDetail(
         userId: String,
-        token: String,
     ): Flow<Resources<UserDetailResponseModel>>
 
-    suspend fun getAvatar(token: String): Flow<Resources<List<AvatarResponseModel>>>
+    suspend fun getAvatar(): Flow<Resources<List<AvatarResponseModel>>>
 
     suspend fun updateAvatar(
-        token: String,
         updateAvatarRequestModel: UpdateAvatarRequestModel,
     ): Flow<Resources<UpdateAvatarResponseModel>>
 
     suspend fun searchUser(
-        token: String,
         username: String,
         page: Int?,
     ): Flow<PagingData<SearchUserResponseModel>>
 
-    suspend fun getUserProfile(
-        token: String,
-    ): Flow<Resources<GetUserProfileResponseModel>>
+    suspend fun getUserProfile(): Flow<Resources<GetUserProfileResponseModel>>
 
     suspend fun changeRole(
-        token: String,
         changeRoleRequestModel: ChangeRoleRequestModel,
     ): Flow<Resources<ChangeRoleResponseModel>>
 
     suspend fun updateCoin(
-        token: String,
         updateCoinRequestModel: UpdateCoinRequestModel,
     ): Flow<Resources<UpdateCoinResponseModel>>
 

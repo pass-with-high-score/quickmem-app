@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.folder.UpdateFolderRequestModel
 import com.pwhs.quickmem.domain.repository.FolderRepository
@@ -13,16 +12,13 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class EditFolderViewModel @Inject constructor(
-    private val tokenManager: TokenManager,
     savedStateHandle: SavedStateHandle,
     private val folderRepository: FolderRepository,
 ) : ViewModel() {
@@ -50,24 +46,17 @@ class EditFolderViewModel @Inject constructor(
     fun onEvent(event: EditFolderUiAction) {
         when (event) {
             EditFolderUiAction.SaveClicked -> {
-                Timber.d("SaveClicked")
-                val uiState = _uiState.value
-                val trimmedTitle = uiState.title.trim()
-
-                Timber.d("SaveClicked: $trimmedTitle")
-
                 when {
-                    trimmedTitle.isEmpty() -> {
+                    _uiState.value.title.isEmpty() -> {
                         _uiState.update { it.copy(titleError = R.string.txt_title_required) }
                     }
 
-                    trimmedTitle.length < 3 -> {
+                    _uiState.value.title.length < 3 -> {
                         _uiState.update { it.copy(titleError = R.string.txt_title_must_be_at_least_1_characters) }
                     }
 
                     else -> {
                         _uiState.update { it.copy(titleError = null) }
-                        Timber.d("SaveClicked: $trimmedTitle")
                         saveFolder()
                     }
                 }
@@ -101,12 +90,8 @@ class EditFolderViewModel @Inject constructor(
                 isPublic = uiState.value.isPublic
             )
             folderRepository.updateFolder(
-                token = tokenManager.accessToken.firstOrNull() ?: run {
-                    _uiEvent.send(EditFolderUiEvent.ShowError(R.string.txt_please_login_again))
-                    return@launch
-                },
                 folderId = uiState.value.id,
-                updateFolderRequestModel
+                updateFolderRequestModel = updateFolderRequestModel
             ).collectLatest { resource ->
                 when (resource) {
                     is Resources.Loading -> {
@@ -133,7 +118,6 @@ class EditFolderViewModel @Inject constructor(
                         _uiEvent.send(EditFolderUiEvent.ShowError(R.string.txt_failed_to_update_folder))
                     }
                 }
-
             }
         }
     }

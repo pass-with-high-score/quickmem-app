@@ -13,17 +13,12 @@ class ReportRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
 ) : ReportRepository {
     override suspend fun createReport(
-        token: String,
         createReportRequestModel: CreateReportRequestModel,
     ): Flow<Resources<Unit>> {
         return flow {
-            if (token.isEmpty()) {
-                return@flow
-            }
             emit(Resources.Loading())
             try {
                 val response = apiService.createReport(
-                    token = token,
                     createReportRequestDto = createReportRequestModel.toDto()
                 )
                 emit(Resources.Success(response))

@@ -7,7 +7,6 @@ import com.pwhs.quickmem.domain.model.classes.GetClassByOwnerResponseModel
 
 class ClassPagingSource(
     private val classRemoteDataSource: ClassRemoteDataSource,
-    private val token: String,
     private val title: String,
 ) : PagingSource<Int, GetClassByOwnerResponseModel>() {
     override fun getRefreshKey(state: PagingState<Int, GetClassByOwnerResponseModel>): Int? {
@@ -18,7 +17,6 @@ class ClassPagingSource(
         return try {
             val currentPage = params.key ?: 1
             val response = classRemoteDataSource.getSearchResultClasses(
-                token = token,
                 title = title,
                 page = currentPage
             )
