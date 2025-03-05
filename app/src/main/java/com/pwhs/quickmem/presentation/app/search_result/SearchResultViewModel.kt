@@ -13,7 +13,6 @@ import com.pwhs.quickmem.domain.model.users.SearchUserResponseModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
 import com.pwhs.quickmem.domain.repository.FolderRepository
 import com.pwhs.quickmem.domain.repository.StudySetRepository
-import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultCreatorEnum
 import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultSizeEnum
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -125,12 +124,6 @@ class SearchResultViewModel @Inject constructor(
                 getStudySets()
             }
 
-            is SearchResultUiAction.CreatorTypeChanged -> {
-                _uiState.update {
-                    it.copy(creatorTypeModel = event.creatorType)
-                }
-            }
-
             is SearchResultUiAction.SizeChanged -> {
                 _uiState.update {
                     it.copy(sizeStudySetModel = event.sizeModel)
@@ -143,7 +136,6 @@ class SearchResultViewModel @Inject constructor(
                         colorModel = ColorModel.defaultColors.first(),
                         subjectModel = SubjectModel.defaultSubjects.first(),
                         sizeStudySetModel = SearchResultSizeEnum.ALL,
-                        creatorTypeModel = SearchResultCreatorEnum.ALL
                     )
                 }
                 getStudySets()
@@ -164,7 +156,6 @@ class SearchResultViewModel @Inject constructor(
                 studySetRepository.getSearchResultStudySets(
                     title = _uiState.value.query,
                     size = _uiState.value.sizeStudySetModel,
-                    creatorType = _uiState.value.creatorTypeModel,
                     page = 1,
                     colorId = _uiState.value.colorModel.id,
                     subjectId = _uiState.value.subjectModel.id,

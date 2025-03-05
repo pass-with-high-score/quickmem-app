@@ -4,7 +4,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.pwhs.quickmem.domain.datasource.StudySetRemoteDataSource
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
-import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultCreatorEnum
 import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultSizeEnum
 import retrofit2.HttpException
 import java.io.IOException
@@ -13,7 +12,6 @@ class StudySetPagingSource(
     private val studySetRemoteDataSource: StudySetRemoteDataSource,
     private val title: String,
     private val size: SearchResultSizeEnum,
-    private val creatorType: SearchResultCreatorEnum?,
     private val colorId: Int?,
     private val subjectId: Int?,
     private val isAIGenerated: Boolean?
@@ -28,7 +26,6 @@ class StudySetPagingSource(
             val response = studySetRemoteDataSource.getSearchResultStudySets(
                 title = title,
                 size = size,
-                creatorType = creatorType,
                 page = currentPage,
                 colorId = colorId,
                 subjectId = subjectId,

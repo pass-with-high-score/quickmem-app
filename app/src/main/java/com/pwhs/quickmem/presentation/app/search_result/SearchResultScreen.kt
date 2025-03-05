@@ -46,7 +46,6 @@ import com.pwhs.quickmem.presentation.app.search_result.component.TopBarSearchRe
 import com.pwhs.quickmem.presentation.app.search_result.folder.ListResultFolderScreen
 import com.pwhs.quickmem.presentation.app.search_result.study_set.ListResultStudySetScreen
 import com.pwhs.quickmem.presentation.app.search_result.study_set.component.FilterStudySetBottomSheet
-import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultCreatorEnum
 import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultSizeEnum
 import com.pwhs.quickmem.presentation.app.search_result.user.ListResultUserScreen
 import com.pwhs.quickmem.presentation.components.LoadingOverlay
@@ -112,10 +111,6 @@ fun SearchResultScreen(
         onSizeChange = {
             viewModel.onEvent(SearchResultUiAction.SizeChanged(it))
         },
-        creatorTypeModel = uiState.creatorTypeModel,
-        onCreatorChange = {
-            viewModel.onEvent(SearchResultUiAction.CreatorTypeChanged(it))
-        },
         isAiGenerated = uiState.isAIGenerated,
         onIsAiGeneratedChange = {
             viewModel.onEvent(SearchResultUiAction.IsAiGeneratedChanged(it))
@@ -175,8 +170,6 @@ fun SearchResult(
     onSubjectChange: (SubjectModel) -> Unit = {},
     sizeModel: SearchResultSizeEnum = SearchResultSizeEnum.ALL,
     onSizeChange: (SearchResultSizeEnum) -> Unit = {},
-    creatorTypeModel: SearchResultCreatorEnum = SearchResultCreatorEnum.ALL,
-    onCreatorChange: (SearchResultCreatorEnum) -> Unit = {},
     isAiGenerated: Boolean = false,
     onIsAiGeneratedChange: (Boolean) -> Unit = {},
     onApplyClick: () -> Unit = {},
@@ -306,8 +299,6 @@ fun SearchResult(
                 },
                 sizeModel = sizeModel,
                 onSizeChange = onSizeChange,
-                creatorTypeModel = creatorTypeModel,
-                onCreatorChange = onCreatorChange,
                 onIsAiGeneratedChange = onIsAiGeneratedChange,
                 isAiGenerated = isAiGenerated,
                 onApplyClick = {

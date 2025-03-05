@@ -26,7 +26,6 @@ import com.pwhs.quickmem.domain.model.study_set.UpdateStudySetRequestModel
 import com.pwhs.quickmem.domain.model.study_set.UpdateStudySetResponseModel
 import com.pwhs.quickmem.domain.model.subject.GetTop5SubjectResponseModel
 import com.pwhs.quickmem.domain.repository.StudySetRepository
-import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultCreatorEnum
 import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultSizeEnum
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -175,7 +174,6 @@ class StudySetRepositoryImpl @Inject constructor(
     override suspend fun getSearchResultStudySets(
         title: String,
         size: SearchResultSizeEnum,
-        creatorType: SearchResultCreatorEnum?,
         page: Int,
         colorId: Int?,
         subjectId: Int?,
@@ -191,7 +189,6 @@ class StudySetRepositoryImpl @Inject constructor(
                     studySetRemoteDataSource = studySetRemoteDataSource,
                     title = title,
                     size = size,
-                    creatorType = creatorType,
                     colorId = colorId,
                     subjectId = subjectId,
                     isAIGenerated = isAIGenerated

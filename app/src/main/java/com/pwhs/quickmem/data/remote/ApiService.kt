@@ -234,7 +234,6 @@ interface ApiService {
     suspend fun searchStudySet(
         @Query("title") title: String,
         @Query("size") size: String,
-        @Query("creatorType") creatorType: String?,
         @Query("page") page: Int,
         @Query("colorId") colorId: Int?,
         @Query("subjectId") subjectId: Int?,

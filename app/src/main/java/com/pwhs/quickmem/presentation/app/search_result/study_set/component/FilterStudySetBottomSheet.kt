@@ -21,7 +21,6 @@ import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.color.ColorModel
 import com.pwhs.quickmem.domain.model.subject.SubjectModel
 import com.pwhs.quickmem.presentation.app.search_result.component.TopBarSearch
-import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultCreatorEnum
 import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultSizeEnum
 import com.pwhs.quickmem.presentation.app.study_set.component.StudySetColorInput
 import com.pwhs.quickmem.presentation.app.study_set.component.StudySetSubjectBottomSheet
@@ -39,8 +38,6 @@ fun FilterStudySetBottomSheet(
     onSizeChange: (SearchResultSizeEnum) -> Unit,
     isAiGenerated: Boolean = false,
     onIsAiGeneratedChange: (Boolean) -> Unit,
-    creatorTypeModel: SearchResultCreatorEnum = SearchResultCreatorEnum.ALL,
-    onCreatorChange: (SearchResultCreatorEnum) -> Unit,
     onNavigateBack: () -> Unit,
     onResetClick: () -> Unit,
     onApplyClick: () -> Unit,
@@ -77,19 +74,6 @@ fun FilterStudySetBottomSheet(
                         val selectedSize =
                             SearchResultSizeEnum.entries.first { it.title == selectedContent }
                         onSizeChange(selectedSize)
-                    }
-                )
-            }
-
-            item {
-                FilterSection(
-                    title = stringResource(R.string.txt_created_by),
-                    options = SearchResultCreatorEnum.entries.map { it.title },
-                    selectedOption = creatorTypeModel.title,
-                    onOptionSelected = {
-                        val selectedCreator =
-                            SearchResultCreatorEnum.entries.first { entry -> entry.title == it }
-                        onCreatorChange(selectedCreator)
                     }
                 )
             }
