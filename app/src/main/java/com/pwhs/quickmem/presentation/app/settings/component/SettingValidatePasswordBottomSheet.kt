@@ -105,7 +105,7 @@ fun SettingValidatePasswordBottomSheet(
                         isSecure = true
                     )
                     Button(
-                        enabled = password.isNotEmpty() && password.length >= 8,
+                        enabled = password.isNotEmpty() && password.length >= 6,
                         onClick = onSubmitClick,
                         modifier = Modifier
                             .fillMaxWidth(),

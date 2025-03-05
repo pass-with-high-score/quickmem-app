@@ -62,7 +62,7 @@ class SettingsViewModel @Inject constructor(
                 }
             }
 
-            SettingUiAction.OnSubmitClick -> {
+            is SettingUiAction.OnSubmitClick -> {
                 verifyPassword()
             }
 
