@@ -11,6 +11,4 @@ data class GetTopStreakResponseDto (
     val avatarUrl: String,
     @SerializedName("streakCount")
     val streakCount: Int,
-    @SerializedName("role")
-    val role: String
 )

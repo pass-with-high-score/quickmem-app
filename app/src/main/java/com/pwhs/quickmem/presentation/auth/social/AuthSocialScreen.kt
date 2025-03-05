@@ -33,15 +33,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.TextFieldType
-import com.pwhs.quickmem.core.data.enums.UserRole
 import com.pwhs.quickmem.presentation.auth.component.AuthButton
 import com.pwhs.quickmem.presentation.auth.component.AuthTextField
 import com.pwhs.quickmem.presentation.auth.component.AuthTopAppBar
 import com.pwhs.quickmem.presentation.auth.signup.email.component.DatePickerModalInput
-import com.pwhs.quickmem.presentation.auth.signup.email.component.RadioGroup
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.utils.gradientBackground
-import com.pwhs.quickmem.utils.isDateSmallerThan
 import com.pwhs.quickmem.utils.toFormattedString
 import com.pwhs.quickmem.utils.toTimestamp
 import com.ramcosta.composedestinations.annotation.Destination
@@ -98,9 +95,6 @@ fun AuthSocialScreen(
         onBirthdayChanged = { birthday ->
             viewModel.onEvent(AuthSocialUiAction.OnBirthDayChanged(birthday))
         },
-        onRoleChanged = { role ->
-            viewModel.onEvent(AuthSocialUiAction.OnRoleChanged(role))
-        },
     )
 }
 
@@ -113,10 +107,8 @@ fun AuthSocial(
     displayName: String = "",
     @StringRes birthdayError: Int? = null,
     onBirthdayChanged: (String) -> Unit = {},
-    onRoleChanged: (UserRole) -> Unit = {},
 ) {
     var isDatePickerVisible by rememberSaveable { mutableStateOf(false) }
-    var isRoleVisible by rememberSaveable { mutableStateOf(false) }
     val scrollState = rememberScrollState()
     Scaffold(
         modifier = modifier.gradientBackground(),
@@ -171,19 +163,11 @@ fun AuthSocial(
                 type = TextFieldType.BIRTHDAY,
                 error = birthdayError
             )
-
-            if (isRoleVisible) {
-                RadioGroup(
-                    modifier = Modifier.fillMaxWidth(),
-                    onRoleChanged = onRoleChanged
-                )
-            }
             if (isDatePickerVisible) {
                 DatePickerModalInput(
                     onDateSelected = {
                         if (it != null) {
                             onBirthdayChanged(it.toFormattedString())
-                            isRoleVisible = !it.isDateSmallerThan()
                         }
                         isDatePickerVisible = false
                     },

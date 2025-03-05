@@ -40,7 +40,6 @@ import com.pwhs.quickmem.domain.model.color.ColorModel
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.domain.model.subject.SubjectModel
 import com.pwhs.quickmem.domain.model.users.UserResponseModel
-import com.pwhs.quickmem.presentation.components.RoleUserText
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.utils.toColor
 
@@ -141,13 +140,14 @@ fun StudySetHomeItem(
                             .size(18.dp)
                             .clip(CircleShape)
                     )
-
-                    if (studySet != null) {
-                        RoleUserText(
-                            username = studySet.owner.username,
-                            role = studySet.owner.role,
-                        )
-                    }
+                    Text(
+                        text = studySet?.owner?.username ?: "",
+                        style = typography.bodySmall.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
                 }
             }
         }

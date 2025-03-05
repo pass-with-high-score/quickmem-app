@@ -13,7 +13,6 @@ fun UserDetailResponseDto.toModel(): UserDetailResponseModel {
         avatarUrl = avatarUrl,
         folders = folders.map { it.toModel() },
         fullName = fullName,
-        role = role,
         studySets = studySets.map { it.toModel() },
         username = username,
     )
@@ -25,7 +24,6 @@ fun UserDetailResponseModel.toDto(): UserDetailResponseDto {
         avatarUrl = avatarUrl,
         folders = folders.map { it.toDto() },
         fullName = fullName,
-        role = role,
         studySets = studySets.map { it.toDto() },
         username = username,
     )

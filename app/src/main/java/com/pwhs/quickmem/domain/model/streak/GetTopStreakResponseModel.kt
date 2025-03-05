@@ -5,5 +5,4 @@ data class GetTopStreakResponseModel(
     val username: String,
     val avatarUrl: String,
     val streakCount: Int,
-    val role: String,
 )

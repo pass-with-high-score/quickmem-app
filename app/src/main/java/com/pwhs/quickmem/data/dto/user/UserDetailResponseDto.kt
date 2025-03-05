@@ -13,8 +13,6 @@ data class UserDetailResponseDto(
     val fullName: String,
     @SerializedName("id")
     val id: String,
-    @SerializedName("role")
-    val role: String,
     @SerializedName("studySets")
     val studySets: List<GetStudySetResponseDto>,
     @SerializedName("username")

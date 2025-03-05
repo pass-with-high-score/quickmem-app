@@ -167,10 +167,6 @@ class SettingsViewModel @Inject constructor(
                         _uiEvent.send(SettingUiEvent.NavigateToChangeEmail)
                     }
 
-                    SettingChangeValueEnum.ROLE -> {
-                        _uiEvent.send(SettingUiEvent.NavigateToChangeRole)
-                    }
-
                     SettingChangeValueEnum.NONE -> {
                         // do nothing
                     }
@@ -185,7 +181,6 @@ class SettingsViewModel @Inject constructor(
                 val userId = appManager.userId.firstOrNull() ?: ""
                 val fullName = appManager.userFullName.firstOrNull() ?: ""
                 val username = appManager.username.firstOrNull() ?: ""
-                val role = appManager.userRole.firstOrNull() ?: ""
                 val email = appManager.userEmail.firstOrNull() ?: ""
                 val isPushNotificationsEnabled = appManager.pushNotifications.firstOrNull() == true
                 val isAppPushNotificationsEnabled =
@@ -200,7 +195,6 @@ class SettingsViewModel @Inject constructor(
                         fullName = fullName,
                         username = username,
                         email = email,
-                        role = role,
                         isPushNotificationsEnabled = isPushNotificationsEnabled,
                         isAppPushNotificationsEnabled = isAppPushNotificationsEnabled,
                         isStudyAlarmEnabled = enabledStudySchedule && isPushNotificationsEnabled && isAppPushNotificationsEnabled,
@@ -262,10 +256,6 @@ class SettingsViewModel @Inject constructor(
 
                                 SettingChangeValueEnum.EMAIL -> {
                                     _uiEvent.send(SettingUiEvent.NavigateToChangeEmail)
-                                }
-
-                                SettingChangeValueEnum.ROLE -> {
-                                    _uiEvent.send(SettingUiEvent.NavigateToChangeRole)
                                 }
 
                                 SettingChangeValueEnum.NONE -> {

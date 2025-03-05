@@ -9,6 +9,4 @@ class SearchUserResponseDto (
     val username: String,
     @SerializedName("avatarUrl")
     val avatarUrl: String,
-    @SerializedName("role")
-    val role: String,
 )

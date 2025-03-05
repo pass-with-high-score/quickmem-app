@@ -34,12 +34,10 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.TextFieldType
-import com.pwhs.quickmem.core.data.enums.UserRole
 import com.pwhs.quickmem.presentation.auth.component.AuthButton
 import com.pwhs.quickmem.presentation.auth.component.AuthTextField
 import com.pwhs.quickmem.presentation.auth.component.AuthTopAppBar
 import com.pwhs.quickmem.presentation.auth.signup.email.component.DatePickerModalInput
-import com.pwhs.quickmem.presentation.auth.signup.email.component.RadioGroup
 import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.utils.gradientBackground
@@ -106,9 +104,6 @@ fun SignupWithEmailScreen(
         onBirthdayChanged = { birthday ->
             viewModel.onEvent(SignUpWithEmailUiAction.BirthdayChanged(birthday))
         },
-        onRoleChanged = { role ->
-            viewModel.onEvent(SignUpWithEmailUiAction.UserRoleChanged(role))
-        },
         onSignUpClick = {
             viewModel.onEvent(SignUpWithEmailUiAction.SignUp)
         }
@@ -129,11 +124,9 @@ private fun SignupWithEmail(
     birthday: String = "",
     @StringRes birthdayError: Int? = null,
     onBirthdayChanged: (String) -> Unit = {},
-    onRoleChanged: (UserRole) -> Unit = {},
     onSignUpClick: () -> Unit = {},
 ) {
     var isDatePickerVisible by rememberSaveable { mutableStateOf(false) }
-    var isRoleVisible by rememberSaveable { mutableStateOf(false) }
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
     LaunchedEffect(key1 = imeState.value) {
@@ -206,13 +199,6 @@ private fun SignupWithEmail(
                     onDone = onSignUpClick
                 )
 
-                if (isRoleVisible) {
-                    RadioGroup(
-                        modifier = Modifier.fillMaxWidth(),
-                        onRoleChanged = onRoleChanged
-                    )
-                }
-
                 AuthButton(
                     text = stringResource(R.string.txt_sign_up),
                     onClick = onSignUpClick,
@@ -232,7 +218,6 @@ private fun SignupWithEmail(
             onDateSelected = {
                 if (it != null) {
                     onBirthdayChanged(it.toFormattedString())
-                    isRoleVisible = !it.isDateSmallerThan()
                 }
                 isDatePickerVisible = false
             },

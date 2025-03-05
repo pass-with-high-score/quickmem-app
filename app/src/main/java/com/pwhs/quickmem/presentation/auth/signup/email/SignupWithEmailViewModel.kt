@@ -73,10 +73,6 @@ class SignupWithEmailViewModel @Inject constructor(
                 }
             }
 
-            is SignUpWithEmailUiAction.UserRoleChanged -> {
-                _uiState.update { it.copy(userRole = event.userRole) }
-            }
-
             is SignUpWithEmailUiAction.SignUp -> {
                 if (validateInput()) {
                     signUp()
@@ -99,7 +95,6 @@ class SignupWithEmailViewModel @Inject constructor(
                     email = uiState.value.email,
                     username = username,
                     fullName = fullName,
-                    role = uiState.value.userRole,
                     birthday = uiState.value.birthday,
                     password = uiState.value.password,
                     authProvider = AuthProvider.EMAIL.name

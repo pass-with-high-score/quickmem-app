@@ -8,7 +8,6 @@ fun GetTopStreakResponseDto.toModel() = GetTopStreakResponseModel(
     username = username,
     avatarUrl = avatarUrl,
     streakCount = streakCount,
-    role = role
 )
 
 fun GetTopStreakResponseModel.toDto() = GetTopStreakResponseDto(
@@ -16,5 +15,4 @@ fun GetTopStreakResponseModel.toDto() = GetTopStreakResponseDto(
     username = username,
     avatarUrl = avatarUrl,
     streakCount = streakCount,
-    role = role
 )

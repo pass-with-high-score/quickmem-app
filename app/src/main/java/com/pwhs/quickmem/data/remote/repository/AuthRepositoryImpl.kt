@@ -16,8 +16,6 @@ import com.pwhs.quickmem.domain.model.auth.AuthResponseModel
 import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import com.pwhs.quickmem.domain.model.auth.ChangePasswordRequestModel
 import com.pwhs.quickmem.domain.model.auth.ChangePasswordResponseModel
-import com.pwhs.quickmem.domain.model.auth.ChangeRoleRequestModel
-import com.pwhs.quickmem.domain.model.auth.ChangeRoleResponseModel
 import com.pwhs.quickmem.domain.model.auth.GetUserProfileResponseModel
 import com.pwhs.quickmem.domain.model.auth.LoginRequestModel
 import com.pwhs.quickmem.domain.model.auth.OtpResponseModel
@@ -400,30 +398,6 @@ class AuthRepositoryImpl @Inject constructor(
             emit(Resources.Loading())
             try {
                 val response = apiService.getUserProfile()
-                emit(Resources.Success(response.toModel()))
-            } catch (e: HttpException) {
-                val apiError = e.parseApiError()
-                if (apiError != null) {
-                    emit(Resources.Error(message = apiError.message, status = apiError.statusCode))
-                } else {
-                    emit(Resources.Error(e.toString()))
-                }
-            } catch (e: Exception) {
-                Timber.e(e)
-                emit(Resources.Error(e.toString()))
-            }
-        }
-    }
-
-    override suspend fun changeRole(
-        changeRoleRequestModel: ChangeRoleRequestModel,
-    ): Flow<Resources<ChangeRoleResponseModel>> {
-        return flow {
-            emit(Resources.Loading())
-            try {
-                val response = apiService.changeRole(
-                    changeRoleRequestModel.toDto()
-                )
                 emit(Resources.Success(response.toModel()))
             } catch (e: HttpException) {
                 val apiError = e.parseApiError()

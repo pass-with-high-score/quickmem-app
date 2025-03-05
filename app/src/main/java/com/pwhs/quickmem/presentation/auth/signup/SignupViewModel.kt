@@ -92,7 +92,6 @@ class SignupViewModel @Inject constructor(
                             appManager.saveUserEmail(resource.data?.email ?: "")
                             appManager.saveUserBirthday(resource.data?.birthday ?: "")
                             appManager.saveUserName(resource.data?.username ?: "")
-                            appManager.saveUserRole(resource.data?.role ?: "")
                             appManager.saveUserCoins(resource.data?.coin ?: 0)
                             appManager.saveUserLoginProviders(resource.data?.provider ?: emptyList())
                             Purchases.sharedInstance.apply {

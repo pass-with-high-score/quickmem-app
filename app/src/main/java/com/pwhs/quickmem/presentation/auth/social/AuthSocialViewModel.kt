@@ -75,9 +75,6 @@ class AuthSocialViewModel @Inject constructor(
                 _uiState.value = _uiState.value.copy(fullName = event.name)
             }
 
-            is AuthSocialUiAction.OnRoleChanged -> {
-                _uiState.value = _uiState.value.copy(role = event.role)
-            }
 
             is AuthSocialUiAction.Register -> {
                 if (validateInput()) {
@@ -95,7 +92,6 @@ class AuthSocialViewModel @Inject constructor(
         val email = uiState.value.email
         val photoUrl = uiState.value.avatarUrl
         val displayName = uiState.value.fullName
-        val role = uiState.value.role
         val birthday = uiState.value.birthDay
         val id = uiState.value.id
         val provider = uiState.value.provider?.name ?: ""
@@ -105,7 +101,6 @@ class AuthSocialViewModel @Inject constructor(
             email = email,
             idToken = idToken,
             photoUrl = photoUrl,
-            role = role.name,
             birthday = birthday,
             id = id,
             provider = provider,
@@ -147,7 +142,6 @@ class AuthSocialViewModel @Inject constructor(
                             appManager.saveUserEmail(resource.data?.email ?: "")
                             appManager.saveUserBirthday(resource.data?.birthday ?: "")
                             appManager.saveUserName(resource.data?.username ?: "")
-                            appManager.saveUserRole(resource.data?.role ?: "")
                             appManager.saveUserCoins(resource.data?.coin ?: 0)
                             Purchases.sharedInstance.apply {
                                 setEmail(resource.data?.email)

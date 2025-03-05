@@ -11,8 +11,6 @@ data class SignupSocialCredentialRequestDto(
     val idToken: String,
     @SerializedName("photoUrl")
     val photoUrl: String,
-    @SerializedName("role")
-    val role: String,
     @SerializedName("birthday")
     val birthday: String,
     @SerializedName("id")

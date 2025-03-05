@@ -5,7 +5,6 @@ import com.pwhs.quickmem.domain.model.auth.GetUserProfileResponseModel
 
 fun GetUserProfileResponseDto.toModel() = GetUserProfileResponseModel(
     id = id,
-    role = role,
     email = email,
     fullname = fullname,
     username = username,
@@ -22,7 +21,6 @@ fun GetUserProfileResponseDto.toModel() = GetUserProfileResponseModel(
 
 fun GetUserProfileResponseModel.toDto() = GetUserProfileResponseDto(
     id = id,
-    role = role,
     email = email,
     fullname = fullname,
     username = username,

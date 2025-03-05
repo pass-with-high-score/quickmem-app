@@ -112,7 +112,6 @@ class ProfileViewModel @Inject constructor(
                                     isLoading = false,
                                     username = data.username,
                                     fullName = data.fullname,
-                                    role = data.role,
                                     userAvatar = data.avatarUrl,
                                     createDate = data.createdAt,
                                     coins = data.coin,
@@ -122,7 +121,6 @@ class ProfileViewModel @Inject constructor(
                             }
                             appManager.saveUserName(data.username)
                             appManager.saveUserAvatar(data.avatarUrl)
-                            appManager.saveUserRole(data.role)
                             appManager.saveUserFullName(data.fullname)
                             appManager.saveUserEmail(data.email)
                             appManager.saveUserId(data.id)
@@ -156,13 +154,9 @@ class ProfileViewModel @Inject constructor(
                         )
                     }
                 }.collect()
-                appManager.userRole.combine(appManager.userFullName) { role, fullName ->
-                    _uiState.update {
-                        it.copy(
-                            role = role,
-                            fullName = fullName
-                        )
-                    }
+                val fullName = appManager.userFullName.firstOrNull() ?: ""
+                _uiState.update {
+                    it.copy(fullName = fullName)
                 }
             } catch (e: Exception) {
                 Timber.e(e, "Error observing DataStore")

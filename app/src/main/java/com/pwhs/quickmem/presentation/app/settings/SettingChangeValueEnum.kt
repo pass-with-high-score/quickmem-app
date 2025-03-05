@@ -5,5 +5,4 @@ enum class SettingChangeValueEnum {
     FULL_NAME,
     EMAIL,
     USERNAME,
-    ROLE
 }

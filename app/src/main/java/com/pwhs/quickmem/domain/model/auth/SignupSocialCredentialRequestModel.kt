@@ -6,7 +6,6 @@ data class SignupSocialCredentialRequestModel(
     val email: String,
     val idToken: String,
     val photoUrl: String,
-    val role: String,
     val birthday: String,
     val id: String,
     val provider: String,

@@ -45,7 +45,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.core.data.enums.UserRole
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.presentation.app.library.folder.ListFolderScreen
@@ -117,7 +116,6 @@ fun UserDetailScreen(
         modifier = modifier,
         isLoading = uiState.isLoading,
         isOwner = uiState.isOwner,
-        role = uiState.role,
         userName = uiState.userName,
         avatarUrl = uiState.avatarUrl,
         studySets = uiState.studySets,
@@ -160,7 +158,6 @@ private fun UserDetail(
     isLoading: Boolean = false,
     isOwner: Boolean = false,
     userName: String = "",
-    role: String = "",
     avatarUrl: String = "",
     studySets: List<GetStudySetResponseModel> = emptyList(),
     folders: List<GetFolderResponseModel> = emptyList(),
@@ -233,16 +230,6 @@ private fun UserDetail(
                         fontWeight = FontWeight.Bold
                     )
                 )
-                if (role == UserRole.TEACHER.name) {
-                    Text(
-                        text = stringResource(R.string.txt_teacher),
-                        style = typography.bodySmall.copy(
-                            fontWeight = FontWeight.Bold
-                        ),
-                        modifier = Modifier.padding(horizontal = 4.dp, vertical = 2.dp)
-                    )
-                }
-
 
                 TabRow(
                     selectedTabIndex = tabIndex,
@@ -308,7 +295,6 @@ private fun UserDetailPreview() {
             userName = "John Doe",
             avatarUrl = "https://example.com/avatar.jpg",
             onBackClick = {},
-            role = "TEACHER"
         )
     }
 }

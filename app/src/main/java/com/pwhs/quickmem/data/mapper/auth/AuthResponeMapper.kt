@@ -8,7 +8,6 @@ fun AuthResponseDto.toModel() = AuthResponseModel(
     fullName = fullName?.trim(),
     email = email?.trim(),
     username = username?.trim(),
-    role = role,
     avatarUrl = avatarUrl?.trim(),
     birthday = birthday,
     accessToken = accessToken,

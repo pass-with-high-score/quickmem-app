@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -27,7 +26,6 @@ import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.VerticalDivider
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
@@ -95,7 +93,6 @@ fun ProfileScreen(
         modifier = modifier,
         fullName = uiState.fullName,
         username = uiState.username,
-        role = uiState.role,
         avatarUrl = uiState.userAvatar,
         isLoading = uiState.isLoading,
         onRefresh = {
@@ -126,7 +123,6 @@ fun Profile(
     modifier: Modifier = Modifier,
     fullName: String = "",
     username: String = "",
-    role: String = "",
     onRefresh: () -> Unit = {},
     isLoading: Boolean = false,
     avatarUrl: String = "",
@@ -246,39 +242,12 @@ fun Profile(
                                 )
                             )
                         }
-                        Row(
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Text(
-                                text = "@$username",
-                                style = typography.titleMedium.copy(
-                                    color = colorScheme.secondary
-                                )
+                        Text(
+                            text = "@$username",
+                            style = typography.titleMedium.copy(
+                                color = colorScheme.secondary
                             )
-                            VerticalDivider(
-                                color = colorScheme.secondary,
-                                modifier = Modifier
-                                    .padding(horizontal = 4.dp)
-                                    .height(16.dp)
-                            )
-                            if (role == "TEACHER") {
-                                Text(
-                                    text = stringResource(R.string.txt_teacher),
-                                    style = typography.titleMedium.copy(
-                                        color = colorScheme.secondary
-                                    ),
-                                    color = colorScheme.secondary,
-                                )
-                            } else {
-                                Text(
-                                    text = stringResource(R.string.txt_student),
-                                    style = typography.titleMedium.copy(
-                                        color = colorScheme.secondary
-                                    ),
-                                    color = colorScheme.secondary,
-                                )
-                            }
-                        }
+                        )
 
                         if (createdAt != null) {
                             Text(
@@ -428,7 +397,6 @@ fun ProfilePreview() {
         Profile(
             fullName = "Nguyen Quang Minh",
             username = "nqmgaming",
-            role = "TEACHER",
             avatarUrl = "https://www.example.com/avatar.jpg"
         )
     }

@@ -19,7 +19,6 @@ data class SettingUiState(
     val fullName: String = "",
     val username: String = "",
     val email: String = "",
-    val role: String = "",
     val changeType: SettingChangeValueEnum = SettingChangeValueEnum.NONE,
     val isPushNotificationsEnabled: Boolean = false,
     val isAppPushNotificationsEnabled: Boolean = false,

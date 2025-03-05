@@ -8,7 +8,6 @@ data class UserDetailResponseModel(
     val folders: List<GetFolderResponseModel>,
     val fullName: String,
     val id: String,
-    val role: String,
     val studySets: List<GetStudySetResponseModel>,
     val username: String,
 )

@@ -38,7 +38,6 @@ import coil.compose.AsyncImage
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 import com.pwhs.quickmem.domain.model.users.UserResponseModel
-import com.pwhs.quickmem.presentation.components.RoleUserText
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 
 @Composable
@@ -119,10 +118,6 @@ fun FolderItem(
                             .clip(CircleShape)
                             .background(colorScheme.primary.copy(alpha = 0.1f)),
                         contentScale = ContentScale.Crop
-                    )
-                    RoleUserText(
-                        username = userResponseModel.username,
-                        role = userResponseModel.role,
                     )
                 }
             }

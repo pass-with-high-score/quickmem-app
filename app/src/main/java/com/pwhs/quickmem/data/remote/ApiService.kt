@@ -4,8 +4,6 @@ import com.pwhs.quickmem.data.dto.auth.AuthResponseDto
 import com.pwhs.quickmem.data.dto.auth.AuthSocialGoogleRequestDto
 import com.pwhs.quickmem.data.dto.auth.ChangePasswordRequestDto
 import com.pwhs.quickmem.data.dto.auth.ChangePasswordResponseDto
-import com.pwhs.quickmem.data.dto.auth.ChangeRoleRequestDto
-import com.pwhs.quickmem.data.dto.auth.ChangeRoleResponseDto
 import com.pwhs.quickmem.data.dto.auth.GetUserProfileResponseDto
 import com.pwhs.quickmem.data.dto.auth.LoginRequestDto
 import com.pwhs.quickmem.data.dto.auth.OtpResponseDto
@@ -157,11 +155,6 @@ interface ApiService {
     suspend fun updateAvatar(
         @Body updateAvatarRequestDto: UpdateAvatarRequestDto,
     ): UpdateAvatarResponseDto
-
-    @PATCH("auth/user/role")
-    suspend fun changeRole(
-        @Body request: ChangeRoleRequestDto,
-    ): ChangeRoleResponseDto
 
     @GET("auth/user/search")
     suspend fun searchUser(

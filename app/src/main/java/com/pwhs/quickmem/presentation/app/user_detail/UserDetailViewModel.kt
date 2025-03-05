@@ -66,7 +66,6 @@ class UserDetailViewModel @Inject constructor(
                         is Resources.Success -> {
                             _uiState.value = _uiState.value.copy(
                                 isLoading = false,
-                                role = resource.data?.role ?: "",
                                 userName = resource.data?.username ?: "",
                                 avatarUrl = resource.data?.avatarUrl ?: "",
                                 studySets = resource.data?.studySets ?: emptyList(),

@@ -13,8 +13,6 @@ data class GetUserProfileResponseDto(
     val email: String,
     @SerializedName("avatarUrl")
     val avatarUrl: String,
-    @SerializedName("role")
-    val role: String,
     @SerializedName("coin")
     val coin: Int,
     @SerializedName("createdAt")

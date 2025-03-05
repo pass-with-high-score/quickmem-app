@@ -130,7 +130,6 @@ class VerifyEmailViewModel @Inject constructor(
                             appManager.saveUserFullName(resource.data?.fullName ?: "")
                             appManager.saveUserName(resource.data?.username ?: "")
                             appManager.saveUserId(resource.data?.id ?: "")
-                            appManager.saveUserRole(resource.data?.role ?: "")
                             appManager.saveUserLoginProviders(
                                 resource.data?.provider ?: emptyList()
                             )

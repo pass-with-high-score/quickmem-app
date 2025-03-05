@@ -71,7 +71,6 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.NavGraphs
 import com.ramcosta.composedestinations.generated.destinations.ChangeLanguageScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.ChangePasswordSettingScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.ChangeRoleScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.OpenSourceScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.UpdateEmailSettingScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.UpdateFullNameSettingScreenDestination
@@ -96,7 +95,6 @@ fun SettingsScreen(
     resultChangePassword: ResultRecipient<ChangePasswordSettingScreenDestination, Boolean>,
     resultChangeLanguage: ResultRecipient<ChangeLanguageScreenDestination, Boolean>,
     resultUpdateUsername: ResultRecipient<UpdateUsernameSettingScreenDestination, Boolean>,
-    resultChangeRole: ResultRecipient<ChangeRoleScreenDestination, Boolean>,
 ) {
     val context = LocalContext.current
 
@@ -155,17 +153,6 @@ fun SettingsScreen(
         }
     }
 
-    resultChangeRole.onNavResult { result ->
-        when (result) {
-            NavResult.Canceled -> {}
-            is NavResult.Value -> {
-                if (result.value) {
-                    viewModel.onEvent(SettingUiAction.Refresh)
-                }
-            }
-        }
-    }
-
     val uiState by viewModel.uiState.collectAsState()
     val languageCode = context.getLanguageCode()
     LaunchedEffect(key1 = true) {
@@ -181,7 +168,7 @@ fun SettingsScreen(
                     }
                 }
 
-                SettingUiEvent.NavigateToChangeEmail -> {
+                is SettingUiEvent.NavigateToChangeEmail -> {
                     navigator.navigate(
                         UpdateEmailSettingScreenDestination(
                             email = uiState.email
@@ -189,7 +176,7 @@ fun SettingsScreen(
                     )
                 }
 
-                SettingUiEvent.NavigateToChangeFullName -> {
+                is SettingUiEvent.NavigateToChangeFullName -> {
                     navigator.navigate(
                         UpdateFullNameSettingScreenDestination(
                             fullName = uiState.fullName
@@ -197,18 +184,10 @@ fun SettingsScreen(
                     )
                 }
 
-                SettingUiEvent.NavigateToChangeUsername -> {
+                is SettingUiEvent.NavigateToChangeUsername -> {
                     navigator.navigate(
                         UpdateUsernameSettingScreenDestination(
                             username = uiState.username
-                        )
-                    )
-                }
-
-                SettingUiEvent.NavigateToChangeRole -> {
-                    navigator.navigate(
-                        ChangeRoleScreenDestination(
-                            role = uiState.role.uppercase()
                         )
                     )
                 }
@@ -226,7 +205,6 @@ fun SettingsScreen(
         fullName = uiState.fullName,
         username = uiState.username,
         email = uiState.email,
-        role = uiState.role,
         password = uiState.password,
         languageCode = languageCode,
         isLoading = uiState.isLoading,
@@ -323,7 +301,6 @@ fun Setting(
     fullName: String = "",
     username: String = "",
     email: String = "",
-    role: String = "",
     password: String = "",
     @StringRes errorMessage: Int? = null,
     isLoading: Boolean = false,
@@ -501,19 +478,13 @@ fun Setting(
                                     if (userLoginProviders.contains("EMAIL")) {
                                         showVerifyPasswordBottomSheet = true
                                         onChangeType(SettingChangeValueEnum.EMAIL)
-                                    }else {
-                                        Toast.makeText(context,
-                                            context.getString(R.string.txt_you_can_t_change_email_right_now), Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(
+                                            context,
+                                            context.getString(R.string.txt_you_can_t_change_email_right_now),
+                                            Toast.LENGTH_SHORT
+                                        ).show()
                                     }
-                                }
-                            )
-                            HorizontalDivider()
-                            SettingItem(
-                                title = stringResource(R.string.txt_role),
-                                subtitle = role.lowercase().upperCaseFirstLetter(),
-                                onClick = {
-                                    showVerifyPasswordBottomSheet = true
-                                    onChangeType(SettingChangeValueEnum.ROLE)
                                 }
                             )
                             HorizontalDivider()

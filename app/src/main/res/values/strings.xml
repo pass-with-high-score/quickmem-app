@@ -35,7 +35,6 @@
     <string name="txt_log_in">Log in</string>
     <string name="txt_ok">OK</string>
     <string name="txt_cancel">Cancel</string>
-    <string name="txt_are_you_a_teacher_or_a_student">Are you a teacher or a student?</string>
     <string name="txt_sign_up_failure">Sign up failure</string>
     <string name="txt_signup_with_email">Signup with email</string>
     <string name="txt_select_your_birthday">Select your birthday</string>
@@ -226,14 +225,9 @@
     <string name="txt_recent">Recent Search</string>
     <string name="txt_clear_all">Clear all</string>
     <string name="txt_deleted_successfully">Deleted Successfully</string>
-    <string name="txt_viewall">View all</string>
     <string name="txt_day_streak">day streak</string>
     <string name="txt_days_streak">days streak</string>
-    <string name="txt_teacher">Teacher</string>
-    <string name="txt_role">Role</string>
-    <string name="txt_role_updated_success">Role updated successfully!</string>
     <string name="dialog_title_not_eligible">Not Eligible</string>
-    <string name="dialog_message_underage">You must be at least 20 years old to change role. Please come back on %1$s.</string>
     <string name="txt_signup_description">Hello there! Let\'s get started.</string>
     <string name="txt_login_description">Great to see you again! Log in to continue</string>
     <string name="txt_ai_generated">AI Generated</string>
@@ -593,7 +587,6 @@
     <string name="txt_enter_your_email">Enter your email</string>
     <string name="txt_reset_password_description">We\'ll send you an email with an OTP to reset your password.</string>
     <string name="txt_check_your_email_for_verification">Check your email for verification</string>
-    <string name="txt_student">Student</string>
     <string name="txt_signup_success">Sign up successfully</string>
     <string name="txt_login_providers">Login Providers</string>
     <string name="txt_email_is_not_match">Email is not match with your account</string>

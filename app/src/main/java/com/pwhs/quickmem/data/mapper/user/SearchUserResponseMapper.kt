@@ -7,12 +7,10 @@ fun SearchUserResponseDto.toModel() = SearchUserResponseModel(
     id = id,
     username = username,
     avatarUrl = avatarUrl,
-    role = role,
 )
 
 fun SearchUserResponseModel.toDto() = SearchUserResponseDto(
     id = id,
     username = username,
     avatarUrl = avatarUrl,
-    role = role,
 )

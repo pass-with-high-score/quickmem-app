@@ -23,7 +23,6 @@ class AppManager @Inject constructor(private val context: Context) {
         val USER_AVATAR = stringPreferencesKey("USER_AVATAR")
         val USER_NAME = stringPreferencesKey("USER_NAME")
         val USER_EMAIL = stringPreferencesKey("USER_EMAIL")
-        val USER_ROLE = stringPreferencesKey("USER_ROLE")
         val USER_BIRTHDAY = stringPreferencesKey("USER_BIRTHDAY")
         val USER_CREATED_AT = stringPreferencesKey("USER_CREATED_AT")
         val USER_LOGIN_PROVIDER = stringPreferencesKey("USER_LOGIN_PROVIDER")
@@ -70,11 +69,6 @@ class AppManager @Inject constructor(private val context: Context) {
     val appPushNotifications: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
             preferences[APP_PUSH_NOTIFICATIONS] == true
-        }
-
-    val userRole: Flow<String> = context.dataStore.data
-        .map { preferences ->
-            preferences[USER_ROLE] ?: ""
         }
 
     val userBirthday: Flow<String> = context.dataStore.data
@@ -175,13 +169,6 @@ class AppManager @Inject constructor(private val context: Context) {
         Timber.d("Saving app push notifications: $appPushNotifications")
         context.dataStore.edit { preferences ->
             preferences[APP_PUSH_NOTIFICATIONS] = appPushNotifications
-        }
-    }
-
-    suspend fun saveUserRole(userRole: String) {
-        Timber.d("Saving user role: $userRole")
-        context.dataStore.edit { preferences ->
-            preferences[USER_ROLE] = userRole
         }
     }
 

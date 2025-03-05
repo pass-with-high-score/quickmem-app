@@ -151,7 +151,6 @@ class LoginWithEmailViewModel @Inject constructor(
                             appManager.saveUserEmail(login.data?.email ?: "")
                             appManager.saveUserBirthday(login.data?.birthday ?: "")
                             appManager.saveUserName(login.data?.username ?: "")
-                            appManager.saveUserRole(login.data?.role ?: "")
                             appManager.saveUserCoins(login.data?.coin ?: 0)
                             appManager.saveUserLoginProviders(
                                 login.data?.provider ?: emptyList()

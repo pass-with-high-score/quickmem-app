@@ -7,8 +7,6 @@ data class UserResponseDto(
     val id: String,
     @SerializedName("avatarUrl")
     val avatarUrl: String,
-    @SerializedName("role")
-    val role: String,
     @SerializedName("username")
     val username: String
 )

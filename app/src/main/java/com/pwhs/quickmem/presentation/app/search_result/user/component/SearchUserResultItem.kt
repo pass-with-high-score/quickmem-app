@@ -101,7 +101,6 @@ private fun ClassMemberItemPreview() {
                             id = "id",
                             username = "username",
                             avatarUrl = "",
-                            role = "student",
                         )
                     )
                 }

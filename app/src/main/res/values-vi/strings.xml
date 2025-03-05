@@ -33,7 +33,6 @@
     <string name="txt_log_in">Đăng nhập</string>
     <string name="txt_ok">OK</string>
     <string name="txt_cancel">Hủy</string>
-    <string name="txt_are_you_a_teacher_or_a_student">Bạn là giáo viên hay học sinh?</string>
     <string name="txt_sign_up_failure">Đăng ký thất bại</string>
     <string name="txt_signup_with_email">Đăng ký bằng email</string>
     <string name="txt_select_your_birthday">Chọn ngày sinh nhé</string>
@@ -223,14 +222,9 @@
     <string name="txt_recent">Lịch sử tìm kiếm</string>
     <string name="txt_clear_all">Xóa tất cả</string>
     <string name="txt_deleted_successfully">Đã xóa thành công</string>
-    <string name="txt_viewall">Xem tất cả</string>
     <string name="txt_day_streak">day streak</string>
     <string name="txt_days_streak">days streak</string>
-    <string name="txt_role">Loại tài khoản</string>
     <string name="dialog_title_not_eligible">Không đủ điều kiện</string>
-    <string name="dialog_message_underage">Bạn phải ít nhất 20 tuổi để thay đổi vai trò. Vui lòng quay lại vào ngày %1$s.</string>
-    <string name="txt_role_updated_success">Đã cập nhật vai trò thành công!</string>
-    <string name="txt_teacher">Giáo viên</string>
     <string name="txt_signup_description">Xin chào! Hãy bắt đầu nào.</string>
     <string name="txt_login_description">Rất vui được gặp lại bạn! Hãy đăng nhập để tiếp tục nào</string>
     <string name="txt_ai_generated">Được tạo bởi AI</string>
@@ -589,7 +583,6 @@
     <string name="txt_enter_your_email">Nhập địa chỉ email của bạn</string>
     <string name="txt_reset_password_description">Nhập email của bạn để nhận OTP đặt lại mật khẩu.</string>
     <string name="txt_check_your_email_for_verification">Kiểm tra email của bạn để xác minh</string>
-    <string name="txt_student">Học sinh</string>
     <string name="txt_signup_success">Đăng ký thành công</string>
     <string name="txt_login_providers">Các phương thức đăng nhập</string>
     <string name="txt_email_is_not_match">Email không khớp với tài khoản của bạn</string>
