@@ -4,6 +4,5 @@ enum class SearchResultEnum(val index: Int) {
     ALL_RESULT(0),
     STUDY_SET(1),
     FOLDER(2),
-    CLASS(3),
-    USER(4),
+    USER(3),
 }

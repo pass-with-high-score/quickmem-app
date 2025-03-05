@@ -1,7 +1,6 @@
 package com.pwhs.quickmem.presentation.app.home
 
 import androidx.annotation.StringRes
-import com.pwhs.quickmem.domain.model.classes.GetClassByOwnerResponseModel
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 import com.pwhs.quickmem.domain.model.notification.GetNotificationResponseModel
 import com.pwhs.quickmem.domain.model.streak.StreakModel
@@ -21,7 +20,6 @@ data class HomeUiState(
     val subjects: List<SubjectModel> = emptyList(),
     val studySets: List<GetStudySetResponseModel> = emptyList(),
     val folders: List<GetFolderResponseModel> = emptyList(),
-    val classes: List<GetClassByOwnerResponseModel> = emptyList(),
     val streakCount: Int = 0,
     val streaks: List<StreakModel> = emptyList(),
     val streakDates: List<LocalDate> = emptyList(),

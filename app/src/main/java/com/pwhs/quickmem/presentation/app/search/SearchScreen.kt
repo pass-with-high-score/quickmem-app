@@ -139,7 +139,7 @@ private fun Search(
                         searchQuery = query,
                         onSearchQueryChange = onQueryChange,
                         errorMessage = errorMessage?.let { stringResource(it) },
-                        placeholder = stringResource(R.string.txt_study_sets_folder_classes),
+                        placeholder = stringResource(R.string.txt_study_sets_folders),
                         onSearch = onSearch,
                     )
                 },

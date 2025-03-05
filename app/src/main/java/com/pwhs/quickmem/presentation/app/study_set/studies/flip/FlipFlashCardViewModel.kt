@@ -312,10 +312,6 @@ class FlipFlashCardViewModel @Inject constructor(
                         }
                     }
                 }
-
-                LearnFrom.CLASS -> {
-                    // TODO(): Implement this
-                }
             }
         }
     }
@@ -416,11 +412,6 @@ class FlipFlashCardViewModel @Inject constructor(
                     }
                 }
             }
-
-
-            LearnFrom.CLASS -> {
-                // TODO(): Implement this
-            }
         }
     }
 
@@ -448,10 +439,6 @@ class FlipFlashCardViewModel @Inject constructor(
             }
 
             LearnFrom.FOLDER -> {
-                // TODO(): Implement this
-            }
-
-            LearnFrom.CLASS -> {
                 // TODO(): Implement this
             }
         }

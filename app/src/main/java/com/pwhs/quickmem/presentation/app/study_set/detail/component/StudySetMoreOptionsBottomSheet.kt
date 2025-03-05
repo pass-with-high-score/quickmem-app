@@ -27,7 +27,6 @@ fun StudySetMoreOptionsBottomSheet(
     modifier: Modifier = Modifier,
     isOwner: Boolean,
     onAddToFolder: () -> Unit,
-    onAddToClass: () -> Unit,
     onEditStudySet: () -> Unit,
     onDeleteStudySet: () -> Unit,
     onInfoStudySet: () -> Unit,
@@ -58,11 +57,6 @@ fun StudySetMoreOptionsBottomSheet(
                         onClick = onAddToFolder,
                         icon = Outlined.Folder,
                         title = stringResource(R.string.txt_add_to_folder)
-                    )
-                    ItemMenuBottomSheet(
-                        onClick = onAddToClass,
-                        icon = Outlined.Group,
-                        title = stringResource(R.string.txt_add_to_classes)
                     )
                     ItemMenuBottomSheet(
                         onClick = onResetProgress,

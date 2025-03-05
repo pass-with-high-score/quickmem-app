@@ -2,8 +2,6 @@ package com.pwhs.quickmem.domain.repository
 
 import androidx.paging.PagingData
 import com.pwhs.quickmem.core.utils.Resources
-import com.pwhs.quickmem.domain.model.classes.AddStudySetToClassesRequestModel
-import com.pwhs.quickmem.domain.model.study_set.AddStudySetToClassRequestModel
 import com.pwhs.quickmem.domain.model.study_set.AddStudySetToFolderRequestModel
 import com.pwhs.quickmem.domain.model.study_set.AddStudySetToFoldersRequestModel
 import com.pwhs.quickmem.domain.model.study_set.CreateStudySetByAIRequestModel
@@ -52,16 +50,8 @@ interface StudySetRepository {
         addStudySetToFolderRequestModel: AddStudySetToFolderRequestModel,
     ): Flow<Resources<Unit>>
 
-    suspend fun addStudySetToClass(
-        addStudySetToClassRequestModel: AddStudySetToClassRequestModel,
-    ): Flow<Resources<Unit>>
-
     suspend fun addStudySetToFolders(
         addStudySetToFoldersRequestModel: AddStudySetToFoldersRequestModel,
-    ): Flow<Resources<Unit>>
-
-    suspend fun addStudySetToClasses(
-        addStudySetToClassesRequestModel: AddStudySetToClassesRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun getSearchResultStudySets(

@@ -46,10 +46,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.UserRole
-import com.pwhs.quickmem.domain.model.classes.GetClassByOwnerResponseModel
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
-import com.pwhs.quickmem.presentation.app.library.classes.ListClassesScreen
 import com.pwhs.quickmem.presentation.app.library.folder.ListFolderScreen
 import com.pwhs.quickmem.presentation.app.library.study_set.ListStudySetScreen
 import com.pwhs.quickmem.presentation.app.report.ReportTypeEnum
@@ -57,11 +55,10 @@ import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
-import com.ramcosta.composedestinations.generated.destinations.ClassDetailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.FolderDetailScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.generated.destinations.ReportScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination
 import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
 import timber.log.Timber
@@ -73,7 +70,6 @@ fun UserDetailScreen(
     viewModel: UserDetailViewModel = hiltViewModel(),
     navigator: DestinationsNavigator,
     resultStudySetDetail: ResultRecipient<StudySetDetailScreenDestination, Boolean>,
-    resultClassDetail: ResultRecipient<ClassDetailScreenDestination, Boolean>,
     resultFolderDetail: ResultRecipient<FolderDetailScreenDestination, Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
@@ -83,20 +79,6 @@ fun UserDetailScreen(
         when (result) {
             NavResult.Canceled -> {
                 Timber.d("StudySetDetailScreen was canceled")
-            }
-
-            is NavResult.Value -> {
-                if (result.value) {
-                    viewModel.onEvent(UserDetailUiAction.Refresh)
-                }
-            }
-        }
-    }
-
-    resultClassDetail.onNavResult { result ->
-        when (result) {
-            NavResult.Canceled -> {
-                Timber.d("ClassDetailScreen was canceled")
             }
 
             is NavResult.Value -> {
@@ -139,18 +121,8 @@ fun UserDetailScreen(
         userName = uiState.userName,
         avatarUrl = uiState.avatarUrl,
         studySets = uiState.studySets,
-        classes = uiState.classes,
         folders = uiState.folders,
         onBackClick = { navigator.popBackStack() },
-        onClassClick = {
-            navigator.navigate(
-                ClassDetailScreenDestination(
-                    id = it.id,
-                    description = it.description,
-                    title = it.title,
-                )
-            )
-        },
         onStudySetClick = {
             navigator.navigate(
                 StudySetDetailScreenDestination(
@@ -191,19 +163,16 @@ private fun UserDetail(
     role: String = "",
     avatarUrl: String = "",
     studySets: List<GetStudySetResponseModel> = emptyList(),
-    classes: List<GetClassByOwnerResponseModel> = emptyList(),
     folders: List<GetFolderResponseModel> = emptyList(),
     onBackClick: () -> Unit,
     onStudySetClick: (GetStudySetResponseModel) -> Unit = {},
     onFolderClick: (GetFolderResponseModel) -> Unit = {},
-    onClassClick: (GetClassByOwnerResponseModel) -> Unit = {},
     onRefresh: () -> Unit = {},
     onReportClick: () -> Unit = {},
 ) {
     var tabIndex by rememberSaveable { mutableIntStateOf(UserDetailTabEnum.STUDY_SET.index) }
     val tabTitles = listOf(
         stringResource(R.string.txt_study_sets),
-        stringResource(R.string.txt_classes),
         stringResource(R.string.txt_folders)
     )
 
@@ -309,16 +278,6 @@ private fun UserDetail(
                             onStudySetRefresh = onRefresh,
                             isLoading = isLoading,
                             isOwner = isOwner
-                        )
-                    }
-
-                    UserDetailTabEnum.CLASS.index -> {
-                        ListClassesScreen(
-                            classes = classes,
-                            isLoading = isLoading,
-                            isOwner = isOwner,
-                            onClassClicked = onClassClick,
-                            onClassRefresh = onRefresh
                         )
                     }
 

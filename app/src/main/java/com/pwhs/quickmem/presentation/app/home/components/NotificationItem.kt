@@ -29,7 +29,6 @@ import com.pwhs.quickmem.utils.calculateTimeAgo
 fun NotificationItem(
     notification: GetNotificationResponseModel,
     onMarkAsRead: (String) -> Unit,
-    onNotificationClicked: (GetNotificationResponseModel) -> Unit
 ) {
 
     val backgroundColor = if (notification.isRead) {
@@ -53,7 +52,6 @@ fun NotificationItem(
             if (!notification.isRead) {
                 onMarkAsRead(notification.id)
             }
-            onNotificationClicked(notification)
         },
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor

@@ -70,7 +70,6 @@ class UserDetailViewModel @Inject constructor(
                                 userName = resource.data?.username ?: "",
                                 avatarUrl = resource.data?.avatarUrl ?: "",
                                 studySets = resource.data?.studySets ?: emptyList(),
-                                classes = resource.data?.classes ?: emptyList(),
                                 folders = resource.data?.folders ?: emptyList()
                             )
                         }

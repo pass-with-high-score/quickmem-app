@@ -60,7 +60,6 @@ import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.NavGraphs
-import com.ramcosta.composedestinations.generated.destinations.AddStudySetToClassesScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.AddStudySetToFoldersScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.CreateFlashCardScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.EditFlashCardScreenDestination
@@ -354,13 +353,6 @@ fun StudySetDetailScreen(
         onDeleteFlashCard = {
             viewModel.onEvent(StudySetDetailUiAction.OnDeleteFlashCardClicked)
         },
-        onAddToClass = {
-            navigator.navigate(
-                AddStudySetToClassesScreenDestination(
-                    studySetId = uiState.id
-                )
-            )
-        },
         onAddToFolder = {
             navigator.navigate(
                 AddStudySetToFoldersScreenDestination(
@@ -461,7 +453,6 @@ fun StudySetDetail(
     onEditFlashCard: () -> Unit = {},
     onNavigateToStudySetInfo: () -> Unit = {},
     onEditStudySet: () -> Unit = {},
-    onAddToClass: () -> Unit = {},
     onAddToFolder: () -> Unit = {},
     onDeleteStudySet: () -> Unit = {},
     onResetProgress: () -> Unit = {},
@@ -629,7 +620,6 @@ fun StudySetDetail(
         onDeleteStudySet = {
             showDeleteConfirmationDialog = true
         },
-        onAddToClass = onAddToClass,
         onAddToFolder = onAddToFolder,
         showMoreBottomSheet = showMoreBottomSheet,
         sheetShowMoreState = sheetShowMoreState,

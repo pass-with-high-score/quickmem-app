@@ -21,12 +21,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.domain.model.classes.GetClassByOwnerResponseModel
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.domain.model.users.SearchUserResponseModel
 import com.pwhs.quickmem.domain.model.users.UserResponseModel
-import com.pwhs.quickmem.presentation.app.library.classes.component.ClassItem
 import com.pwhs.quickmem.presentation.app.library.folder.component.FolderItem
 import com.pwhs.quickmem.presentation.app.library.study_set.component.StudySetItem
 import com.pwhs.quickmem.presentation.app.search_result.all_result.component.SectionHeader
@@ -40,16 +38,13 @@ fun ListAllResultScreen(
     onStudySetClick: (GetStudySetResponseModel?) -> Unit = {},
     folders: LazyPagingItems<GetFolderResponseModel>? = null,
     onFolderClick: (GetFolderResponseModel?) -> Unit = {},
-    classes: LazyPagingItems<GetClassByOwnerResponseModel>? = null,
-    onClassClicked: (GetClassByOwnerResponseModel?) -> Unit = {},
     users: LazyPagingItems<SearchUserResponseModel>? = null,
     onUserItemClicked: (SearchUserResponseModel?) -> Unit = {},
     onSeeAllClickStudySet: () -> Unit = {},
     onSeeAllClickFolder: () -> Unit = {},
-    onSeeAllClickClass: () -> Unit = {},
     onSeeAllClickUsers: () -> Unit = {},
 ) {
-    when (studySets?.itemCount == 0 && folders?.itemCount == 0 && classes?.itemCount == 0 && users?.itemCount == 0) {
+    when (studySets?.itemCount == 0 && folders?.itemCount == 0  && users?.itemCount == 0) {
         true -> {
             Column(
                 modifier = modifier
@@ -113,23 +108,6 @@ fun ListAllResultScreen(
                         )
                     }
                 }
-
-                if (classes?.itemCount != 0) {
-                    item {
-                        SectionHeader(
-                            title = stringResource(R.string.txt_classes),
-                            onSeeAllClick = onSeeAllClickClass
-                        )
-                    }
-                    items(classes?.itemCount?.coerceAtMost(4) ?: 0) {
-                        val classItem = classes?.get(it)
-                        ClassItem(
-                            classItem = classItem,
-                            onClick = { onClassClicked(classItem) }
-                        )
-                    }
-                }
-
                 if (users?.itemCount != 0) {
                     item {
                         SectionHeader(

@@ -5,14 +5,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.pwhs.quickmem.domain.model.classes.GetClassByOwnerResponseModel
 import com.pwhs.quickmem.domain.model.color.ColorModel
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.domain.model.subject.SubjectModel
 import com.pwhs.quickmem.domain.model.users.SearchUserResponseModel
 import com.pwhs.quickmem.domain.repository.AuthRepository
-import com.pwhs.quickmem.domain.repository.ClassRepository
 import com.pwhs.quickmem.domain.repository.FolderRepository
 import com.pwhs.quickmem.domain.repository.StudySetRepository
 import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchResultCreatorEnum
@@ -38,7 +36,6 @@ import javax.inject.Inject
 class SearchResultViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val studySetRepository: StudySetRepository,
-    private val classRepository: ClassRepository,
     private val folderRepository: FolderRepository,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
@@ -56,10 +53,6 @@ class SearchResultViewModel @Inject constructor(
         MutableStateFlow(PagingData.empty())
     val folderState: MutableStateFlow<PagingData<GetFolderResponseModel>> = _folderState
 
-    private val _classState: MutableStateFlow<PagingData<GetClassByOwnerResponseModel>> =
-        MutableStateFlow(PagingData.empty())
-    val classState: MutableStateFlow<PagingData<GetClassByOwnerResponseModel>> = _classState
-
     private val _userState: MutableStateFlow<PagingData<SearchUserResponseModel>> =
         MutableStateFlow(PagingData.empty())
     val userState: MutableStateFlow<PagingData<SearchUserResponseModel>> = _userState
@@ -73,7 +66,6 @@ class SearchResultViewModel @Inject constructor(
                 _uiState.update { it.copy(isLoading = true) }
                 awaitAll(
                     async { getStudySets() },
-                    async { getClasses() },
                     async { getFolders() },
                     async { getUsers() }
                 )
@@ -89,16 +81,8 @@ class SearchResultViewModel @Inject constructor(
         when (event) {
             SearchResultUiAction.Refresh -> {
                 getStudySets()
-                getClasses()
                 getFolders()
                 getUsers()
-            }
-
-            SearchResultUiAction.RefreshClasses -> {
-                viewModelScope.launch {
-                    delay(500)
-                    getClasses()
-                }
             }
 
             SearchResultUiAction.RefreshFolders -> {
@@ -120,7 +104,6 @@ class SearchResultViewModel @Inject constructor(
                 viewModelScope.launch {
                     delay(500)
                     launch { getStudySets() }
-                    launch { getClasses() }
                     launch { getFolders() }
                     launch { getUsers() }
                 }
@@ -225,30 +208,6 @@ class SearchResultViewModel @Inject constructor(
             } catch (e: Exception) {
                 _uiState.update { it.copy(isLoading = false) }
                 _uiEvent.send(SearchResultUiEvent.Error(e.message ?: "An error occurred"))
-            }
-        }
-    }
-
-    private fun getClasses() {
-        viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true) }
-            try {
-                classRepository.getSearchResultClasses(
-                    title = _uiState.value.query,
-                    page = 1
-                ).distinctUntilChanged()
-                    .onStart {
-                        _classState.value = PagingData.empty()
-                    }
-                    .cachedIn(viewModelScope)
-                    .onCompletion {
-                        _uiState.update { it.copy(isLoading = false) }
-                    }
-                    .collectLatest { resources ->
-                        _classState.value = resources
-                    }
-            } catch (e: Exception) {
-                Timber.e(e, "Failed to get classes")
             }
         }
     }

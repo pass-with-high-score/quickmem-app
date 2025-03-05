@@ -28,7 +28,7 @@ class ReportViewModel @Inject constructor(
 
     init {
         val reportType: ReportTypeEnum =
-            savedStateHandle.get<ReportTypeEnum>("reportType") ?: ReportTypeEnum.CLASS
+            savedStateHandle.get<ReportTypeEnum>("reportType") ?: ReportTypeEnum.USER
         val reportedEntityId: String = savedStateHandle.get<String>("reportedEntityId") ?: ""
         val ownerOfReportedEntity: String =
             savedStateHandle.get<String>("ownerOfReportedEntity") ?: ""

@@ -30,20 +30,6 @@ import com.pwhs.quickmem.data.dto.auth.UpdateUsernameResponseDto
 import com.pwhs.quickmem.data.dto.auth.VerifyEmailRequestDto
 import com.pwhs.quickmem.data.dto.auth.VerifyPasswordRequestDto
 import com.pwhs.quickmem.data.dto.auth.VerifyPasswordResponseDto
-import com.pwhs.quickmem.data.dto.classes.AddStudySetToClassesRequestDto
-import com.pwhs.quickmem.data.dto.classes.CreateClassRequestDto
-import com.pwhs.quickmem.data.dto.classes.CreateClassResponseDto
-import com.pwhs.quickmem.data.dto.classes.DeleteFolderRequestDto
-import com.pwhs.quickmem.data.dto.classes.DeleteStudySetsRequestDto
-import com.pwhs.quickmem.data.dto.classes.ExitClassRequestDto
-import com.pwhs.quickmem.data.dto.classes.GetClassByOwnerResponseDto
-import com.pwhs.quickmem.data.dto.classes.GetClassDetailResponseDto
-import com.pwhs.quickmem.data.dto.classes.InviteToClassRequestDto
-import com.pwhs.quickmem.data.dto.classes.InviteToClassResponseDto
-import com.pwhs.quickmem.data.dto.classes.JoinClassRequestDto
-import com.pwhs.quickmem.data.dto.classes.RemoveMembersRequestDto
-import com.pwhs.quickmem.data.dto.classes.UpdateClassRequestDto
-import com.pwhs.quickmem.data.dto.classes.UpdateClassResponseDto
 import com.pwhs.quickmem.data.dto.flashcard.BufferResponseDto
 import com.pwhs.quickmem.data.dto.flashcard.CreateFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.EditFlashCardDto
@@ -55,7 +41,6 @@ import com.pwhs.quickmem.data.dto.flashcard.RatingFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.TrueFalseStatusFlashCardDto
 import com.pwhs.quickmem.data.dto.flashcard.UpdateFlashCardResponseDto
 import com.pwhs.quickmem.data.dto.flashcard.VoiceDto
-import com.pwhs.quickmem.data.dto.folder.AddFolderToClassRequestDto
 import com.pwhs.quickmem.data.dto.folder.CreateFolderRequestDto
 import com.pwhs.quickmem.data.dto.folder.CreateFolderResponseDto
 import com.pwhs.quickmem.data.dto.folder.GetFolderResponseDto
@@ -71,7 +56,6 @@ import com.pwhs.quickmem.data.dto.report.CreateReportRequestDto
 import com.pwhs.quickmem.data.dto.streak.GetStreakDto
 import com.pwhs.quickmem.data.dto.streak.GetTopStreakResponseDto
 import com.pwhs.quickmem.data.dto.streak.StreakDto
-import com.pwhs.quickmem.data.dto.study_set.AddStudySetToClassRequestDto
 import com.pwhs.quickmem.data.dto.study_set.AddStudySetToFolderRequestDto
 import com.pwhs.quickmem.data.dto.study_set.AddStudySetToFoldersRequestDto
 import com.pwhs.quickmem.data.dto.study_set.CreateStudySetByAIRequestDto
@@ -230,7 +214,6 @@ interface ApiService {
 
     @GET("study-set/owner/")
     suspend fun getStudySetsByOwnerId(
-        @Query("classId") classId: String? = null,
         @Query("folderId") folderId: String? = null,
     ): List<GetStudySetResponseDto>
 
@@ -253,9 +236,6 @@ interface ApiService {
     suspend fun addStudySetToFolders(
         @Body addStudySetToFoldersRequestDto: AddStudySetToFoldersRequestDto,
     )
-
-    @POST("study-set/classes")
-    suspend fun addStudySetToClasses(@Body addStudySetToClassesRequestDto: AddStudySetToClassesRequestDto)
 
     @GET("study-set/search")
     suspend fun searchStudySet(
@@ -394,7 +374,6 @@ interface ApiService {
 
     @GET("folder/owner")
     suspend fun getFoldersByOwnerId(
-        @Query("classId") classId: String? = null,
         @Query("studySetId") studySetId: String? = null,
     ): List<GetFolderResponseDto>
 
@@ -424,69 +403,6 @@ interface ApiService {
         @Path("id") id: String,
         @Query("resetType") resetType: String,
     )
-
-    // Class
-    @POST("class")
-    suspend fun createClass(@Body createClassRequestDto: CreateClassRequestDto): CreateClassResponseDto
-
-    @GET("class/{id}")
-    suspend fun getClassByID(@Path("id") id: String): GetClassDetailResponseDto
-
-    @GET("class/user")
-    suspend fun getClassByOwnerID(
-        @Query("folderId") folderId: String?,
-        @Query("studySetId") studySetId: String?,
-    ): List<GetClassByOwnerResponseDto>
-
-    @DELETE("class/{id}")
-    suspend fun deleteClass(@Path("id") id: String)
-
-    @PUT("class/{id}")
-    suspend fun updateClass(
-        @Path("id") id: String,
-        @Body updateClassRequestDto: UpdateClassRequestDto,
-    ): UpdateClassResponseDto
-
-    @POST("class/study-sets")
-    suspend fun addStudySetToClass(@Body addStudySetToClassRequestDto: AddStudySetToClassRequestDto)
-
-    @POST("class/folders")
-    suspend fun addFolderToClass(@Body addFolderToClassRequestDto: AddFolderToClassRequestDto)
-
-    @GET("class/search")
-    suspend fun searchClass(
-        @Query("title") title: String,
-        @Query("page") page: Int?,
-    ): List<GetClassByOwnerResponseDto>
-
-    @GET("class/token/{joinToken}")
-    suspend fun getClassByJoinToken(@Path("joinToken") joinToken: String): GetClassDetailResponseDto
-
-    @POST("class/join")
-    suspend fun joinClass(@Body joinClassRequestDto: JoinClassRequestDto)
-
-    @POST("class/exit")
-    suspend fun exitClass(@Body exitClassRequestDto: ExitClassRequestDto)
-
-    @POST("class/members")
-    suspend fun removeMembers(@Body removeMembersRequestDto: RemoveMembersRequestDto)
-
-    @POST("class/remove-study-set")
-    suspend fun deleteStudySetInClass(@Body deleteStudySetsRequestDto: DeleteStudySetsRequestDto)
-
-    @POST("class/remove-folder")
-    suspend fun deleteFolderInClass(@Body deleteFolderRequestDto: DeleteFolderRequestDto)
-
-    @POST("class/recent/{id}")
-    suspend fun saveRecentClass(@Path("id") id: String)
-
-    @GET("class/recent")
-    suspend fun getRecentClass(): List<GetClassByOwnerResponseDto>
-
-    @POST("class/invite")
-    suspend fun inviteUserToClass(
-        @Body inviteToClassRequestDto: InviteToClassRequestDto,
-    ): InviteToClassResponseDto
 
     // Streak
     @GET("streak")

@@ -74,8 +74,8 @@ fun ReportScreen(
 
     Report(
         isLoading = uiState.isLoading,
-        title = uiState.reportType?.title ?: R.string.txt_report_this_class,
-        questionText = uiState.reportType?.questionText ?: R.string.txt_why_report_this_class,
+        title = uiState.reportType?.title,
+        questionText = uiState.reportType?.questionText,
         options = uiState.reportType?.options ?: emptyList(),
         selectedReason = uiState.reason,
         onReasonSelected = { reason ->
@@ -93,9 +93,9 @@ fun ReportScreen(
 @Composable
 fun Report(
     modifier: Modifier = Modifier,
-    @StringRes title: Int,
+    @StringRes title: Int?,
     isLoading: Boolean = false,
-    @StringRes questionText: Int,
+    @StringRes questionText: Int?,
     @StringRes options: List<Int>,
     selectedReason: String,
     onReasonSelected: (Int) -> Unit,
@@ -120,13 +120,15 @@ fun Report(
                             .padding(end = 35.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(
-                            text = stringResource(title),
-                            style = MaterialTheme.typography.titleMedium.copy(
-                                fontWeight = FontWeight.Bold
-                            ),
-                            fontSize = 20.sp
-                        )
+                        title?.let {
+                            Text(
+                                text = stringResource(it),
+                                style = MaterialTheme.typography.titleMedium.copy(
+                                    fontWeight = FontWeight.Bold
+                                ),
+                                fontSize = 20.sp
+                            )
+                        }
                     }
                 }
             )
@@ -141,12 +143,14 @@ fun Report(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.Start
             ) {
-                Text(
-                    text = stringResource(questionText),
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier.padding(bottom = 16.dp)
-                )
-
+                questionText?.let {
+                    Text(
+                        text = stringResource(it),
+                        style = MaterialTheme.typography.titleMedium,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                }
+                
                 options.forEach { reason ->
                     Row(
                         modifier = Modifier
@@ -188,28 +192,5 @@ fun Report(
             }
             LoadingOverlay(isLoading = isLoading)
         }
-    }
-}
-
-@Preview(showSystemUi = true)
-@Preview(showSystemUi = true, locale = "vi")
-@Composable
-fun ReportScreenPreview() {
-    QuickMemTheme {
-        Report(
-            title = R.string.txt_report_this_class,
-            questionText = R.string.txt_why_report_this_class,
-            options = listOf(
-                R.string.txt_class_name_misleading,
-                R.string.txt_class_inappropriate,
-                R.string.txt_class_cheating,
-                R.string.txt_class_ip_violation,
-                R.string.txt_class_joining_trouble
-            ),
-            selectedReason = "",
-            onReasonSelected = {},
-            onContinue = {},
-            onBackClick = {}
-        )
     }
 }

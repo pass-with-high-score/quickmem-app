@@ -34,14 +34,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.core.data.enums.NotificationType
 import com.pwhs.quickmem.domain.model.notification.GetNotificationResponseModel
 import com.pwhs.quickmem.presentation.app.home.components.NotificationItem
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
-import com.ramcosta.composedestinations.generated.destinations.JoinClassScreenDestination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.result.ResultBackNavigator
 
 @Destination<RootGraph>
@@ -49,7 +46,6 @@ import com.ramcosta.composedestinations.result.ResultBackNavigator
 fun NotificationScreen(
     viewModel: NotificationViewModel = hiltViewModel(),
     resultNavigator: ResultBackNavigator<Boolean>,
-    navigator: DestinationsNavigator,
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -58,15 +54,6 @@ fun NotificationScreen(
         notifications = uiState.notifications,
         onMarkAsRead = { notificationId ->
             viewModel.onEvent(NotificationUiAction.MarkAsRead(notificationId))
-        },
-        onNotificationClicked = { notification ->
-            if (notification.data?.id?.isNotEmpty() == true && notification.data.code?.isNotEmpty() == true && notification.notificationType == NotificationType.INVITE_USER_JOIN_CLASS) {
-                navigator.navigate(
-                    JoinClassScreenDestination(
-                        code = notification.data.code,
-                    )
-                )
-            }
         },
         onClearAll = {
             viewModel.onEvent(NotificationUiAction.ClearAllNotifications)
@@ -86,7 +73,6 @@ fun Notification(
     isLoading: Boolean = false,
     notifications: List<GetNotificationResponseModel> = emptyList(),
     onMarkAsRead: (String) -> Unit = {},
-    onNotificationClicked: (GetNotificationResponseModel) -> Unit = {},
     onClearAll: () -> Unit = {},
     onNavigateBack: () -> Unit = {},
     onRefresh: () -> Unit = {},
@@ -168,7 +154,6 @@ fun Notification(
                                 onMarkAsRead = {
                                     onMarkAsRead(it)
                                 },
-                                onNotificationClicked = onNotificationClicked
                             )
                             HorizontalDivider(
                                 modifier = Modifier.padding(horizontal = 10.dp),

@@ -34,7 +34,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.domain.model.classes.GetClassByOwnerResponseModel
 import com.pwhs.quickmem.domain.model.color.ColorModel
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
@@ -42,7 +41,6 @@ import com.pwhs.quickmem.domain.model.subject.SubjectModel
 import com.pwhs.quickmem.domain.model.users.SearchUserResponseModel
 import com.pwhs.quickmem.presentation.ads.BannerAds
 import com.pwhs.quickmem.presentation.app.search_result.all_result.ListAllResultScreen
-import com.pwhs.quickmem.presentation.app.search_result.classes.ListResultClassesScreen
 import com.pwhs.quickmem.presentation.app.search_result.component.SearchResultEnum
 import com.pwhs.quickmem.presentation.app.search_result.component.TopBarSearchResult
 import com.pwhs.quickmem.presentation.app.search_result.folder.ListResultFolderScreen
@@ -55,7 +53,6 @@ import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
-import com.ramcosta.composedestinations.generated.destinations.ClassDetailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.FolderDetailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.UserDetailScreenDestination
@@ -82,8 +79,6 @@ fun SearchResultScreen(
     val folderItems: LazyPagingItems<GetFolderResponseModel> =
         viewModel.folderState.collectAsLazyPagingItems()
 
-    val classItems: LazyPagingItems<GetClassByOwnerResponseModel> =
-        viewModel.classState.collectAsLazyPagingItems()
 
     val userItems: LazyPagingItems<SearchUserResponseModel> =
         viewModel.userState.collectAsLazyPagingItems()
@@ -103,7 +98,6 @@ fun SearchResultScreen(
         query = uiState.query,
         onTabSelected = { tabIndex = it },
         studySets = studySetItems,
-        classes = classItems,
         folders = folderItems,
         users = userItems,
         colorModel = uiState.colorModel,
@@ -132,9 +126,6 @@ fun SearchResultScreen(
         onStudySetRefresh = {
             viewModel.onEvent(SearchResultUiAction.RefreshStudySets)
         },
-        onClassRefresh = {
-            viewModel.onEvent(SearchResultUiAction.RefreshClasses)
-        },
         onFolderRefresh = {
             viewModel.onEvent(SearchResultUiAction.RefreshFolders)
         },
@@ -142,15 +133,6 @@ fun SearchResultScreen(
             navigator.navigate(
                 StudySetDetailScreenDestination(
                     id = it?.id ?: "",
-                )
-            )
-        },
-        onClassClick = {
-            navigator.navigate(
-                ClassDetailScreenDestination(
-                    id = it?.id ?: "",
-                    title = it?.title ?: "",
-                    description = it?.description ?: ""
                 )
             )
         },
@@ -174,7 +156,6 @@ fun SearchResultScreen(
         onResetClick = {
             viewModel.onEvent(SearchResultUiAction.ResetFilter)
         },
-        onSeeAllClickClass = { tabIndex = SearchResultEnum.CLASS.index },
         onSeeAllClickFolder = { tabIndex = SearchResultEnum.FOLDER.index },
         onSeeAllClickStudySet = { tabIndex = SearchResultEnum.STUDY_SET.index },
         onSeeAllClickUsers = { tabIndex = SearchResultEnum.USER.index }
@@ -200,21 +181,17 @@ fun SearchResult(
     onIsAiGeneratedChange: (Boolean) -> Unit = {},
     onApplyClick: () -> Unit = {},
     onStudySetRefresh: () -> Unit = {},
-    onClassRefresh: () -> Unit = {},
     onFolderRefresh: () -> Unit = {},
     studySets: LazyPagingItems<GetStudySetResponseModel>? = null,
-    classes: LazyPagingItems<GetClassByOwnerResponseModel>? = null,
     folders: LazyPagingItems<GetFolderResponseModel>? = null,
     users: LazyPagingItems<SearchUserResponseModel>? = null,
     onStudySetClick: (GetStudySetResponseModel?) -> Unit = {},
-    onClassClick: (GetClassByOwnerResponseModel?) -> Unit = {},
     onFolderClick: (GetFolderResponseModel?) -> Unit = {},
     onUserItemClicked: (SearchUserResponseModel?) -> Unit = {},
     onNavigateBack: () -> Unit = {},
     onResetClick: () -> Unit = {},
     onSeeAllClickStudySet: () -> Unit = {},
     onSeeAllClickFolder: () -> Unit = {},
-    onSeeAllClickClass: () -> Unit = {},
     onSeeAllClickUsers: () -> Unit = {},
 ) {
     var showFilterBottomSheet by remember { mutableStateOf(false) }
@@ -222,7 +199,6 @@ fun SearchResult(
         stringResource(R.string.txt_all_result),
         stringResource(R.string.txt_study_set),
         stringResource(R.string.txt_folder),
-        stringResource(R.string.txt_class),
         stringResource(R.string.txt_user)
     )
     Scaffold(
@@ -277,14 +253,11 @@ fun SearchResult(
                 when (tabIndex) {
                     SearchResultEnum.ALL_RESULT.index -> ListAllResultScreen(
                         studySets = studySets,
-                        classes = classes,
                         folders = folders,
                         users = users,
                         onStudySetClick = onStudySetClick,
                         onFolderClick = onFolderClick,
-                        onClassClicked = onClassClick,
                         onUserItemClicked = onUserItemClicked,
-                        onSeeAllClickClass = onSeeAllClickClass,
                         onSeeAllClickFolder = onSeeAllClickFolder,
                         onSeeAllClickStudySet = onSeeAllClickStudySet,
                         onSeeAllClickUsers = onSeeAllClickUsers,
@@ -301,13 +274,6 @@ fun SearchResult(
                         folders = folders,
                         onFolderClick = onFolderClick,
                         onFolderRefresh = onFolderRefresh
-                    )
-
-                    SearchResultEnum.CLASS.index -> ListResultClassesScreen(
-                        modifier = modifier,
-                        classes = classes,
-                        onClassClicked = onClassClick,
-                        onClassRefresh = onClassRefresh,
                     )
 
                     SearchResultEnum.USER.index -> ListResultUserScreen(

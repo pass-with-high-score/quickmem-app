@@ -5,7 +5,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.data.dto.study_set.MakeACopyStudySetRequestDto
-import com.pwhs.quickmem.data.mapper.classes.toDto
 import com.pwhs.quickmem.data.mapper.study_set.toDto
 import com.pwhs.quickmem.data.mapper.study_set.toModel
 import com.pwhs.quickmem.data.mapper.subject.toModel
@@ -14,8 +13,6 @@ import com.pwhs.quickmem.data.paging.StudySetPagingSource
 import com.pwhs.quickmem.data.remote.ApiService
 import com.pwhs.quickmem.domain.datasource.SearchStudySetBySubjectRemoteDataSource
 import com.pwhs.quickmem.domain.datasource.StudySetRemoteDataSource
-import com.pwhs.quickmem.domain.model.classes.AddStudySetToClassesRequestModel
-import com.pwhs.quickmem.domain.model.study_set.AddStudySetToClassRequestModel
 import com.pwhs.quickmem.domain.model.study_set.AddStudySetToFolderRequestModel
 import com.pwhs.quickmem.domain.model.study_set.AddStudySetToFoldersRequestModel
 import com.pwhs.quickmem.domain.model.study_set.CreateStudySetByAIRequestModel
@@ -80,9 +77,7 @@ class StudySetRepositoryImpl @Inject constructor(
         return flow {
             emit(Resources.Loading())
             try {
-                val response = apiService.getStudySetsByOwnerId(
-                    classId = classId, folderId = folderId
-                )
+                val response = apiService.getStudySetsByOwnerId(folderId = folderId)
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -160,23 +155,6 @@ class StudySetRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addStudySetToClass(
-        addStudySetToClassRequestModel: AddStudySetToClassRequestModel,
-    ): Flow<Resources<Unit>> {
-        return flow {
-            emit(Resources.Loading())
-            try {
-                apiService.addStudySetToClass(
-                    addStudySetToClassRequestDto = addStudySetToClassRequestModel.toDto()
-                )
-                emit(Resources.Success(Unit))
-            } catch (e: Exception) {
-                Timber.e(e)
-                emit(Resources.Error(e.toString()))
-            }
-        }
-    }
-
     override suspend fun addStudySetToFolders(
         addStudySetToFoldersRequestModel: AddStudySetToFoldersRequestModel,
     ): Flow<Resources<Unit>> {
@@ -185,23 +163,6 @@ class StudySetRepositoryImpl @Inject constructor(
             try {
                 apiService.addStudySetToFolders(
                     addStudySetToFoldersRequestDto = addStudySetToFoldersRequestModel.toDto()
-                )
-                emit(Resources.Success(Unit))
-            } catch (e: Exception) {
-                Timber.e(e)
-                emit(Resources.Error(e.toString()))
-            }
-        }
-    }
-
-    override suspend fun addStudySetToClasses(
-        addStudySetToClassesRequestModel: AddStudySetToClassesRequestModel,
-    ): Flow<Resources<Unit>> {
-        return flow {
-            emit(Resources.Loading())
-            try {
-                apiService.addStudySetToClasses(
-                    addStudySetToClassesRequestDto = addStudySetToClassesRequestModel.toDto()
                 )
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {

@@ -38,19 +38,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.domain.model.classes.GetClassByOwnerResponseModel
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
-import com.pwhs.quickmem.presentation.app.library.classes.ListClassesScreen
 import com.pwhs.quickmem.presentation.app.library.folder.ListFolderScreen
 import com.pwhs.quickmem.presentation.app.library.study_set.ListStudySetScreen
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
-import com.ramcosta.composedestinations.generated.destinations.ClassDetailScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.CreateClassScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.CreateFolderScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.CreateStudySetScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.FolderDetailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -64,26 +59,12 @@ fun LibraryScreen(
     navigator: DestinationsNavigator,
     viewModel: LibraryViewModel = hiltViewModel(),
     resultStudySetDetail: ResultRecipient<StudySetDetailScreenDestination, Boolean>,
-    resultClassDetail: ResultRecipient<ClassDetailScreenDestination, Boolean>,
     resultFolderDetail: ResultRecipient<FolderDetailScreenDestination, Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
 
     resultStudySetDetail.onNavResult { result ->
-        when (result) {
-            NavResult.Canceled -> {
-            }
-
-            is NavResult.Value -> {
-                if (result.value) {
-                    viewModel.onEvent(LibraryUiAction.Refresh)
-                }
-            }
-        }
-    }
-
-    resultClassDetail.onNavResult { result ->
         when (result) {
             NavResult.Canceled -> {
             }
@@ -123,15 +104,11 @@ fun LibraryScreen(
         modifier = modifier,
         isLoading = uiState.isLoading,
         studySets = uiState.studySets,
-        classes = uiState.classes,
         folders = uiState.folders,
         avatarUrl = uiState.userAvatarUrl,
         username = uiState.username,
         onStudySetRefresh = {
             viewModel.onEvent(LibraryUiAction.RefreshStudySets)
-        },
-        onClassRefresh = {
-            viewModel.onEvent(LibraryUiAction.RefreshClasses)
         },
         onFolderRefresh = {
             viewModel.onEvent(LibraryUiAction.RefreshFolders)
@@ -143,27 +120,12 @@ fun LibraryScreen(
                 )
             )
         },
-        onClassClick = {
-            navigator.navigate(
-                ClassDetailScreenDestination(
-                    id = it.id,
-                    title = it.title,
-                    description = it.description
-                )
-            )
-        },
         onFolderClick = {
             navigator.navigate(
                 FolderDetailScreenDestination(
                     id = it.id,
                 )
             )
-        },
-        navigateToCreateStudySet = {
-            navigator.navigate(CreateStudySetScreenDestination())
-        },
-        navigateToCreateClass = {
-            navigator.navigate(CreateClassScreenDestination())
         },
         navigateToCreateFolder = {
             navigator.navigate(CreateFolderScreenDestination())
@@ -179,22 +141,17 @@ fun Library(
     avatarUrl: String = "",
     username: String = "",
     onStudySetRefresh: () -> Unit = {},
-    onClassRefresh: () -> Unit = {},
     onFolderRefresh: () -> Unit = {},
     studySets: List<GetStudySetResponseModel> = emptyList(),
-    classes: List<GetClassByOwnerResponseModel> = emptyList(),
     folders: List<GetFolderResponseModel> = emptyList(),
     onStudySetClick: (GetStudySetResponseModel) -> Unit = {},
-    onClassClick: (GetClassByOwnerResponseModel) -> Unit = {},
     onFolderClick: (GetFolderResponseModel) -> Unit = {},
     navigateToCreateStudySet: () -> Unit = {},
-    navigateToCreateClass: () -> Unit = {},
     navigateToCreateFolder: () -> Unit = {},
 ) {
     var tabIndex by rememberSaveable { mutableIntStateOf(0) }
     val tabTitles = listOf(
         stringResource(R.string.txt_study_sets),
-        stringResource(R.string.txt_classes),
         stringResource(R.string.txt_folders)
     )
     Scaffold(
@@ -223,10 +180,6 @@ fun Library(
                                 when (tabIndex) {
                                     LibraryTabEnum.STUDY_SET.index -> {
                                         navigateToCreateStudySet()
-                                    }
-
-                                    LibraryTabEnum.CLASS.index -> {
-                                        navigateToCreateClass()
                                     }
 
                                     LibraryTabEnum.FOLDER.index -> {
@@ -286,16 +239,6 @@ fun Library(
                     isOwner = true,
                     onStudySetClick = onStudySetClick,
                     onStudySetRefresh = onStudySetRefresh,
-                )
-
-                LibraryTabEnum.CLASS.index -> ListClassesScreen(
-                    modifier = modifier,
-                    isLoading = isLoading,
-                    classes = classes,
-                    isOwner = true,
-                    onAddClassClick = navigateToCreateClass,
-                    onClassClicked = onClassClick,
-                    onClassRefresh = onClassRefresh,
                 )
 
                 LibraryTabEnum.FOLDER.index -> ListFolderScreen(

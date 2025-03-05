@@ -70,11 +70,9 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.domain.model.classes.GetClassByOwnerResponseModel
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.domain.model.subject.SubjectModel
-import com.pwhs.quickmem.presentation.app.home.components.ClassHomeItem
 import com.pwhs.quickmem.presentation.app.home.components.FolderHomeItem
 import com.pwhs.quickmem.presentation.app.home.components.StreakCalendar
 import com.pwhs.quickmem.presentation.app.home.components.StudySetHomeItem
@@ -93,12 +91,9 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.annotation.parameters.DeepLink
 import com.ramcosta.composedestinations.generated.NavGraphs
 import com.ramcosta.composedestinations.generated.destinations.AIGenerativeScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.ClassDetailScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.CreateClassScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.CreateFolderScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.CreateStudySetScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.FolderDetailScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.JoinClassScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.NotificationScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SearchScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SearchStudySetBySubjectScreenDestination
@@ -123,28 +118,16 @@ fun HomeScreen(
     navigator: DestinationsNavigator,
     studySetCode: String? = null,
     folderCode: String? = null,
-    classCode: String? = null,
     viewModel: HomeViewModel = hiltViewModel(),
     resultStudySetDetail: ResultRecipient<StudySetDetailScreenDestination, Boolean>,
-    resultClassDetail: ResultRecipient<ClassDetailScreenDestination, Boolean>,
     resultFolderDetail: ResultRecipient<FolderDetailScreenDestination, Boolean>,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
     var ssCode by rememberSaveable { mutableStateOf(studySetCode) }
     var fCode by rememberSaveable { mutableStateOf(folderCode) }
-    var cCode by rememberSaveable { mutableStateOf(classCode) }
-    LaunchedEffect(key1 = ssCode, key2 = fCode, key3 = cCode) {
+    LaunchedEffect(key1 = ssCode, key2 = fCode) {
         when {
-            cCode != null -> {
-                cCode = null
-                navigator.navigate(
-                    JoinClassScreenDestination(
-                        code = classCode ?: ""
-                    )
-                )
-            }
-
             fCode != null -> {
                 fCode = null
                 navigator.navigate(
@@ -196,19 +179,6 @@ fun HomeScreen(
         }
     }
 
-    resultClassDetail.onNavResult { result ->
-        when (result) {
-            NavResult.Canceled -> {
-            }
-
-            is NavResult.Value -> {
-                if (result.value) {
-                    viewModel.onEvent(HomeUiAction.RefreshHome)
-                }
-            }
-        }
-    }
-
     resultFolderDetail.onNavResult { result ->
         when (result) {
             NavResult.Canceled -> {
@@ -237,21 +207,11 @@ fun HomeScreen(
         subjects = uiState.subjects,
         studySets = uiState.studySets,
         folders = uiState.folders,
-        classes = uiState.classes,
         notificationCount = uiState.notificationCount,
         onStudySetClick = {
             navigator.navigate(
                 StudySetDetailScreenDestination(
                     id = it.id,
-                )
-            )
-        },
-        onClassClicked = {
-            navigator.navigate(
-                ClassDetailScreenDestination(
-                    id = it.id,
-                    title = it.title,
-                    description = it.description
                 )
             )
         },
@@ -295,9 +255,6 @@ fun HomeScreen(
         onNavigateToCreateFolder = {
             navigator.navigate(CreateFolderScreenDestination())
         },
-        onNavigateToCreateClass = {
-            navigator.navigate(CreateClassScreenDestination())
-        },
         onNavigateToCreateStudySetByAI = {
             navigator.navigate(
                 AIGenerativeScreenDestination()
@@ -315,8 +272,6 @@ private fun Home(
     subjects: List<SubjectModel> = emptyList(),
     studySets: List<GetStudySetResponseModel> = emptyList(),
     folders: List<GetFolderResponseModel> = emptyList(),
-    classes: List<GetClassByOwnerResponseModel> = emptyList(),
-    onClassClicked: (GetClassByOwnerResponseModel) -> Unit = {},
     onStudySetClick: (GetStudySetResponseModel) -> Unit = {},
     onFolderClick: (GetFolderResponseModel) -> Unit = {},
     notificationCount: Int = 0,
@@ -330,7 +285,6 @@ private fun Home(
     onNavigateToNotification: () -> Unit = {},
     onNavigateToCreateStudySet: () -> Unit = {},
     onNavigateToCreateFolder: () -> Unit = {},
-    onNavigateToCreateClass: () -> Unit = {},
     onNavigateToCreateStudySetByAI: () -> Unit = {},
 ) {
 
@@ -405,7 +359,7 @@ private fun Home(
                                 modifier = Modifier.size(30.dp)
                             )
                             Text(
-                                text = stringResource(R.string.txt_study_sets_folders_class),
+                                text = stringResource(R.string.txt_study_sets_folders),
                                 style = typography.bodyMedium.copy(
                                     color = colorScheme.secondary,
                                     fontWeight = FontWeight.Bold
@@ -503,7 +457,7 @@ private fun Home(
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp)
             ) {
-                if (studySets.isEmpty() && classes.isEmpty() && folders.isEmpty() && !isLoading) {
+                if (studySets.isEmpty() &&  folders.isEmpty() && !isLoading) {
                     item {
                         Text(
                             text = stringResource(R.string.txt_here_is_how_to_get_started),
@@ -607,34 +561,6 @@ private fun Home(
                                     numOfStudySets = folder.studySetCount,
                                     onClick = { onFolderClick(folder) },
                                     userResponseModel = folder.owner,
-                                )
-                            }
-                        }
-                    }
-                }
-
-                if (classes.isNotEmpty()) {
-                    item {
-                        Text(
-                            text = stringResource(R.string.txt_classes),
-                            style = typography.titleMedium.copy(
-                                color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(top = 16.dp)
-                        )
-                    }
-
-                    item {
-                        LazyRow(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                        ) {
-                            items(items = classes, key = { it.id }) { classItem ->
-                                ClassHomeItem(
-                                    classItem = classItem,
-                                    onClick = { onClassClicked(classItem) }
                                 )
                             }
                         }
@@ -757,14 +683,6 @@ private fun Home(
                     onClick = {
                         showBottomSheetCreate = false
                         onNavigateToCreateFolder()
-                    }
-                )
-                BottomSheetItem(
-                    title = stringResource(R.string.txt_class),
-                    icon = R.drawable.ic_school,
-                    onClick = {
-                        showBottomSheetCreate = false
-                        onNavigateToCreateClass()
                     }
                 )
             }

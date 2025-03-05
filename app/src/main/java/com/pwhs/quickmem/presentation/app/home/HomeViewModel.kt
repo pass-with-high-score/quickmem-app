@@ -10,7 +10,6 @@ import com.pwhs.quickmem.domain.model.notification.DeviceTokenRequestModel
 import com.pwhs.quickmem.domain.model.streak.StreakModel
 import com.pwhs.quickmem.domain.model.subject.GetTop5SubjectResponseModel
 import com.pwhs.quickmem.domain.model.subject.SubjectModel
-import com.pwhs.quickmem.domain.repository.ClassRepository
 import com.pwhs.quickmem.domain.repository.FirebaseRepository
 import com.pwhs.quickmem.domain.repository.FolderRepository
 import com.pwhs.quickmem.domain.repository.NotificationRepository
@@ -39,7 +38,6 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(
     private val studySetRepository: StudySetRepository,
     private val folderRepository: FolderRepository,
-    private val classRepository: ClassRepository,
     private val notificationRepository: NotificationRepository,
     private val firebaseRepository: FirebaseRepository,
     private val streakRepository: StreakRepository,
@@ -71,7 +69,6 @@ class HomeViewModel @Inject constructor(
             if (userId.isNotEmpty()) {
                 getRecentAccessStudySets()
                 getRecentAccessFolders()
-                getRecentAccessClasses()
                 getTop5Subjects()
                 getCustomerInfo()
                 loadNotifications()
@@ -226,29 +223,6 @@ class HomeViewModel @Inject constructor(
                         _uiState.value = _uiState.value.copy(
                             isLoading = false,
                             folders = resource.data ?: emptyList()
-                        )
-                    }
-
-                    is Resources.Error -> {
-                        _uiState.value = _uiState.value.copy(isLoading = false)
-                    }
-                }
-            }
-        }
-    }
-
-    private fun getRecentAccessClasses() {
-        viewModelScope.launch {
-            classRepository.getRecentAccessClass().collect { resource ->
-                when (resource) {
-                    is Resources.Loading -> {
-                        _uiState.value = _uiState.value.copy(isLoading = true)
-                    }
-
-                    is Resources.Success -> {
-                        _uiState.value = _uiState.value.copy(
-                            isLoading = false,
-                            classes = resource.data ?: emptyList()
                         )
                     }
 

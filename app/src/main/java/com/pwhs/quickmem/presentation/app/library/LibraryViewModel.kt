@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.utils.Resources
-import com.pwhs.quickmem.domain.repository.ClassRepository
 import com.pwhs.quickmem.domain.repository.FolderRepository
 import com.pwhs.quickmem.domain.repository.StudySetRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class LibraryViewModel @Inject constructor(
     private val studySetRepository: StudySetRepository,
-    private val classRepository: ClassRepository,
     private val folderRepository: FolderRepository,
     private val appManager: AppManager,
 ) : ViewModel() {
@@ -45,7 +43,6 @@ class LibraryViewModel @Inject constructor(
             if (userId.isNotEmpty()) {
                 getUserInfo()
                 getStudySets()
-                getClasses()
                 getFolders()
             }
         }
@@ -62,14 +59,6 @@ class LibraryViewModel @Inject constructor(
                 job = viewModelScope.launch {
                     delay(500)
                     getStudySets()
-                }
-            }
-
-            LibraryUiAction.RefreshClasses -> {
-                job?.cancel()
-                job = viewModelScope.launch {
-                    delay(500)
-                    getClasses()
                 }
             }
 
@@ -124,41 +113,6 @@ class LibraryViewModel @Inject constructor(
                         is Resources.Loading -> {
                             _uiState.update {
                                 it.copy(isLoading = true)
-                            }
-                        }
-                    }
-                }
-        }
-    }
-
-    private fun getClasses() {
-        viewModelScope.launch {
-            classRepository.getClassByOwnerId(folderId = null, studySetId = null)
-                .collectLatest { resource ->
-                    when (resource) {
-                        is Resources.Error -> {
-                            _uiState.update {
-                                it.copy(isLoading = false)
-                            }
-                            _uiEvent.send(
-                                LibraryUiEvent.Error(
-                                    resource.message ?: "An error occurred"
-                                )
-                            )
-                        }
-
-                        is Resources.Loading -> {
-                            _uiState.update {
-                                it.copy(isLoading = true)
-                            }
-                        }
-
-                        is Resources.Success -> {
-                            _uiState.update {
-                                it.copy(
-                                    classes = resource.data ?: emptyList(),
-                                    isLoading = false,
-                                )
                             }
                         }
                     }

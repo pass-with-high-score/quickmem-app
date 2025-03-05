@@ -86,17 +86,6 @@
                     android:path="/study-set"
                     android:scheme="quickmem" />
             </intent-filter>
-            <intent-filter android:label="@string/label_join_class">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="join"
-                    android:path="/class"
-                    android:scheme="quickmem" />
-            </intent-filter>
         </activity>
 
         <service

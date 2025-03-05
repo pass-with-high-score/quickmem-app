@@ -18,17 +18,6 @@ enum class ReportTypeEnum(
             R.string.txt_set_ip_violation
         )
     ),
-    CLASS(
-        title = R.string.txt_report_this_class,
-        questionText = R.string.txt_why_report_this_class,
-        options = listOf(
-            R.string.txt_class_name_misleading,
-            R.string.txt_class_inappropriate,
-            R.string.txt_class_cheating,
-            R.string.txt_class_ip_violation,
-            R.string.txt_class_joining_trouble
-        )
-    ),
     USER(
         title = R.string.txt_report_this_user,
         questionText = R.string.txt_why_report_this_user,

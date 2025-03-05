@@ -2,7 +2,6 @@ package com.pwhs.quickmem.domain.repository
 
 import androidx.paging.PagingData
 import com.pwhs.quickmem.core.utils.Resources
-import com.pwhs.quickmem.domain.model.folder.AddFolderToClassRequestModel
 import com.pwhs.quickmem.domain.model.folder.CreateFolderRequestModel
 import com.pwhs.quickmem.domain.model.folder.CreateFolderResponseModel
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
@@ -30,10 +29,6 @@ interface FolderRepository {
 
     suspend fun deleteFolder(
         folderId: String,
-    ): Flow<Resources<Unit>>
-
-    suspend fun addFolderToClass(
-        addFolderToClassRequestModel: AddFolderToClassRequestModel,
     ): Flow<Resources<Unit>>
 
     suspend fun getSearchResultFolders(

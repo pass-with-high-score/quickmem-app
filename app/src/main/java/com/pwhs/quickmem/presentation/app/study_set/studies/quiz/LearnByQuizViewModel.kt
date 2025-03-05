@@ -260,7 +260,6 @@ class LearnByQuizViewModel @Inject constructor(
                     }
                 }
 
-                LearnFrom.CLASS -> TODO()
             }
         }
     }

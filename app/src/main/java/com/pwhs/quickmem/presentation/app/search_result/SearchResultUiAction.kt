@@ -8,7 +8,6 @@ import com.pwhs.quickmem.presentation.app.search_result.study_set.enums.SearchRe
 sealed class SearchResultUiAction() {
     data object Refresh : SearchResultUiAction()
     data object RefreshStudySets : SearchResultUiAction()
-    data object RefreshClasses : SearchResultUiAction()
     data object RefreshFolders : SearchResultUiAction()
     data object RefreshSearchAllResult : SearchResultUiAction()
     data class SubjectChanged(val subjectModel: SubjectModel) : SearchResultUiAction()
