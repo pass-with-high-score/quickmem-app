@@ -9,7 +9,6 @@ fun CreateReportRequestModel.toDto(): CreateReportRequestDto {
         reportedEntityId = reportedEntityId,
         ownerOfReportedEntityId = ownerOfReportedEntityId,
         reportedType = reportedType,
-        reporterId = reporterId
     )
 }
 
@@ -19,6 +18,5 @@ fun CreateReportRequestDto.toModel(): CreateReportRequestModel {
         reportedEntityId = reportedEntityId,
         ownerOfReportedEntityId = ownerOfReportedEntityId,
         reportedType = reportedType,
-        reporterId = reporterId
     )
 }

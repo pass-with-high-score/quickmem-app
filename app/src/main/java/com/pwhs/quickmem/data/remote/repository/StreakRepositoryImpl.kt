@@ -1,7 +1,6 @@
 package com.pwhs.quickmem.data.remote.repository
 
 import com.pwhs.quickmem.core.utils.Resources
-import com.pwhs.quickmem.data.dto.streak.IncreaseStreakDto
 import com.pwhs.quickmem.data.mapper.streak.toModel
 import com.pwhs.quickmem.data.remote.ApiService
 import com.pwhs.quickmem.domain.model.streak.GetStreakModel
@@ -16,13 +15,11 @@ import javax.inject.Inject
 class StreakRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
 ) : StreakRepository {
-    override suspend fun getStreaksByUserId(
-        userId: String,
-    ): Flow<Resources<GetStreakModel>> {
+    override suspend fun getStreaksByUserId(): Flow<Resources<GetStreakModel>> {
         return flow {
             emit(Resources.Loading())
             try {
-                val response = apiService.getStreaksByUserId(userId)
+                val response = apiService.getStreaksByUserId()
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)
@@ -32,12 +29,11 @@ class StreakRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateStreak(
-        userId: String,
     ): Flow<Resources<StreakModel>> {
         return flow {
             emit(Resources.Loading())
             try {
-                val response = apiService.updateStreak(IncreaseStreakDto(userId))
+                val response = apiService.updateStreak()
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)

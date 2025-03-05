@@ -11,5 +11,4 @@ data class CreateStudySetByAIRequestModel(
     val numberOfFlashcards: Int = 15,
     val questionType: String = QuestionType.MULTIPLE_CHOICE.type,
     val title: String,
-    val userId: String,
 )

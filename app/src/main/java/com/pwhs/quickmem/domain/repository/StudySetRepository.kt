@@ -80,7 +80,6 @@ interface StudySetRepository {
 
     suspend fun makeCopyStudySet(
         studySetId: String,
-        newOwnerId: String,
     ): Flow<Resources<CreateStudySetResponseModel>>
 
     suspend fun getTop5Subject(
@@ -95,9 +94,7 @@ interface StudySetRepository {
         saveRecentAccessStudySetRequestModel: SaveRecentAccessStudySetRequestModel,
     ): Flow<Resources<Unit>>
 
-    suspend fun getRecentAccessStudySet(
-        userId: String,
-    ): Flow<Resources<List<GetStudySetResponseModel>>>
+    suspend fun getRecentAccessStudySet(): Flow<Resources<List<GetStudySetResponseModel>>>
 
     suspend fun createStudySetByAI(
         createStudySetByAIRequestModel: CreateStudySetByAIRequestModel,

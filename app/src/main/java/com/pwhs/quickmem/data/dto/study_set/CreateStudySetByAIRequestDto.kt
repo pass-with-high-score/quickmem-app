@@ -18,6 +18,4 @@ data class CreateStudySetByAIRequestDto(
     val questionType: String = QuestionType.MULTIPLE_CHOICE.type,
     @SerializedName("title")
     val title: String,
-    @SerializedName("userId")
-    val userId: String
 )

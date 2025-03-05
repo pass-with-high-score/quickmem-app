@@ -54,7 +54,7 @@ class ProfileViewModel @Inject constructor(
                 loadProfile()
                 getUserProfile()
                 getCustomerInfo()
-                getStudyTime(userId = userId)
+                getStudyTime()
             }
         }
         getStreaksByUserId()
@@ -170,10 +170,10 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun getStudyTime(userId: String) {
+    private fun getStudyTime() {
         viewModelScope.launch {
 
-            studyTimeRepository.getStudyTimeByUser(userId = userId).collectLatest { resource ->
+            studyTimeRepository.getStudyTimeByUser().collectLatest { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.update { it.copy(isLoading = true) }
@@ -201,8 +201,7 @@ class ProfileViewModel @Inject constructor(
 
     private fun getStreaksByUserId() {
         viewModelScope.launch {
-            val userId = appManager.userId.firstOrNull() ?: return@launch
-            streakRepository.getStreaksByUserId(userId = userId).collect { resource ->
+            streakRepository.getStreaksByUserId().collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         // Do nothing

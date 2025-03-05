@@ -8,7 +8,6 @@ fun CreateStudyTimeModel.toDto(): CreateStudyTimeDto {
         learnMode = learnMode,
         studySetId = studySetId,
         timeSpent = timeSpent,
-        userId = userId
     )
 }
 
@@ -17,6 +16,5 @@ fun CreateStudyTimeDto.toModel(): CreateStudyTimeModel {
         learnMode = learnMode,
         studySetId = studySetId,
         timeSpent = timeSpent,
-        userId = userId
     )
 }

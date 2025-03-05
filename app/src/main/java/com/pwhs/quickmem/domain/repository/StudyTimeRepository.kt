@@ -11,9 +11,7 @@ interface StudyTimeRepository {
         studySetId: String,
     ): Flow<Resources<GetStudyTimeByStudySetResponseModel>>
 
-    suspend fun getStudyTimeByUser(
-        userId: String,
-    ): Flow<Resources<GetStudyTimeByUserResponseModel>>
+    suspend fun getStudyTimeByUser(): Flow<Resources<GetStudyTimeByUserResponseModel>>
 
     suspend fun createStudyTime(
         createStudyTimeModel: CreateStudyTimeModel,

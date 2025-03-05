@@ -7,8 +7,8 @@ import com.pwhs.quickmem.domain.model.streak.StreakModel
 import kotlinx.coroutines.flow.Flow
 
 interface StreakRepository {
-    suspend fun getStreaksByUserId(userId: String): Flow<Resources<GetStreakModel>>
-    suspend fun updateStreak(userId: String): Flow<Resources<StreakModel>>
+    suspend fun getStreaksByUserId(): Flow<Resources<GetStreakModel>>
+    suspend fun updateStreak(): Flow<Resources<StreakModel>>
     suspend fun getTopStreaks(
         limit: Int?,
     ): Flow<Resources<List<GetTopStreakResponseModel>>>

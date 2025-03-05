@@ -7,7 +7,6 @@ fun CreateStudySetRequestModel.toDto() = CreateStudySetRequestDto(
     colorId = colorId,
     description = description.trim(),
     isPublic = isPublic,
-    ownerId = ownerId,
     subjectId = subjectId,
     title = title.trim()
 )
@@ -16,7 +15,6 @@ fun CreateStudySetRequestDto.toModel() = CreateStudySetRequestModel(
     colorId = colorId,
     description = description.trim(),
     isPublic = isPublic,
-    ownerId = ownerId,
     subjectId = subjectId,
     title = title.trim()
 )

@@ -10,7 +10,6 @@ fun CreateStudySetByAIRequestModel.toDto() = CreateStudySetByAIRequestDto(
     numberOfFlashcards = numberOfFlashcards,
     questionType = questionType,
     title = title.trim(),
-    userId = userId
 )
 
 fun CreateStudySetByAIRequestDto.toModel() = CreateStudySetByAIRequestModel(
@@ -20,5 +19,4 @@ fun CreateStudySetByAIRequestDto.toModel() = CreateStudySetByAIRequestModel(
     numberOfFlashcards = numberOfFlashcards,
     questionType = questionType,
     title = title.trim(),
-    userId = userId
 )

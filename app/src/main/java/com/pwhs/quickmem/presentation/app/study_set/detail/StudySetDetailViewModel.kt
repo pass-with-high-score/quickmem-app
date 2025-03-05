@@ -276,9 +276,7 @@ class StudySetDetailViewModel @Inject constructor(
 
     private fun saveRecentAccessStudySet(studySetId: String) {
         viewModelScope.launch {
-            val userId = appManager.userId.firstOrNull() ?: ""
             val saveRecentAccessStudySetRequestModel = SaveRecentAccessStudySetRequestModel(
-                userId = userId,
                 studySetId = studySetId
             )
             studySetRepository.saveRecentAccessStudySet(
@@ -365,11 +363,9 @@ class StudySetDetailViewModel @Inject constructor(
 
     private fun makeCopyStudySet() {
         viewModelScope.launch {
-            val userId = appManager.userId.firstOrNull() ?: ""
             val studySetId = _uiState.value.id
             studySetRepository.makeCopyStudySet(
                 studySetId = studySetId,
-                newOwnerId = userId
             ).collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {

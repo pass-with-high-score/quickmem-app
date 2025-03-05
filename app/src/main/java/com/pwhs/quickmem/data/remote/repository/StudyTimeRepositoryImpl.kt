@@ -26,22 +26,20 @@ class StudyTimeRepositoryImpl @Inject constructor(
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)
-                emit(Resources.Error("Error"))
+                emit(Resources.Error(e.message.toString()))
             }
         }
     }
 
-    override suspend fun getStudyTimeByUser(
-        userId: String,
-    ): Flow<Resources<GetStudyTimeByUserResponseModel>> {
+    override suspend fun getStudyTimeByUser(): Flow<Resources<GetStudyTimeByUserResponseModel>> {
         return flow {
             emit(Resources.Loading())
             try {
-                val response = apiService.getStudyTimeByUser(userId)
+                val response = apiService.getStudyTimeByUser()
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
                 Timber.e(e)
-                emit(Resources.Error("Error"))
+                emit(Resources.Error(e.message.toString()))
             }
         }
     }
@@ -56,7 +54,7 @@ class StudyTimeRepositoryImpl @Inject constructor(
                 emit(Resources.Success(Unit))
             } catch (e: Exception) {
                 Timber.e(e)
-                emit(Resources.Error("Error"))
+                emit(Resources.Error(e.message.toString()))
             }
         }
     }

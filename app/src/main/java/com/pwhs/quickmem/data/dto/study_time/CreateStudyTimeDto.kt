@@ -9,6 +9,4 @@ data class CreateStudyTimeDto(
     val studySetId: String,
     @SerializedName("timeSpent")
     val timeSpent: Int,
-    @SerializedName("userId")
-    val userId: String
 )

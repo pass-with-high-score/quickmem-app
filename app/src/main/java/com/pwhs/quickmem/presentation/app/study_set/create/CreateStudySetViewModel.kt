@@ -4,7 +4,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.R
-import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.study_set.CreateStudySetRequestModel
 import com.pwhs.quickmem.domain.model.subject.SubjectModel
@@ -14,7 +13,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -24,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class CreateStudySetViewModel @Inject constructor(
     private val studySetRepository: StudySetRepository,
-    private val appManager: AppManager,
     savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(CreateStudySetUiState())
@@ -97,14 +94,12 @@ class CreateStudySetViewModel @Inject constructor(
 
     private fun createStudySet() {
         viewModelScope.launch {
-            val ownerId = appManager.userId.firstOrNull { true } ?: ""
             val createStudySetRequestModel = CreateStudySetRequestModel(
                 title = _uiState.value.title,
                 subjectId = _uiState.value.subjectModel.id,
                 colorId = _uiState.value.colorModel.id,
                 isPublic = _uiState.value.isPublic,
                 description = _uiState.value.description,
-                ownerId = ownerId
             )
             studySetRepository.createStudySet(
                 createStudySetRequestModel = createStudySetRequestModel

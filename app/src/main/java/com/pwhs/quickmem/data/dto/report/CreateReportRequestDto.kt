@@ -11,6 +11,4 @@ data class CreateReportRequestDto(
     val ownerOfReportedEntityId: String,
     @SerializedName("reportedType")
     val reportedType: String,
-    @SerializedName("reporterId")
-    val reporterId: String,
 )

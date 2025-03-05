@@ -69,13 +69,13 @@ class HomeViewModel @Inject constructor(
             val userId = appManager.userId.firstOrNull() ?: ""
 
             if (userId.isNotEmpty()) {
-                getRecentAccessStudySets(userId = userId)
+                getRecentAccessStudySets()
                 getRecentAccessFolders()
                 getRecentAccessClasses()
                 getTop5Subjects()
                 getCustomerInfo()
                 loadNotifications()
-                getStreaksByUserId(userId = userId)
+                getStreaksByUserId()
             } else {
                 _uiEvent.send(HomeUiEvent.UnAuthorized)
             }
@@ -104,8 +104,7 @@ class HomeViewModel @Inject constructor(
 
             is HomeUiAction.UpdateStreak -> {
                 viewModelScope.launch {
-                    val userId = appManager.userId.firstOrNull() ?: ""
-                    updateStreak(userId)
+                    updateStreak()
                 }
             }
         }
@@ -192,9 +191,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getRecentAccessStudySets(userId: String) {
+    private fun getRecentAccessStudySets() {
         viewModelScope.launch {
-            studySetRepository.getRecentAccessStudySet(userId = userId).collect { resource ->
+            studySetRepository.getRecentAccessStudySet().collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.value = _uiState.value.copy(isLoading = true)
@@ -286,9 +285,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun getStreaksByUserId(userId: String) {
+    private fun getStreaksByUserId() {
         viewModelScope.launch {
-            streakRepository.getStreaksByUserId(userId = userId).collect { resource ->
+            streakRepository.getStreaksByUserId().collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.value = _uiState.value.copy(isLoading = true)
@@ -314,9 +313,9 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun updateStreak(userId: String) {
+    private fun updateStreak() {
         viewModelScope.launch {
-            streakRepository.updateStreak(userId = userId).collect { resource ->
+            streakRepository.updateStreak().collect { resource ->
                 when (resource) {
                     is Resources.Loading -> {
                         _uiState.update {

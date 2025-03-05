@@ -102,7 +102,6 @@ class AIGenerativeViewModel @Inject constructor(
 
     private fun createStudySet() {
         viewModelScope.launch {
-            val userId = appManager.userId.firstOrNull() ?: ""
             val createStudySetByAIRequestModel = CreateStudySetByAIRequestModel(
                 title = uiState.value.title,
                 description = uiState.value.description,
@@ -110,7 +109,6 @@ class AIGenerativeViewModel @Inject constructor(
                 language = uiState.value.language,
                 numberOfFlashcards = uiState.value.numberOfFlashcards,
                 questionType = uiState.value.questionType.type,
-                userId = userId
             )
             studySetRepository.createStudySetByAI(
                 createStudySetByAIRequestModel

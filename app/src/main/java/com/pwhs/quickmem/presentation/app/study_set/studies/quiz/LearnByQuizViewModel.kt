@@ -393,12 +393,10 @@ class LearnByQuizViewModel @Inject constructor(
 
     private fun sendCompletedStudyTime() {
         viewModelScope.launch {
-            val userId = appManager.userId.firstOrNull() ?: ""
             val createStudyTimeModel = CreateStudyTimeModel(
                 learnMode = LearnMode.QUIZ.mode,
                 studySetId = _uiState.value.studySetId,
                 timeSpent = _uiState.value.learningTime.toInt(),
-                userId = userId
             )
             studyTimeRepository.createStudyTime(createStudyTimeModel = createStudyTimeModel)
                 .collect()

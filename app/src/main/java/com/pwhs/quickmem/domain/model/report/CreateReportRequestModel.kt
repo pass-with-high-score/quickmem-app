@@ -5,5 +5,4 @@ data class CreateReportRequestModel(
     val reportedEntityId: String,
     val ownerOfReportedEntityId: String,
     val reportedType: String,
-    val reporterId: String,
 )

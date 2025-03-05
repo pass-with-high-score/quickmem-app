@@ -5,7 +5,5 @@ import com.google.gson.annotations.SerializedName
 data class MakeACopyStudySetRequestDto(
     @SerializedName("studySetId")
     val studySetId: String,
-    @SerializedName("newOwnerId")
-    val newOwnerId: String
 )
 

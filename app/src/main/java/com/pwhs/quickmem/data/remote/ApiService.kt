@@ -70,7 +70,6 @@ import com.pwhs.quickmem.data.dto.pixabay.SearchImageResponseDto
 import com.pwhs.quickmem.data.dto.report.CreateReportRequestDto
 import com.pwhs.quickmem.data.dto.streak.GetStreakDto
 import com.pwhs.quickmem.data.dto.streak.GetTopStreakResponseDto
-import com.pwhs.quickmem.data.dto.streak.IncreaseStreakDto
 import com.pwhs.quickmem.data.dto.streak.StreakDto
 import com.pwhs.quickmem.data.dto.study_set.AddStudySetToClassRequestDto
 import com.pwhs.quickmem.data.dto.study_set.AddStudySetToFolderRequestDto
@@ -279,10 +278,8 @@ interface ApiService {
         @Body saveRecentAccessStudySetRequestDto: SaveRecentAccessStudySetRequestDto,
     )
 
-    @GET("study-set/recent/{userId}")
-    suspend fun getRecentStudySet(
-        @Path("userId") userId: String,
-    ): List<GetStudySetResponseDto>
+    @GET("study-set/recent")
+    suspend fun getRecentStudySet(): List<GetStudySetResponseDto>
 
     @POST("study-set/ai")
     suspend fun createStudySetByAI(
@@ -492,13 +489,11 @@ interface ApiService {
     ): InviteToClassResponseDto
 
     // Streak
-    @GET("streak/{userId}")
-    suspend fun getStreaksByUserId(@Path("userId") userId: String): GetStreakDto
+    @GET("streak")
+    suspend fun getStreaksByUserId(): GetStreakDto
 
     @POST("streak")
-    suspend fun updateStreak(
-        @Body increaseStreakDto: IncreaseStreakDto,
-    ): StreakDto
+    suspend fun updateStreak(): StreakDto
 
     @GET("streak/top")
     suspend fun getTopStreaks(@Query("limit") limit: Int?): List<GetTopStreakResponseDto>
@@ -526,8 +521,8 @@ interface ApiService {
     @GET("study-time/study-set/{studySetId}")
     suspend fun getStudyTimeByStudySet(@Path("studySetId") studySetId: String): GetStudyTimeByStudySetResponseDto
 
-    @GET("study-time/user/{userId}")
-    suspend fun getStudyTimeByUser(@Path("userId") userId: String): GetStudyTimeByUserResponseDto
+    @GET("study-time/user/total")
+    suspend fun getStudyTimeByUser(): GetStudyTimeByUserResponseDto
 
     @POST("study-time")
     suspend fun createStudyTime(@Body createStudyTimeDto: CreateStudyTimeDto)

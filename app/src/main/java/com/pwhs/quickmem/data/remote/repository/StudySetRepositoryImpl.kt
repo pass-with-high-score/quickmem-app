@@ -257,13 +257,12 @@ class StudySetRepositoryImpl @Inject constructor(
 
     override suspend fun makeCopyStudySet(
         studySetId: String,
-        newOwnerId: String,
     ): Flow<Resources<CreateStudySetResponseModel>> {
         return flow {
             emit(Resources.Loading())
             try {
                 val request =
-                    MakeACopyStudySetRequestDto(studySetId = studySetId, newOwnerId = newOwnerId)
+                    MakeACopyStudySetRequestDto(studySetId = studySetId)
                 val response = apiService.duplicateStudySet(request = request)
                 emit(Resources.Success(response.toModel()))
             } catch (e: Exception) {
@@ -323,13 +322,11 @@ class StudySetRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getRecentAccessStudySet(
-        userId: String,
-    ): Flow<Resources<List<GetStudySetResponseModel>>> {
+    override suspend fun getRecentAccessStudySet(): Flow<Resources<List<GetStudySetResponseModel>>> {
         return flow {
             emit(Resources.Loading())
             try {
-                val response = apiService.getRecentStudySet(userId = userId)
+                val response = apiService.getRecentStudySet()
                 emit(Resources.Success(response.map { it.toModel() }))
             } catch (e: Exception) {
                 Timber.e(e)
