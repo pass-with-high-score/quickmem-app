@@ -151,7 +151,7 @@ interface ApiService {
     @GET("auth/profile")
     suspend fun getUserProfile(): GetUserProfileResponseDto
 
-    @PATCH("auth/user/avatar/{id}")
+    @PATCH("auth/user/avatar")
     suspend fun updateAvatar(
         @Body updateAvatarRequestDto: UpdateAvatarRequestDto,
     ): UpdateAvatarResponseDto
@@ -205,7 +205,7 @@ interface ApiService {
     @GET("study-set/{id}")
     suspend fun getStudySetById(@Path("id") id: String): GetStudySetResponseDto
 
-    @GET("study-set/owner/")
+    @GET("study-set/owner")
     suspend fun getStudySetsByOwnerId(
         @Query("folderId") folderId: String? = null,
     ): List<GetStudySetResponseDto>
