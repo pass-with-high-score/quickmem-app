@@ -33,11 +33,8 @@
 }
 
 # Keep CredentialManager
--if class androidx.credentials.CredentialManager
--keep class androidx.credentials.playservices.** {
-  *;
-}
-
+-keep class com.google.android.libraries.identity.googleid.** { *; }
+-keep class androidx.credentials.** { *; }
 # Keep dataStore
 -keep class androidx.datastore.** { *; }
 -keep class com.pwhs.quickmem.core.datastore.** { *; }

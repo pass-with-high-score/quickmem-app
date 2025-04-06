@@ -47,8 +47,7 @@ jobs:
           RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
           RELEASE_STORE_PASSWORD: ${{ secrets.RELEASE_STORE_PASSWORD }}
           RELEASE_KEY_PASSWORD: ${{ secrets.RELEASE_KEY_PASSWORD }}
-          GOOOGLE_OAUTH_CLIENT_ID_DEBUG: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID_DEBUG }}
-          GOOOGLE_OAUTH_CLIENT_ID_PRODUCT: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID_PRODUCT }}
+          GOOGLE_OAUTH_CLIENT_ID: ${{ secrets.GOOGLE_OAUTH_CLIENT_ID }}
         run: |
           echo "BASE_URL=$BASE_URL" >> $GITHUB_WORKSPACE/local.properties
           echo "BANNER_ADS_ID=$BANNER_ADS_ID" >> $GITHUB_WORKSPACE/local.properties
@@ -61,8 +60,7 @@ jobs:
           echo "RELEASE_KEY_ALIAS=$RELEASE_KEY_ALIAS" >> $GITHUB_WORKSPACE/local.properties
           echo "RELEASE_STORE_PASSWORD=$RELEASE_STORE_PASSWORD" >> $GITHUB_WORKSPACE/local.properties
           echo "RELEASE_KEY_PASSWORD=$RELEASE_KEY_PASSWORD" >> $GITHUB_WORKSPACE/local.properties
-          echo "GOOOGLE_OAUTH_CLIENT_ID_DEBUG=$GOOOGLE_OAUTH_CLIENT_ID_DEBUG" >> $GITHUB_WORKSPACE/local.properties
-          echo "GOOOGLE_OAUTH_CLIENT_ID_PRODUCT=$GOOOGLE_OAUTH_CLIENT_ID_PRODUCT" >> $GITHUB_WORKSPACE/local.properties
+          echo "GOOGLE_OAUTH_CLIENT_ID=GOOGLE_OAUTH_CLIENT_ID" >> $GITHUB_WORKSPACE/local.properties
 
 
       - name: Build Debug APK

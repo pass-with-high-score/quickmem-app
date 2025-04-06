@@ -3,8 +3,8 @@
 compileSdk = "35"
 minSdk = "28"
 targetSdk = "35"
-versionCode = "13"
-versionName = "1.6.4"
+versionCode = "17"
+versionName = "1.6.8"
 jvmTarget = "17"
 # dependencies versions
 accompanistPermissions = "0.36.0"

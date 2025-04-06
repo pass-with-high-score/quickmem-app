@@ -41,7 +41,7 @@ android {
         val oneSignalAppId: String = localProperties.getProperty("ONESIGNAL_APP_ID")
         val revenueCatApiKey: String = localProperties.getProperty("REVENUECAT_API_KEY")
         val googleOAuthClientId: String =
-            localProperties.getProperty("GOOOGLE_OAUTH_CLIENT_ID")
+            localProperties.getProperty("GOOGLE_OAUTH_CLIENT_ID")
 
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         buildConfigField("String", "BANNER_ADS_ID", "\"$bannerAdsId\"")
