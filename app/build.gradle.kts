@@ -40,10 +40,8 @@ android {
             localProperties.getProperty("REWARDED_INTERSTITIAL_ADS_ID")
         val oneSignalAppId: String = localProperties.getProperty("ONESIGNAL_APP_ID")
         val revenueCatApiKey: String = localProperties.getProperty("REVENUECAT_API_KEY")
-        val googleOAuthClientIdDebug: String =
-            localProperties.getProperty("GOOOGLE_OAUTH_CLIENT_ID_DEBUG")
-        val googleOAuthClientIdRelease: String =
-            localProperties.getProperty("GOOOGLE_OAUTH_CLIENT_ID_PRODUCT")
+        val googleOAuthClientId: String =
+            localProperties.getProperty("GOOOGLE_OAUTH_CLIENT_ID")
 
         buildConfigField("String", "BASE_URL", "\"$baseUrl\"")
         buildConfigField("String", "BANNER_ADS_ID", "\"$bannerAdsId\"")
@@ -52,24 +50,7 @@ android {
         buildConfigField("String", "REWARDED_INTERSTITIAL_ADS_ID", "\"$rewardedInterstitialAdsId\"")
         buildConfigField("String", "ONESIGNAL_APP_ID", "\"$oneSignalAppId\"")
         buildConfigField("String", "REVENUECAT_API_KEY", "\"$revenueCatApiKey\"")
-
-        buildTypes {
-            debug {
-                buildConfigField(
-                    "String",
-                    "GOOGLE_OAUTH_CLIENT_ID",
-                    "\"$googleOAuthClientIdDebug\""
-                )
-            }
-
-            release {
-                buildConfigField(
-                    "String",
-                    "GOOGLE_OAUTH_CLIENT_ID",
-                    "\"$googleOAuthClientIdRelease\""
-                )
-            }
-        }
+        buildConfigField("String", "GOOGLE_OAUTH_CLIENT_ID", "\"$googleOAuthClientId\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -161,7 +142,6 @@ dependencies {
     implementation(projects.easycrop)
     implementation(libs.lottie.compose)
 
-    implementation(libs.google.firebase.auth)
     implementation(libs.androidx.media3.ui)
 
 

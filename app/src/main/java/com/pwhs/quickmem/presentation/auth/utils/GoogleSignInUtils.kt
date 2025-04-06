@@ -3,25 +3,22 @@ package com.pwhs.quickmem.presentation.auth.utils
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
+import android.util.Base64
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.result.ActivityResult
 import androidx.credentials.CredentialManager
 import androidx.credentials.CredentialOption
-import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
 import androidx.credentials.exceptions.GetCredentialException
-import androidx.credentials.exceptions.NoCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
-import com.google.firebase.auth.GoogleAuthProvider
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import com.pwhs.quickmem.BuildConfig
 import com.pwhs.quickmem.core.data.enums.AuthProvider
 import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
+import org.json.JSONObject
 import timber.log.Timber
 import java.security.MessageDigest
 import java.util.UUID
@@ -35,52 +32,40 @@ class GoogleSignInUtils {
             launcher: ManagedActivityResultLauncher<Intent, ActivityResult>?,
             login: (AuthSocialGoogleRequestModel) -> Unit = {},
         ) {
-            val credentialManager = CredentialManager.create(context)
-
-            val request = GetCredentialRequest.Builder()
-                .addCredentialOption(getCredentialOptions())
-                .build()
             scope.launch {
                 try {
-                    val result = credentialManager.getCredential(context, request)
-                    when (result.credential) {
-                        is CustomCredential -> {
-                            if (result.credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-                                val googleIdTokenCredential =
-                                    GoogleIdTokenCredential.createFrom(result.credential.data)
-                                val googleTokenId = googleIdTokenCredential.idToken
-                                val avatar = googleIdTokenCredential.profilePictureUri
-                                val id = googleIdTokenCredential.id
-                                val authCredential =
-                                    GoogleAuthProvider.getCredential(googleTokenId, null)
-                                val user =
-                                    Firebase.auth.signInWithCredential(authCredential).await().user
+                    val credentialManager = CredentialManager.create(context)
+                    val request: GetCredentialRequest = GetCredentialRequest.Builder()
+                        .addCredentialOption(getCredentialOptions())
+                        .build()
 
-                                val authSocialGoogleRequestModel = AuthSocialGoogleRequestModel(
-                                    id = id,
-                                    email = user?.email ?: "",
-                                    provider = AuthProvider.GOOGLE.name,
-                                    displayName = user?.displayName ?: "",
-                                    photoUrl = avatar.toString(),
-                                    idToken = googleTokenId
-                                )
+                    val result = credentialManager.getCredential(
+                        request = request,
+                        context = context,
+                    )
 
-                                login(authSocialGoogleRequestModel)
-                            }
-                        }
+                    val googleIdTokenCredential = GoogleIdTokenCredential
+                        .createFrom(result.credential.data)
 
-                        else -> {
-                            Timber.e("No credential found")
-                            launcher?.launch(getIntent())
-                        }
-                    }
-                } catch (e: NoCredentialException) {
-                    Timber.e("No credential found%s", e.message)
-                    launcher?.launch(getIntent())
+
+                    val authSocialGoogleRequestModel = AuthSocialGoogleRequestModel(
+                        id = googleIdTokenCredential.id,
+                        email = extractEmailFromIdToken(googleIdTokenCredential.idToken).toString(),
+                        provider = AuthProvider.GOOGLE.name,
+                        displayName = googleIdTokenCredential.displayName ?: "",
+                        photoUrl = googleIdTokenCredential.profilePictureUri.toString(),
+                        idToken = googleIdTokenCredential.idToken
+                    )
+
+                    login(authSocialGoogleRequestModel)
+
                 } catch (e: GetCredentialException) {
-                    Timber.e("Error getting credential%s", e.message)
+                    launcher?.launch(getIntent())
+                    Timber.e(e, "GetCredentialException")
+                } catch (e: GoogleIdTokenParsingException) {
+                    Timber.e(e, "GoogleIdTokenParsingException")
                 } catch (e: Exception) {
-                    Timber.e("Error%s", e.message)
+                    Timber.e(e, "Exception")
                 }
             }
         }
@@ -106,5 +91,22 @@ class GoogleSignInUtils {
                 .setNonce(hashedNonce)
                 .build()
         }
+
+        private fun extractEmailFromIdToken(idToken: String): String? {
+            return try {
+                val parts = idToken.split(".")
+                if (parts.size < 2) return null
+
+                val payloadJson = String(
+                    Base64.decode(parts[1], Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP)
+                )
+                val payload = JSONObject(payloadJson)
+                val email = payload.optString("email", "")
+                email.ifBlank { null }
+            } catch (e: Exception) {
+                null
+            }
+        }
+
     }
 }
