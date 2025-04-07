@@ -1,7 +1,11 @@
 <resources>
     <string name="app_name" translatable="false">QuickMem</string>
-    <string name="web_client_id" translatable="false">743857474439-b8umbci861okgpukka3l8lr1tfrvjso8.apps.googleusercontent.com</string>
     <string name="txt_get_started">Get Started</string>
+
+    <string name="facebook_app_id" translatable="false">403095856138773</string>
+    <string name="facebook_client_token" translatable="false">079aecde748d4bc6216368af664774bd</string>
+    <string name="fb_login_protocol_scheme" translatable="false">fb403095856138773</string>
+
     <string name="txt_next">Next</string>
     <string name="txt_skip">Skip</string>
     <string name="txt_onboarding_title1">Welcome to QuickMem</string>

@@ -1,6 +1,7 @@
 [versions]
 # default versions
 compileSdk = "35"
+facebookLogin = "latest.release"
 minSdk = "28"
 targetSdk = "35"
 versionCode = "18"
@@ -77,6 +78,7 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-runtime = { module = "androidx.compose.runtime:runtime", version.ref = "runtime" }
 compose-charts = { module = "io.github.ehsannarmani:compose-charts", version.ref = "composeCharts" }
 easyvalidation-core = { module = "com.wajahatkarim:easyvalidation-core", version.ref = "easyvalidationCore" }
+facebook-login = { module = "com.facebook.android:facebook-login", version.ref = "facebookLogin" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebaseMessagingKtx" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }

@@ -27,6 +27,7 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import androidx.core.graphics.createBitmap
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "auth")
 
@@ -50,7 +51,7 @@ fun Context.uriToBitmap(uri: Uri): Bitmap {
         Bitmap.createBitmap(BitmapFactory.decodeStream(inputStream))
     } catch (e: IOException) {
         e.printStackTrace()
-        Bitmap.createBitmap(0, 0, Bitmap.Config.ARGB_8888)
+        createBitmap(0, 0)
     }
 }
 
@@ -133,4 +134,15 @@ fun Context.launchInAppReview(
         onComplete?.invoke(false)
     }
 
+}
+
+fun Context.findActivity(): Activity {
+    var context = this
+    while (context is ContextWrapper) {
+        if (context is Activity) {
+            return context
+        }
+        context = context.baseContext
+    }
+    throw IllegalStateException("Activity not found")
 }

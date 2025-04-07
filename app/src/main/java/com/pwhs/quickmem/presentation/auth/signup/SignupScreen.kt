@@ -1,9 +1,9 @@
 package com.pwhs.quickmem.presentation.auth.signup
 
 import android.content.Intent
-import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResultRegistryOwner
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +22,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,7 +38,13 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 import com.pwhs.quickmem.presentation.auth.component.AuthButton
@@ -57,6 +64,7 @@ import com.ramcosta.composedestinations.generated.destinations.SignupScreenDesti
 import com.ramcosta.composedestinations.generated.destinations.SignupWithEmailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.WelcomeScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import timber.log.Timber
 
 @Composable
 @Destination<RootGraph>
@@ -67,6 +75,8 @@ fun SignupScreen(
 ) {
     val context = LocalContext.current
     val uiState = viewModel.uiState.collectAsState()
+    val callbackManager = remember { CallbackManager.Factory.create() }
+
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
@@ -85,16 +95,42 @@ fun SignupScreen(
 
                 is SignupUiEvent.SignupWithFacebook -> {
                     // open web view
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.txt_currently_not_available),
-                        Toast.LENGTH_SHORT
-                    ).show()
-//                    navigator.navigate(
-//                        WebViewAppDestination(
-//                            oAuthLink = "https://api.quickmem.app/auth/facebook",
-//                        )
-//                    )
+                    val callbackManager = CallbackManager.Factory.create()
+                    val loginManager = LoginManager.getInstance()
+
+                    loginManager.logIn(
+                        context as ActivityResultRegistryOwner,
+                        callbackManager,
+                        listOf("email")
+                    )
+
+                    loginManager.registerCallback(
+                        callbackManager,
+                        object : FacebookCallback<LoginResult> {
+                            override fun onCancel() {
+                                Timber.d("Facebook login cancelled")
+                            }
+
+                            override fun onError(error: FacebookException) {
+                                Timber.e("Facebook login error: ${error.message}")
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.txt_error_occurred),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                            override fun onSuccess(result: LoginResult) {
+                                Timber.d("Facebook login success: ${result.accessToken.token}")
+                                Toast.makeText(
+                                    context,
+                                    context.getString(R.string.txt_login_success),
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+
+                        })
+
                 }
 
                 is SignupUiEvent.ShowError -> {
@@ -165,7 +201,7 @@ fun SignupScreen(
         onPrivacyPolicyClick = {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                Uri.parse("https://pass-with-high-score.github.io/quickmem-term-policy/policy")
+                "https://pass-with-high-score.github.io/quickmem-term-policy/policy".toUri()
             )
             context.startActivity(intent)
         }
