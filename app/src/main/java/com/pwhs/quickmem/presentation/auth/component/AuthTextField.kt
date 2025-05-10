@@ -153,6 +153,7 @@ fun AuthTextField(
                 cursorColor = colorScheme.onSurface,
                 errorContainerColor = Color.Transparent,
                 disabledIndicatorColor = if (error != null) colorScheme.error else colorScheme.onSurface,
+
             ),
 
             modifier = modifier

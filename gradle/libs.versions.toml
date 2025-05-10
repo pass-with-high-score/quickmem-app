@@ -1,65 +1,87 @@
 [versions]
-# default versions
+# ───── Project Configuration ─────
 compileSdk = "35"
 minSdk = "28"
 targetSdk = "35"
 versionCode = "18"
 versionName = "1.6.9"
 jvmTarget = "17"
-# dependencies versions
-accompanistPermissions = "0.36.0"
-media3Exoplayer = "1.6.0"
-agp = "8.6.1"
-datastorePreferences = "1.1.4"
-easyvalidationCore = "1.0.4"
-firebaseBom = "33.12.0"
-firebaseMessagingKtx = "24.1.1"
-foundation = "1.7.8"
+
+# ───── Kotlin & Build Tools ─────
 kotlin = "2.0.21"
-coreKtx = "1.15.0"
-junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.8.7"
-activityCompose = "1.10.1"
-composeBom = "2025.03.01"
 ksp = "2.0.21-1.0.28"
-lottieCompose = "6.4.2-SNAPSHOT"
+agp = "8.6.1"
+
+# ───── AndroidX Core & Lifecycle ─────
+coreKtx = "1.16.0"
+lifecycleRuntimeKtx = "2.9.0"
+activityCompose = "1.10.1"
+workRuntime = "2.10.1"
+
+# ───── Jetpack Compose ─────
+composeBom = "2025.05.00"
+foundation = "1.8.1"
 materialIconsExtended = "1.7.8"
+composeAnimations = "1.11.6"
+uiTextGoogleFonts = "1.8.1"
+media3Exoplayer = "1.6.0"
+
+# ───── Compose Extensions ─────
+accompanistPermissions = "0.36.0"
+composeDestinations = "2.1.0-beta09"
+composeCharts = "0.0.18"
+lottieCompose = "6.4.2-SNAPSHOT"
+
+# ───── Paging ─────
 pagingRuntimeKtx = "3.3.6"
 pagingCompose = "3.3.6"
-revenuecat = "8.15.1"
-roomRuntime = "2.6.1"
-roomCompiler = "2.6.1"
-composeCharts = "0.0.18"
-credentials = "1.5.0"
+
+# ───── Coil ─────
+coilCompose = "2.7.0"
+
+# ───── Firebase & Google Services ─────
+firebaseBom = "33.13.0"
+firebaseMessagingKtx = "24.1.1"
+firebaseCrashlytics = "3.0.3"
+googleServices = "4.4.2"
+playServicesAds = "24.2.0"
+review = "2.0.2"
 googleid = "1.1.1"
-# Serialization
-runtime = "1.7.8"
-serialization = "2.0.21"
-serialization-json = "1.7.3"
-serialization-core = "1.7.3"
-# Hilt
+credentials = "1.5.0"
+
+# ───── Hilt ─────
 hilt = "2.51.1"
 hilt-work = "1.2.0"
 hilt-compose = "1.2.0"
-# Coil
-coilCompose = "2.7.0"
-# Compose Destinations
-composeDestinations = "2.1.0-beta09"
-composeAnimations = "1.11.6"
-# Worker
-workRuntime = "2.10.0"
-jakewhartonTimber = "5.0.1"
-uiTextGoogleFonts = "1.7.8"
-# Retrofit
+
+# ───── Room & Datastore ─────
+roomRuntime = "2.7.1"
+roomCompiler = "2.7.1"
+datastorePreferences = "1.1.4"
+
+# ───── Retrofit & Networking ─────
 retrofit = "2.11.0"
 loggingInterceptor = "4.12.0"
-# PlayServices Ads
-playServicesAds = "24.1.0"
-googleServices = "4.4.2"
-firebaseCrashlytics = "3.0.3"
-review = "2.0.2"
+
+# ───── Serialization ─────
+serialization-core = "1.7.3"
+serialization-json = "1.7.3"
+runtime = "1.8.1"  # Compose runtime
+
+# ───── RevenueCat ─────
+revenuecat = "8.17.0"
+
+# ───── Validation ─────
+easyvalidationCore = "1.0.4"
+
+# ───── Logging ─────
+jakewhartonTimber = "5.0.1"
+
+# ───── Testing ─────
+junit = "4.13.2"
+junitVersion = "1.2.1"
+espressoCore = "3.6.1"
+
 
 [libraries]
 accompanist-permissions = { module = "com.google.accompanist:accompanist-permissions", version.ref = "accompanistPermissions" }
@@ -165,7 +187,7 @@ android-library = { id = "com.android.library", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "serialization" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
 google-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebaseCrashlytics" }
