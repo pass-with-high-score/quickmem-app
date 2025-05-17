@@ -13,20 +13,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AllRecentAccessStudySetsViewModel @Inject constructor(
+class RecentStudySetsViewModel @Inject constructor(
     private val studySetRepository: StudySetRepository,
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(AllRecentAccessStudySetsUiState())
+    private val _uiState = MutableStateFlow(RecentStudySetsUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _uiEvent = Channel<AllRecentAccessStudySetsUiEvent>()
+    private val _uiEvent = Channel<RecentStudySetsUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        getAllRecentAccessStudySets()
+        getRecentStudySets()
     }
 
-    private fun getAllRecentAccessStudySets() {
+    private fun getRecentStudySets() {
         viewModelScope.launch {
             studySetRepository.getRecentAccessStudySet().collect { resource ->
                 when (resource) {

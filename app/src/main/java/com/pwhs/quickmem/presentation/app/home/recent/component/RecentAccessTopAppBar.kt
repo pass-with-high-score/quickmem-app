@@ -41,7 +41,7 @@ import com.pwhs.quickmem.utils.gradientBackground
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AllRecentAccessTopAppBar(
+fun RecentAccessTopAppBar(
     modifier: Modifier = Modifier,
     title: String? = null,
     description: String? = null,
@@ -143,8 +143,8 @@ fun AllRecentAccessTopAppBar(
 @Preview(showSystemUi = true)
 @Preview(showSystemUi = true, locale = "vi")
 @Composable
-fun AllRecentAccessStudySetsTopAppBarPreview() {
-    AllRecentAccessTopAppBar(
+fun RecentAccessStudySetsTopAppBarPreview() {
+    RecentAccessTopAppBar(
         title = "All recent access study sets",
         description = "Study sets you’ve recently opened to view their details.",
         color = colorScheme.primary,

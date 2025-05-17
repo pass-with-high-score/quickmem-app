@@ -29,7 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 import com.pwhs.quickmem.presentation.ads.BannerAds
-import com.pwhs.quickmem.presentation.app.home.recent.component.AllRecentAccessTopAppBar
+import com.pwhs.quickmem.presentation.app.home.recent.component.RecentAccessTopAppBar
 import com.pwhs.quickmem.presentation.app.library.folder.component.FolderItem
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
@@ -40,9 +40,9 @@ import com.ramcosta.composedestinations.result.ResultBackNavigator
 
 @Destination<RootGraph>
 @Composable
-fun AllRecentAccessFoldersScreen(
+fun RecentFoldersScreen(
     modifier: Modifier = Modifier,
-    viewModel: AllRecentAccessFoldersViewModel = hiltViewModel(),
+    viewModel: RecentFoldersViewModel = hiltViewModel(),
     navigator: DestinationsNavigator,
     resultBackNavigator: ResultBackNavigator<Boolean>,
 ) {
@@ -52,7 +52,7 @@ fun AllRecentAccessFoldersScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is AllRecentAccessFoldersUiEvent.Error -> {
+                is RecentFoldersUiEvent.Error -> {
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -94,7 +94,7 @@ fun AllRecentAccessFolders(
         containerColor = colorScheme.background,
         modifier = modifier,
         topBar = {
-            AllRecentAccessTopAppBar(
+            RecentAccessTopAppBar(
                 title = stringResource(R.string.txt_all_recent_access_folders),
                 description = stringResource(R.string.txt_folders_you_ve_recently_opened_to_view_their_details),
                 color = colorScheme.primary,

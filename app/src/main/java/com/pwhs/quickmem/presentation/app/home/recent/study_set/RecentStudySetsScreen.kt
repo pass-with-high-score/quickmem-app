@@ -30,7 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.presentation.ads.BannerAds
-import com.pwhs.quickmem.presentation.app.home.recent.component.AllRecentAccessTopAppBar
+import com.pwhs.quickmem.presentation.app.home.recent.component.RecentAccessTopAppBar
 import com.pwhs.quickmem.presentation.app.library.study_set.component.StudySetItem
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
@@ -42,9 +42,9 @@ import com.ramcosta.composedestinations.result.ResultBackNavigator
 
 @Destination<RootGraph>
 @Composable
-fun AllRecentAccessStudySetsScreen(
+fun RecentStudySetsScreen(
     modifier: Modifier = Modifier,
-    viewModel: AllRecentAccessStudySetsViewModel = hiltViewModel(),
+    viewModel: RecentStudySetsViewModel = hiltViewModel(),
     navigator: DestinationsNavigator,
     resultBackNavigator: ResultBackNavigator<Boolean>,
 ) {
@@ -54,7 +54,7 @@ fun AllRecentAccessStudySetsScreen(
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
-                is AllRecentAccessStudySetsUiEvent.Error -> {
+                is RecentStudySetsUiEvent.Error -> {
                     Toast.makeText(context, event.message, Toast.LENGTH_SHORT).show()
                 }
             }
@@ -96,7 +96,7 @@ fun AllRecentAccessStudySets(
         containerColor = colorScheme.background,
         modifier = modifier,
         topBar = {
-            AllRecentAccessTopAppBar(
+            RecentAccessTopAppBar(
                 title = stringResource(R.string.txt_all_recent_access_study_sets),
                 description = stringResource(R.string.txt_study_sets_you_ve_recently_opened_to_view_their_details),
                 color = colorScheme.primary,

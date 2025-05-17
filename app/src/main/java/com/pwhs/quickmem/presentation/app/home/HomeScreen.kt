@@ -88,13 +88,12 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.annotation.parameters.DeepLink
 import com.ramcosta.composedestinations.generated.NavGraphs
 import com.ramcosta.composedestinations.generated.destinations.AIGenerativeScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.AllRecentAccessFoldersScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.AllRecentAccessStudySetsScreenDestination
-import com.ramcosta.composedestinations.generated.destinations.AllRecentAccessStudySetsScreenDestination.invoke
 import com.ramcosta.composedestinations.generated.destinations.CreateFolderScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.CreateStudySetScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.FolderDetailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.NotificationScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.RecentFoldersScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.RecentStudySetsScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SearchScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SearchStudySetBySubjectScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination
@@ -222,12 +221,10 @@ fun HomeScreen(
             )
         },
         onSeeAllStudySetClick = {
-            navigator.navigate(AllRecentAccessStudySetsScreenDestination())
+            navigator.navigate(RecentStudySetsScreenDestination())
         },
         onSeeAllFolderClick = {
-            navigator.navigate(
-                AllRecentAccessFoldersScreenDestination()
-            )
+            navigator.navigate(RecentFoldersScreenDestination())
         },
         onNavigateToSearch = {
             navigator.navigate(SearchScreenDestination)

@@ -13,20 +13,20 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AllRecentAccessFoldersViewModel @Inject constructor(
+class RecentFoldersViewModel @Inject constructor(
     private val folderRepository: FolderRepository
 ) : ViewModel() {
-    private val _uiState = MutableStateFlow(AllRecentAccessFoldersUiState())
+    private val _uiState = MutableStateFlow(RecentFoldersUiState())
     val uiState = _uiState.asStateFlow()
 
-    private val _uiEvent = Channel<AllRecentAccessFoldersUiEvent>()
+    private val _uiEvent = Channel<RecentFoldersUiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        getAllRecentAccessFolders()
+        getRecentFolders()
     }
 
-    private fun getAllRecentAccessFolders() {
+    private fun getRecentFolders() {
         viewModelScope.launch {
             folderRepository.getRecentAccessFolders().collect { resource ->
                 when (resource) {
