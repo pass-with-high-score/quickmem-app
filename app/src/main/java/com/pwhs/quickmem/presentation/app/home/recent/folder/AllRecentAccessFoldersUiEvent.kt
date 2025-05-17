@@ -1,4 +1,5 @@
 package com.pwhs.quickmem.presentation.app.home.recent.folder
 
-class AllRecentAccessFoldersUiEvent {
+sealed class AllRecentAccessFoldersUiEvent {
+    data class Error(val message: String) : AllRecentAccessFoldersUiEvent()
 }

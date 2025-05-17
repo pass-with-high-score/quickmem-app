@@ -30,7 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.presentation.ads.BannerAds
-import com.pwhs.quickmem.presentation.app.home.recent.study_set.component.AllRecentAccessStudySetsTopAppBar
+import com.pwhs.quickmem.presentation.app.home.recent.component.AllRecentAccessTopAppBar
 import com.pwhs.quickmem.presentation.app.library.study_set.component.StudySetItem
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
@@ -47,7 +47,7 @@ fun AllRecentAccessStudySetsScreen(
     viewModel: AllRecentAccessStudySetsViewModel = hiltViewModel(),
     navigator: DestinationsNavigator,
     resultBackNavigator: ResultBackNavigator<Boolean>,
-    ) {
+) {
     val uiState by viewModel.uiState.collectAsState()
     val context = LocalContext.current
 
@@ -96,12 +96,12 @@ fun AllRecentAccessStudySets(
         containerColor = colorScheme.background,
         modifier = modifier,
         topBar = {
-            AllRecentAccessStudySetsTopAppBar(
+            AllRecentAccessTopAppBar(
                 title = stringResource(R.string.txt_all_recent_access_study_sets),
                 description = stringResource(R.string.txt_study_sets_you_ve_recently_opened_to_view_their_details),
                 color = colorScheme.primary,
                 onNavigateBack = onNavigateBack,
-                onAddStudySet = onAddStudySet,
+                onAddNew = onAddStudySet,
                 searchQuery = searchQuery,
                 onSearchQueryChange = {
                     searchQuery = it

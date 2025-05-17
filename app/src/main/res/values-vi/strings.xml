@@ -614,6 +614,8 @@
     <string name="txt_see_all">Xem tất cả</string>
     <string name="txt_all_recent_access_study_sets">Tất cả bộ học đã truy cập gần đây</string>
     <string name="txt_study_sets_you_ve_recently_opened_to_view_their_details">Bộ học mà bạn đã mở gần đây để xem chi tiết</string>
+    <string name="txt_all_recent_access_folders">Tất cả thư mục đã truy cập gần đây</string>
+    <string name="txt_folders_you_ve_recently_opened_to_view_their_details">Thư mục mà bạn đã mở gần đây để xem chi tiết</string>
     <plurals name="hours">
         <item quantity="other">%d giờ</item>
     </plurals>

@@ -88,6 +88,7 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.annotation.parameters.DeepLink
 import com.ramcosta.composedestinations.generated.NavGraphs
 import com.ramcosta.composedestinations.generated.destinations.AIGenerativeScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.AllRecentAccessFoldersScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.AllRecentAccessStudySetsScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.AllRecentAccessStudySetsScreenDestination.invoke
 import com.ramcosta.composedestinations.generated.destinations.CreateFolderScreenDestination
@@ -224,6 +225,9 @@ fun HomeScreen(
             navigator.navigate(AllRecentAccessStudySetsScreenDestination())
         },
         onSeeAllFolderClick = {
+            navigator.navigate(
+                AllRecentAccessFoldersScreenDestination()
+            )
         },
         onNavigateToSearch = {
             navigator.navigate(SearchScreenDestination)

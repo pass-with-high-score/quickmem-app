@@ -1,6 +1,5 @@
 package com.pwhs.quickmem.presentation.app.home.recent.study_set
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pwhs.quickmem.core.utils.Resources
