@@ -144,7 +144,7 @@ fun AllRecentAccessFolders(
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Text(
-                                text = stringResource(R.string.txt_no_study_sets_found),
+                                text = stringResource(R.string.txt_no_folders_found),
                                 style = typography.bodyLarge,
                                 textAlign = TextAlign.Center
                             )
