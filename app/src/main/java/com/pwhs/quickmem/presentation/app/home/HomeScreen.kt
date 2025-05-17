@@ -3,6 +3,7 @@ package com.pwhs.quickmem.presentation.app.home
 import android.Manifest
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -51,6 +52,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -86,6 +88,8 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.annotation.parameters.DeepLink
 import com.ramcosta.composedestinations.generated.NavGraphs
 import com.ramcosta.composedestinations.generated.destinations.AIGenerativeScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.AllRecentAccessStudySetsScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.AllRecentAccessStudySetsScreenDestination.invoke
 import com.ramcosta.composedestinations.generated.destinations.CreateFolderScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.CreateStudySetScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.FolderDetailScreenDestination
@@ -216,6 +220,11 @@ fun HomeScreen(
                 )
             )
         },
+        onSeeAllStudySetClick = {
+            navigator.navigate(AllRecentAccessStudySetsScreenDestination())
+        },
+        onSeeAllFolderClick = {
+        },
         onNavigateToSearch = {
             navigator.navigate(SearchScreenDestination)
         },
@@ -268,6 +277,8 @@ private fun Home(
     folders: List<GetFolderResponseModel> = emptyList(),
     onStudySetClick: (GetStudySetResponseModel) -> Unit = {},
     onFolderClick: (GetFolderResponseModel) -> Unit = {},
+    onSeeAllStudySetClick: () -> Unit = {},
+    onSeeAllFolderClick: () -> Unit = {},
     notificationCount: Int = 0,
     onNavigateToSearch: () -> Unit = {},
     onClickToCreateStudySet: () -> Unit = {},
@@ -486,15 +497,33 @@ private fun Home(
                 }
                 if (studySets.isNotEmpty()) {
                     item {
-                        Text(
-                            text = stringResource(R.string.txt_study_sets),
-                            style = typography.titleMedium.copy(
-                                color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(top = 16.dp)
-                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = stringResource(R.string.txt_study_sets),
+                                style = typography.titleMedium.copy(
+                                    color = colorScheme.primary,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                            Text(
+                                text = stringResource(R.string.txt_see_all),
+                                style = typography.bodyMedium.copy(
+                                    color = colorScheme.secondary,
+                                    fontWeight = FontWeight.Bold,
+                                    textDecoration = TextDecoration.Underline
+                                ),
+                                modifier = Modifier
+                                    .clickable {
+                                        onSeeAllStudySetClick()
+                                    }
+                                    .padding(end = 6.dp)
+                            )
+                        }
                     }
 
                     item {
@@ -514,15 +543,33 @@ private fun Home(
 
                 if (folders.isNotEmpty()) {
                     item {
-                        Text(
-                            text = stringResource(R.string.txt_folders),
-                            style = typography.titleMedium.copy(
-                                color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(top = 16.dp)
-                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = stringResource(R.string.txt_folders),
+                                style = typography.titleMedium.copy(
+                                    color = colorScheme.primary,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                            Text(
+                                text = stringResource(R.string.txt_see_all),
+                                style = typography.bodyMedium.copy(
+                                    color = colorScheme.secondary,
+                                    fontWeight = FontWeight.Bold,
+                                    textDecoration = TextDecoration.Underline
+                                ),
+                                modifier = Modifier
+                                    .clickable {
+                                        onSeeAllFolderClick()
+                                    }
+                                    .padding(end = 6.dp)
+                            )
+                        }
                     }
 
                     item {

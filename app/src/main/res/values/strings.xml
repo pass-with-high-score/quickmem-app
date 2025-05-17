@@ -615,6 +615,9 @@
     <string name="txt_no_language_found">No language found</string>
     <string name="txt_voice_name">Voice: %1$s</string>
     <string name="txt_no_voice_found">No voice found</string>
+    <string name="txt_see_all">See All</string>
+    <string name="txt_all_recent_access_study_sets">All recent access study sets</string>
+    <string name="txt_study_sets_you_ve_recently_opened_to_view_their_details">Study sets you’ve recently opened to view their details.</string>
     <plurals name="hours">
         <item quantity="one">%d hour</item>
         <item quantity="other">%d hours</item>
