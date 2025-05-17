@@ -24,7 +24,7 @@ foundation = "1.8.1"
 materialIconsExtended = "1.7.8"
 composeAnimations = "1.11.6"
 uiTextGoogleFonts = "1.8.1"
-media3Exoplayer = "1.6.0"
+media3Exoplayer = "1.6.1"
 
 # ───── Compose Extensions ─────
 accompanistPermissions = "0.36.0"
@@ -57,7 +57,7 @@ hilt-compose = "1.2.0"
 # ───── Room & Datastore ─────
 roomRuntime = "2.7.1"
 roomCompiler = "2.7.1"
-datastorePreferences = "1.1.4"
+datastorePreferences = "1.1.6"
 
 # ───── Retrofit & Networking ─────
 retrofit = "2.11.0"
@@ -69,7 +69,7 @@ serialization-json = "1.7.3"
 runtime = "1.8.1"  # Compose runtime
 
 # ───── RevenueCat ─────
-revenuecat = "8.17.0"
+revenuecat = "8.17.1"
 
 # ───── Validation ─────
 easyvalidationCore = "1.0.4"

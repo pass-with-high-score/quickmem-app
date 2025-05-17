@@ -38,7 +38,6 @@ android {
             localProperties.getProperty("REWARD_ADS_ID")
         val rewardedInterstitialAdsId: String =
             localProperties.getProperty("REWARDED_INTERSTITIAL_ADS_ID")
-        val oneSignalAppId: String = localProperties.getProperty("ONESIGNAL_APP_ID")
         val revenueCatApiKey: String = localProperties.getProperty("REVENUECAT_API_KEY")
         val googleOAuthClientId: String =
             localProperties.getProperty("GOOGLE_OAUTH_CLIENT_ID")
@@ -48,7 +47,6 @@ android {
         buildConfigField("String", "INTERSTITIAL_ADS_ID", "\"$interstitialAdsId\"")
         buildConfigField("String", "REWARD_ADS_ID", "\"$rewardAdsId\"")
         buildConfigField("String", "REWARDED_INTERSTITIAL_ADS_ID", "\"$rewardedInterstitialAdsId\"")
-        buildConfigField("String", "ONESIGNAL_APP_ID", "\"$oneSignalAppId\"")
         buildConfigField("String", "REVENUECAT_API_KEY", "\"$revenueCatApiKey\"")
         buildConfigField("String", "GOOGLE_OAUTH_CLIENT_ID", "\"$googleOAuthClientId\"")
 

@@ -5,7 +5,6 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -31,7 +30,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -79,6 +77,17 @@ fun StudyFlipFlashCard(
         animationSpec = tween(durationMillis = 300)
     )
 
+    val fontSize = when {
+        // tiny
+        flashCard.definition.length <= 5 -> 28.sp
+        // small
+        flashCard.definition.length <= 10 -> 26.sp
+        // medium
+        flashCard.definition.length <= 100 -> 24.sp
+        // large
+        else -> 13.sp
+    }
+
     Card(
         onClick = {
             if (isAnimationFinished) {
@@ -109,7 +118,7 @@ fun StudyFlipFlashCard(
         )
     ) {
         BoxWithConstraints {
-            if (maxHeight > 720.dp) {
+            if (this.maxHeight > 720.dp) {
                 if (rotation.value <= 90f) {
                     Box(
                         Modifier.fillMaxSize()
@@ -179,16 +188,7 @@ fun StudyFlipFlashCard(
                                                 Text(
                                                     text = flashCard.term,
                                                     style = typography.bodyLarge.copy(
-                                                        fontSize = when {
-                                                            // tiny
-                                                            flashCard.term.length <= 5 -> 28.sp
-                                                            // small
-                                                            flashCard.term.length <= 10 -> 22.sp
-                                                            // medium
-                                                            flashCard.term.length <= 15 -> 18.sp
-                                                            // large
-                                                            else -> 13.sp
-                                                        }
+                                                        fontSize = fontSize
                                                     ),
                                                     textAlign = when {
                                                         flashCard.term.length <= 25 -> TextAlign.Center
@@ -278,16 +278,7 @@ fun StudyFlipFlashCard(
                                                 Text(
                                                     text = flashCard.definition,
                                                     style = typography.bodyLarge.copy(
-                                                        fontSize = when {
-                                                            // tiny
-                                                            flashCard.definition.length <= 5 -> 30.sp
-                                                            // small
-                                                            flashCard.definition.length <= 10 -> 25.sp
-                                                            // medium
-                                                            flashCard.definition.length <= 15 -> 20.sp
-                                                            // large
-                                                            else -> 15.sp
-                                                        }
+                                                        fontSize = fontSize
                                                     ),
                                                     textAlign = when {
                                                         flashCard.term.length <= 25 -> TextAlign.Center
@@ -376,16 +367,7 @@ fun StudyFlipFlashCard(
                                                 Text(
                                                     text = flashCard.term,
                                                     style = typography.bodyLarge.copy(
-                                                        fontSize = when {
-                                                            // tiny
-                                                            flashCard.term.length <= 5 -> 28.sp
-                                                            // small
-                                                            flashCard.term.length <= 10 -> 22.sp
-                                                            // medium
-                                                            flashCard.term.length <= 15 -> 18.sp
-                                                            // large
-                                                            else -> 13.sp
-                                                        }
+                                                        fontSize = fontSize
                                                     ),
                                                     textAlign = when {
                                                         flashCard.term.length <= 25 -> TextAlign.Center
@@ -478,16 +460,7 @@ fun StudyFlipFlashCard(
                                                 Text(
                                                     text = flashCard.definition,
                                                     style = typography.bodyLarge.copy(
-                                                        fontSize = when {
-                                                            // tiny
-                                                            flashCard.definition.length <= 5 -> 28.sp
-                                                            // small
-                                                            flashCard.definition.length <= 10 -> 22.sp
-                                                            // medium
-                                                            flashCard.definition.length <= 15 -> 18.sp
-                                                            // large
-                                                            else -> 13.sp
-                                                        }
+                                                        fontSize = fontSize
                                                     ),
                                                     textAlign = when {
                                                         flashCard.term.length <= 25 -> TextAlign.Center

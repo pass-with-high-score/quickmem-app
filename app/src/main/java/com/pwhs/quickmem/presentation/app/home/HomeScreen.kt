@@ -3,11 +3,7 @@ package com.pwhs.quickmem.presentation.app.home
 import android.Manifest
 import android.widget.Toast
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +21,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Badge
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -107,7 +102,6 @@ import java.time.LocalDate
 @OptIn(ExperimentalPermissionsApi::class)
 @Destination<RootGraph>(
     deepLinks = [
-        DeepLink(uriPattern = "quickmem://join/class?code={classCode}"),
         DeepLink(uriPattern = "quickmem://share/folder?code={folderCode}"),
         DeepLink(uriPattern = "quickmem://share/study-set?code={studySetCode}")
     ]
@@ -373,11 +367,9 @@ private fun Home(
                         onClick = {
                             showStreakBottomSheet = true
                         },
-                        modifier = Modifier.padding(end = 8.dp)
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(8.dp)
                         ) {
                             Image(
                                 painter = painterResource(R.drawable.ic_fire),
@@ -395,19 +387,9 @@ private fun Home(
                         }
                     }
 
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .background(color = Color.White, shape = CircleShape)
-                            .border(
-                                width = 2.dp,
-                                color = colorScheme.primary,
-                                shape = CircleShape
-                            )
-                            .clickable {
-                                onNavigateToNotification()
-                            }
-                            .padding(8.dp)
+                    ActionButtonTopAppBar(
+                        onClick = onNavigateToNotification,
+                        showBadge = notificationCount > 0,
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Notifications,
@@ -415,15 +397,7 @@ private fun Home(
                             tint = colorScheme.primary,
                             modifier = Modifier
                                 .size(30.dp)
-
                         )
-                        if (notificationCount > 0) {
-                            Badge(
-                                modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .size(10.dp),
-                            )
-                        }
                     }
                 }
             )
@@ -433,6 +407,7 @@ private fun Home(
                 onClick = {
                     showBottomSheetCreate = true
                 },
+                containerColor = colorScheme.primary,
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -457,7 +432,7 @@ private fun Home(
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp)
             ) {
-                if (studySets.isEmpty() &&  folders.isEmpty() && !isLoading) {
+                if (studySets.isEmpty() && folders.isEmpty() && !isLoading) {
                     item {
                         Text(
                             text = stringResource(R.string.txt_here_is_how_to_get_started),
