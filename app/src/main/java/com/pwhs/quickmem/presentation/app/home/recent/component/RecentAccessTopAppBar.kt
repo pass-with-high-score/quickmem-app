@@ -134,7 +134,7 @@ fun RecentAccessTopAppBar(
                 Icon(
                     imageVector = Icons.Default.Search,
                     contentDescription = stringResource(R.string.txt_search),
-                    tint = Color.White
+                    tint = colorScheme.onPrimary
                 )
             }
         }
