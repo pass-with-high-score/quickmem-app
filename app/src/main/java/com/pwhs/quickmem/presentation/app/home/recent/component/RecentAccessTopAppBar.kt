@@ -45,6 +45,7 @@ fun RecentAccessTopAppBar(
     modifier: Modifier = Modifier,
     title: String? = null,
     description: String? = null,
+    placeHolder: String = "",
     color: Color,
     onNavigateBack: () -> Unit,
     onAddNew: () -> Unit = {},
@@ -98,7 +99,7 @@ fun RecentAccessTopAppBar(
                     SearchTextField(
                         searchQuery = searchQuery,
                         onSearchQueryChange = onSearchQueryChange,
-                        placeholder = stringResource(R.string.txt_search_study_sets),
+                        placeholder = placeHolder,
                     )
                 }
             }
@@ -112,7 +113,7 @@ fun RecentAccessTopAppBar(
                 Icon(
                     imageVector = AutoMirrored.Filled.ArrowBack,
                     contentDescription = stringResource(R.string.txt_back),
-                    tint = Color.White
+                    tint = colorScheme.onPrimary
                 )
             }
         },

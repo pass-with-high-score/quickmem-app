@@ -89,6 +89,8 @@ fun AllRecentAccessFolders(
     onAddFolder: () -> Unit = {},
 ) {
     var searchQuery by remember { mutableStateOf("") }
+    val filteredFolders = folders.filter { it.title.contains(searchQuery, ignoreCase = true) }
+
 
     Scaffold(
         containerColor = colorScheme.background,
@@ -101,6 +103,7 @@ fun AllRecentAccessFolders(
                 onNavigateBack = onNavigateBack,
                 onAddNew = onAddFolder,
                 searchQuery = searchQuery,
+                placeHolder = stringResource(R.string.txt_search_folders),
                 onSearchQueryChange = {
                     searchQuery = it
                 }
@@ -116,15 +119,10 @@ fun AllRecentAccessFolders(
                     .padding(horizontal = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                items(folders.size, key = { it }) { index ->
-                    val folder = folders.getOrNull(index)
-                    if (folder != null && folder.title.contains(
-                            searchQuery,
-                            ignoreCase = true
-                        )
-                    ) {
+                items(filteredFolders.size, key = { it }) { index ->
+                    val folder = filteredFolders.getOrNull(index)
+                    if (folder != null) {
                         FolderItem(
-                            modifier = Modifier.padding(horizontal = 16.dp),
                             title = folder.title,
                             numOfStudySets = folder.studySetCount,
                             onClick = { onFolderClick(folder) },
@@ -134,12 +132,10 @@ fun AllRecentAccessFolders(
                     }
                 }
                 item {
-                    if (!isLoading && folders
-                        .isEmpty()) {
+                    if (!isLoading && filteredFolders.isEmpty()) {
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(innerPadding)
                                 .padding(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {

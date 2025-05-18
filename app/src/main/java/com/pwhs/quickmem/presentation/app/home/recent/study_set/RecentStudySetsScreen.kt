@@ -91,6 +91,7 @@ fun AllRecentAccessStudySets(
     onAddStudySet: () -> Unit = {},
 ) {
     var searchQuery by remember { mutableStateOf("") }
+    val filteredStudySets = studySets.filter { it.title.contains(searchQuery, ignoreCase = true) }
 
     Scaffold(
         containerColor = colorScheme.background,
@@ -103,6 +104,7 @@ fun AllRecentAccessStudySets(
                 onNavigateBack = onNavigateBack,
                 onAddNew = onAddStudySet,
                 searchQuery = searchQuery,
+                placeHolder = stringResource(R.string.txt_search_study_sets),
                 onSearchQueryChange = {
                     searchQuery = it
                 }
@@ -118,13 +120,9 @@ fun AllRecentAccessStudySets(
                     .padding(horizontal = 16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                items(studySets.size, key = { it }) { index ->
-                    val studySet = studySets.getOrNull(index)
-                    if (studySet != null && studySet.title.contains(
-                            searchQuery,
-                            ignoreCase = true
-                        )
-                    ) {
+                items(filteredStudySets.size, key = { it }) { index ->
+                    val studySet = filteredStudySets.getOrNull(index)
+                    if (studySet != null) {
                         StudySetItem(
                             studySet = studySet,
                             onStudySetClick = { onStudySetClick(studySet) }
@@ -132,11 +130,10 @@ fun AllRecentAccessStudySets(
                     }
                 }
                 item {
-                    if (!isLoading && studySets.isEmpty()) {
+                    if (!isLoading && filteredStudySets.isEmpty()) {
                         Column(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(innerPadding)
                                 .padding(16.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {

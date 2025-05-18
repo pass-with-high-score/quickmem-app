@@ -43,6 +43,7 @@ class RecentStudySetsViewModel @Inject constructor(
 
                     is Resources.Error -> {
                         _uiState.value = _uiState.value.copy(isLoading = false)
+                        _uiEvent.send(RecentStudySetsUiEvent.Error(resource.message ?: "Unknown error"))
                     }
                 }
             }

@@ -43,6 +43,7 @@ class RecentFoldersViewModel @Inject constructor(
 
                     is Resources.Error -> {
                         _uiState.value = _uiState.value.copy(isLoading = false)
+                        _uiEvent.send(RecentFoldersUiEvent.Error(resource.message ?: "Unknown error"))
                     }
                 }
             }
