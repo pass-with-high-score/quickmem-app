@@ -1,4 +1,6 @@
 # QuickMem
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpass-with-high-score%2Fquickmem-app.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpass-with-high-score%2Fquickmem-app?ref=badge_shield)
+
 
 **QuickMem** is an Android application designed to enhance learning through flashcards. It helps
 users efficiently memorize and review various subjects by offering a flashcard-based learning
@@ -111,3 +113,7 @@ create. Any contributions you make are **greatly appreciated**.
 - [Coil](https://coil-kt.github.io/coil/) – Image loading library for Android.
 - [Timber](https://github.com/JakeWharton/timber) – A logger for Android.
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fpass-with-high-score%2Fquickmem-app.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fpass-with-high-score%2Fquickmem-app?ref=badge_large)
