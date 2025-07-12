@@ -14,21 +14,21 @@ agp = "8.6.1"
 
 # ───── AndroidX Core & Lifecycle ─────
 coreKtx = "1.16.0"
-lifecycleRuntimeKtx = "2.9.0"
+lifecycleRuntimeKtx = "2.9.1"
 activityCompose = "1.10.1"
-workRuntime = "2.10.1"
+workRuntime = "2.10.2"
 
 # ───── Jetpack Compose ─────
-composeBom = "2025.05.00"
-foundation = "1.8.1"
+composeBom = "2025.06.01"
+foundation = "1.8.3"
 materialIconsExtended = "1.7.8"
 composeAnimations = "1.11.6"
-uiTextGoogleFonts = "1.8.1"
-media3Exoplayer = "1.6.1"
+uiTextGoogleFonts = "1.8.3"
+media3Exoplayer = "1.7.1"
 
 # ───── Compose Extensions ─────
-accompanistPermissions = "0.36.0"
-composeDestinations = "2.1.0-beta09"
+accompanistPermissions = "0.37.3"
+composeDestinations = "2.2.0"
 composeCharts = "0.0.18"
 lottieCompose = "6.4.2-SNAPSHOT"
 
@@ -40,24 +40,24 @@ pagingCompose = "3.3.6"
 coilCompose = "2.7.0"
 
 # ───── Firebase & Google Services ─────
-firebaseBom = "33.13.0"
-firebaseMessagingKtx = "24.1.1"
-firebaseCrashlytics = "3.0.3"
-googleServices = "4.4.2"
-playServicesAds = "24.2.0"
+firebaseBom = "33.16.0"
+firebaseMessagingKtx = "24.1.2"
+firebaseCrashlytics = "3.0.4"
+googleServices = "4.4.3"
+playServicesAds = "24.4.0"
 review = "2.0.2"
 googleid = "1.1.1"
 credentials = "1.5.0"
 
 # ───── Hilt ─────
-hilt = "2.51.1"
+hilt = "2.56.2"
 hilt-work = "1.2.0"
 hilt-compose = "1.2.0"
 
 # ───── Room & Datastore ─────
-roomRuntime = "2.7.1"
-roomCompiler = "2.7.1"
-datastorePreferences = "1.1.6"
+roomRuntime = "2.7.2"
+roomCompiler = "2.7.2"
+datastorePreferences = "1.1.7"
 
 # ───── Retrofit & Networking ─────
 retrofit = "2.11.0"
@@ -66,10 +66,10 @@ loggingInterceptor = "4.12.0"
 # ───── Serialization ─────
 serialization-core = "1.7.3"
 serialization-json = "1.7.3"
-runtime = "1.8.1"  # Compose runtime
+runtime = "1.8.3"  # Compose runtime
 
 # ───── RevenueCat ─────
-revenuecat = "8.17.1"
+revenuecat = "8.20.0"
 
 # ───── Validation ─────
 easyvalidationCore = "1.0.4"
