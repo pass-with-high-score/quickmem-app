@@ -145,8 +145,6 @@ dependencies {
 
     implementation(libs.androidx.media3.ui)
     implementation(libs.facebook.login)
-    implementation("com.facebook.android:facebook-android-sdk:[8,9)")
-
 
 
     // Compose
