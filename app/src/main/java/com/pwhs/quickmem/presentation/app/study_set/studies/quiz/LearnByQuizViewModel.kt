@@ -79,7 +79,7 @@ class LearnByQuizViewModel @Inject constructor(
             }
         }
 
-        onRestart()
+        getFlashCard()
     }
 
     fun onEvent(event: LearnByQuizUiAction) {
