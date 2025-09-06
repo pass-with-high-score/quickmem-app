@@ -3,8 +3,8 @@
 compileSdk = "36"
 minSdk = "28"
 targetSdk = "36"
-versionCode = "20"
-versionName = "1.8.0"
+versionCode = "21"
+versionName = "1.9.0"
 
 # ───── Kotlin & Build Tools ─────
 kotlin = "2.2.10"
