@@ -1,10 +1,12 @@
 package com.pwhs.quickmem.data.dto.study_set
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class AddStudySetToFoldersRequestDto (
-    @SerializedName("studySetId")
+    @SerialName("studySetId")
     val studySetId: String,
-    @SerializedName("folderIds")
+    @SerialName("folderIds")
     val folderIds: List<String>
 )

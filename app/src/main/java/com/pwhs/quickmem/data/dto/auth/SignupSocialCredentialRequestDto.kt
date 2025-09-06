@@ -1,22 +1,24 @@
 package com.pwhs.quickmem.data.dto.auth
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SignupSocialCredentialRequestDto(
-    @SerializedName("username")
+    @SerialName("username")
     val username: String,
-    @SerializedName("email")
+    @SerialName("email")
     val email: String,
-    @SerializedName("idToken")
+    @SerialName("idToken")
     val idToken: String,
-    @SerializedName("photoUrl")
+    @SerialName("photoUrl")
     val photoUrl: String,
-    @SerializedName("birthday")
+    @SerialName("birthday")
     val birthday: String,
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("provider")
+    @SerialName("provider")
     val provider: String,
-    @SerializedName("displayName")
+    @SerialName("displayName")
     val displayName: String,
 )

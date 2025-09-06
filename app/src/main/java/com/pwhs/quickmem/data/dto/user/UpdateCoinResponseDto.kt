@@ -1,12 +1,14 @@
 package com.pwhs.quickmem.data.dto.user
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UpdateCoinResponseDto(
-    @SerializedName("message")
+    @SerialName("message")
     val message: String,
-    @SerializedName("coinAction")
+    @SerialName("coinAction")
     val coinAction: String,
-    @SerializedName("coins")
+    @SerialName("coins")
     val coins: Int
 )

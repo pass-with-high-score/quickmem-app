@@ -1,14 +1,16 @@
 package com.pwhs.quickmem.data.dto.auth
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class LoginRequestDto(
-    @SerializedName("email")
+    @SerialName("email")
     val email: String?,
-    @SerializedName("password")
+    @SerialName("password")
     val password: String?,
-    @SerializedName("provider")
+    @SerialName("provider")
     val provider: String? = null,
-    @SerializedName("idToken")
+    @SerialName("idToken")
     val idToken: String? = null,
 )

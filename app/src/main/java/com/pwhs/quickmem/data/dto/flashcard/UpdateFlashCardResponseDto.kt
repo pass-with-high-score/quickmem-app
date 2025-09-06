@@ -1,27 +1,29 @@
 package com.pwhs.quickmem.data.dto.flashcard
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.pwhs.quickmem.core.data.enums.FlipCardStatus
 import com.pwhs.quickmem.core.data.enums.QuizStatus
 import com.pwhs.quickmem.core.data.enums.Rating
 import com.pwhs.quickmem.core.data.enums.TrueFalseStatus
 import com.pwhs.quickmem.core.data.enums.WriteStatus
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UpdateFlashCardResponseDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("message")
+    @SerialName("message")
     val message: String,
-    @SerializedName("isStarred")
+    @SerialName("isStarred")
     val isStarred: Boolean? = false,
-    @SerializedName("rating")
+    @SerialName("rating")
     val rating: String? = Rating.NOT_STUDIED.name,
-    @SerializedName("flipStatus")
+    @SerialName("flipStatus")
     val flipStatus: String? = FlipCardStatus.NONE.name,
-    @SerializedName("quizStatus")
+    @SerialName("quizStatus")
     val quizStatus: String? = QuizStatus.NONE.name,
-    @SerializedName("trueFalseStatus")
+    @SerialName("trueFalseStatus")
     val trueFalseStatus: TrueFalseStatus? = TrueFalseStatus.NONE,
-    @SerializedName("writeStatus")
+    @SerialName("writeStatus")
     val writeStatus: WriteStatus? = WriteStatus.NONE,
 )

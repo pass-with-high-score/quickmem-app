@@ -2,6 +2,7 @@ package com.pwhs.quickmem.data.remote.interceptor
 
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.AppConstant.BASE_URL
+import com.pwhs.quickmem.core.utils.Serde
 import com.pwhs.quickmem.data.dto.auth.RefreshTokenRequestDto
 import com.pwhs.quickmem.data.remote.ApiService
 import kotlinx.coroutines.Dispatchers
@@ -9,10 +10,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import javax.inject.Inject
 
 class AuthInterceptor @Inject constructor(
@@ -22,7 +24,7 @@ class AuthInterceptor @Inject constructor(
     private val refreshTokenService: ApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(Serde.json.asConverterFactory("application/json".toMediaType()))
             .client(OkHttpClient.Builder().build())
             .build()
             .create(ApiService::class.java)

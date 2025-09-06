@@ -1,25 +1,27 @@
 package com.pwhs.quickmem.data.dto.notification
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.pwhs.quickmem.core.data.enums.NotificationType
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GetNotificationResponseDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("title")
+    @SerialName("title")
     val title: String,
-    @SerializedName("message")
+    @SerialName("message")
     val message: String,
-    @SerializedName("userId")
+    @SerialName("userId")
     val userId: String,
-    @SerializedName("isRead")
+    @SerialName("isRead")
     val isRead: Boolean,
-    @SerializedName("notificationType")
+    @SerialName("notificationType")
     val notificationType: NotificationType? = NotificationType.NONE,
-    @SerializedName("data")
+    @SerialName("data")
     val data: NotificationDataDto? = null,
-    @SerializedName("createdAt")
+    @SerialName("createdAt")
     val createdAt: String,
-    @SerializedName("updatedAt")
+    @SerialName("updatedAt")
     val updatedAt: String
 )

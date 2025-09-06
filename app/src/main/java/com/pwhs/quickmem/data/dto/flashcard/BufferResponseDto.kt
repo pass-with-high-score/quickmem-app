@@ -1,10 +1,12 @@
 package com.pwhs.quickmem.data.dto.flashcard
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class BufferResponseDto(
-    @SerializedName("type")
+    @SerialName("type")
     val type: String,
-    @SerializedName("data")
+    @SerialName("data")
     val data: List<Int>
 )

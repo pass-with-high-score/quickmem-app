@@ -1,14 +1,16 @@
 package com.pwhs.quickmem.data.dto.report
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CreateReportRequestDto(
-    @SerializedName("reason")
+    @SerialName("reason")
     val reason: String,
-    @SerializedName("reportedEntityId")
+    @SerialName("reportedEntityId")
     val reportedEntityId: String,
-    @SerializedName("ownerOfReportedEntityId")
+    @SerialName("ownerOfReportedEntityId")
     val ownerOfReportedEntityId: String,
-    @SerializedName("reportedType")
+    @SerialName("reportedType")
     val reportedType: String,
 )

@@ -1,38 +1,40 @@
 package com.pwhs.quickmem.data.dto.flashcard
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class FlashCardResponseDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("term")
+    @SerialName("term")
     val term: String,
-    @SerializedName("termImageURL")
+    @SerialName("termImageURL")
     val termImageURL: String?,
-    @SerializedName("definition")
+    @SerialName("definition")
     val definition: String,
-    @SerializedName("definitionImageURL")
+    @SerialName("definitionImageURL")
     val definitionImageURL: String?,
-    @SerializedName("hint")
+    @SerialName("hint")
     val hint: String?,
-    @SerializedName("explanation")
+    @SerialName("explanation")
     val explanation: String?,
-    @SerializedName("studySetId")
+    @SerialName("studySetId")
     val studySetId: String,
-    @SerializedName("rating")
+    @SerialName("rating")
     val rating: String,
-    @SerializedName("flipStatus")
+    @SerialName("flipStatus")
     val flipStatus: String,
-    @SerializedName("quizStatus")
+    @SerialName("quizStatus")
     val quizStatus: String,
-    @SerializedName("isStarred")
+    @SerialName("isStarred")
     val isStarred: Boolean,
-    @SerializedName("termVoiceCode")
+    @SerialName("termVoiceCode")
     val termVoiceCode: String?,
-    @SerializedName("definitionVoiceCode")
+    @SerialName("definitionVoiceCode")
     val definitionVoiceCode: String?,
-    @SerializedName("createdAt")
+    @SerialName("createdAt")
     val createdAt: String,
-    @SerializedName("updatedAt")
+    @SerialName("updatedAt")
     val updatedAt: String
 )

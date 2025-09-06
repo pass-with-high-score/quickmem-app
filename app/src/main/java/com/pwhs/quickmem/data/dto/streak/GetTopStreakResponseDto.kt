@@ -1,14 +1,16 @@
 package com.pwhs.quickmem.data.dto.streak
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GetTopStreakResponseDto (
-    @SerializedName("userId")
+    @SerialName("userId")
     val userId: String,
-    @SerializedName("username")
+    @SerialName("username")
     val username: String,
-    @SerializedName("avatarUrl")
+    @SerialName("avatarUrl")
     val avatarUrl: String,
-    @SerializedName("streakCount")
+    @SerialName("streakCount")
     val streakCount: Int,
 )

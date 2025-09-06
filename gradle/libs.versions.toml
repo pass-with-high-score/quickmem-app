@@ -138,7 +138,7 @@ androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text
 # Retrofit
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+converter-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 #Datastore
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferences" }
@@ -171,7 +171,7 @@ datastore = [
 retrofit = [
     "retrofit",
     "logging-interceptor",
-    "converter-gson",
+    "converter-serialization",
 ]
 android-testing = ["androidx-junit", "androidx-espresso-core", "androidx-ui-test-junit4"]
 testing = ["junit"]

@@ -1,10 +1,12 @@
 package com.pwhs.quickmem.data.dto.upload
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UploadImageResponseDto(
-    @SerializedName("message")
+    @SerialName("message")
     val message: String,
-    @SerializedName("url")
+    @SerialName("url")
     val url: String
 )

@@ -1,14 +1,16 @@
 package com.pwhs.quickmem.data.dto.subject
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GetTop5SubjectResponseDto (
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
 
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
-    @SerializedName("studySetCount")
+    @SerialName("studySetCount")
     val studySetCount: Int
 )

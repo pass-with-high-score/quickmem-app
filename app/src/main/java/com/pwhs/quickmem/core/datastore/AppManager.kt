@@ -6,11 +6,12 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.pwhs.quickmem.utils.dataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.serialization.builtins.ListSerializer
+import kotlinx.serialization.builtins.serializer
+import kotlinx.serialization.json.Json
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -99,8 +100,7 @@ class AppManager @Inject constructor(private val context: Context) {
     val userLoginProviders: Flow<List<String>> = context.dataStore.data
         .map { preferences ->
             val json = preferences[USER_LOGIN_PROVIDER] ?: "[]"
-            val type = object : TypeToken<List<String>>() {}.type
-            Gson().fromJson(json, type)
+            Json.decodeFromString(ListSerializer(String.serializer()), json)
         }
 
     val userCreatedAt: Flow<String> = context.dataStore.data
@@ -209,12 +209,11 @@ class AppManager @Inject constructor(private val context: Context) {
 
     suspend fun saveUserLoginProviders(loginProviders: List<String>) {
         Timber.d("Saving user login providers: $loginProviders")
-        val json = Gson().toJson(loginProviders)
+        val json = Json.encodeToString(ListSerializer(String.serializer()), loginProviders)
         context.dataStore.edit { preferences ->
             preferences[USER_LOGIN_PROVIDER] = json
         }
     }
-
     suspend fun saveUserCreatedAt(createdAt: String) {
         Timber.d("Saving user created at: $createdAt")
         context.dataStore.edit { preferences ->

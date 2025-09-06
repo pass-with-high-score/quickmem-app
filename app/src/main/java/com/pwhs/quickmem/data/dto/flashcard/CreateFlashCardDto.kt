@@ -1,24 +1,26 @@
 package com.pwhs.quickmem.data.dto.flashcard
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CreateFlashCardDto(
-    @SerializedName("term")
+    @SerialName("term")
     val term: String,
-    @SerializedName("termImageURL")
+    @SerialName("termImageURL")
     val termImageURL: String? = null,
-    @SerializedName("termVoiceCode")
+    @SerialName("termVoiceCode")
     val termVoiceCode: String? = null,
-    @SerializedName("definition")
+    @SerialName("definition")
     val definition: String,
-    @SerializedName("definitionImageURL")
+    @SerialName("definitionImageURL")
     val definitionImageURL: String? = null,
-    @SerializedName("definitionVoiceCode")
+    @SerialName("definitionVoiceCode")
     val definitionVoiceCode: String? = null,
-    @SerializedName("explanation")
+    @SerialName("explanation")
     val explanation: String? = null,
-    @SerializedName("hint")
+    @SerialName("hint")
     val hint: String? = null,
-    @SerializedName("studySetId")
+    @SerialName("studySetId")
     val studySetId: String,
 )

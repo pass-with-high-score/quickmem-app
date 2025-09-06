@@ -1,47 +1,49 @@
 package com.pwhs.quickmem.data.dto.flashcard
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.pwhs.quickmem.core.data.enums.FlipCardStatus
 import com.pwhs.quickmem.core.data.enums.QuizStatus
 import com.pwhs.quickmem.core.data.enums.Rating
 import com.pwhs.quickmem.core.data.enums.TrueFalseStatus
 import com.pwhs.quickmem.core.data.enums.WriteStatus
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class StudySetFlashCardResponseDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("term")
+    @SerialName("term")
     val term: String,
-    @SerializedName("termImageURL")
+    @SerialName("termImageURL")
     val termImageURL: String?,
-    @SerializedName("definition")
+    @SerialName("definition")
     val definition: String,
-    @SerializedName("definitionImageURL")
+    @SerialName("definitionImageURL")
     val definitionImageURL: String?,
-    @SerializedName("hint")
+    @SerialName("hint")
     val hint: String?,
-    @SerializedName("explanation")
+    @SerialName("explanation")
     val explanation: String?,
-    @SerializedName("rating")
+    @SerialName("rating")
     val rating: String = Rating.NOT_STUDIED.name,
-    @SerializedName("flipStatus")
+    @SerialName("flipStatus")
     val flipStatus: String = FlipCardStatus.NONE.name,
-    @SerializedName("quizStatus")
+    @SerialName("quizStatus")
     val quizStatus: String = QuizStatus.NONE.status,
-    @SerializedName("trueFalseStatus")
+    @SerialName("trueFalseStatus")
     val trueFalseStatus: String = TrueFalseStatus.NONE.status,
-    @SerializedName("writeStatus")
+    @SerialName("writeStatus")
     val writeStatus: String = WriteStatus.NONE.status,
-    @SerializedName("isStarred")
+    @SerialName("isStarred")
     val isStarred: Boolean,
-    @SerializedName("isAIGenerated")
+    @SerialName("isAIGenerated")
     val isAIGenerated: Boolean,
-    @SerializedName("termVoiceCode")
+    @SerialName("termVoiceCode")
     val termVoiceCode: String?,
-    @SerializedName("definitionVoiceCode")
+    @SerialName("definitionVoiceCode")
     val definitionVoiceCode: String?,
-    @SerializedName("createdAt")
+    @SerialName("createdAt")
     val createdAt: String,
-    @SerializedName("updatedAt")
+    @SerialName("updatedAt")
     val updatedAt: String
 )

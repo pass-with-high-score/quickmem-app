@@ -9,9 +9,7 @@
 -keep class * implements com.pwhs.quickmem.domain.repository.** { *; }
 
 # Keep classes with reflection
--keepclassmembers class * {
-    @com.google.gson.annotations.SerializedName <fields>;
-}
+-keep @kotlinx.serialization.Serializable class * {*;}
 -keepattributes Signature,RuntimeVisibleAnnotations,AnnotationDefault
 
 # Keep entry points

@@ -1,9 +1,10 @@
 package com.pwhs.quickmem.data.dto.auth
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class RefreshTokenRequestDto(
-    @SerializedName("refreshToken")
+    @SerialName("refreshToken")
     val refreshToken: String
 )
