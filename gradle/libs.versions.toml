@@ -1,36 +1,35 @@
 [versions]
 # ───── Project Configuration ─────
-compileSdk = "35"
+compileSdk = "36"
 minSdk = "28"
-targetSdk = "35"
+targetSdk = "36"
 versionCode = "20"
 versionName = "1.8.0"
-jvmTarget = "17"
 
 # ───── Kotlin & Build Tools ─────
-kotlin = "2.0.21"
-ksp = "2.0.21-1.0.28"
-agp = "8.6.1"
+kotlin = "2.2.10"
+ksp = "2.2.10-2.0.2"
+agp = "8.13.0-alpha03"
 
 # ───── AndroidX Core & Lifecycle ─────
-coreKtx = "1.16.0"
-lifecycleRuntimeKtx = "2.9.1"
+coreKtx = "1.17.0"
+lifecycleRuntimeKtx = "2.9.3"
 activityCompose = "1.10.1"
-workRuntime = "2.10.2"
+workRuntime = "2.10.3"
 
 # ───── Jetpack Compose ─────
-composeBom = "2025.06.01"
-foundation = "1.8.3"
+composeBom = "2025.08.01"
+foundation = "1.9.0"
 materialIconsExtended = "1.7.8"
-composeAnimations = "1.11.6"
-uiTextGoogleFonts = "1.8.3"
-media3Exoplayer = "1.7.1"
+composeAnimations = "1.11.9"
+uiTextGoogleFonts = "1.9.0"
+media3Exoplayer = "1.8.0"
 
 # ───── Compose Extensions ─────
 accompanistPermissions = "0.37.3"
 composeDestinations = "2.2.0"
-composeCharts = "0.0.18"
-lottieCompose = "6.4.2-SNAPSHOT"
+composeCharts = "0.1.11"
+lottieCompose = "6.6.7"
 
 # ───── Paging ─────
 pagingRuntimeKtx = "3.3.6"
@@ -40,17 +39,17 @@ pagingCompose = "3.3.6"
 coilCompose = "2.7.0"
 
 # ───── Firebase & Google Services ─────
-firebaseBom = "33.16.0"
+firebaseBom = "34.2.0"
 firebaseMessagingKtx = "24.1.2"
-firebaseCrashlytics = "3.0.4"
+firebaseCrashlytics = "3.0.6"
 googleServices = "4.4.3"
-playServicesAds = "24.4.0"
+playServicesAds = "24.5.0"
 review = "2.0.2"
 googleid = "1.1.1"
 credentials = "1.5.0"
 
 # ───── Hilt ─────
-hilt = "2.56.2"
+hilt = "2.57.1"
 hilt-work = "1.2.0"
 hilt-compose = "1.2.0"
 
@@ -60,16 +59,16 @@ roomCompiler = "2.7.2"
 datastorePreferences = "1.1.7"
 
 # ───── Retrofit & Networking ─────
-retrofit = "2.11.0"
-loggingInterceptor = "4.12.0"
+retrofit = "3.0.0"
+loggingInterceptor = "5.1.0"
 
 # ───── Serialization ─────
-serialization-core = "1.7.3"
-serialization-json = "1.7.3"
-runtime = "1.8.3"  # Compose runtime
+serialization-core = "1.9.0"
+serialization-json = "1.9.0"
+runtime = "1.9.0"  # Compose runtime
 
 # ───── RevenueCat ─────
-revenuecat = "8.20.0"
+revenuecat = "9.5.0"
 
 # ───── Validation ─────
 easyvalidationCore = "1.0.4"
@@ -79,8 +78,8 @@ jakewhartonTimber = "5.0.1"
 
 # ───── Testing ─────
 junit = "4.13.2"
-junitVersion = "1.2.1"
-espressoCore = "3.6.1"
+junitVersion = "1.3.0"
+espressoCore = "3.7.0"
 
 
 [libraries]

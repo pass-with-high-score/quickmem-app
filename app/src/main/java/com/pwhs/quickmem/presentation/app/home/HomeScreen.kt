@@ -1,7 +1,9 @@
 package com.pwhs.quickmem.presentation.app.home
 
 import android.Manifest
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -103,6 +105,7 @@ import com.ramcosta.composedestinations.result.ResultRecipient
 import com.revenuecat.purchases.CustomerInfo
 import java.time.LocalDate
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalPermissionsApi::class)
 @Destination<RootGraph>(
     deepLinks = [

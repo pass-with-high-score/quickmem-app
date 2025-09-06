@@ -19,8 +19,8 @@
 -keep class com.pwhs.quickmem.core.schedule_alarm.** { *; }
 
 # Keep library classes
--keep class androidx.credentials.** { *; }
 -keep class com.google.gson.** { *; }
+-keep class androidx.credentials.** { *; }
 -keep class com.squareup.retrofit2.** { *; }
 -keep class com.google.firebase.** { *; }
 
@@ -34,7 +34,6 @@
 
 # Keep CredentialManager
 -keep class com.google.android.libraries.identity.googleid.** { *; }
--keep class androidx.credentials.** { *; }
 # Keep dataStore
 -keep class androidx.datastore.** { *; }
 -keep class com.pwhs.quickmem.core.datastore.** { *; }

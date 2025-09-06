@@ -5,7 +5,6 @@ import android.app.LocaleManager
 import android.content.Context
 import android.content.ContextWrapper
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -41,16 +40,6 @@ fun Context.bitmapToUri(bitmap: ImageBitmap): Uri {
     } catch (e: IOException) {
         e.printStackTrace()
         Uri.EMPTY
-    }
-}
-
-fun Context.uriToBitmap(uri: Uri): Bitmap {
-    return try {
-        val inputStream = this.contentResolver.openInputStream(uri)
-        Bitmap.createBitmap(BitmapFactory.decodeStream(inputStream))
-    } catch (e: IOException) {
-        e.printStackTrace()
-        Bitmap.createBitmap(0, 0, Bitmap.Config.ARGB_8888)
     }
 }
 

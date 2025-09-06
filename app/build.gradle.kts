@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import java.util.Properties
 
 plugins {
@@ -103,16 +104,18 @@ android {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
-    kotlinOptions {
-        jvmTarget = libs.versions.jvmTarget.get()
+    kotlin {
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+            freeCompilerArgs = listOf("-XXLanguage:+PropertyParamAnnotationDefaultTargetMode")
+        }
     }
+
     buildFeatures {
         compose = true
         buildConfig = true
     }
-    androidResources {
-        generateLocaleConfig = true
-    }
+
 }
 
 dependencies {

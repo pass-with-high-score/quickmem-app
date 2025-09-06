@@ -10,6 +10,7 @@ import java.time.LocalTime
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+import androidx.core.graphics.toColorInt
 
 fun String.upperCaseFirstLetter(): String {
     return this.replaceFirstChar { it.uppercase() }
@@ -39,7 +40,7 @@ fun String.toTimestamp(): Long? {
 }
 
 fun String.toColor(): Color {
-    val color = Color(android.graphics.Color.parseColor(this))
+    val color = Color(this.toColorInt())
     return color
 }
 

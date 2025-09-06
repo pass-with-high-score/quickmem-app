@@ -1,7 +1,6 @@
 package com.pwhs.quickmem.presentation.app.settings
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.widget.Toast
@@ -254,7 +253,7 @@ fun SettingsScreen(
         onNavigateToPrivacyPolicy = {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                "https://pass-with-high-score.github.io/quickmem-term-policy/policy".toUri()
+                "https://quickmem.app/policy.html".toUri()
             )
             try {
                 context.startActivity(intent)
@@ -265,7 +264,7 @@ fun SettingsScreen(
         onNavigateToTermsOfService = {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                "https://pass-with-high-score.github.io/quickmem-term-policy/services".toUri()
+                "https://quickmem.app/services.html".toUri()
             )
             try {
                 context.startActivity(intent)
@@ -334,10 +333,15 @@ fun Setting(
     var showVerifyPasswordBottomSheet by remember {
         mutableStateOf(false)
     }
-    val notificationPermission =
+    val notificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         rememberPermissionState(android.Manifest.permission.POST_NOTIFICATIONS)
+    } else {
+        null
+    }
+
+
     LaunchedEffect(notificationPermission) {
-        if (!notificationPermission.status.isGranted) {
+        if (notificationPermission?.status?.isGranted == false) {
             notificationPermission.launchPermissionRequest()
             onNotificationEnabled(false)
         } else {
@@ -493,7 +497,7 @@ fun Setting(
                                     it.lowercase().upperCaseFirstLetter()
                                 },
                                 onClick = {
-                                    // TODO(): Implement this feature
+                                    // TODO: Implement this feature
                                 }
                             )
                             if (userLoginProviders.contains("EMAIL")) {
@@ -585,7 +589,7 @@ fun Setting(
                             SettingSwitch(
                                 title = stringResource(R.string.txt_push_notifications),
                                 onChangeValue = {
-                                    if (!isAppPushNotificationsEnabled && !notificationPermission.status.isGranted) {
+                                    if (!isAppPushNotificationsEnabled && notificationPermission?.status?.isGranted == false) {
                                         showDialog = true
                                     } else {
                                         onEnablePushNotifications(it)
@@ -682,21 +686,16 @@ fun Setting(
                     }
                     val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
                     val appVersion = packageInfo.versionName
-                    val versionCode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        packageInfo.longVersionCode
-                    } else {
-                        @Suppress("DEPRECATION")
-                        packageInfo.versionCode.toLong()
-                    }
+                    val versionCode = packageInfo.longVersionCode
 
                     Spacer(modifier = Modifier.size(16.dp))
 
                     Row {
-                        Column (
+                        Column(
                             modifier = Modifier.weight(1f),
                             verticalArrangement = Arrangement.Center,
                             horizontalAlignment = Alignment.Start
-                        ){
+                        ) {
                             Text(
                                 text = stringResource(R.string.app_name),
                                 style = typography.titleSmall.copy(
@@ -736,20 +735,12 @@ fun Setting(
                     onDismissRequest = { showDialog = false },
                     onConfirm = {
                         showDialog = false
-                        val intent =
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-                                    putExtra(
-                                        Settings.EXTRA_APP_PACKAGE,
-                                        context.packageName
-                                    )
-                                }
-                            } else {
-                                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                    data =
-                                        Uri.parse("package:${context.packageName}")
-                                }
-                            }
+                        val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                            putExtra(
+                                Settings.EXTRA_APP_PACKAGE,
+                                context.packageName
+                            )
+                        }
 
                         context.startActivity(intent)
                     },
