@@ -1,16 +1,18 @@
 package com.pwhs.quickmem.data.dto.study_set
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CreateWriteHintAIRequestDto(
-    @SerializedName("flashcardId")
+    @SerialName("flashcardId")
     val flashcardId: String,
-    @SerializedName("studySetTitle")
+    @SerialName("studySetTitle")
     val studySetTitle: String,
-    @SerializedName("studySetDescription")
+    @SerialName("studySetDescription")
     val studySetDescription: String,
-    @SerializedName("question")
+    @SerialName("question")
     val question: String,
-    @SerializedName("answer")
+    @SerialName("answer")
     val answer: String,
 )

@@ -1,22 +1,24 @@
 package com.pwhs.quickmem.data.dto.study_set
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UpdateStudySetResponseDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("colorId")
+    @SerialName("colorId")
     val colorId: Long,
-    @SerializedName("description")
+    @SerialName("description")
     val description: String,
-    @SerializedName("isPublic")
+    @SerialName("isPublic")
     val isPublic: Boolean,
-    @SerializedName("subjectId")
+    @SerialName("subjectId")
     val subjectId: Long,
-    @SerializedName("title")
+    @SerialName("title")
     val title: String,
-    @SerializedName("createdAt")
+    @SerialName("createdAt")
     val createdAt: String,
-    @SerializedName("updatedAt")
+    @SerialName("updatedAt")
     val updatedAt: String
 )

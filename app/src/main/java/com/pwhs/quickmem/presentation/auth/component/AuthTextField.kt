@@ -49,6 +49,7 @@ import com.pwhs.quickmem.utils.upperCaseFirstLetter
 
 @Composable
 fun AuthTextField(
+    modifier: Modifier = Modifier,
     value: String = "",
     onValueChange: (String) -> Unit = {},
     label: String = "",
@@ -57,7 +58,6 @@ fun AuthTextField(
     readOnly: Boolean = false,
     enabled: Boolean = true,
     type: TextFieldType = TextFieldType.TEXT,
-    modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     @StringRes error: Int? = null,
     imeAction: ImeAction = ImeAction.Next,
@@ -153,6 +153,7 @@ fun AuthTextField(
                 cursorColor = colorScheme.onSurface,
                 errorContainerColor = Color.Transparent,
                 disabledIndicatorColor = if (error != null) colorScheme.error else colorScheme.onSurface,
+
             ),
 
             modifier = modifier

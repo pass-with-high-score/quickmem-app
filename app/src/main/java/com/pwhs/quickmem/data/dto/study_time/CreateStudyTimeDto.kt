@@ -1,12 +1,14 @@
 package com.pwhs.quickmem.data.dto.study_time
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CreateStudyTimeDto(
-    @SerializedName("learnMode")
+    @SerialName("learnMode")
     val learnMode: String,
-    @SerializedName("studySetId")
+    @SerialName("studySetId")
     val studySetId: String,
-    @SerializedName("timeSpent")
+    @SerialName("timeSpent")
     val timeSpent: Int,
 )

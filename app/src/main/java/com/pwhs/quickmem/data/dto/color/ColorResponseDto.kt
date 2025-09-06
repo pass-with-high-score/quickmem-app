@@ -1,14 +1,16 @@
 package com.pwhs.quickmem.data.dto.color
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ColorResponseDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
 
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 
-    @SerializedName("hexValue")
+    @SerialName("hexValue")
     val hexValue: String
 )

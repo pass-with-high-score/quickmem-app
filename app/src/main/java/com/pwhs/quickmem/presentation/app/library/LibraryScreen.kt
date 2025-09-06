@@ -2,13 +2,9 @@ package com.pwhs.quickmem.presentation.app.library
 
 import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -42,10 +38,12 @@ import com.pwhs.quickmem.domain.model.folder.GetFolderResponseModel
 import com.pwhs.quickmem.domain.model.study_set.GetStudySetResponseModel
 import com.pwhs.quickmem.presentation.app.library.folder.ListFolderScreen
 import com.pwhs.quickmem.presentation.app.library.study_set.ListStudySetScreen
+import com.pwhs.quickmem.presentation.components.ActionButtonTopAppBar
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.generated.destinations.CreateFolderScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.CreateStudySetScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.FolderDetailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
@@ -129,6 +127,9 @@ fun LibraryScreen(
         },
         navigateToCreateFolder = {
             navigator.navigate(CreateFolderScreenDestination())
+        },
+        navigateToCreateStudySet = {
+            navigator.navigate(CreateStudySetScreenDestination())
         }
     )
 }
@@ -167,27 +168,18 @@ fun Library(
                     )
                 },
                 actions = {
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .background(color = Color.White, shape = CircleShape)
-                            .border(
-                                width = 2.dp,
-                                color = colorScheme.primary,
-                                shape = CircleShape
-                            )
-                            .clickable {
-                                when (tabIndex) {
-                                    LibraryTabEnum.STUDY_SET.index -> {
-                                        navigateToCreateStudySet()
-                                    }
+                    ActionButtonTopAppBar(
+                        onClick = {
+                            when (tabIndex) {
+                                LibraryTabEnum.STUDY_SET.index -> {
+                                    navigateToCreateStudySet()
+                                }
 
-                                    LibraryTabEnum.FOLDER.index -> {
-                                        navigateToCreateFolder()
-                                    }
+                                LibraryTabEnum.FOLDER.index -> {
+                                    navigateToCreateFolder()
                                 }
                             }
-                            .padding(8.dp)
+                        }
                     ) {
                         Icon(
                             imageVector = Icons.Default.Add,

@@ -595,9 +595,9 @@
     <string name="txt_no_data">Chưa có dữ liệu</string>
     <string name="txt_statistics">Thống kê</string>
     <string name="txt_failed_to_clear_all_notifications">Lỗi khi xoá tất cả thông báo</string>
-    <string name="txt_ai_generative"> AI sinh sáng</string>
-    <string name="txt_this_study_set_does_not_have_any_flashcards_yet">This study set does not have any flashcards yet</string>
-    <string name="txt_you_can_add_flashcards_to_your_study_set">You can add flashcards_to_your_study_set</string>
+    <string name="txt_ai_generative"> Tạo bộ học bằng AI</string>
+    <string name="txt_this_study_set_does_not_have_any_flashcards_yet">Bộ học này chưa có flashcard nào</string>
+    <string name="txt_you_can_add_flashcards_to_your_study_set">Bạn có thể thêm flashcard vào bộ học này:) tạo thêm nhé!</string>
     <string name="txt_get_started_by_adding_your_first_flashcards">Bắt đầu ngay bằng cách thêm flashcard đầu tiên của bạn!</string>
     <string name="txt_flashcards_help_you_study_efficiently_try_adding_one_now">Flashcard sẽ giúp bạn học hiệu quả hơn. Thử thêm một cái ngay bây giờ nhé!</string>
     <string name="txt_flashcard">Flashcard</string>
@@ -611,6 +611,11 @@
     <string name="txt_no_language_found">Không tìm thấy ngôn ngữ</string>
     <string name="txt_voice_name">Giọng nói: %1$s</string>
     <string name="txt_no_voice_found">Không tìm thấy giọng</string>
+    <string name="txt_see_all">Xem tất cả</string>
+    <string name="txt_all_recent_access_study_sets">Tất cả bộ học đã truy cập gần đây</string>
+    <string name="txt_study_sets_you_ve_recently_opened_to_view_their_details">Bộ học mà bạn đã mở gần đây để xem chi tiết</string>
+    <string name="txt_all_recent_access_folders">Tất cả thư mục đã truy cập gần đây</string>
+    <string name="txt_folders_you_ve_recently_opened_to_view_their_details">Thư mục mà bạn đã mở gần đây để xem chi tiết</string>
     <plurals name="hours">
         <item quantity="other">%d giờ</item>
     </plurals>

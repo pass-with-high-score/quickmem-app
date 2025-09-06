@@ -1,17 +1,16 @@
 package com.pwhs.quickmem.presentation.app.settings
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.annotation.StringRes
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -41,11 +40,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -81,7 +80,6 @@ import com.ramcosta.composedestinations.result.NavResult
 import com.ramcosta.composedestinations.result.ResultRecipient
 import com.revenuecat.purchases.CustomerInfo
 import java.util.Date
-import androidx.core.net.toUri
 
 @RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @Destination<RootGraph>
@@ -255,7 +253,7 @@ fun SettingsScreen(
         onNavigateToPrivacyPolicy = {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                "https://pass-with-high-score.github.io/quickmem-term-policy/policy".toUri()
+                "https://quickmem.app/policy.html".toUri()
             )
             try {
                 context.startActivity(intent)
@@ -266,7 +264,7 @@ fun SettingsScreen(
         onNavigateToTermsOfService = {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                "https://pass-with-high-score.github.io/quickmem-term-policy/services".toUri()
+                "https://quickmem.app/services.html".toUri()
             )
             try {
                 context.startActivity(intent)
@@ -335,10 +333,15 @@ fun Setting(
     var showVerifyPasswordBottomSheet by remember {
         mutableStateOf(false)
     }
-    val notificationPermission =
+    val notificationPermission = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         rememberPermissionState(android.Manifest.permission.POST_NOTIFICATIONS)
+    } else {
+        null
+    }
+
+
     LaunchedEffect(notificationPermission) {
-        if (!notificationPermission.status.isGranted) {
+        if (notificationPermission?.status?.isGranted == false) {
             notificationPermission.launchPermissionRequest()
             onNotificationEnabled(false)
         } else {
@@ -494,7 +497,7 @@ fun Setting(
                                     it.lowercase().upperCaseFirstLetter()
                                 },
                                 onClick = {
-                                    // TODO(): Implement this feature
+                                    // TODO: Implement this feature
                                 }
                             )
                             if (userLoginProviders.contains("EMAIL")) {
@@ -586,7 +589,7 @@ fun Setting(
                             SettingSwitch(
                                 title = stringResource(R.string.txt_push_notifications),
                                 onChangeValue = {
-                                    if (!isAppPushNotificationsEnabled && !notificationPermission.status.isGranted) {
+                                    if (!isAppPushNotificationsEnabled && notificationPermission?.status?.isGranted == false) {
                                         showDialog = true
                                     } else {
                                         onEnablePushNotifications(it)
@@ -681,22 +684,33 @@ fun Setting(
                             )
                         }
                     }
+                    val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
+                    val appVersion = packageInfo.versionName
+                    val versionCode = packageInfo.longVersionCode
 
-                    // Logo
-                    Image(
-                        painter = painterResource(id = R.drawable.ic_logo),
-                        contentDescription = "Logo",
-                        modifier = Modifier
-                            .padding(16.dp)
-                            .size(40.dp)
+                    Spacer(modifier = Modifier.size(16.dp))
 
-                    )
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        style = typography.titleSmall.copy(
-                            fontWeight = FontWeight.Bold
-                        )
-                    )
+                    Row {
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.Start
+                        ) {
+                            Text(
+                                text = stringResource(R.string.app_name),
+                                style = typography.titleSmall.copy(
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+
+                            Text(
+                                text = "$appVersion ($versionCode)",
+                                style = typography.bodySmall.copy(
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                        }
+                    }
                 }
             }
             SettingValidatePasswordBottomSheet(
@@ -721,20 +735,12 @@ fun Setting(
                     onDismissRequest = { showDialog = false },
                     onConfirm = {
                         showDialog = false
-                        val intent =
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
-                                    putExtra(
-                                        Settings.EXTRA_APP_PACKAGE,
-                                        context.packageName
-                                    )
-                                }
-                            } else {
-                                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                    data =
-                                        Uri.parse("package:${context.packageName}")
-                                }
-                            }
+                        val intent = Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).apply {
+                            putExtra(
+                                Settings.EXTRA_APP_PACKAGE,
+                                context.packageName
+                            )
+                        }
 
                         context.startActivity(intent)
                     },

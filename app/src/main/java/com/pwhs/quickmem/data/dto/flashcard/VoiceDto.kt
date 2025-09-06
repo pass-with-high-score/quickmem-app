@@ -1,12 +1,14 @@
 package com.pwhs.quickmem.data.dto.flashcard
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class VoiceDto(
-    @SerializedName("code")
+    @SerialName("code")
     val code: String,
-    @SerializedName("gender")
+    @SerialName("gender")
     val gender: String,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
 )

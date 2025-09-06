@@ -1,18 +1,20 @@
 package com.pwhs.quickmem.data.dto.study_time
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GetStudyTimeByStudySetResponseDto(
-    @SerializedName("flip")
+    @SerialName("flip")
     val flip: Int,
-    @SerializedName("quiz")
+    @SerialName("quiz")
     val quiz: Int,
-    @SerializedName("studySetId")
+    @SerialName("studySetId")
     val studySetId: String,
-    @SerializedName("total")
+    @SerialName("total")
     val total: Int,
-    @SerializedName("trueFalse")
+    @SerialName("trueFalse")
     val trueFalse: Int,
-    @SerializedName("write")
+    @SerialName("write")
     val write: Int
 )

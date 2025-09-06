@@ -52,7 +52,7 @@ fun UpdateFullNameSettingScreen(
     UpdateFullNameSetting(
         modifier = modifier,
         fullName = uiState.fullName,
-        errorMessage = uiState.errorMessage,
+        errorMessage = uiState.errorMessage ?: "",
         isLoading = uiState.isLoading,
         onFullNameChanged = { fullName ->
             viewModel.onEvent(UpdateFullNameSettingUiAction.OnFullNameChanged(fullName))

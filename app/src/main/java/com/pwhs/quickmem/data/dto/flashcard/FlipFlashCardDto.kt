@@ -1,8 +1,10 @@
 package com.pwhs.quickmem.data.dto.flashcard
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class FlipFlashCardDto(
-    @SerializedName("flipStatus")
+    @SerialName("flipStatus")
     val flipStatus: String
 )

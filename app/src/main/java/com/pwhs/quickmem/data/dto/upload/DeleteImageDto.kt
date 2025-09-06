@@ -1,8 +1,10 @@
 package com.pwhs.quickmem.data.dto.upload
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class DeleteImageDto(
-    @SerializedName("imageURL")
+    @SerialName("imageURL")
     val imageURL: String? = null
 )

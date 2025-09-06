@@ -60,6 +60,9 @@ class GoogleSignInUtils {
 
                 } catch (e: GetCredentialException) {
                     Timber.e(e, "GetCredentialException")
+                    val intent = Intent(android.provider.Settings.ACTION_ADD_ACCOUNT)
+                    intent.putExtra(android.provider.Settings.EXTRA_ACCOUNT_TYPES, arrayOf("com.google"))
+                    launcher?.launch(intent)
                 } catch (e: GoogleIdTokenParsingException) {
                     Timber.e(e, "GoogleIdTokenParsingException")
                 } catch (e: Exception) {

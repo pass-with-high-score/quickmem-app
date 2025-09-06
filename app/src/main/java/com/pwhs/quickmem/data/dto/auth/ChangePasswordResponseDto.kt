@@ -1,12 +1,15 @@
 package com.pwhs.quickmem.data.dto.auth
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+
+@Serializable
 data class ChangePasswordResponseDto(
-    @SerializedName("isSet")
+    @SerialName("isSet")
     val isSet: Boolean,
-    @SerializedName("message")
+    @SerialName("message")
     val message: String,
-    @SerializedName("email")
+    @SerialName("email")
     val email: String
 )

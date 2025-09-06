@@ -1,8 +1,10 @@
 package com.pwhs.quickmem.data.dto.flashcard
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RatingFlashCardDto(
-    @SerializedName("rating")
+    @SerialName("rating")
     val rating: String
 )

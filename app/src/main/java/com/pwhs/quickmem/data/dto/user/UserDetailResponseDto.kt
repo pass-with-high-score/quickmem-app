@@ -1,20 +1,22 @@
 package com.pwhs.quickmem.data.dto.user
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.pwhs.quickmem.data.dto.folder.GetFolderResponseDto
 import com.pwhs.quickmem.data.dto.study_set.GetStudySetResponseDto
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UserDetailResponseDto(
-    @SerializedName("avatarUrl")
+    @SerialName("avatarUrl")
     val avatarUrl: String,
-    @SerializedName("folders")
+    @SerialName("folders")
     val folders: List<GetFolderResponseDto>,
-    @SerializedName("fullname")
+    @SerialName("fullname")
     val fullName: String,
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("studySets")
+    @SerialName("studySets")
     val studySets: List<GetStudySetResponseDto>,
-    @SerializedName("username")
+    @SerialName("username")
     val username: String
 )

@@ -1,12 +1,14 @@
 package com.pwhs.quickmem.data.dto.auth
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SignupResponseDto(
-    @SerializedName("message")
+    @SerialName("message")
     val message: String,
-    @SerializedName("isVerified")
+    @SerialName("isVerified")
     val isVerified: Boolean,
-    @SerializedName("success")
+    @SerialName("success")
     val success: Boolean,
 )

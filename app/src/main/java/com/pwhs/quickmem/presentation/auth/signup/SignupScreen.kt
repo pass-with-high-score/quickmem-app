@@ -1,6 +1,7 @@
 package com.pwhs.quickmem.presentation.auth.signup
 
 import android.content.Intent
+import android.net.Uri
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.ActivityResultRegistryOwner
@@ -65,6 +66,7 @@ import com.ramcosta.composedestinations.generated.destinations.SignupWithEmailSc
 import com.ramcosta.composedestinations.generated.destinations.WelcomeScreenDestination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import timber.log.Timber
+import androidx.core.net.toUri
 
 @Composable
 @Destination<RootGraph>
@@ -88,7 +90,7 @@ fun SignupScreen(
                             photoUrl = event.authSocialGoogleRequestModel.photoUrl,
                             idToken = event.authSocialGoogleRequestModel.idToken,
                             id = event.authSocialGoogleRequestModel.id,
-                            provider = event.authSocialGoogleRequestModel.provider.toString()
+                            provider = event.authSocialGoogleRequestModel.provider
                         )
                     )
                 }
@@ -201,7 +203,7 @@ fun SignupScreen(
         onPrivacyPolicyClick = {
             val intent = Intent(
                 Intent.ACTION_VIEW,
-                "https://pass-with-high-score.github.io/quickmem-term-policy/policy".toUri()
+                "https://quickmem.app/policy.html".toUri()
             )
             context.startActivity(intent)
         }

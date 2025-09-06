@@ -21,10 +21,10 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 fun ProgressRow(
+    modifier: Modifier = Modifier,
     label: String = "",
     percentage: Int = 0,
     color: Color = MaterialTheme.colorScheme.primary,
-    modifier: Modifier = Modifier,
 ) {
     Row(
         horizontalArrangement = Arrangement.SpaceBetween,

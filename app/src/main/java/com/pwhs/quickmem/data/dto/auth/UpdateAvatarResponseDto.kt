@@ -1,10 +1,12 @@
 package com.pwhs.quickmem.data.dto.auth
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class UpdateAvatarResponseDto(
-    @SerializedName("message")
+    @SerialName("message")
     val message:String,
-    @SerializedName("avatarUrl")
+    @SerialName("avatarUrl")
     val avatarUrl:String
 )

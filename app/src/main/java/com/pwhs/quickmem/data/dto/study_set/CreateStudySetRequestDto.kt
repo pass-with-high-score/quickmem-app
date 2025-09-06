@@ -1,16 +1,18 @@
 package com.pwhs.quickmem.data.dto.study_set
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CreateStudySetRequestDto(
-    @SerializedName("colorId")
+    @SerialName("colorId")
     val colorId: Int,
-    @SerializedName("description")
+    @SerialName("description")
     val description: String,
-    @SerializedName("isPublic")
+    @SerialName("isPublic")
     val isPublic: Boolean,
-    @SerializedName("subjectId")
+    @SerialName("subjectId")
     val subjectId: Int,
-    @SerializedName("title")
+    @SerialName("title")
     val title: String
 )

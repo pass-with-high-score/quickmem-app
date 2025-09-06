@@ -1,8 +1,10 @@
 package com.pwhs.quickmem.data.dto.study_set
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SaveRecentAccessStudySetRequestDto (
-    @SerializedName("studySetId")
+    @SerialName("studySetId")
     val studySetId: String
 )
