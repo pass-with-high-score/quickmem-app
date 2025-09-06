@@ -1,16 +1,18 @@
 package com.pwhs.quickmem.data.dto.flashcard
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class LanguageDto(
-    @SerializedName("code")
+    @SerialName("code")
     val code: String,
-    @SerializedName("name")
+    @SerialName("name")
     val name: String,
-    @SerializedName("voiceAvailableCount")
+    @SerialName("voiceAvailableCount")
     val voiceAvailableCount: Int,
-    @SerializedName("flag")
+    @SerialName("flag")
     val flag: String,
-    @SerializedName("country")
+    @SerialName("country")
     val country: String,
 )

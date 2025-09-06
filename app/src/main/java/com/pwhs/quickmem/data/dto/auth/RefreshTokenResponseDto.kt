@@ -1,11 +1,12 @@
 package com.pwhs.quickmem.data.dto.auth
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-
+@Serializable
 data class RefreshTokenResponseDto(
-    @SerializedName("accessToken")
+    @SerialName("accessToken")
     val accessToken: String,
-    @SerializedName("refreshToken")
+    @SerialName("refreshToken")
     val refreshToken: String
 )

@@ -1,10 +1,12 @@
 package com.pwhs.quickmem.data.dto.streak
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GetStreakDto(
-    @SerializedName("userId")
+    @SerialName("userId")
     val userId: String,
-    @SerializedName("streaks")
+    @SerialName("streaks")
     val streaks: List<StreakDto>
 )

@@ -1,10 +1,12 @@
 package com.pwhs.quickmem.data.dto.pixabay
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class PixaBayImageDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: Int,
-    @SerializedName("imageUrl")
+    @SerialName("imageUrl")
     val imageUrl: String,
 )

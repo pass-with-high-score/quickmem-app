@@ -1,13 +1,12 @@
 package com.pwhs.quickmem.presentation.app.home
 
 import android.Manifest
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -25,7 +24,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Badge
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -56,6 +54,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -95,6 +94,8 @@ import com.ramcosta.composedestinations.generated.destinations.CreateFolderScree
 import com.ramcosta.composedestinations.generated.destinations.CreateStudySetScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.FolderDetailScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.NotificationScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.RecentFoldersScreenDestination
+import com.ramcosta.composedestinations.generated.destinations.RecentStudySetsScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SearchScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.SearchStudySetBySubjectScreenDestination
 import com.ramcosta.composedestinations.generated.destinations.StudySetDetailScreenDestination
@@ -104,10 +105,10 @@ import com.ramcosta.composedestinations.result.ResultRecipient
 import com.revenuecat.purchases.CustomerInfo
 import java.time.LocalDate
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 @OptIn(ExperimentalPermissionsApi::class)
 @Destination<RootGraph>(
     deepLinks = [
-        DeepLink(uriPattern = "quickmem://join/class?code={classCode}"),
         DeepLink(uriPattern = "quickmem://share/folder?code={folderCode}"),
         DeepLink(uriPattern = "quickmem://share/study-set?code={studySetCode}")
     ]
@@ -222,6 +223,12 @@ fun HomeScreen(
                 )
             )
         },
+        onSeeAllStudySetClick = {
+            navigator.navigate(RecentStudySetsScreenDestination())
+        },
+        onSeeAllFolderClick = {
+            navigator.navigate(RecentFoldersScreenDestination())
+        },
         onNavigateToSearch = {
             navigator.navigate(SearchScreenDestination)
         },
@@ -274,6 +281,8 @@ private fun Home(
     folders: List<GetFolderResponseModel> = emptyList(),
     onStudySetClick: (GetStudySetResponseModel) -> Unit = {},
     onFolderClick: (GetFolderResponseModel) -> Unit = {},
+    onSeeAllStudySetClick: () -> Unit = {},
+    onSeeAllFolderClick: () -> Unit = {},
     notificationCount: Int = 0,
     onNavigateToSearch: () -> Unit = {},
     onClickToCreateStudySet: () -> Unit = {},
@@ -373,11 +382,9 @@ private fun Home(
                         onClick = {
                             showStreakBottomSheet = true
                         },
-                        modifier = Modifier.padding(end = 8.dp)
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
-                            modifier = Modifier.padding(8.dp)
                         ) {
                             Image(
                                 painter = painterResource(R.drawable.ic_fire),
@@ -395,19 +402,9 @@ private fun Home(
                         }
                     }
 
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .background(color = Color.White, shape = CircleShape)
-                            .border(
-                                width = 2.dp,
-                                color = colorScheme.primary,
-                                shape = CircleShape
-                            )
-                            .clickable {
-                                onNavigateToNotification()
-                            }
-                            .padding(8.dp)
+                    ActionButtonTopAppBar(
+                        onClick = onNavigateToNotification,
+                        showBadge = notificationCount > 0,
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Notifications,
@@ -415,15 +412,7 @@ private fun Home(
                             tint = colorScheme.primary,
                             modifier = Modifier
                                 .size(30.dp)
-
                         )
-                        if (notificationCount > 0) {
-                            Badge(
-                                modifier = Modifier
-                                    .align(Alignment.TopEnd)
-                                    .size(10.dp),
-                            )
-                        }
                     }
                 }
             )
@@ -433,6 +422,7 @@ private fun Home(
                 onClick = {
                     showBottomSheetCreate = true
                 },
+                containerColor = colorScheme.primary,
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -457,7 +447,7 @@ private fun Home(
                     .padding(innerPadding)
                     .padding(horizontal = 16.dp)
             ) {
-                if (studySets.isEmpty() &&  folders.isEmpty() && !isLoading) {
+                if (studySets.isEmpty() && folders.isEmpty() && !isLoading) {
                     item {
                         Text(
                             text = stringResource(R.string.txt_here_is_how_to_get_started),
@@ -511,15 +501,33 @@ private fun Home(
                 }
                 if (studySets.isNotEmpty()) {
                     item {
-                        Text(
-                            text = stringResource(R.string.txt_study_sets),
-                            style = typography.titleMedium.copy(
-                                color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(top = 16.dp)
-                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = stringResource(R.string.txt_study_sets),
+                                style = typography.titleMedium.copy(
+                                    color = colorScheme.primary,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                            Text(
+                                text = stringResource(R.string.txt_see_all),
+                                style = typography.bodyMedium.copy(
+                                    color = colorScheme.secondary,
+                                    fontWeight = FontWeight.Bold,
+                                    textDecoration = TextDecoration.Underline
+                                ),
+                                modifier = Modifier
+                                    .clickable {
+                                        onSeeAllStudySetClick()
+                                    }
+                                    .padding(end = 6.dp)
+                            )
+                        }
                     }
 
                     item {
@@ -539,15 +547,33 @@ private fun Home(
 
                 if (folders.isNotEmpty()) {
                     item {
-                        Text(
-                            text = stringResource(R.string.txt_folders),
-                            style = typography.titleMedium.copy(
-                                color = colorScheme.primary,
-                                fontWeight = FontWeight.Bold
-                            ),
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(top = 16.dp)
-                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = stringResource(R.string.txt_folders),
+                                style = typography.titleMedium.copy(
+                                    color = colorScheme.primary,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            )
+                            Text(
+                                text = stringResource(R.string.txt_see_all),
+                                style = typography.bodyMedium.copy(
+                                    color = colorScheme.secondary,
+                                    fontWeight = FontWeight.Bold,
+                                    textDecoration = TextDecoration.Underline
+                                ),
+                                modifier = Modifier
+                                    .clickable {
+                                        onSeeAllFolderClick()
+                                    }
+                                    .padding(end = 6.dp)
+                            )
+                        }
                     }
 
                     item {

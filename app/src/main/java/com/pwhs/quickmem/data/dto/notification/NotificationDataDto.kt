@@ -1,10 +1,12 @@
 package com.pwhs.quickmem.data.dto.notification
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class NotificationDataDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("code")
+    @SerialName("code")
     val code: String? = null,
 )

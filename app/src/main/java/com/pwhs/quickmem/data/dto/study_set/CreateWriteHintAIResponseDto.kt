@@ -1,10 +1,12 @@
 package com.pwhs.quickmem.data.dto.study_set
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CreateWriteHintAIResponseDto(
-    @SerializedName("flashcardId")
+    @SerialName("flashcardId")
     val flashcardId: String,
-    @SerializedName("aiHint")
+    @SerialName("aiHint")
     val aiHint: String,
 )

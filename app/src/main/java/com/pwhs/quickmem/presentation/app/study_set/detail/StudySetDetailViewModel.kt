@@ -30,7 +30,6 @@ import com.pwhs.quickmem.presentation.app.study_set.detail.StudySetDetailUiEvent
 import com.pwhs.quickmem.utils.AudioExtension
 import com.pwhs.quickmem.utils.toColor
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -478,9 +477,8 @@ class StudySetDetailViewModel @Inject constructor(
         return byteArray
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     private suspend fun playAudioAndWait(audioData: ByteArray) =
-        suspendCancellableCoroutine<Unit> { cont ->
+        suspendCancellableCoroutine { cont ->
             currentAudioJob?.cancel()
 
             currentAudioJob = viewModelScope.launch {
@@ -493,7 +491,7 @@ class StudySetDetailViewModel @Inject constructor(
                     context = getApplication<Application>().applicationContext,
                     audioFile = audioFile,
                     onCompletion = {
-                        cont.resume(Unit) {}
+                        cont.resume(Unit) { cause, _, _ -> }
                     }
                 )
             }

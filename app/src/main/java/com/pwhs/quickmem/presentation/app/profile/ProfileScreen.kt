@@ -1,10 +1,7 @@
 package com.pwhs.quickmem.presentation.app.profile
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -37,7 +34,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -51,6 +47,7 @@ import com.pwhs.quickmem.R
 import com.pwhs.quickmem.domain.model.study_time.GetStudyTimeByUserResponseModel
 import com.pwhs.quickmem.presentation.app.paywall.Paywall
 import com.pwhs.quickmem.presentation.app.profile.components.StatisticsCard
+import com.pwhs.quickmem.presentation.components.ActionButtonTopAppBar
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.ui.theme.premiumColor
 import com.pwhs.quickmem.utils.formatDate
@@ -176,19 +173,8 @@ fun Profile(
                             )
                         }
                     }
-                    Box(
-                        modifier = Modifier
-                            .padding(horizontal = 8.dp)
-                            .background(color = Color.White, shape = CircleShape)
-                            .border(
-                                width = 2.dp,
-                                color = colorScheme.primary,
-                                shape = CircleShape
-                            )
-                            .clickable {
-                                navigateToSettings()
-                            }
-                            .padding(8.dp)
+                    ActionButtonTopAppBar(
+                        onClick = navigateToSettings
                     ) {
                         Icon(
                             imageVector = Icons.Outlined.Settings,
@@ -196,7 +182,6 @@ fun Profile(
                             tint = colorScheme.primary,
                             modifier = Modifier
                                 .size(30.dp)
-
                         )
                     }
                 }

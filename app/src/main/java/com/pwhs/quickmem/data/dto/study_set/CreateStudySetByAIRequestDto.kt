@@ -1,21 +1,23 @@
 package com.pwhs.quickmem.data.dto.study_set
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.pwhs.quickmem.core.data.enums.DifficultyLevel
 import com.pwhs.quickmem.core.data.enums.LanguageCode
 import com.pwhs.quickmem.core.data.enums.QuestionType
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CreateStudySetByAIRequestDto(
-    @SerializedName("description")
+    @SerialName("description")
     val description: String,
-    @SerializedName("difficulty")
+    @SerialName("difficulty")
     val difficulty: String = DifficultyLevel.EASY.level,
-    @SerializedName("language")
+    @SerialName("language")
     val language: String = LanguageCode.EN.code,
-    @SerializedName("numberOfFlashcards")
+    @SerialName("numberOfFlashcards")
     val numberOfFlashcards: Int = 15,
-    @SerializedName("questionType")
+    @SerialName("questionType")
     val questionType: String = QuestionType.MULTIPLE_CHOICE.type,
-    @SerializedName("title")
+    @SerialName("title")
     val title: String,
 )

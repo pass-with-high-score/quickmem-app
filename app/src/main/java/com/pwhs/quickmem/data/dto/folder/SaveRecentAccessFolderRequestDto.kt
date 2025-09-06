@@ -1,8 +1,10 @@
 package com.pwhs.quickmem.data.dto.folder
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class SaveRecentAccessFolderRequestDto (
-    @SerializedName("folderId")
+    @SerialName("folderId")
     val folderId: String
 )

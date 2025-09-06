@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -66,10 +65,6 @@ fun StudySetFlipCard(
     val frontTextSize = calculateDynamicFontSize(frontText)
     val backTextSize = calculateDynamicFontSize(backText)
 
-    val configuration = LocalConfiguration.current
-    val screenWidth = configuration.screenWidthDp.dp
-    val cardWidth = screenWidth * 0.9f
-
     val rotation by animateFloatAsState(
         targetValue = if (isFlipped) 180f else 0f,
         animationSpec = tween(500),
@@ -81,7 +76,7 @@ fun StudySetFlipCard(
     Card(
         modifier = Modifier
             .height(220.dp)
-            .width(cardWidth)
+            .width(320.dp)
             .padding(10.dp)
             .graphicsLayer {
                 rotationX = rotation

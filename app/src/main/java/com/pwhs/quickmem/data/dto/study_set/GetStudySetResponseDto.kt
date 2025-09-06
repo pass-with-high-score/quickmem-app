@@ -1,42 +1,44 @@
 package com.pwhs.quickmem.data.dto.study_set
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.pwhs.quickmem.data.dto.color.ColorResponseDto
 import com.pwhs.quickmem.data.dto.flashcard.StudySetFlashCardResponseDto
 import com.pwhs.quickmem.data.dto.subject.SubjectResponseDto
 import com.pwhs.quickmem.data.dto.user.UserResponseDto
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GetStudySetResponseDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("title")
+    @SerialName("title")
     val title: String,
-    @SerializedName("description")
+    @SerialName("description")
     val description: String?,
-    @SerializedName("isPublic")
+    @SerialName("isPublic")
     val isPublic: Boolean,
-    @SerializedName("isAIGenerated")
+    @SerialName("isAIGenerated")
     val isAIGenerated: Boolean?,
-    @SerializedName("flashcardCount")
+    @SerialName("flashcardCount")
     val flashcardCount: Int,
-    @SerializedName("flashcards")
+    @SerialName("flashcards")
     var flashcards: List<StudySetFlashCardResponseDto>? = null,
-    @SerializedName("subject")
+    @SerialName("subject")
     val subject: SubjectResponseDto? = null,
-    @SerializedName("color")
+    @SerialName("color")
     val color: ColorResponseDto? = null,
-    @SerializedName("owner")
+    @SerialName("owner")
     val owner: UserResponseDto,
-    @SerializedName("linkShareCode")
+    @SerialName("linkShareCode")
     val linkShareCode: String? = null,
-    @SerializedName("isImported")
+    @SerialName("isImported")
     val isImported: Boolean? = null,
-    @SerializedName("previousDefinitionVoiceCode")
+    @SerialName("previousDefinitionVoiceCode")
     val previousDefinitionVoiceCode: String? = null,
-    @SerializedName("previousTermVoiceCode")
+    @SerialName("previousTermVoiceCode")
     val previousTermVoiceCode: String? = null,
-    @SerializedName("createdAt")
+    @SerialName("createdAt")
     val createdAt: String,
-    @SerializedName("updatedAt")
+    @SerialName("updatedAt")
     val updatedAt: String,
 )

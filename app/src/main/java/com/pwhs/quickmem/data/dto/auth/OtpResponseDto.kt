@@ -1,10 +1,12 @@
 package com.pwhs.quickmem.data.dto.auth
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class OtpResponseDto {
-    @SerializedName("otp")
+    @SerialName("otp")
     val otp: String? = null
-    @SerializedName("email")
+    @SerialName("email")
     val email: String? = null
 }

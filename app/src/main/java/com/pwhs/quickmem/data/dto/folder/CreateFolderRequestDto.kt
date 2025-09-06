@@ -1,12 +1,14 @@
 package com.pwhs.quickmem.data.dto.folder
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CreateFolderRequestDto(
-    @SerializedName("title")
+    @SerialName("title")
     val title: String,
-    @SerializedName("description")
+    @SerialName("description")
     val description: String,
-    @SerializedName("isPublic")
+    @SerialName("isPublic")
     val isPublic: Boolean,
 )

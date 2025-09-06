@@ -4,6 +4,7 @@ import android.content.Context
 import com.pwhs.quickmem.BuildConfig
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.core.utils.AppConstant.BASE_URL
+import com.pwhs.quickmem.core.utils.Serde
 import com.pwhs.quickmem.data.remote.ApiService
 import com.pwhs.quickmem.data.remote.interceptor.AuthInterceptor
 import com.pwhs.quickmem.data.remote.interceptor.CacheInterceptor
@@ -14,10 +15,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.Cache
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -59,7 +61,7 @@ object RetrofitModule {
 
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(Serde.json.asConverterFactory("application/json".toMediaType()))
             .client(okHttpClient)
             .build()
             .create(ApiService::class.java)

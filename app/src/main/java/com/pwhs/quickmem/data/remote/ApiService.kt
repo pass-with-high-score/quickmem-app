@@ -205,7 +205,7 @@ interface ApiService {
     @GET("study-set/{id}")
     suspend fun getStudySetById(@Path("id") id: String): GetStudySetResponseDto
 
-    @GET("study-set/owner")
+    @GET("study-set")
     suspend fun getStudySetsByOwnerId(
         @Query("folderId") folderId: String? = null,
     ): List<GetStudySetResponseDto>
@@ -364,7 +364,7 @@ interface ApiService {
         @Body updateFolderRequestDto: UpdateFolderRequestDto,
     ): UpdateFolderResponseDto
 
-    @GET("folder/owner")
+    @GET("folder")
     suspend fun getFoldersByOwnerId(
         @Query("studySetId") studySetId: String? = null,
     ): List<GetFolderResponseDto>

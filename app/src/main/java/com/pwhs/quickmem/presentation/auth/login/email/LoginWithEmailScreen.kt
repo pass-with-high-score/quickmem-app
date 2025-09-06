@@ -23,9 +23,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.autofill.ContentType
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalAutofillManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentType
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -138,6 +142,7 @@ private fun LoginWithEmail(
             scrollState.animateScrollTo(scrollState.maxValue, tween(300))
         }
     }
+    val autoFillManager = LocalAutofillManager.current
     Scaffold(
         modifier = modifier.gradientBackground(),
         containerColor = Color.Transparent,
@@ -174,7 +179,12 @@ private fun LoginWithEmail(
                     iconId = R.drawable.ic_email,
                     contentDescription = stringResource(R.string.txt_email),
                     type = TextFieldType.EMAIL,
-                    error = emailError
+                    error = emailError,
+                    modifier = Modifier
+                        .imePadding()
+                        .semantics {
+                            contentType = ContentType.EmailAddress
+                        }
                 )
 
                 AuthTextField(
@@ -186,7 +196,12 @@ private fun LoginWithEmail(
                     type = TextFieldType.PASSWORD,
                     error = passwordError,
                     imeAction = ImeAction.Done,
-                    onDone = onLoginClick
+                    onDone = onLoginClick,
+                    modifier = Modifier
+                        .imePadding()
+                        .semantics {
+                            contentType = ContentType.Password
+                        }
                 )
 
                 Box(
@@ -217,6 +232,7 @@ private fun LoginWithEmail(
                         .align(Alignment.Start)
                         .padding(top = 18.dp),
                     onClick = {
+                        autoFillManager?.commit()
                         onLoginClick()
                     }
                 )

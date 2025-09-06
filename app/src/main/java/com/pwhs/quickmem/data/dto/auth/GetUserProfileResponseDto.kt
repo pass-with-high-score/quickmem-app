@@ -1,32 +1,34 @@
 package com.pwhs.quickmem.data.dto.auth
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GetUserProfileResponseDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("username")
+    @SerialName("username")
     val username: String,
-    @SerializedName("fullname")
+    @SerialName("fullname")
     val fullname: String,
-    @SerializedName("email")
+    @SerialName("email")
     val email: String,
-    @SerializedName("avatarUrl")
+    @SerialName("avatarUrl")
     val avatarUrl: String,
-    @SerializedName("coin")
+    @SerialName("coin")
     val coin: Int,
-    @SerializedName("createdAt")
+    @SerialName("createdAt")
     val createdAt: String,
-    @SerializedName("updatedAt")
+    @SerialName("updatedAt")
     val updatedAt: String,
-    @SerializedName("bannedAt")
+    @SerialName("bannedAt")
     val bannedAt: String? = null,
-    @SerializedName("userStatus")
+    @SerialName("userStatus")
     val userStatus: String? = null,
-    @SerializedName("bannedReason")
+    @SerialName("bannedReason")
     val bannedReason: String? = null,
-    @SerializedName("studySetCount")
+    @SerialName("studySetCount")
     val studySetCount: Int,
-    @SerializedName("folderCount")
+    @SerialName("folderCount")
     val folderCount: Int,
 )

@@ -1,34 +1,36 @@
 package com.pwhs.quickmem.data.dto.auth
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class AuthResponseDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String? = null,
-    @SerializedName("fullName")
+    @SerialName("fullName")
     val fullName: String? = null,
-    @SerializedName("email")
+    @SerialName("email")
     val email: String? = null,
-    @SerializedName("username")
+    @SerialName("username")
     val username: String? = null,
-    @SerializedName("avatarUrl")
+    @SerialName("avatarUrl")
     val avatarUrl: String? = null,
-    @SerializedName("birthday")
+    @SerialName("birthday")
     val birthday: String? = null,
-    @SerializedName("accessToken")
+    @SerialName("accessToken")
     val accessToken: String? = null,
-    @SerializedName("refreshToken")
+    @SerialName("refreshToken")
     val refreshToken: String? = null,
-    @SerializedName("provider")
+    @SerialName("provider")
     val provider: List<String>? = null,
-    @SerializedName("isVerified")
+    @SerialName("isVerified")
     val isVerified: Boolean? = null,
-    @SerializedName("coin")
+    @SerialName("coin")
     val coin: Int? = null,
-    @SerializedName("bannedAt")
+    @SerialName("bannedAt")
     val bannedAt: String? = null,
-    @SerializedName("userStatus")
+    @SerialName("userStatus")
     val userStatus: String? = null,
-    @SerializedName("bannedReason")
+    @SerialName("bannedReason")
     val bannedReason: String? = null,
 )

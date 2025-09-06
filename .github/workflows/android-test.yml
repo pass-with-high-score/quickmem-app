@@ -41,7 +41,6 @@ jobs:
           INTERSTITIAL_ADS_ID: ${{ secrets.INTERSTITIAL_ADS_ID }}
           REWARD_ADS_ID: ${{ secrets.REWARD_ADS_ID }}
           REWARDED_INTERSTITIAL_ADS_ID: ${{ secrets.REWARDED_INTERSTITIAL_ADS_ID }}
-          ONESIGNAL_APP_ID: ${{ secrets.ONESIGNAL_APP_ID }}
           REVENUECAT_API_KEY: ${{ secrets.REVENUECAT_API_KEY }}
           RELEASE_STORE_FILE: ${{ secrets.RELEASE_STORE_FILE }}
           RELEASE_KEY_ALIAS: ${{ secrets.RELEASE_KEY_ALIAS }}
@@ -54,7 +53,6 @@ jobs:
           echo "INTERSTITIAL_ADS_ID=$INTERSTITIAL_ADS_ID" >> $GITHUB_WORKSPACE/local.properties
           echo "REWARD_ADS_ID=$REWARD_ADS_ID" >> $GITHUB_WORKSPACE/local.properties
           echo "REWARDED_INTERSTITIAL_ADS_ID=$REWARDED_INTERSTITIAL_ADS_ID" >> $GITHUB_WORKSPACE/local.properties
-          echo "ONESIGNAL_APP_ID=$ONESIGNAL_APP_ID" >> $GITHUB_WORKSPACE/local.properties
           echo "REVENUECAT_API_KEY=$REVENUECAT_API_KEY" >> $GITHUB_WORKSPACE/local.properties
           echo "RELEASE_STORE_FILE=$RELEASE_STORE_FILE" >> $GITHUB_WORKSPACE/local.properties
           echo "RELEASE_KEY_ALIAS=$RELEASE_KEY_ALIAS" >> $GITHUB_WORKSPACE/local.properties

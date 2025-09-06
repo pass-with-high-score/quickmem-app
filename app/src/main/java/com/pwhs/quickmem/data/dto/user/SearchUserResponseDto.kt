@@ -1,12 +1,14 @@
 package com.pwhs.quickmem.data.dto.user
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 class SearchUserResponseDto (
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("username")
+    @SerialName("username")
     val username: String,
-    @SerializedName("avatarUrl")
+    @SerialName("avatarUrl")
     val avatarUrl: String,
 )

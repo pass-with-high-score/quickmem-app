@@ -1,30 +1,32 @@
 package com.pwhs.quickmem.data.dto.folder
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import com.pwhs.quickmem.data.dto.study_set.GetStudySetResponseDto
 import com.pwhs.quickmem.data.dto.user.UserResponseDto
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GetFolderResponseDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("title")
+    @SerialName("title")
     val title: String,
-    @SerializedName("description")
+    @SerialName("description")
     val description: String,
-    @SerializedName("isPublic")
+    @SerialName("isPublic")
     val isPublic: Boolean,
-    @SerializedName("studySetCount")
+    @SerialName("studySetCount")
     val studySetCount: Int,
-    @SerializedName("owner")
+    @SerialName("owner")
     val owner: UserResponseDto,
-    @SerializedName("studySets")
+    @SerialName("studySets")
     val studySets: List<GetStudySetResponseDto>? = null,
-    @SerializedName("linkShareCode")
+    @SerialName("linkShareCode")
     val linkShareCode: String? = null,
-    @SerializedName("isImported")
+    @SerialName("isImported")
     val isImported: Boolean? = null,
-    @SerializedName("createdAt")
+    @SerialName("createdAt")
     val createdAt: String,
-    @SerializedName("updatedAt")
+    @SerialName("updatedAt")
     val updatedAt: String,
 )

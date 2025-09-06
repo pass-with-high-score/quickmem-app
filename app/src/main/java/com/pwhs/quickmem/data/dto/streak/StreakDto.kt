@@ -1,12 +1,14 @@
 package com.pwhs.quickmem.data.dto.streak
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class StreakDto(
-    @SerializedName("id")
+    @SerialName("id")
     val id: String,
-    @SerializedName("streakCount")
+    @SerialName("streakCount")
     val streakCount: Int,
-    @SerializedName("date")
+    @SerialName("date")
     val date: String,
 )
