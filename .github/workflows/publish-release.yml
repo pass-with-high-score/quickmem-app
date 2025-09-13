@@ -159,4 +159,4 @@ jobs:
       - name: Cleanup sensitive files
         run: |
           rm -f play-store-config.json
-          rm -f app/keystore
+          rm -f app/keystore/keystore
