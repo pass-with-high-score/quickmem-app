@@ -76,7 +76,9 @@ fun RecentStudySetsScreen(
             resultBackNavigator.navigateBack(true)
         },
         onAddStudySet = {
-            navigator.navigate(CreateStudySetScreenDestination())
+            navigator.navigate(CreateStudySetScreenDestination(
+                subjectId = 1
+            ))
         }
     )
 }

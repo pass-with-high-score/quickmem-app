@@ -9,7 +9,7 @@ data class GetStudySetResponseModel(
     val id: String,
     val title: String,
     val description: String?,
-    val isPublic: Boolean,
+    val isPublic: Boolean?,
     val isAIGenerated: Boolean?,
     val subject: SubjectModel? = null,
     val color: ColorModel? = null,

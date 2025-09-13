@@ -31,15 +31,11 @@ class CreateStudySetViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     init {
-        try {
-            val subjectId: Int? = savedStateHandle.get<Int>("subjectId")
-            if (subjectId != null) {
-                _uiState.update {
-                    it.copy(subjectModel = SubjectModel.defaultSubjects.first { it.id == subjectId })
-                }
+        val subjectId: Int? = savedStateHandle["subjectId"]
+        if (subjectId != null) {
+            _uiState.update { state ->
+                state.copy(subjectModel = SubjectModel.defaultSubjects.first { it.id == subjectId })
             }
-        } catch (e: Exception) {
-            Timber.e(e)
         }
     }
 
@@ -119,6 +115,7 @@ class CreateStudySetViewModel @Inject constructor(
                     }
 
                     is Resources.Error -> {
+                        Timber.e(resource.message)
                         _uiState.update {
                             it.copy(isLoading = false)
                         }

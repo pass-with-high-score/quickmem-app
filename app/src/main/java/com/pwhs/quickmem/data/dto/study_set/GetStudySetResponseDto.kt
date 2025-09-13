@@ -16,7 +16,7 @@ data class GetStudySetResponseDto(
     @SerialName("description")
     val description: String?,
     @SerialName("isPublic")
-    val isPublic: Boolean,
+    val isPublic: Boolean?,
     @SerialName("isAIGenerated")
     val isAIGenerated: Boolean?,
     @SerialName("flashcardCount")

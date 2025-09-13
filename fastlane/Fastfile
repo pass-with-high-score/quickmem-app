@@ -1,0 +1,22 @@
+default_platform(:android)
+
+platform :android do
+  desc "Deploy a new version to the Google Play"
+  lane :production do
+    gradle(
+      tasks: ["clean", "bundleRelease"],
+    )
+    upload_to_play_store(
+      track: 'production',
+      aab: 'app/build/outputs/bundle/release/app-release.aab',
+      release_status: 'completed',
+      skip_upload_images: true,
+      skip_upload_screenshots: false,
+    )
+  end
+
+  desc "Deploy to production"
+  lane :release_all do
+    production
+  end
+end

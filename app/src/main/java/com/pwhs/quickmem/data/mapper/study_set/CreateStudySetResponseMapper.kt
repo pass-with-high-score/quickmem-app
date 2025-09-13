@@ -1,13 +1,17 @@
 package com.pwhs.quickmem.data.mapper.study_set
 
 import com.pwhs.quickmem.data.dto.study_set.CreateStudySetResponseDto
+import com.pwhs.quickmem.data.mapper.color.toColorModel
+import com.pwhs.quickmem.data.mapper.color.toColorResponseDto
+import com.pwhs.quickmem.data.mapper.subject.toSubjectModel
+import com.pwhs.quickmem.data.mapper.subject.toSubjectResponseDto
 import com.pwhs.quickmem.domain.model.study_set.CreateStudySetResponseModel
 
 fun CreateStudySetResponseModel.toDto() = CreateStudySetResponseDto(
-    colorId = colorId,
+    color = color.toColorResponseDto(),
     description = description.trim(),
     isPublic = isPublic,
-    subjectId = subjectId,
+    subject = subject.toSubjectResponseDto(),
     title = title.trim(),
     createdAt = createdAt,
     updatedAt = updatedAt,
@@ -16,10 +20,10 @@ fun CreateStudySetResponseModel.toDto() = CreateStudySetResponseDto(
 )
 
 fun CreateStudySetResponseDto.toModel() = CreateStudySetResponseModel(
-    colorId = colorId,
+    color = color.toColorModel(),
     description = description.trim(),
     isPublic = isPublic,
-    subjectId = subjectId,
+    subject = subject.toSubjectModel(),
     title = title.trim(),
     createdAt = createdAt,
     updatedAt = updatedAt,

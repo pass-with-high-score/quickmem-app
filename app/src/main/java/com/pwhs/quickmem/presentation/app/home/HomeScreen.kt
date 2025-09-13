@@ -245,9 +245,6 @@ fun HomeScreen(
                 )
             )
         },
-        onClickToCreateStudySet = {
-            navigator.navigate(CreateStudySetScreenDestination())
-        },
         onHomeRefresh = {
             viewModel.onEvent(HomeUiAction.RefreshHome)
         },
@@ -257,7 +254,9 @@ fun HomeScreen(
             navigator.navigate(NotificationScreenDestination())
         },
         onNavigateToCreateStudySet = {
-            navigator.navigate(CreateStudySetScreenDestination())
+            navigator.navigate(CreateStudySetScreenDestination(
+                subjectId = 1
+            ))
         },
         onNavigateToCreateFolder = {
             navigator.navigate(CreateFolderScreenDestination())
@@ -285,7 +284,6 @@ private fun Home(
     onSeeAllFolderClick: () -> Unit = {},
     notificationCount: Int = 0,
     onNavigateToSearch: () -> Unit = {},
-    onClickToCreateStudySet: () -> Unit = {},
     customer: CustomerInfo? = null,
     onCustomerInfoChanged: (CustomerInfo) -> Unit = {},
     onSearchStudySetBySubject: (SubjectModel) -> Unit = {},
@@ -462,7 +460,7 @@ private fun Home(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 8.dp),
-                            onClick = onClickToCreateStudySet,
+                            onClick = onNavigateToCreateStudySet,
                             colors = CardDefaults.cardColors(
                                 containerColor = Color.White,
                             )
