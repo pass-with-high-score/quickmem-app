@@ -1,0 +1,2 @@
+- Fix can not get data in profile detail screen
+- Fix can not create study set by AI

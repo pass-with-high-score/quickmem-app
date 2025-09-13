@@ -1,0 +1,2 @@
+- Sửa lỗi không lấy được dữ liệu trong màn hình chi tiết hồ sơ
+- Sửa lỗi không tạo được bộ học bằng AI
