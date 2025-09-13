@@ -8,7 +8,7 @@ on:
       - "v*"
 
 jobs:
-  build:
+  build-and-publish-github-release:
     runs-on: ubuntu-latest
 
     steps:
@@ -57,6 +57,14 @@ jobs:
 
       - name: Build Release APK
         run: ./gradlew buildRelease
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-builds
+          path: |
+            app/build/outputs/apk/release/app-release.apk
+            app/build/outputs/bundle/release/app-release.aab
 
       - name: Upload artifact to Firebase App Distribution
         uses: wzieba/Firebase-Distribution-Github-Action@v1
