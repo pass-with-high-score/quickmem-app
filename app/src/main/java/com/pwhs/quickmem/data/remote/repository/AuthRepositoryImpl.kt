@@ -479,18 +479,4 @@ class AuthRepositoryImpl @Inject constructor(
             }
         }
     }
-
-    override suspend fun loginWithFacebook(
-        provider: AuthProvider,
-        accessToken: String,
-    ): Flow<Resources<AuthResponseModel>> {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun signupWithFacebook(
-        provider: AuthProvider,
-        accessToken: String,
-    ): Flow<Resources<AuthResponseModel>> {
-        TODO("Not yet implemented")
-    }
 }

@@ -69,20 +69,6 @@ fun LoginScreen(
         viewModel.uiEvent.collect { event ->
             when (event) {
 
-                is LoginUiEvent.LoginWithFacebook -> {
-                    // open web view
-                    Toast.makeText(
-                        context,
-                        context.getString(R.string.txt_currently_not_available),
-                        Toast.LENGTH_SHORT
-                    ).show()
-//                    navigator.navigate(
-//                        WebViewAppDestination(
-//                            oAuthLink = "https://api.quickmem.app/auth/facebook",
-//                        )
-//                    )
-                }
-
                 is LoginUiEvent.LoginWithEmail -> {
                     navigator.navigate(LoginWithEmailScreenDestination())
                 }
@@ -170,9 +156,6 @@ fun LoginScreen(
         onLoginWithGoogle = { authSocialGoogleRequestModel ->
             viewModel.onEvent(LoginUiAction.LoginWithGoogle(authSocialGoogleRequestModel))
         },
-        onLoginWithFacebook = {
-            viewModel.onEvent(LoginUiAction.LoginWithFacebook)
-        }
     )
 
 }
@@ -185,7 +168,6 @@ fun Login(
     onNavigateToSignup: () -> Unit = {},
     onLoginWithEmail: () -> Unit = {},
     onLoginWithGoogle: (AuthSocialGoogleRequestModel) -> Unit = {},
-    onLoginWithFacebook: () -> Unit = {},
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -285,14 +267,6 @@ fun Login(
                     colors = Color.White,
                     textColor = colorScheme.onSurface,
                     icon = R.drawable.ic_google,
-                )
-                AuthButton(
-                    modifier = Modifier.padding(top = 16.dp),
-                    onClick = onLoginWithFacebook,
-                    text = stringResource(R.string.txt_continue_with_facebook),
-                    colors = Color.White,
-                    textColor = colorScheme.onSurface,
-                    icon = R.drawable.ic_facebook
                 )
 
                 Text(

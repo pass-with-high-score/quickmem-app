@@ -7,6 +7,4 @@ sealed class LoginUiAction {
     data object LoginWithEmail : LoginUiAction()
     data class LoginWithGoogle(val authSocialGoogleRequestModel: AuthSocialGoogleRequestModel) :
         LoginUiAction()
-
-    data object LoginWithFacebook : LoginUiAction()
 }

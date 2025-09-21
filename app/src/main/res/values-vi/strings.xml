@@ -20,7 +20,6 @@
     <string name="txt_confirm_password">Xác nhận mật khẩu</string>
     <string name="txt_log_in_with_email">Đăng nhập bằng email</string>
     <string name="txt_or">hoặc</string>
-    <string name="txt_continue_with_facebook">Tiếp tục với Facebook</string>
     <string name="txt_don_t_have_an_account">Chưa có tài khoản?</string>
     <string name="txt_sign_up">Đăng ký</string>
     <string name="txt_login_failure">Đăng nhập thất bại</string>
@@ -401,7 +400,6 @@
     <string name="txt_ai_hint">Gợi ý AI:</string>
     <string name="txt_click_to_icon_to_show_hint_if_you_feel_stuck">Nhấn vào biểu tượng để hiển thị gợi ý nếu bạn cảm thấy bí</string>
     <string name="label_google_oauth_callback">Liên kết Google OAuth</string>
-    <string name="label_facebook_oauth_callback">Liên kết Facebook OAuth</string>
     <string name="label_share_folder">Chia sẻ thư mục</string>
     <string name="label_share_study_set">Chia sẻ bộ học</string>
     <string name="txt_currently_not_available">Hiện tại chưa hỗ trợ</string>

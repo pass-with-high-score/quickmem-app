@@ -5,6 +5,4 @@ import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
 sealed class SignupUiAction {
     data class SignupWithGoogle(val authSocialGoogleRequestModel: AuthSocialGoogleRequestModel) :
         SignupUiAction()
-
-    data object SignupWithFacebook : SignupUiAction()
 }

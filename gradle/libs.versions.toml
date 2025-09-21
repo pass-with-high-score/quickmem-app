@@ -9,7 +9,7 @@ versionName = "1.9.1"
 # ───── Kotlin & Build Tools ─────
 kotlin = "2.2.10"
 ksp = "2.2.10-2.0.2"
-agp = "8.13.0-alpha03"
+agp = "8.13.0"
 
 # ───── AndroidX Core & Lifecycle ─────
 coreKtx = "1.17.0"

@@ -6,7 +6,6 @@ sealed class SignupUiEvent {
     data class SignupWithGoogle(val authSocialGoogleRequestModel: AuthSocialGoogleRequestModel) :
         SignupUiEvent()
 
-    data object SignupWithFacebook : SignupUiEvent()
     data class ShowError(val error: Int) : SignupUiEvent()
     data object SignupSuccess : SignupUiEvent()
     data class NavigateToLogin(val authSocialGoogleRequestModel: AuthSocialGoogleRequestModel) :

@@ -22,7 +22,6 @@
     <string name="txt_log_in_with_email">Log in with email</string>
     <string name="txt_or">or</string>
     <string name="txt_continue_with_google">Continue with Google</string>
-    <string name="txt_continue_with_facebook">Continue with Facebook</string>
     <string name="txt_don_t_have_an_account">Don\'t have an account?</string>
     <string name="txt_sign_up">"Sign up"</string>
     <string name="txt_login_failure">Login failure</string>
@@ -404,7 +403,6 @@
     <string name="txt_ai_hint">AI hint</string>
     <string name="txt_click_to_icon_to_show_hint_if_you_feel_stuck">Click the icon to show hint if you feel stuck</string>
     <string name="label_google_oauth_callback">Google OAuth Callback</string>
-    <string name="label_facebook_oauth_callback">Facebook OAuth Callback</string>
     <string name="label_share_folder">Share Folder Link</string>
     <string name="label_share_study_set">Share Study-Set Link</string>
     <string name="txt_currently_not_available">Currently not available</string>

@@ -8,5 +8,4 @@ data class SignupRequestModel(
     val birthday: String?,
     val password: String? = null,
     val authProvider: String?,
-    val facebookId: String? = null,
 )

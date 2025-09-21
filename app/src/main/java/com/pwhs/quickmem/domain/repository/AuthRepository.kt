@@ -1,7 +1,6 @@
 package com.pwhs.quickmem.domain.repository
 
 import androidx.paging.PagingData
-import com.pwhs.quickmem.core.data.enums.AuthProvider
 import com.pwhs.quickmem.core.utils.Resources
 import com.pwhs.quickmem.domain.model.auth.AuthResponseModel
 import com.pwhs.quickmem.domain.model.auth.AuthSocialGoogleRequestModel
@@ -105,15 +104,5 @@ interface AuthRepository {
 
     suspend fun signupWithGoogle(
         signupSocialCredentialRequestModel: SignupSocialCredentialRequestModel,
-    ): Flow<Resources<AuthResponseModel>>
-
-    suspend fun loginWithFacebook(
-        provider: AuthProvider,
-        accessToken: String,
-    ): Flow<Resources<AuthResponseModel>>
-
-    suspend fun signupWithFacebook(
-        provider: AuthProvider,
-        accessToken: String,
     ): Flow<Resources<AuthResponseModel>>
 }

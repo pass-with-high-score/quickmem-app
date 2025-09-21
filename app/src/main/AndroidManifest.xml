@@ -51,17 +51,6 @@
                     android:path="/google/callback"
                     android:scheme="quickmem" />
             </intent-filter>
-            <intent-filter android:label="@string/label_facebook_oauth_callback">
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data
-                    android:host="oauth"
-                    android:path="/facebook/callback"
-                    android:scheme="quickmem" />
-            </intent-filter>
             <intent-filter android:label="@string/label_share_folder">
                 <action android:name="android.intent.action.VIEW" />
 

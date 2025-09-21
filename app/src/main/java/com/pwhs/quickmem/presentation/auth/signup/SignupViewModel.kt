@@ -37,7 +37,6 @@ class SignupViewModel @Inject constructor(
 
     fun onEvent(event: SignupUiAction) {
         when (event) {
-            is SignupUiAction.SignupWithFacebook -> signupWithFacebook()
             is SignupUiAction.SignupWithGoogle -> signupWithGoogle(event.authSocialGoogleRequestModel)
         }
     }
@@ -121,12 +120,6 @@ class SignupViewModel @Inject constructor(
                 }
 
             }
-        }
-    }
-
-    fun signupWithFacebook() {
-        viewModelScope.launch {
-            _uiEvent.trySend(SignupUiEvent.SignupWithFacebook)
         }
     }
 }

@@ -38,7 +38,6 @@ class LoginViewModel @Inject constructor(
     fun onEvent(event: LoginUiAction) {
         when (event) {
             is LoginUiAction.LoginWithGoogle -> loginWithGoogle(event.authSocialGoogleRequestModel)
-            is LoginUiAction.LoginWithFacebook -> loginWithFacebook()
             is LoginUiAction.LoginWithEmail -> loginWithEmail()
             is LoginUiAction.NavigateToSignUp -> navigateToSignUp()
         }
@@ -115,12 +114,6 @@ class LoginViewModel @Inject constructor(
                 }
 
             }
-        }
-    }
-
-    private fun loginWithFacebook() {
-        viewModelScope.launch {
-            _uiEvent.trySend(LoginUiEvent.LoginWithFacebook)
         }
     }
 
