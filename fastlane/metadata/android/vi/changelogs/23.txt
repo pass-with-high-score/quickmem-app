@@ -1,0 +1,2 @@
+- Loại bỏ tuỳ chọn đăng nhập Facebook
+- Cải thiện hiệu suất và độ ổn định của ứng dụng

@@ -1,0 +1,2 @@
+- Remove Facebook login option
+- Improve app performance and stability
