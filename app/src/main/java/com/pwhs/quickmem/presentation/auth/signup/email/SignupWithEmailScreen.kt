@@ -31,7 +31,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.TextFieldType
 import com.pwhs.quickmem.presentation.auth.component.AuthButton
@@ -41,7 +41,6 @@ import com.pwhs.quickmem.presentation.auth.signup.email.component.DatePickerModa
 import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
 import com.pwhs.quickmem.utils.gradientBackground
-import com.pwhs.quickmem.utils.isDateSmallerThan
 import com.pwhs.quickmem.utils.rememberImeState
 import com.pwhs.quickmem.utils.toFormattedString
 import com.pwhs.quickmem.utils.toTimestamp
