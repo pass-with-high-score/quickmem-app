@@ -5,7 +5,7 @@ import com.pwhs.quickmem.domain.model.search.SearchQueryModel
 
 data class SearchUiState(
     val query: String = "",
-    @StringRes val error: Int? = null,
+    @param:StringRes val error: Int? = null,
     val listResult: List<SearchQueryModel> = emptyList(),
 )
 

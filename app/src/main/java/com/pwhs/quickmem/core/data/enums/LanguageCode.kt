@@ -6,8 +6,8 @@ import com.pwhs.quickmem.R
 
 enum class LanguageCode(
     val code: String,
-    @StringRes val displayName: Int,
-    @DrawableRes val icon: Int
+    @param:StringRes val displayName: Int,
+    @param:DrawableRes val icon: Int
 ) {
     EN(
         "en",

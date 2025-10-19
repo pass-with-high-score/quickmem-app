@@ -4,5 +4,5 @@ import androidx.annotation.StringRes
 
 sealed class SendVerifyEmailUiEvent {
     data object SendEmailSuccess : SendVerifyEmailUiEvent()
-    data class SendEmailFailure(@StringRes val message: Int) : SendVerifyEmailUiEvent()
+    data class SendEmailFailure(@param:StringRes val message: Int) : SendVerifyEmailUiEvent()
 }

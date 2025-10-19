@@ -4,5 +4,5 @@ import androidx.annotation.StringRes
 
 sealed class EditFolderUiEvent {
     data object FolderEdited : EditFolderUiEvent()
-    data class ShowError(@StringRes val message: Int) : EditFolderUiEvent()
+    data class ShowError(@param:StringRes val message: Int) : EditFolderUiEvent()
 }

@@ -6,7 +6,7 @@ import androidx.annotation.StringRes
 sealed class LoginWithEmailUiEvent {
     data object LoginSuccess : LoginWithEmailUiEvent()
     data class LoginFailure(
-        @StringRes val message: Int,
+        @param:StringRes val message: Int,
     ) : LoginWithEmailUiEvent()
 
     data class NavigateToVerifyEmail(

@@ -7,11 +7,11 @@ import com.pwhs.quickmem.R
 
 data class SubjectModel(
     val id: Int = 0,
-    @StringRes val subjectName: Int = -1,
-    @DrawableRes val iconRes: Int? = null,
+    @param:StringRes val subjectName: Int = -1,
+    @param:DrawableRes val iconRes: Int? = null,
     var studySetCount: Int = 0,
     val color: Color? = null,
-    @StringRes val subjectDescription: Int? = null,
+    @param:StringRes val subjectDescription: Int? = null,
     val createdAt: String? = null,
     val updatedAt: String? = null,
 ) {

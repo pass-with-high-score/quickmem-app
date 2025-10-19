@@ -8,10 +8,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScrollableTabRow
+import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRowDefaults.SecondaryIndicator
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -151,9 +150,9 @@ fun SearchResultScreen(
         onResetClick = {
             viewModel.onEvent(SearchResultUiAction.ResetFilter)
         },
-        onSeeAllClickFolder = { tabIndex = SearchResultEnum.FOLDER.index },
-        onSeeAllClickStudySet = { tabIndex = SearchResultEnum.STUDY_SET.index },
-        onSeeAllClickUsers = { tabIndex = SearchResultEnum.USER.index }
+        onSeeAllClickFolder = { SearchResultEnum.FOLDER.index },
+        onSeeAllClickStudySet = { SearchResultEnum.STUDY_SET.index },
+        onSeeAllClickUsers = { SearchResultEnum.USER.index }
     )
 }
 
@@ -218,11 +217,11 @@ fun SearchResult(
                 modifier = Modifier
                     .fillMaxWidth()
             ) {
-                ScrollableTabRow(
+                SecondaryScrollableTabRow(
                     selectedTabIndex = tabIndex,
-                    indicator = { tabPositions ->
+                    indicator = {
                         SecondaryIndicator(
-                            Modifier.tabIndicatorOffset(tabPositions[tabIndex])
+                            Modifier.tabIndicatorOffset(tabIndex)
                         )
                     },
                     contentColor = colorScheme.onSurface,

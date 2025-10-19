@@ -4,7 +4,7 @@ import androidx.annotation.StringRes
 
 data class SendVerifyEmailUiState(
     val email: String = "",
-    @StringRes val emailError: Int? = null,
+    @param:StringRes val emailError: Int? = null,
     val isLoading: Boolean = false,
     val resetPasswordToken: String = ""
 )

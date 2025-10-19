@@ -14,7 +14,7 @@ data class SearchQueryEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     @ColumnInfo(name = "query")
-    @Nonnull
+    @param:Nonnull
     val query: String,
     val timestamp: Long = System.currentTimeMillis()
 )

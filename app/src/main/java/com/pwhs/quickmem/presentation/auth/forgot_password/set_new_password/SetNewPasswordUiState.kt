@@ -5,8 +5,8 @@ import androidx.annotation.StringRes
 data class SetNewPasswordUiState(
     val password: String = "",
     val confirmPassword: String = "",
-    @StringRes val passwordError: Int? = null,
-    @StringRes val confirmPasswordError: Int? = null,
+    @param:StringRes val passwordError: Int? = null,
+    @param:StringRes val confirmPasswordError: Int? = null,
     val isLoading: Boolean = false,
     val resetPasswordToken: String = "",
     val email: String = "",

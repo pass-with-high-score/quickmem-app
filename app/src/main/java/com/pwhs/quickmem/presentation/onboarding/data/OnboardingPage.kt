@@ -4,8 +4,8 @@ import androidx.annotation.StringRes
 import com.pwhs.quickmem.R
 
 data class OnboardingPage(
-    @StringRes val title: Int,
-    @StringRes val description: Int,
+    @param:StringRes val title: Int,
+    @param:StringRes val description: Int,
 )
 
 val onboardingPagesList = listOf(

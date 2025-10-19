@@ -3,7 +3,6 @@ package com.pwhs.quickmem.presentation.app.settings
 import androidx.annotation.StringRes
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.alarm.StudyAlarm
-import com.pwhs.quickmem.core.data.enums.AuthProvider
 import com.revenuecat.purchases.CustomerInfo
 import java.time.LocalDateTime
 
@@ -12,7 +11,7 @@ data class SettingUiState(
     val userLoginProviders: List<String> = emptyList(),
     val isPlaySound: Boolean = false,
     val password: String = "",
-    @StringRes val errorMessage: Int? = null,
+    @param:StringRes val errorMessage: Int? = null,
     val isLoading: Boolean = false,
     val showBottomSheet: Boolean = false,
     val userId: String = "",

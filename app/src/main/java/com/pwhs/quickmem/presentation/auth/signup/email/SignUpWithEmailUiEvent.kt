@@ -5,5 +5,5 @@ import androidx.annotation.StringRes
 
 sealed class SignUpWithEmailUiEvent {
     data object SignUpSuccess : SignUpWithEmailUiEvent()
-    data class SignUpFailure(@StringRes val message: Int) : SignUpWithEmailUiEvent()
+    data class SignUpFailure(@param:StringRes val message: Int) : SignUpWithEmailUiEvent()
 }

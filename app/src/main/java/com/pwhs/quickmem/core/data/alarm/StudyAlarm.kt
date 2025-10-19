@@ -5,5 +5,5 @@ import java.time.LocalDateTime
 
 data class StudyAlarm(
     val time: LocalDateTime,
-    @StringRes val message: Int
+    @param:StringRes val message: Int
 )

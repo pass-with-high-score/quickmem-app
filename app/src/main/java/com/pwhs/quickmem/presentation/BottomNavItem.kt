@@ -9,8 +9,8 @@ import com.ramcosta.composedestinations.generated.destinations.ProfileScreenDest
 import com.ramcosta.composedestinations.spec.Direction
 
 sealed class BottomNavItem(
-    @StringRes val title: Int,
-    @DrawableRes val icon: Int,
+    @param:StringRes val title: Int,
+    @param:DrawableRes val icon: Int,
     val route: String,
     val direction: Direction,
 ) {

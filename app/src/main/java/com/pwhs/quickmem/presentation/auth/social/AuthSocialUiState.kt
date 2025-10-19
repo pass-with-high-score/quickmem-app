@@ -5,11 +5,11 @@ import com.pwhs.quickmem.core.data.enums.AuthProvider
 
 data class AuthSocialUiState(
     val isLoading: Boolean = false,
-    @StringRes val error: Int? = null,
+    @param:StringRes val error: Int? = null,
     val provider: AuthProvider? = null,
     val email: String = "",
     val birthDay: String = "",
-    @StringRes val birthdayError: Int? = null,
+    @param:StringRes val birthdayError: Int? = null,
     val avatarUrl: String = "",
     val fullName: String = "",
     val token: String = "",

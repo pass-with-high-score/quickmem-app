@@ -4,5 +4,5 @@ import androidx.annotation.StringRes
 
 sealed class AuthSocialUiEvent {
     data object SignUpSuccess : AuthSocialUiEvent()
-    data class SignUpFailure(@StringRes val message: Int) : AuthSocialUiEvent()
+    data class SignUpFailure(@param:StringRes val message: Int) : AuthSocialUiEvent()
 }

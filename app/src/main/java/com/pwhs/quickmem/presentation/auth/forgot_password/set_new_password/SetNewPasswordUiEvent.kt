@@ -4,5 +4,5 @@ import androidx.annotation.StringRes
 
 sealed class SetNewPasswordUiEvent {
     data object ResetSuccess : SetNewPasswordUiEvent()
-    data class ResetFailure(@StringRes val message: Int) : SetNewPasswordUiEvent()
+    data class ResetFailure(@param:StringRes val message: Int) : SetNewPasswordUiEvent()
 }

@@ -1,0 +1,3 @@
+- Improved language change settings
+- Added in-app review :)
+- General app improvements

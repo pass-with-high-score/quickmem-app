@@ -4,5 +4,5 @@ import androidx.annotation.StringRes
 
 sealed class AddStudySetToFoldersUiEvent {
     data object StudySetAddedToFolders : AddStudySetToFoldersUiEvent()
-    data class Error(@StringRes val message: Int) : AddStudySetToFoldersUiEvent()
+    data class Error(@param:StringRes val message: Int) : AddStudySetToFoldersUiEvent()
 }

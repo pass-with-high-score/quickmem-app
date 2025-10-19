@@ -6,5 +6,5 @@ data class UpdateFullNameUiState(
     val fullName: String = "",
     val isLoading: Boolean = false,
     val isSuccess: Boolean = false,
-    @StringRes val errorMessage: Int? = null
+    @param:StringRes val errorMessage: Int? = null
 )

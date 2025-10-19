@@ -6,8 +6,8 @@ data class ChangePasswordSettingUiState(
     val currentPassword: String = "",
     val newPassword: String = "",
     val confirmPassword: String = "",
-    @StringRes val errorCurrentPassword: Int? = null,
-    @StringRes val errorNewPassword: Int? = null,
-    @StringRes val errorConfirmPassword: Int? = null,
+    @param:StringRes val errorCurrentPassword: Int? = null,
+    @param:StringRes val errorNewPassword: Int? = null,
+    @param:StringRes val errorConfirmPassword: Int? = null,
     val isLoading: Boolean = false,
 )

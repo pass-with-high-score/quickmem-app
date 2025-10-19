@@ -8,6 +8,6 @@ data class SearchStudySetBySubjectUiState(
     val id: Int = 0,
     val subject: SubjectModel? = null,
     val studySetCount: Int = 0,
-    @DrawableRes val icon: Int = R.drawable.ic_all,
+    @param:DrawableRes val icon: Int = R.drawable.ic_all,
     val isLoading: Boolean = false,
 )

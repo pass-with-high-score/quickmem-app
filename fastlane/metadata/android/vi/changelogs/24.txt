@@ -1,0 +1,3 @@
+- Cải thiện cài đặt thay đổi ngôn ngữ
+- Thêm đánh giá ứng dụng ngay trong ứng dụng:)
+- Cải thiện ứng dụng

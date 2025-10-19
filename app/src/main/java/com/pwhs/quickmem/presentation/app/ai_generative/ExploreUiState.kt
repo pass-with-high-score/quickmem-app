@@ -16,6 +16,6 @@ data class ExploreUiState(
     val numberOfFlashcards: Int = 15,
     val questionType: QuestionType = QuestionType.MULTIPLE_CHOICE,
     val title: String = "",
-    @StringRes val errorMessage: Int? = null,
+    @param:StringRes val errorMessage: Int? = null,
     val coins: Int = 0,
 )

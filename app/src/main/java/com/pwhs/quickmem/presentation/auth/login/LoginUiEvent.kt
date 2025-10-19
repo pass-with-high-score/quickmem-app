@@ -11,5 +11,5 @@ sealed class LoginUiEvent {
     data class LoginFailure(val authSocialGoogleRequestModel: AuthSocialGoogleRequestModel) :
         LoginUiEvent()
 
-    data class ShowError(@StringRes val error: Int) : LoginUiEvent()
+    data class ShowError(@param:StringRes val error: Int) : LoginUiEvent()
 }

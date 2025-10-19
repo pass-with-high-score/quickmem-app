@@ -6,5 +6,5 @@ import com.pwhs.quickmem.domain.model.notification.GetNotificationResponseModel
 data class NotificationUiState(
     val isLoading: Boolean = false,
     val notifications: List<GetNotificationResponseModel> = emptyList(),
-    @StringRes val errorMessage: Int? = null,
+    @param:StringRes val errorMessage: Int? = null,
 )

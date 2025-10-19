@@ -5,8 +5,8 @@ import androidx.annotation.StringRes
 
 data class LoginWithEmailUiState(
     val email: String = "",
-    @StringRes val emailError: Int? = null,
+    @param:StringRes val emailError: Int? = null,
     val password: String = "",
-    @StringRes val passwordError: Int? = null,
+    @param:StringRes val passwordError: Int? = null,
     val isLoading: Boolean = false,
 )

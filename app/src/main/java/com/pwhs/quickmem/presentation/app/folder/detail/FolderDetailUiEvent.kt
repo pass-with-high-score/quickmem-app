@@ -6,7 +6,7 @@ sealed class FolderDetailUiEvent {
     data object UnAuthorized : FolderDetailUiEvent()
     data object FolderDeleted : FolderDetailUiEvent()
     data object NavigateToEditFolder : FolderDetailUiEvent()
-    data class ShowError(@StringRes val message: Int) : FolderDetailUiEvent()
+    data class ShowError(@param:StringRes val message: Int) : FolderDetailUiEvent()
     data class OnNavigateToFlipFlashcard(val isGetAll: Boolean) : FolderDetailUiEvent()
     data class OnNavigateToQuiz(val isGetAll: Boolean) : FolderDetailUiEvent()
     data class OnNavigateToTrueFalse(val isGetAll: Boolean) : FolderDetailUiEvent()
