@@ -19,6 +19,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.google.android.play.core.review.ReviewManagerFactory
 import com.pwhs.quickmem.R
+import com.pwhs.quickmem.core.utils.AppConstant.FOLLOW_SYSTEM
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream

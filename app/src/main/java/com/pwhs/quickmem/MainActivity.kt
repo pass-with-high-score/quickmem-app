@@ -9,13 +9,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.pwhs.quickmem.core.datastore.AppManager
 import com.pwhs.quickmem.core.datastore.TokenManager
 import com.pwhs.quickmem.presentation.StandardScaffold
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
+import com.pwhs.quickmem.utils.launchInAppReview
 import com.ramcosta.composedestinations.DestinationsNavHost
 import com.ramcosta.composedestinations.generated.NavGraphs
 import com.ramcosta.composedestinations.generated.destinations.HomeScreenDestination
@@ -24,6 +27,7 @@ import com.ramcosta.composedestinations.generated.destinations.ProfileScreenDest
 import com.ramcosta.composedestinations.generated.destinations.WelcomeScreenDestination
 import com.ramcosta.composedestinations.rememberNavHostEngine
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -38,6 +42,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+            val context = LocalContext.current
             QuickMemTheme(
                 darkTheme = false,
                 dynamicColor = false
@@ -52,6 +57,9 @@ class MainActivity : ComponentActivity() {
                 // check token valid when user already logged in
                 val token = tokenManager.accessToken.collectAsState(initial = null)
                 val isLogged = appManager.isLoggedIn.collectAsState(initial = false)
+                val postLoginOpenCount = appManager.postLoginOpenCount.collectAsState(initial = 0)
+                val reviewPromptShown = appManager.reviewPromptShown.collectAsState(initial = false)
+                val scope = rememberCoroutineScope()
                 LaunchedEffect(key1 = token.value, key2 = isLogged.value) {
                     if (isLogged.value && token.value == null) {
                         appManager.clearAllData()
@@ -61,6 +69,19 @@ class MainActivity : ComponentActivity() {
                             }
                             launchSingleTop = true
                             restoreState = false
+                        }
+                    }
+                }
+                LaunchedEffect(key1 = true) {
+                    appManager.incrementPostLoginOpenCount()
+                }
+                LaunchedEffect(key1 = postLoginOpenCount.value, key2 = reviewPromptShown.value) {
+                    if (postLoginOpenCount.value == 2 && !reviewPromptShown.value) {
+                        context.launchInAppReview { success ->
+                            // Mark as shown regardless of success to avoid nagging
+                            scope.launch {
+                                appManager.setReviewPromptShown(true)
+                            }
                         }
                     }
                 }

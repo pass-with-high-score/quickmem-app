@@ -19,6 +19,8 @@ class AppManager @Inject constructor(private val context: Context) {
     companion object {
         val IS_FIRST_RUN = booleanPreferencesKey("IS_FIRST_RUN")
         val IS_LOGGED_IN = booleanPreferencesKey("IS_LOGGED_IN")
+        val POST_LOGIN_OPEN_COUNT = intPreferencesKey("POST_LOGIN_OPEN_COUNT")
+        val REVIEW_PROMPT_SHOWN = booleanPreferencesKey("REVIEW_PROMPT_SHOWN")
         val USER_ID = stringPreferencesKey("USER_ID")
         val USER_FULL_NAME = stringPreferencesKey("USER_FULL_NAME")
         val USER_AVATAR = stringPreferencesKey("USER_AVATAR")
@@ -42,6 +44,16 @@ class AppManager @Inject constructor(private val context: Context) {
     val isLoggedIn: Flow<Boolean> = context.dataStore.data
         .map { preferences ->
             preferences[IS_LOGGED_IN] == true
+        }
+
+    val postLoginOpenCount: Flow<Int> = context.dataStore.data
+        .map { preferences ->
+            preferences[POST_LOGIN_OPEN_COUNT] ?: 0
+        }
+
+    val reviewPromptShown: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[REVIEW_PROMPT_SHOWN] == true
         }
     val userId: Flow<String> = context.dataStore.data
         .map { preferences ->
@@ -119,6 +131,27 @@ class AppManager @Inject constructor(private val context: Context) {
         Timber.d("Saving is logged in: $isLoggedIn")
         context.dataStore.edit { preferences ->
             preferences[IS_LOGGED_IN] = isLoggedIn
+        }
+    }
+
+    suspend fun resetReviewCountersOnLoginSuccess() {
+        Timber.d("Resetting review counters on login success")
+        context.dataStore.edit { preferences ->
+            preferences[POST_LOGIN_OPEN_COUNT] = 0
+            preferences[REVIEW_PROMPT_SHOWN] = false
+        }
+    }
+
+    suspend fun incrementPostLoginOpenCount() {
+        context.dataStore.edit { preferences ->
+            val current = preferences[POST_LOGIN_OPEN_COUNT] ?: 0
+            preferences[POST_LOGIN_OPEN_COUNT] = current + 1
+        }
+    }
+
+    suspend fun setReviewPromptShown(shown: Boolean) {
+        context.dataStore.edit { preferences ->
+            preferences[REVIEW_PROMPT_SHOWN] = shown
         }
     }
 
