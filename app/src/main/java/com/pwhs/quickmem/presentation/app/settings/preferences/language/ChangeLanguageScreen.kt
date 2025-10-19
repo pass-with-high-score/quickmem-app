@@ -29,8 +29,10 @@ import androidx.compose.ui.unit.dp
 import com.pwhs.quickmem.R
 import com.pwhs.quickmem.core.data.enums.LanguageCode
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
+import com.pwhs.quickmem.utils.FOLLOW_SYSTEM
 import com.pwhs.quickmem.utils.changeLanguage
 import com.pwhs.quickmem.utils.getLanguageCode
+import com.pwhs.quickmem.utils.isFollowSystem
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.result.ResultBackNavigator
@@ -42,12 +44,12 @@ fun ChangeLanguageScreen(
     resultNavigator: ResultBackNavigator<Boolean>
 ) {
     val context = LocalContext.current
-    val languageCode = context.getLanguageCode()
     ChangeLanguage(
         modifier = modifier,
-        languageCode = languageCode,
+        languageCode = if (context.isFollowSystem()) FOLLOW_SYSTEM else context.getLanguageCode(),
         onLanguageCodeChanged = { code ->
             context.changeLanguage(code)
+            resultNavigator.navigateBack(true)
         },
         onNavigateUp = {
             resultNavigator.navigateBack(true)
@@ -95,6 +97,23 @@ private fun ChangeLanguage(
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
                     modifier = Modifier.clickable {
+                        onLanguageCodeChanged(FOLLOW_SYSTEM)
+                    }
+                ) {
+                    RadioButton(
+                        selected = languageCode == FOLLOW_SYSTEM,
+                        onClick = { onLanguageCodeChanged(FOLLOW_SYSTEM) }
+                    )
+                    Text(
+                        text = stringResource(R.string.txt_follow_system),
+                        style = MaterialTheme.typography.bodyMedium,
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    )
+                }
+                HorizontalDivider()
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.clickable {
                         onLanguageCodeChanged(LanguageCode.EN.code)
                     }
                 ) {
@@ -103,12 +122,12 @@ private fun ChangeLanguage(
                         onClick = { onLanguageCodeChanged(LanguageCode.EN.code) }
                     )
                     Text(
-                        text = stringResource(R.string.txt_english_us),
+                        text = stringResource(LanguageCode.EN.displayName),
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
                     Image(
-                        painter = painterResource(id = R.drawable.ic_us_flag),
+                        painter = painterResource(id = LanguageCode.EN.icon),
                         contentDescription = null,
                         modifier = Modifier.size(24.dp)
 
@@ -126,12 +145,12 @@ private fun ChangeLanguage(
                         onClick = { onLanguageCodeChanged(LanguageCode.VI.code) }
                     )
                     Text(
-                        text = stringResource(R.string.txt_vietnamese),
+                        text = stringResource(LanguageCode.VI.displayName),
                         style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier.padding(horizontal = 8.dp)
                     )
                     Image(
-                        painter = painterResource(id = R.drawable.ic_vn_flag),
+                        painter = painterResource(id = LanguageCode.VI.icon),
                         contentDescription = null,
                         modifier = Modifier.size(24.dp)
                     )

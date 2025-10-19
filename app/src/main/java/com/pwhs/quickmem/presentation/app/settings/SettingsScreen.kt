@@ -61,7 +61,9 @@ import com.pwhs.quickmem.presentation.components.LoadingOverlay
 import com.pwhs.quickmem.presentation.components.QuickMemAlertDialog
 import com.pwhs.quickmem.presentation.components.QuickmemTimePicker
 import com.pwhs.quickmem.ui.theme.QuickMemTheme
+import com.pwhs.quickmem.utils.FOLLOW_SYSTEM
 import com.pwhs.quickmem.utils.getLanguageCode
+import com.pwhs.quickmem.utils.isFollowSystem
 import com.pwhs.quickmem.utils.toFormattedString
 import com.pwhs.quickmem.utils.toTimePickerState
 import com.pwhs.quickmem.utils.upperCaseFirstLetter
@@ -152,7 +154,7 @@ fun SettingsScreen(
     }
 
     val uiState by viewModel.uiState.collectAsState()
-    val languageCode = context.getLanguageCode()
+    val languageCode = if (context.isFollowSystem()) FOLLOW_SYSTEM else context.getLanguageCode()
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
             when (event) {
@@ -577,6 +579,7 @@ fun Setting(
                             SettingItem(
                                 title = stringResource(R.string.txt_language),
                                 subtitle = when (languageCode) {
+                                    FOLLOW_SYSTEM -> stringResource(id = R.string.txt_follow_system)
                                     LanguageCode.EN.name.lowercase() -> stringResource(id = R.string.txt_english_us)
                                     LanguageCode.VI.name.lowercase() -> stringResource(id = R.string.txt_vietnamese)
                                     else -> stringResource(id = R.string.txt_english_us)

@@ -44,6 +44,15 @@ fun Context.bitmapToUri(bitmap: ImageBitmap): Uri {
 }
 
 fun Context.changeLanguage(languageCode: String) {
+    if (languageCode == FOLLOW_SYSTEM) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            this.getSystemService(LocaleManager::class.java).applicationLocales =
+                LocaleList.getEmptyLocaleList()
+        } else {
+            AppCompatDelegate.setApplicationLocales(LocaleListCompat.getEmptyLocaleList())
+        }
+        return
+    }
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         this.getSystemService(LocaleManager::class.java).applicationLocales =
             LocaleList.forLanguageTags(languageCode)
@@ -58,6 +67,14 @@ fun Context.getLanguageCode(): String {
             ?.split("-")?.first() ?: "en"
     } else {
         AppCompatDelegate.getApplicationLocales()[0]?.toLanguageTag()?.split("-")?.first() ?: "en"
+    }
+}
+
+fun Context.isFollowSystem(): Boolean {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        this.getSystemService(LocaleManager::class.java).applicationLocales.isEmpty
+    } else {
+        AppCompatDelegate.getApplicationLocales().isEmpty
     }
 }
 

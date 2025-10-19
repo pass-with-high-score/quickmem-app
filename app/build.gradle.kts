@@ -12,9 +12,31 @@ plugins {
     alias(libs.plugins.google.crashlytics)
 }
 
+object Locales {
+    val supportedLocales: Set<String> = setOf(
+        "en",
+        "en-rUS",
+        "vi",
+        "vi-rVN",
+    )
+
+    val supportedLanguageCodes: String = supportedLocales
+        .mapTo(LinkedHashSet()) { it.substringBefore("-r") }
+        .joinToString(separator = ",", prefix = "\"", postfix = "\"")
+}
+
 android {
     namespace = "com.pwhs.quickmem"
     compileSdk = libs.versions.compileSdk.get().toInt()
+
+    androidResources {
+        ignoreAssetsPatterns += listOf(
+            "!PublicSuffixDatabase.list", // OkHttp
+            "!composepreference.preference.generated.resources",
+        )
+        generateLocaleConfig = true
+        localeFilters += Locales.supportedLocales
+    }
 
     defaultConfig {
         applicationId = "com.pwhs.quickmem"
@@ -22,6 +44,12 @@ android {
         targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = libs.versions.versionCode.get().toInt()
         versionName = libs.versions.versionName.get()
+
+        buildConfigField(
+            type = "String",
+            name = "SUPPORTED_LANGUAGE_CODES",
+            value = Locales.supportedLanguageCodes,
+        )
 
         val localProperties = Properties()
         try {
@@ -69,7 +97,7 @@ android {
         } catch (_: Exception) {
             println("local.properties not found, using default values")
             create("release") {
-                storeFile = file("keystore/keystore")
+                storeFile = file("app/keystore/keystore")
                 storePassword = "secret"
                 keyAlias = "secret"
                 keyPassword = "secret"
